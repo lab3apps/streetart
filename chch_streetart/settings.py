@@ -25,7 +25,9 @@ SECRET_KEY = ***REMOVED***
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '128.199.156.54',
+]
 
 
 # Application definition
