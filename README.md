@@ -30,8 +30,10 @@ Create a user `***REMOVED***`:
 	- On Linux: As root, run `useradd ***REMOVED***` then `passwd ***REMOVED***` choosing a suitable password.
 
 
-### Use
+### Test
 
+Tunnel to the server for database access
+`ssh -N -L 5432:localhost:5432 remote.com`
 Run the server locally
 `python3 manage.py runserver`
 Or to customise ip and port (default is http://127.0.0.1:8000/)
@@ -42,3 +44,15 @@ Or to customise ip and port (default is http://127.0.0.1:8000/)
 Change your models (in models.py).
 Run `python3 manage.py makemigrations` to create migrations for those changes
 Run `python3 manage.py migrate` to apply those changes to the database.
+
+###Deploy to Server
+
+Follow this guide, cloning your project in the virtual environment rather than creating a new one https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04
+
+### Update Server Deployment
+`source env/bin/activate`
+`git pull`
+`python3 manage.py migrate`
+`~/watch_this_space/streetart/manage.py collectstatic`
+'deactivate'
+`sudo systemctl restart gunicorn`
