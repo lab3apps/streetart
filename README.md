@@ -23,11 +23,12 @@ Then install the supporting scripts:
 
 `pip3 install -r requirements.txt`
 
-### To perform database migrations
+Create a user `***REMOVED***`:
 
-Change your models (in models.py).
-Run `python3 manage.py makemigrations` to create migrations for those changes
-Run `python3 manage.py migrate` to apply those changes to the database.
+	- On Mac: Open `System Preferences` then `Users & Groups` and create a user through the interface.
+
+	- On Linux: As root, run `useradd ***REMOVED***` then `passwd ***REMOVED***` choosing a suitable password.
+
 
 ### Use
 
@@ -35,3 +36,9 @@ Run the server locally
 `python3 manage.py runserver`
 Or to customise ip and port (default is http://127.0.0.1:8000/)
 `python3 manage.py runserver ip:port`
+
+### Changing the Model
+
+Change your models (in models.py).
+Run `python3 manage.py makemigrations` to create migrations for those changes
+Run `python3 manage.py migrate` to apply those changes to the database.
