@@ -2,7 +2,8 @@ env/
 *.sublime-project
 *.sublime-workspace
 .DS_Store
-
+*.pyc
+chch_streetart/settings_secret.py
 
 
 
@@ -106,4 +107,3 @@ ENV/
 # mypy
 .mypy_cache/
 
-chch_streetart/settings_secret.py

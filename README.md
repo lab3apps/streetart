@@ -23,11 +23,11 @@ Then install the supporting scripts:
 
 `pip3 install -r requirements.txt`
 
-Create a user `***REMOVED***`:
+Create a user `WTSAdmin`:
 
 	- On Mac: Open `System Preferences` then `Users & Groups` and create a user through the interface.
 
-	- On Linux: As root, run `useradd ***REMOVED***` then `passwd ***REMOVED***` choosing a suitable password.
+	- On Linux: As root, run `useradd WTSAdmin` then `passwd WTSAdmin` choosing a suitable password.
 
 
 ### Test
