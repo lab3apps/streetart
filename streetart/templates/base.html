@@ -1,4 +1,5 @@
 {% load static %}
+{% load leaflet_tags %}
 <html>
     <head>
         <title>Django Streetart</title>
@@ -6,6 +7,8 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="{% static 'streetart/style.css' %}" />
+        {% leaflet_js %}
+        {% leaflet_css %}
     </head>
     <body>
         <div class="page-header">
