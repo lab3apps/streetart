@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'djangocms_style',
     'djangocms_column',
     'social_django',  
+    'leaflet',
 ]
 
 MIDDLEWARE = [
@@ -185,3 +186,13 @@ LOGIN_REDIRECT_URL = '/streetart'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/settings/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/settings/'
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': (-43.5314, 172.6365),
+    'RESET_VIEW': False,
+    'DEFAULT_ZOOM': 12,
+    'MIN_ZOOM': 12,
+    'MAX_ZOOM': 18,
+    'TILES': [('Google Maps', 'http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {'attribution': '&copy; Google', 'subdomains':["mt0","mt1","mt2","mt3"]}),
+              ('Stamen Maps', 'http://tile.stamen.com/toner/{z}/{x}/{y}.png', {'attribution': '&copy; Stamen Design'})]
+}
