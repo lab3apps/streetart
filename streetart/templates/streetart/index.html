@@ -1,13 +1,23 @@
 {% load static %}
+{% load leaflet_tags %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'streetart/style.css' %}" />
+<html>
+    <head>
+        <title>Watch this space</title>
+        {% leaflet_js %}
+        {% leaflet_css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'streetart/style.css' %}" />
 
-{% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="{% url 'streetart:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+        <style>
+            .leaflet-container { /* all maps */
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        {% leaflet_map "main" callback="window.map_init_basic" %}
+    </body>
+</html>
