@@ -1,18 +1,26 @@
-# Christchurch street art
+# Christchurch Street Art
 
-Written by Lab3 Limited for Watch this Space
+Written by Lab3 Limited for Watch This Space
+
+### Pre-Requisites
+
+[Python 3](https://www.python.org/downloads/) (you'll need to [upgrade `pip`](https://pip.pypa.io/en/stable/installing/#upgrading-pip))
+
+[VirtualEnv](https://virtualenv.pypa.io/en/stable/installation/)
+
+----
 
 ### Installation
-Install python 3
-Update pip3
-Install postgreSQL (I reccomend postgres.app for OSX)
-Install virtualenv
 
-Set up a virtual environment.
+It is strongly recommended that you use a Virtual Environment to manage dependencies:
+
 
 `virtualenv -p python3 env`
+
 or
+
 `virtualenv --python=[path to python 3] env`
+
 and activate it:
 
 `source env/bin/activate`
@@ -23,36 +31,54 @@ Then install the supporting scripts:
 
 `pip3 install -r requirements.txt`
 
-Create a user `WTSAdmin`:
+----
 
-	- On Mac: Open `System Preferences` then `Users & Groups` and create a user through the interface.
+### Deployment
 
-	- On Linux: As root, run `useradd WTSAdmin` then `passwd WTSAdmin` choosing a suitable password.
+#### Setting up a production environment
 
+Follow [this](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04) guide, except clone this project rather than creating a new Django project.
 
-### Test
+#### Running locally
 
-Tunnel to the server for database access
-`ssh -N -L 5432:localhost:5432 remote.com`
+Copy `settings_secret.py.template` and rename to `settings_secret.py`.
+
+##### Setting up a database connection
+
+Tunnel to the server you set up in the previous step for database access
+`ssh -N -L 5432:localhost:5432 USER@REMOTE_URL`
+
+This is structured as `ssh -N -L LOCAL_PORT:LOCAL_ADDRESS:REMOTE_PORT USER@REMOTE_URL`
+
+Change `LOCAL_PORT` to any free port but make sure to change the `PORT` in the `DATABASES` section of `settings_secret.py` to match the port you choose.
+
 Run the server locally
 `python3 manage.py runserver`
 Or to customise ip and port (default is http://127.0.0.1:8000/)
-`python3 manage.py runserver ip:port`
+`python3 manage.py runserver IP:PORT`
+
+
+#### Update Server Deployment
+
+Run these commands on the production server:
+
+`source env/bin/activate`
+
+`git pull`
+
+`python3 manage.py migrate`
+
+`~/watch_this_space/streetart/manage.py collectstatic`
+
+`deactivate`
+
+`sudo systemctl restart gunicorn`
 
 ### Changing the Model
 
 Change your models (in models.py).
-Run `python3 manage.py makemigrations` to create migrations for those changes
+
+Run `python3 manage.py makemigrations` to create migrations for those changes (if using ssh tunnelling then only run this on the server to avoid mismatched Models and Database structure).
+
 Run `python3 manage.py migrate` to apply those changes to the database.
 
-###Deploy to Server
-
-Follow this guide, cloning your project in the virtual environment rather than creating a new one https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04
-
-### Update Server Deployment
-`source env/bin/activate`
-`git pull`
-`python3 manage.py migrate`
-`~/watch_this_space/streetart/manage.py collectstatic`
-'deactivate'
-`sudo systemctl restart gunicorn`
