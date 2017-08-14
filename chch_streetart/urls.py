@@ -15,11 +15,19 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 
+from streetart import views as streetart_views
+
 urlpatterns = [
 	url(r'^streetart/', include('streetart.urls')),
+	url(r'^login/$', auth_views.login, name='login'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'^admin/', admin.site.urls),
+    url(r'^settings/$', streetart_views.settings, name='settings'),
+    url(r'^settings/password/$', streetart_views.password, name='password'),
     url(r'^', include('cms.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

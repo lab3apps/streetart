@@ -26,7 +26,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '128.199.156.54',
-    '127.0.0.1'
+    '127.0.0.1',
+    'localhost'
 ]
 
 
@@ -58,6 +59,7 @@ INSTALLED_APPS = [
     'djangocms_snippet',
     'djangocms_style',
     'djangocms_column',
+    'social_django',  
 ]
 
 MIDDLEWARE = [
@@ -74,6 +76,7 @@ MIDDLEWARE = [
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
     'cms.middleware.language.LanguageCookieMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'chch_streetart.urls'
@@ -92,6 +95,8 @@ TEMPLATES = [
                 'sekizai.context_processors.sekizai',
                 'cms.context_processors.cms_settings',
                 "django.template.context_processors.i18n",
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -165,3 +170,18 @@ THUMBNAIL_PROCESSORS = (
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+LOGIN_URL = '/login'
+LOGOUT_URL = '/logout'
+LOGIN_REDIRECT_URL = '/streetart'
+
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/settings/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/settings/'
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
