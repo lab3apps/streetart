@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'djangocms_snippet',
     'djangocms_style',
     'djangocms_column',
+    'leaflet',
 ]
 
 MIDDLEWARE = [
@@ -165,3 +166,14 @@ THUMBNAIL_PROCESSORS = (
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
+
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': (-43.5314, 172.6365),
+    'RESET_VIEW': False,
+    'DEFAULT_ZOOM': 12,
+    'MIN_ZOOM': 12,
+    'MAX_ZOOM': 18,
+    'TILES': [('Google Maps', 'http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {'attribution': '&copy; Google', 'subdomains':["mt0","mt1","mt2","mt3"]}),
+              ('Stamen Maps', 'http://tile.stamen.com/toner/{z}/{x}/{y}.png', {'attribution': '&copy; Stamen Design'})]
+}
