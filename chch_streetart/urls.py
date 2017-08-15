@@ -23,6 +23,7 @@ from streetart import views as streetart_views
 
 urlpatterns = [
 	url(r'^streetart/', include('streetart.urls')),
+	url(r'^signup/$', streetart_views.signup, name='signup'),
 	url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
