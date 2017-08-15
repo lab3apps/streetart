@@ -16,7 +16,6 @@ from .models import Question
 from .models import Artwork
 
 
-@login_required
 def home(request):
     return render(request, 'streetart/home.html', {'artwork': Artwork.objects.all()})
 
