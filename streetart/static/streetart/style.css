@@ -4,6 +4,13 @@
     height: 100%;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+}
+
 #navbar_whole{
 	position: relative;
 }
+
+.navbar-wrapper .navbar .menu-dropdown a { text-align: right; }
