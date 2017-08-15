@@ -7,6 +7,10 @@ from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeFor
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from social_django.models import UserSocialAuth
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+
+from .forms import SignUpForm
 
 from .models import Question
 from .models import Artwork
@@ -63,41 +67,19 @@ def password(request):
         form = PasswordForm(request.user)
     return render(request, 'registration/password.html', {'form': form})
 
-
-class HomeView(generic.ListView):
-    template_name = 'streetart/home.html'
-    context_object_name = 'latest_question_list'
-
-    def get_queryset(self):
-        """Return the last five published questions."""
-        return Question.objects.order_by('-pub_date')[:5]
-
-
-class DetailView(generic.DetailView):
-    model = Question
-    template_name = 'streetart/detail.html'
-
-
-class ResultsView(generic.DetailView):
-    model = Question
-    template_name = 'streetart/results.html'
-
-def vote(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    try:
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
-        # Redisplay the question voting form.
-        return render(request, 'streetart/detail.html', {
-            'question': question,
-            'error_message': "You didn't select a choice.",
-        })
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()  # load the profile instance created by the signal
+            user.profile.birth_date = form.cleaned_data.get('birth_date')
+            user.save()
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
+            return redirect('/streetart')
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        return HttpResponseRedirect(reverse('streetart:results', args=(question.id,)))
-
+        form = SignUpForm()
+    return render(request, 'registration/signup.html', {'form': form})
 
