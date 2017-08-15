@@ -2,17 +2,57 @@
 {% load leaflet_tags %}
 
 {% block content %}
+
     <h2>Homepage</h2>
     <p>Hello {{ user.username }}!</p>
-    <script type="text/javascript">
+    <div id="map" class="map-container"></div>
 
-        function map_init (map) {
-            {% for art in artwork %}
-                var popupContent = "<img width='120' src='{{ art.image.url }}'/><h5>{{ art.name }}</h5><p>{{ art.description }}</p>";
-                L.marker([{{ art.latitude }}, {{ art.longitude }}]).bindPopup(popupContent).addTo(map);
-            {% endfor %}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7xroRC82q5H02UI-VY0tuyY6JJ3WcDgw"
+        type="text/javascript"></script>
+    <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+    <script type="text/javascript">
+        var map;
+        function initialize() {
+            var mapDiv = document.getElementById("map");
+            var layer = "toner";
+            map = new google.maps.Map(
+                mapDiv, {
+                    center: new google.maps.LatLng(-43.5314, 172.6365),
+                    zoom: 12,
+                    maxZoom: 18,
+                    minZoom: 12,
+                    mapTypeId: layer,
+                    mapTypeControlOptions: {
+                        mapTypeIds: [layer]
+                    }
+                });
+            map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
+            google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
         }
 
+        function addMarkers() {
+            {% for art in artwork %}
+                var point = new google.maps.LatLng({{ art.latitude }}, {{ art.longitude }});
+                var marker = new google.maps.Marker({
+                    position: point,
+                    map: map,
+                    title: "{{ art.name }}",
+                    label: "{{ forloop.counter }}",
+                    animation: google.maps.Animation.DROP
+                })
+
+                marker['infowindow']  = new google.maps.InfoWindow({
+                         content: "<h1>{{art.name}}</h1> <br><p>{{ art.description }}</p>",
+                });
+                google.maps.event.addListener(marker, 'mouseover', function() {
+                    this['infowindow'].open(map, this);
+                        });
+                google.maps.event.addListener(marker, 'mouseout', function() {
+                    this['infowindow'].close(map, this);
+
+                });
+            {% endfor %}
+        }
+        window.initialize();
     </script>
-    {% leaflet_map "main" callback="window.map_init" %}
 {% endblock %}
