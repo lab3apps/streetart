@@ -1,26 +1,131 @@
 {% load static %}
+{% load staticfiles %}
 {% load leaflet_tags %}
 <html>
     <head>
-        <title>Django Streetart</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <!--This is the meta information which is good for SEO-->
+        {% block head-meta %}
+        <meta charset="utf-8">
+        <!--Add keywords that describe your project between the quotation marks. This helps search engines find and index your content-->
+        <meta name="keywords" content="REPLACE WITH YOUR OWN KEYWORDS HERE, AND HERE, AND HERE">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% endblock %}
+
+    <!--The Block CSS is an example of what could go in your base.html file. If you already have these added into your static files then
+    there's no need to call them here because you already loaded the static files at the top of the document. If these files are already in
+    your static files then delete the 'block head-css below'-->
+
+        {% block head-css %}
+        <link href="{% static 'bootstrap/css/bootstrap-theme.min.css' %}"
+              rel="stylesheet" media="screen">
+        <link href="{% static 'bootstrap/css/bootstrap.min.css' %}"
+              rel="stylesheet" media="screen">
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{% static 'streetart/style.css' %}" />
         {% leaflet_js %}
-        {% leaflet_css %}
+        {% leaflet_css %}  
+        {% endblock %}
+
+        <title>{% block title %}Street Art Map{% endblock title %} | Watch This Space</title>
+        
     </head>
-    <body>
-        <div class="page-header">
-            <h1><a href="/">Django Streetart</a></h1>
-        </div>
-        <div class="content container">
-            <div class="row">
-                <div class="col-md-8">
-                {% block content %}
-                {% endblock %}
-                </div>
+    <!-- This is the start of the navigation bar at the top of the page-->
+    <header>
+        <div class="clearfix">   
+            <div class= "navbar-wrapper">
+                <nav class = "navbar navbar-inverse navbar-fixed-top" id="navbar_whole">
+                    <div class="col-xs-12 col-sm-8">
+                         <div class = "navbar-header">
+                            <button type= "button" class = "navbar-toggle collapsed" data-toggle = "collapse" data-target= "#navbar" aria-expanded="false" aria-controls = "navbar">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <!--Below is the top-left hand side of the screen where you usually see a company/project name and a logo-->
+                            <!--The next line sends the user back to the home page-->
+                            <a class="navbar-brand" href="{% url 'streetart:home' %}"> 
+                                <!--Insert the file name of your brand image below after the 'img'-->
+                                 <img class="img-responsive" src="/static/bootstrap/img/test.jpg"> 
+                            </a>
+                        </div>
+                        <div id= "navbar" class="navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-left">
+                              <!--Below is where you put the rest of the links to the pages you've created. Please reference your own models
+                               in Django.-->
+                                <li>
+                                    <a href="{% url 'streetart:home' %}">Blog</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'streetart:home' %}">Map</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                   
+                    <div class="menu-dropdown col-xs-12 col-sm-4" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ user.username }}
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="/home">home</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Another action</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Something else here</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="#">Separated link</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="/logout">Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
         </div>
-    </body>
+    </header>
+
+    <!-- This is where you'll put your page content. Leave it blank for now. -->
+    <div class="container">
+    {% block content %}
+    {% endblock %}
+    </div>
+
+    <!-- This is where the footer begins -->
+    <footer style="display: none;">
+        <div class= "navbar navbar-inverse navbar-static-bottom" role="navigation">
+            <div class="navbar-text pull-left">
+            </div>
+            <div class= "navbar-text pull-right">
+        <!-- Add in your social media / github links here -->
+                <a href="https://github.com/clarkdatalabs">
+                    <i class="fa fa-github-square fa-2x"></i></a>
+            </div>
+            <!--Below is the copyright information for the site. You can fill in your own here.-->
+            <div class="navbar-text pull-left">
+            &copy; Lab3 Limited 2017
+            </div>
+        </div>  
+    </footer>
+    <!--This is my javascript block. If you've included the javascript files you need in the 'static' folder then there's no need to 
+    put this here and you can delete the block below.-->
+    {% block head-javascript %}
+        <script src="{% static 'bootstrap/js/jquery-3.2.1.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    {% endblock %}
+
 </html>
+
+
