@@ -4,7 +4,17 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-  <h2>Homepage</h2>
-  <p>Hello {{ user.username }}!</p>
-  {% leaflet_map "main" %}
+    <h2>Homepage</h2>
+    <p>Hello {{ user.username }}!</p>
+    <script type="text/javascript">
+
+        function map_init (map) {
+            {% for art in artwork %}
+                var popupContent = "<img width='120' src='{{ art.image.url }}'/><h5>{{ art.name }}</h5><p>{{ art.description }}</p>";
+                L.marker([{{ art.latitude }}, {{ art.longitude }}]).bindPopup(popupContent).addTo(map);
+            {% endfor %}
+        }
+
+    </script>
+    {% leaflet_map "main" callback="window.map_init" %}
 {% endblock %}

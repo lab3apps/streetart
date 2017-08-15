@@ -13,11 +13,12 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm
 
 from .models import Question
+from .models import Artwork
 
 
 @login_required
 def home(request):
-    return render(request, 'streetart/home.html')
+    return render(request, 'streetart/home.html', {'artwork': Artwork.objects.all()})
 
 @login_required
 def settings(request):
