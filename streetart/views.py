@@ -12,7 +12,6 @@ from django.contrib.auth.forms import UserCreationForm
 
 from .forms import SignUpForm
 
-from .models import Question
 from .models import Artwork
 
 

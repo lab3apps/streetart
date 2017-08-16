@@ -39,6 +39,11 @@ Then install the supporting scripts:
 
 Follow [this](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04) guide, except clone this project rather than creating a new Django project.
 
+Install PostGIS on the server as per [this](http://www.gis-blog.com/how-to-install-postgis-2-3-on-ubuntu-16-04-lts/) guide.
+
+Install geospatial libraries for GeoDjango
+`sudo apt-get install binutils libproj-dev gdal-bin`
+
 #### Running locally
 
 Copy `settings_secret.py.template` and rename to `settings_secret.py`.

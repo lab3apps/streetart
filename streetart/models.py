@@ -6,6 +6,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.gis.db import models
+from django.contrib.gis.geos import Point
+from location_field.models.spatial import LocationField
 
 # Create your models here.
 
@@ -14,29 +17,14 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
+    def __str__(self):
+        return self.user.__str__()
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
     instance.profile.save()
-
-@python_2_unicode_compatible  # only if you need to support Python 2
-class Question(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
-    def __str__(self):
-        return self.question_text
-    def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
-
-@python_2_unicode_compatible  # only if you need to support Python 2
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
-    def __str__(self):
-        return self.choice_text
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Crew(models.Model):
@@ -84,6 +72,8 @@ class Artwork(models.Model):
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     city = models.CharField(max_length=200)
     link = models.URLField()
+    location = LocationField(based_fields=['city'], zoom=7, default=Point(1.0, 1.0))
+    objects = models.GeoManager()
     def __str__(self):
         return self.name
 
