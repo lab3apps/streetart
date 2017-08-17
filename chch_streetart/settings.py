@@ -61,8 +61,8 @@ INSTALLED_APPS = [
     'djangocms_column',
     'social_django',  
     'leaflet',
-    'location_field.apps.DefaultConfig',
     'django.contrib.gis',
+    'geoposition',
 ]
 
 MIDDLEWARE = [

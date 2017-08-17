@@ -1,13 +1,12 @@
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
 import datetime
-from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point
-from location_field.models.spatial import LocationField
+from geoposition.fields import GeopositionField
 
 # Create your models here.
 
@@ -71,8 +70,9 @@ class Artwork(models.Model):
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     city = models.CharField(max_length=200)
     link = models.URLField()
-    location = LocationField(based_fields=['city'], zoom=7, default=Point(1.0, 1.0))
+    location = GeopositionField()
     objects = models.GeoManager()
+
     def __str__(self):
         return self.name
 
