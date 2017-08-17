@@ -10,7 +10,7 @@ from social_django.models import UserSocialAuth
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 
-from .forms import SignUpForm
+from .forms import SignUpForm, ArtworkForm
 
 from .models import Artwork
 
@@ -80,4 +80,19 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+def new_artwork(request):
+    if request.method == "POST":
+        form = ArtworkForm(request.POST)
+        if form.is_valid():
+            artwork = form.save(commit=False)
+            artwork.author = request.user
+            artwork.published_date = timezone.now()
+            artwork.save()
+            return redirect('/streetart', pk=artwork.pk)  ##TODO modal 'thank you for your submission?'
+    else:
+        form = ArtworkForm()
+    return render(request, 'streetart/artwork_edit.html', {'form': form})
+
+
 

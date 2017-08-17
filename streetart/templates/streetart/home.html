@@ -8,9 +8,9 @@
     <h2>Homepage</h2>
     <p>Hello {{ user.username }}!</p>
     <div id="map" class="map-container"></div>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}"
-        type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}" type="text/javascript"></script>
+    <a href="{% url 'streetart:new_artwork' %}" class=""><span class="glyphicon glyphicon-plus"></span></a>
+        
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
     <script type="text/javascript">
         var map;
