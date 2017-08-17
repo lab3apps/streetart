@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.gis.db import models
-from django.contrib.gis.geos import Point
 from geoposition.fields import GeopositionField
 
 # Create your models here.
@@ -66,8 +65,6 @@ class Artwork(models.Model):
     image = models.ImageField(upload_to='artwork/', height_field=None, width_field=None, max_length=100)
     photo_credit = models.CharField(max_length=200)
     thumbnail = models.ImageField(upload_to='artwork_thumbnails/', height_field=None, width_field=None, max_length=100)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6)
     city = models.CharField(max_length=200)
     link = models.URLField()
     location = GeopositionField(null=True)

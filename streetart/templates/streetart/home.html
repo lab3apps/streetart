@@ -9,7 +9,7 @@
     <p>Hello {{ user.username }}!</p>
     <div id="map" class="map-container"></div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ GEOPOSITION_GOOGLE_MAPS_API_KEY }}"
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}"
         type="text/javascript"></script>
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
     <script type="text/javascript">
@@ -34,7 +34,7 @@
 
         function addMarkers() {
             {% for art in artwork %}
-                var point = new google.maps.LatLng({{ art.latitude }}, {{ art.longitude }});
+                var point = new google.maps.LatLng({{ art.location.latitude }}, {{ art.location.longitude }});
                 var marker = new google.maps.Marker({
                     position: point,
                     map: map,

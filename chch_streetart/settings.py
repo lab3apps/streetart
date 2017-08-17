@@ -100,6 +100,7 @@ TEMPLATES = [
                 "django.template.context_processors.i18n",
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
+                'streetart.context_processors.global_settings',
             ],
         },
     },
@@ -198,4 +199,15 @@ LEAFLET_CONFIG = {
     'MAX_ZOOM': 18,
     'TILES': [('Google Maps', 'http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {'attribution': '&copy; Google', 'subdomains':["mt0","mt1","mt2","mt3"]}),
               ('Stamen Maps', 'http://tile.stamen.com/toner/{z}/{x}/{y}.png', {'attribution': '&copy; Stamen Design'})]
+}
+
+GEOPOSITION_MAP_OPTIONS = {
+    'minZoom': 12,
+    'zoom': 13,
+    'maxZoom': 15,
+    'center': {'lat': -43.5314,'lng': 172.6365},
+}
+
+GEOPOSITION_MARKER_OPTIONS = {
+    'position': {'lat': -43.5314,'lng': 172.6365},
 }
