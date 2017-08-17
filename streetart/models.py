@@ -70,7 +70,7 @@ class Artwork(models.Model):
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     city = models.CharField(max_length=200)
     link = models.URLField()
-    location = GeopositionField()
+    location = GeopositionField(null=True)
     objects = models.GeoManager()
 
     def __str__(self):
