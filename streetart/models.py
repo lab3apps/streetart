@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.gis.db import models
 from geoposition.fields import GeopositionField
+from sorl.thumbnail import ImageField
 
 # Create your models here.
 
@@ -54,20 +55,19 @@ class Artwork_Category(models.Model):
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Artwork(models.Model):
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE, null=True)
     crew = models.ForeignKey(Crew, on_delete=models.CASCADE, blank=True, null=True)
-    category = models.ForeignKey(Artwork_Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Artwork_Category, on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=200)
-    commission_date = models.DateTimeField('date commissioned')
-    status = models.CharField(max_length=200)
+    commission_date = models.DateTimeField('date commissioned', blank=True, null=True)
+    status = models.CharField(max_length=200, blank=True, null=True)
     decommission_date = models.DateTimeField('date decommissioned', blank=True, null=True)
-    description = models.TextField()
-    image = models.ImageField(upload_to='artwork/', height_field=None, width_field=None, max_length=100)
+    description = models.TextField(blank=True, null=True)
+    image = ImageField(upload_to='artwork/')
     photo_credit = models.CharField(max_length=200)
-    thumbnail = models.ImageField(upload_to='artwork_thumbnails/', height_field=None, width_field=None, max_length=100)
     city = models.CharField(max_length=200)
-    link = models.URLField()
-    location = GeopositionField(null=True)
+    link = models.URLField(blank=True, null=True)
+    location = GeopositionField()
     objects = models.GeoManager()
 
     def __str__(self):

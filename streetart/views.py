@@ -9,6 +9,7 @@ from django.contrib import messages
 from social_django.models import UserSocialAuth
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+from django.utils import timezone
 
 from .forms import SignUpForm, ArtworkForm
 
@@ -83,7 +84,7 @@ def signup(request):
 
 def new_artwork(request):
     if request.method == "POST":
-        form = ArtworkForm(request.POST)
+        form = ArtworkForm(request.POST, request.FILES)
         if form.is_valid():
             artwork = form.save(commit=False)
             artwork.author = request.user

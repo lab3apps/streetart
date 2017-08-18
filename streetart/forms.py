@@ -25,4 +25,4 @@ class ArtworkForm(forms.ModelForm):
 
     class Meta:
         model = Artwork
-        fields = ('name', 'artist', 'image', 'location',)
+        fields = ('name', 'artist', 'image', 'photo_credit', 'location')

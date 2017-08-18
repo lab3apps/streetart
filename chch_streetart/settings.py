@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'leaflet',
     'django.contrib.gis',
     'geoposition',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
