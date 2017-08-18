@@ -39,6 +39,6 @@ requests-oauthlib==0.8.0
 six==1.10.0
 social-auth-app-django==1.2.0
 social-auth-core==1.4.0
-sorl-thumbnail==12.3
+-e git+https://github.com/mariocesar/sorl-thumbnail.git#egg=sorl-thumbnail
 Unidecode==0.4.21
 urllib3==1.22

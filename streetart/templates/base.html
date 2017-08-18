@@ -1,6 +1,5 @@
 {% load static %}
 {% load staticfiles %}
-{% load leaflet_tags %}
 <html>
     <head>
         <!--This is the meta information which is good for SEO-->
@@ -23,8 +22,6 @@
               rel="stylesheet" media="screen">
         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{% static 'streetart/style.css' %}" />
-        {% leaflet_js %}
-        {% leaflet_css %}  
         {% endblock %}
 
         <title>{% block title %}Street Art Map{% endblock title %} | Watch This Space</title>

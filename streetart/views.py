@@ -1,3 +1,4 @@
+from django.core import serializers
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -17,7 +18,10 @@ from .models import Artwork
 
 
 def home(request):
-    return render(request, 'streetart/home.html', {'artwork': Artwork.objects.all()})
+    ## return render(request, 'streetart/home.html', {'artwork': Artwork.objects.all()})
+    my_model = Artwork.objects.all()
+    response = serializers.serialize("json", my_model)
+    return render(request, 'streetart/home.html', {'artworksJson': response, 'artworks': Artwork.objects.all()})
 
 @login_required
 def settings(request):

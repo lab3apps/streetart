@@ -191,21 +191,10 @@ SOCIAL_AUTH_LOGIN_ERROR_URL = '/settings/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/settings/'
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 
-LEAFLET_CONFIG = {
-    'DEFAULT_CENTER': (-43.5314, 172.6365),
-    'SPATIAL_EXTENT': (172.4865, -43.6314, 172.7865, -43.4314),
-    'RESET_VIEW': False,
-    'DEFAULT_ZOOM': 12,
-    'MIN_ZOOM': 12,
-    'MAX_ZOOM': 18,
-    'TILES': [('Google Maps', 'http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {'attribution': '&copy; Google', 'subdomains':["mt0","mt1","mt2","mt3"]}),
-              ('Stamen Maps', 'http://tile.stamen.com/toner/{z}/{x}/{y}.png', {'attribution': '&copy; Stamen Design'})]
-}
-
 GEOPOSITION_MAP_OPTIONS = {
     'minZoom': 12,
     'zoom': 13,
-    'maxZoom': 15,
+    'maxZoom': 18,
     'center': {'lat': -43.5314,'lng': 172.6365},
 }
 
