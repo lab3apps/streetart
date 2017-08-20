@@ -9,6 +9,7 @@ chch_streetart/settings_secret.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
+streetart/__pycache__/
 *.py[cod]
 *$py.class
 

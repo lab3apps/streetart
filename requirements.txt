@@ -6,7 +6,9 @@ django-classy-tags==0.8.0
 django-cms==3.4.4
 django-filer==1.2.8
 django-formtools==2.0
+django-geoposition==0.3.0
 django-leaflet==0.22.0
+django-location-field==2.0.3
 django-mptt==0.8.7
 django-polymorphic==1.0.2
 django-sekizai==0.10.0
@@ -37,5 +39,6 @@ requests-oauthlib==0.8.0
 six==1.10.0
 social-auth-app-django==1.2.0
 social-auth-core==1.4.0
+-e git+https://github.com/mariocesar/sorl-thumbnail.git#egg=sorl-thumbnail
 Unidecode==0.4.21
 urllib3==1.22

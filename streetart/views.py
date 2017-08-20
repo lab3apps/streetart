@@ -1,3 +1,4 @@
+from django.core import serializers
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -7,13 +8,20 @@ from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeFor
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from social_django.models import UserSocialAuth
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.utils import timezone
+
+from .forms import SignUpForm, ArtworkForm
 
 from .models import Artwork
 
 
-@login_required
 def home(request):
-    return render(request, 'streetart/home.html', {'artwork': Artwork.objects.all()})
+    ## return render(request, 'streetart/home.html', {'artwork': Artwork.objects.all()})
+    my_model = Artwork.objects.all()
+    response = serializers.serialize("json", my_model)
+    return render(request, 'streetart/home.html', {'artworksJson': response, 'artworks': Artwork.objects.all()})
 
 @login_required
 def settings(request):
@@ -61,3 +69,32 @@ def password(request):
     else:
         form = PasswordForm(request.user)
     return render(request, 'registration/password.html', {'form': form})
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()  # load the profile instance created by the signal
+            user.profile.birth_date = form.cleaned_data.get('birth_date')
+            user.save()
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
+            return redirect('/streetart')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
+def new_artwork(request):
+    if request.method == "POST":
+        form = ArtworkForm(request.POST, request.FILES)
+        if form.is_valid():
+            artwork = form.save(commit=False)
+            artwork.author = request.user
+            artwork.published_date = timezone.now()
+            artwork.save()
+            return redirect('/streetart', pk=artwork.pk)  ##TODO modal 'thank you for your submission?'
+    else:
+        form = ArtworkForm()
+    return render(request, 'streetart/artwork_edit.html', {'form': form})

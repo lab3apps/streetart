@@ -1,7 +1,28 @@
-from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
 import datetime
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.gis.db import models
+from geoposition.fields import GeopositionField
+from sorl.thumbnail import ImageField
+
+# Create your models here.
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500, blank=True)
+    location = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+    def __str__(self):
+        return self.user.__str__()
+
+@receiver(post_save, sender=User)
+def update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Crew(models.Model):
@@ -34,21 +55,21 @@ class Artwork_Category(models.Model):
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Artwork(models.Model):
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE, null=True)
     crew = models.ForeignKey(Crew, on_delete=models.CASCADE, blank=True, null=True)
-    category = models.ForeignKey(Artwork_Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Artwork_Category, on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=200)
-    commission_date = models.DateTimeField('date commissioned')
-    status = models.CharField(max_length=200, null=True)
+    commission_date = models.DateTimeField('date commissioned', blank=True, null=True)
+    status = models.CharField(max_length=200, blank=True, null=True)
     decommission_date = models.DateTimeField('date decommissioned', blank=True, null=True)
-    description = models.TextField()
-    image = models.ImageField(upload_to='artwork/', height_field=None, width_field=None, max_length=100)
+    description = models.TextField(blank=True, null=True)
+    image = ImageField(upload_to='artwork/')
     photo_credit = models.CharField(max_length=200)
-    thumbnail = models.ImageField(upload_to='artwork_thumbnails/', height_field=None, width_field=None, max_length=100)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6)
     city = models.CharField(max_length=200)
-    link = models.URLField()
+    link = models.URLField(blank=True, null=True)
+    location = GeopositionField()
+    objects = models.GeoManager()
+
     def __str__(self):
         return self.name
 

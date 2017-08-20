@@ -5,4 +5,5 @@ from . import views
 app_name = 'streetart'
 urlpatterns = [
 	url(r'^$', views.home, name='home'),
+	url(r'^artwork/new/$', views.new_artwork, name='new_artwork'),
 ]

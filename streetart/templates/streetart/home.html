@@ -1,18 +1,113 @@
 {% extends 'base.html' %}
-{% load leaflet_tags %}
+{% load thumbnail %}
+
+{% block title %}Home{% endblock title %}
 
 {% block content %}
+
     <h2>Homepage</h2>
     <p>Hello {{ user.username }}!</p>
-    <script type="text/javascript">
+    <div class="row">
+        <div class="col-md-6">
+            <div id="marker-content" class="thumbnail">
+                <img id="marker-image" class="img-top" src="">
+                <div class="caption">
+                    <h4 id="marker-title">Test title</h4>
+                    <p id="marker-description" >Test description</p>
+                </div>
+            </div>
+            <div id="gallery">
+                {% for art in artworks %}
+                        <div class="col-md-4">
+                            <a class="thumbnail" onclick="focusOnMarker({{ forloop.counter }} - 1)">
+                                {% thumbnail art.image "150x150" as im %}
+                                    <img src="{{ im.url }}">
+                                {% empty %}
+                                    <img src="{{ art.image.url }}">
+                                {% endthumbnail %}
+                            </a>
+                        </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="map" class="map-container"></div>
+            <a href="{% url 'streetart:new_artwork' %}" class=""><span class="glyphicon glyphicon-plus"></span></a>
 
-        function map_init (map) {
-            {% for art in artwork %}
-                var popupContent = "<img width='120' src='{{ art.image.url }}'/><h5>{{ art.name }}</h5><p>{{ art.description }}</p>";
-                L.marker([{{ art.latitude }}, {{ art.longitude }}]).bindPopup(popupContent).addTo(map);
-            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block head-javascript %}
+    {{ block.super }}
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}"
+        type="text/javascript"></script>
+    <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+    <script type="text/javascript">
+        var map;
+
+        var artworks = {{ artworksJson|safe }};
+        console.log(artworks);
+
+        function initialize() {
+            var mapDiv = document.getElementById("map");
+            var layer = "toner";
+            map = new google.maps.Map(
+                mapDiv, {
+                    center: new google.maps.LatLng(-43.5314, 172.6365),
+                    zoom: 12,
+                    maxZoom: 18,
+                    minZoom: 12,
+                    mapTypeId: layer,
+                    mapTypeControlOptions: {
+                        mapTypeIds: [layer]
+                    }
+                });
+            map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
+            google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
         }
 
+        function addMarkers() {
+            for(var key in artworks) {
+                if (artworks.hasOwnProperty(key)) {
+                    var art = artworks[key].fields;
+                    var latLng = art.location.replace(/[\(\)]/g,'').split(',');
+                    var point = new google.maps.LatLng(latLng[0], latLng[1]);
+                    var marker = new google.maps.Marker({
+                        position: point,
+                        map: map,
+                        label: key,
+                        animation: google.maps.Animation.DROP
+                    });
+                    marker['infowindow'] = new google.maps.InfoWindow({
+                        content: "<h2>" + art.name + "</h2>"
+                    });
+                    google.maps.event.addListener(marker, 'mouseover', function () {
+                        this['infowindow'].open(map, this);
+                    });
+                    google.maps.event.addListener(marker, 'click', function () {
+                        focusOnMarker(this.label)
+                    });
+                    google.maps.event.addListener(marker, 'mouseout', function () {
+                        this['infowindow'].close(map, this);
+
+                    });
+                }
+            }
+        }
+
+        function focusOnMarker(index) {
+            if (artworks.hasOwnProperty(index)) {
+                var art = artworks[index].fields;
+                var latLng = art.location.replace(/[\(\)]/g, '').split(',');
+                var point = new google.maps.LatLng(latLng[0], latLng[1]);
+                $('#marker-image').attr("src", "/media/" + art.image);
+                $('#marker-title').html(art.name);
+                $('#marker-description').html(art.description);
+                map.panTo(point);
+            }
+        }
+
+        initialize();
     </script>
-    {% leaflet_map "main" callback="window.map_init" %}
 {% endblock %}
