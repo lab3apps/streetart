@@ -9,10 +9,10 @@ with open('lab3_json_2017-08-16.geojson') as f:
 artists = {}
 artworks = {}
 
-def newArtwork(artist=None,crew=None,category,name,
+def newArtwork(category,name,
 	commission_date,status,decommission_date,description,
-	imageURL,photo_credit,thumbnailURL=None,city,
-	link,locationLon,locationLat):
+	imageURL,photo_credit,city,
+	link,locationLon,locationLat,artist=None,crew=None,thumbnailURL=None):
 	artwork = Artwork()
 	artwork.artist = artist
 	artwork.crew = crew
