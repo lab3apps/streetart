@@ -33,6 +33,16 @@ Then install the supporting scripts:
 
 ----
 
+### Development
+
+#### Setting up a development environment
+
+Follow the instructions [here](https://docs.djangoproject.com/en/1.11/ref/contrib/gis/install/) to install the required GIS libraries.
+
+If you run into a `GEOSException` error then [this](https://stackoverflow.com/questions/18643998/geodjango-geosexception-error) may be helpful.
+
+----
+
 ### Deployment
 
 #### Setting up a production environment

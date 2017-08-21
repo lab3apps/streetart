@@ -11,9 +11,11 @@ from social_django.models import UserSocialAuth
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
+from rest_framework import generics
 
 from .forms import SignUpForm, ArtworkForm
 
+from .serializers import ArtworkSerializer
 from .models import Artwork
 
 
@@ -98,6 +100,15 @@ def new_artwork(request):
     else:
         form = ArtworkForm()
     return render(request, 'streetart/artwork_edit.html', {'form': form})
+
+class CreateView(generics.ListCreateAPIView):
+    """This class defines the create behavior of our rest api."""
+    queryset = Artwork.objects.all()
+    serializer_class = ArtworkSerializer
+
+    def perform_create(self, serializer):
+        """Save the post data when creating a new bucketlist."""
+        serializer.save()
 
 def closest_artwork(request, index):
     artwork = Artwork.objects.filter(pk=index)
