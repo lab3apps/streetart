@@ -60,10 +60,8 @@ INSTALLED_APPS = [
     'djangocms_style',
     'djangocms_column',
     'social_django',
-    'leaflet',
     'rest_framework',
     'django.contrib.gis',
-    'geoposition',
     'sorl.thumbnail',
     'mapwidgets',
 ]
@@ -191,17 +189,6 @@ LOGIN_REDIRECT_URL = '/streetart'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/settings/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/settings/'
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False
-
-GEOPOSITION_MAP_OPTIONS = {
-    'minZoom': 12,
-    'zoom': 13,
-    'maxZoom': 18,
-    'center': {'lat': -43.5314,'lng': 172.6365},
-}
-
-GEOPOSITION_MARKER_OPTIONS = {
-    'position': {'lat': -43.5314,'lng': 172.6365},
-}
 
 MAP_WIDGETS = {
     "GooglePointFieldWidget": {
