@@ -4,8 +4,18 @@ from .models import Artist
 from .models import Crew
 from .models import Artwork_Category
 from .models import Profile
+from mapwidgets.widgets import GooglePointFieldWidget
+from django import forms
+from django.contrib.gis.db import models
 
-admin.site.register(Artwork)
+
+class ArtworkForm(admin.ModelAdmin):
+    formfield_overrides = {
+        models.PointField: {"widget": GooglePointFieldWidget}
+    }
+
+
+admin.site.register(Artwork, ArtworkForm)
 admin.site.register(Artist)
 admin.site.register(Crew)
 admin.site.register(Artwork_Category)

@@ -9,6 +9,7 @@ django-formtools==2.0
 django-geoposition==0.3.0
 django-leaflet==0.22.0
 django-location-field==2.0.3
+django-map-widgets==0.1.9
 django-mptt==0.8.7
 django-polymorphic==1.0.2
 django-sekizai==0.10.0
@@ -28,6 +29,7 @@ djangorestframework==3.6.3
 easy-thumbnails==2.3
 html5lib==0.9999999
 idna==2.5
+jsonify==0.5
 oauthlib==2.0.2
 olefile==0.44
 Pillow==4.2.1
@@ -40,6 +42,6 @@ requests-oauthlib==0.8.0
 six==1.10.0
 social-auth-app-django==1.2.0
 social-auth-core==1.4.0
--e git+https://github.com/mariocesar/sorl-thumbnail.git#egg=sorl-thumbnail
+-e git+https://github.com/mariocesar/sorl-thumbnail.git@b88fc32a68d1f754e54afe4424cf7a40d0f848a2#egg=sorl_thumbnail
 Unidecode==0.4.21
 urllib3==1.22

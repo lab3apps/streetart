@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'geoposition',
     'sorl.thumbnail',
+    'mapwidgets',
 ]
 
 MIDDLEWARE = [
@@ -200,4 +201,13 @@ GEOPOSITION_MAP_OPTIONS = {
 
 GEOPOSITION_MARKER_OPTIONS = {
     'position': {'lat': -43.5314,'lng': 172.6365},
+}
+
+MAP_WIDGETS = {
+    "GooglePointFieldWidget": {
+        'zoom': 13,
+        'mapCenterLocation': [-43.5314, 172.6365],
+        "GooglePlaceAutocompleteOptions": {'componentRestrictions': {'country': 'nz'}},
+    },
+    "GOOGLE_MAPS_API_KEY": GOOGLE_MAPS_API_KEY
 }

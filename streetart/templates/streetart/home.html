@@ -52,18 +52,23 @@
         var artworks = [];
 
         // Json object of Artworks, in a bad format so add it to an array: artworks[]
-        var artworksDefault = {{ artworksJson|safe }};
-        for(var key in artworksDefault) {
+        //var artworksDefault = {{ artworksJson|safe }};
+        //console.log(artworksDefault)
+        /*for(var key in artworksDefault) {
             if (artworksDefault.hasOwnProperty(key)) {
                 artworks[artworksDefault[key].pk] = artworksDefault[key].fields;
             }
-        }
+        }*/
 
-        // DIRTY - location from the json object is not formated so adding the values from template object. (Image too)
+        // DIRTY - Work around to get all the json data from template
         {% for art in artworks %}
-            artworks[{{ art.id }}].image = '{{ art.image.url }}';
-            artworks[{{ art.id }}].lat = '{{ art.location.y }}';
-            artworks[{{ art.id }}].lng = '{{ art.location.x }}';
+            artworks[{{ art.id }}] = {
+                name: '{{ art.name }}',
+                description: '{{ art.description }}',
+                imageUrl: '{{ art.image.url }}',
+                lat: '{{ art.location.y }}',
+                lng: '{{ art.location.x }}'
+            };
         {% endfor %}
 
         console.log(artworks)

@@ -7,11 +7,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
+from django.contrib.gis import geos
+from django.contrib.gis.measure import D
 from social_django.models import UserSocialAuth
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
 from rest_framework import generics
+import json
 
 from .forms import SignUpForm, ArtworkForm
 
@@ -20,10 +23,10 @@ from .models import Artwork
 
 
 def home(request):
-    ## return render(request, 'streetart/home.html', {'artwork': Artwork.objects.all()})
-    artworks = Artwork.objects.all().order_by('pk')
-    response = serializers.serialize("json", artworks)
-    return render(request, 'streetart/home.html', {'artworksJson': response, 'artworks': artworks})
+    return render(request, 'streetart/home.html', {'artworks': Artwork.objects.all()})
+    #artworks = Artwork.objects.all().order_by('pk')
+    #response = serializers.serialize("json", artworks)
+    #return render(request, 'streetart/home.html', {'artworksJson': json_artworks, 'artworks': artworks})
 
 @login_required
 def settings(request):
@@ -111,6 +114,12 @@ class CreateView(generics.ListCreateAPIView):
         serializer.save()
 
 def closest_artwork(request, index):
-    artwork = Artwork.objects.filter(pk=index)
+    artworkObject = Artwork.objects.get(pk=index)
+    artwork = get_closest_artworks(artworkObject.location.y, artworkObject.location.x)
     response = serializers.serialize("json", artwork)
     return HttpResponse(response, content_type='application/json')
+
+def get_closest_artworks(lat, long):
+    point = geos.fromstr("POINT(%s %s)" % (long, lat))
+    artworks = Artwork.objects.filter(location__distance_lte=(point, D(km=10))).distance(point).order_by('distance')
+    return artworks
