@@ -8,7 +8,7 @@ app_name = 'streetart'
 urlpatterns = [
 	url(r'^$', views.home, name='home'),
 	url(r'^artwork/new/$', views.new_artwork, name='new_artwork'),
-	url(r'^getdata/([0-9]+)/$', views.closest_artwork, name='closest_artwork')
+	url(r'^getdata/([0-9]+)/$', views.closest_artwork, name='closest_artwork'),
     url(r'^artworks/$', CreateView.as_view(), name='create'),
 ]
 
