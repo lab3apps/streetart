@@ -1,5 +1,5 @@
 from django.core import serializers
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.views import generic
@@ -19,9 +19,9 @@ from .models import Artwork
 
 def home(request):
     ## return render(request, 'streetart/home.html', {'artwork': Artwork.objects.all()})
-    my_model = Artwork.objects.all()
-    response = serializers.serialize("json", my_model)
-    return render(request, 'streetart/home.html', {'artworksJson': response, 'artworks': Artwork.objects.all()})
+    artworks = Artwork.objects.all().order_by('pk')
+    response = serializers.serialize("json", artworks)
+    return render(request, 'streetart/home.html', {'artworksJson': response, 'artworks': artworks})
 
 @login_required
 def settings(request):
@@ -99,5 +99,7 @@ def new_artwork(request):
         form = ArtworkForm()
     return render(request, 'streetart/artwork_edit.html', {'form': form})
 
-
-
+def closest_artwork(request, index):
+    artwork = Artwork.objects.filter(pk=index)
+    response = serializers.serialize("json", artwork)
+    return HttpResponse(response, content_type='application/json')

@@ -19,7 +19,7 @@
             <div id="gallery">
                 {% for art in artworks %}
                         <div class="col-md-4">
-                            <a class="thumbnail" onclick="focusOnMarker({{ forloop.counter }} - 1)">
+                            <a class="thumbnail" onclick="focusOnMarker({{ art.id }})">
                                 {% thumbnail art.image "150x150" as im %}
                                     <img src="{{ im.url }}">
                                 {% empty %}
@@ -35,6 +35,9 @@
             <a href="{% url 'streetart:new_artwork' %}" class=""><span class="glyphicon glyphicon-plus"></span></a>
 
         </div>
+        <div>
+            <button onclick="test()">Test button</button>
+        </div>
     </div>
 {% endblock %}
 
@@ -44,10 +47,18 @@
         type="text/javascript"></script>
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
     <script type="text/javascript">
-        var map;
 
-        var artworks = {{ artworksJson|safe }};
-        console.log(artworks);
+        var map;
+        var artworks = [];
+        var artworksDefault = {{ artworksJson|safe }};
+
+        for(var key in artworksDefault) {
+            if (artworksDefault.hasOwnProperty(key)) {
+                artworks[artworksDefault[key].pk] = artworksDefault[key].fields;
+            }
+        }
+
+        console.log(artworksDefault)
 
         function initialize() {
             var mapDiv = document.getElementById("map");
@@ -70,7 +81,7 @@
         function addMarkers() {
             for(var key in artworks) {
                 if (artworks.hasOwnProperty(key)) {
-                    var art = artworks[key].fields;
+                    var art = artworks[key];
                     var latLng = art.location.replace(/[\(\)]/g,'').split(',');
                     var point = new google.maps.LatLng(latLng[0], latLng[1]);
                     var marker = new google.maps.Marker({
@@ -87,6 +98,7 @@
                     });
                     google.maps.event.addListener(marker, 'click', function () {
                         focusOnMarker(this.label)
+                        getNearestArtworks(this.label)
                     });
                     google.maps.event.addListener(marker, 'mouseout', function () {
                         this['infowindow'].close(map, this);
@@ -98,7 +110,7 @@
 
         function focusOnMarker(index) {
             if (artworks.hasOwnProperty(index)) {
-                var art = artworks[index].fields;
+                var art = artworks[index];
                 var latLng = art.location.replace(/[\(\)]/g, '').split(',');
                 var point = new google.maps.LatLng(latLng[0], latLng[1]);
                 $('#marker-image').attr("src", "/media/" + art.image);
@@ -106,6 +118,21 @@
                 $('#marker-description').html(art.description);
                 map.panTo(point);
             }
+        }
+
+        function getNearestArtworks(index) {
+            console.log("button clicked")
+            $.ajax({
+                url: '/streetart/getdata/' + index + '/',
+                type: 'GET',
+                success: function(data) {
+                    console.log("We got some data yo!")
+                    console.log(data);
+                },
+                failure: function() {
+                    console.log('Got an error dude');
+                }
+            });
         }
 
         initialize();

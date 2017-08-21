@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'djangocms_snippet',
     'djangocms_style',
     'djangocms_column',
-    'social_django',  
+    'social_django',
     'leaflet',
     'django.contrib.gis',
     'geoposition',
@@ -179,7 +179,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
-
     'django.contrib.auth.backends.ModelBackend',
 )
 
