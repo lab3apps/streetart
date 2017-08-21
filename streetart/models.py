@@ -54,10 +54,10 @@ class Artwork_Category(models.Model):
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Artwork(models.Model):
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE, null=True)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE, blank=True, null=True)
     crew = models.ForeignKey(Crew, on_delete=models.CASCADE, blank=True, null=True)
     category = models.ForeignKey(Artwork_Category, on_delete=models.CASCADE, blank=True, null=True)
-    name = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
     commission_date = models.DateTimeField('date commissioned', blank=True, null=True)
     status = models.CharField(max_length=200, blank=True, null=True)
     decommission_date = models.DateTimeField('date decommissioned', blank=True, null=True)
@@ -70,7 +70,7 @@ class Artwork(models.Model):
     objects = models.GeoManager()
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 

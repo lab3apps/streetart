@@ -2,7 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm 
-from .models import Artwork
+from .models import Artwork, Artist
+from mapwidgets.widgets import GooglePointFieldWidget
 
 
 class SignUpForm(UserCreationForm):
@@ -25,4 +26,13 @@ class ArtworkForm(forms.ModelForm):
 
     class Meta:
         model = Artwork
-        fields = ('name', 'artist', 'image', 'photo_credit', 'location')
+        fields = ('title', 'artist', 'image', 'photo_credit', 'location')
+        widgets = {
+            'location': GooglePointFieldWidget,
+        }
+
+class ArtistForm(forms.ModelForm):
+
+    class Meta:
+        model = Artist
+        fields = ('name',)

@@ -2,11 +2,13 @@
 {% load static %}
 
 {% block content %}
+
     <h1>New artwork</h1>
     <script src="{% static 'bootstrap/js/jquery-3.2.1.min.js' %}"></script>
     <form method="POST" class="artwork-form" enctype="multipart/form-data">{% csrf_token %}
-    	{{ form.media }}
-        {{ form.as_p }}
+    	{{ artworkForm.media }}
+        {{ artworkForm.as_p }}
+        {{ artistForm.as_p }}
         <button type="submit" class="save btn btn-default">Save</button>
     </form>
 {% endblock %}

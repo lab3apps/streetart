@@ -63,7 +63,7 @@
         // DIRTY - Work around to get all the json data from template
         {% for art in artworks %}
             artworks[{{ art.id }}] = {
-                name: '{{ art.name }}',
+                name: '{{ art.title }}',
                 description: '{{ art.description }}',
                 imageUrl: '{{ art.image.url }}',
                 lat: '{{ art.location.y }}',

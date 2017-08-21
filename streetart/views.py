@@ -16,11 +16,12 @@ from django.utils import timezone
 from rest_framework import generics
 import json
 
-from .forms import SignUpForm, ArtworkForm
+from .forms import SignUpForm, ArtworkForm, ArtistForm
 
 from .serializers import ArtworkSerializer
-from .models import Artwork
-
+from .models import Artwork, Artist
+from django import forms
+from django.forms.models import modelformset_factory
 
 def home(request):
     return render(request, 'streetart/home.html', {'artworks': Artwork.objects.all()})
@@ -92,26 +93,36 @@ def signup(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 def new_artwork(request):
+    '''
+    Handles displaying, validating and saving a artwork and related
+    model artist
+    '''
+    artworkForm = ArtworkForm()
+    artistForm = ArtistForm()
     if request.method == "POST":
-        form = ArtworkForm(request.POST, request.FILES)
-        if form.is_valid():
-            artwork = form.save(commit=False)
+        artworkForm = ArtworkForm(request.POST, request.FILES)
+        artistForm = ArtistForm(request.POST)
+        if artworkForm.is_valid() and artistForm.is_valid():
+            # do something with the form data here
+            artwork = artworkForm.save(commit=False)
+            if artistForm.is_valid() and artistForm.has_changed():
+                # do something with the formset data
+                artist = artistForm.save(commit=False)
+                artist.author = request.user
+                artist.published_date = timezone.now()
+                artist.save()
+                artwork.artist = artist
             artwork.author = request.user
             artwork.published_date = timezone.now()
             artwork.save()
-            return redirect('/streetart', pk=artwork.pk)  ##TODO modal 'thank you for your submission?'
-    else:
-        form = ArtworkForm()
-    return render(request, 'streetart/artwork_edit.html', {'form': form})
+            return redirect('/streetart', pk=artwork.pk)
+    return render(request, "streetart/artwork_form.html", {'artworkForm': artworkForm, 'artistForm': artistForm})
+
 
 class CreateView(generics.ListCreateAPIView):
     """This class defines the create behavior of our rest api."""
     queryset = Artwork.objects.all()
     serializer_class = ArtworkSerializer
-
-    def perform_create(self, serializer):
-        """Save the post data when creating a new bucketlist."""
-        serializer.save()
 
 def closest_artwork(request, index):
     artworkObject = Artwork.objects.get(pk=index)

@@ -3,8 +3,9 @@ env/
 *.sublime-workspace
 .DS_Store
 *.pyc
+*.cpython-36.pyc
 chch_streetart/settings_secret.py
-
+media/artwork/
 
 
 # Byte-compiled / optimized / DLL files
