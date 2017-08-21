@@ -62,7 +62,6 @@ INSTALLED_APPS = [
     'social_django',  
     'leaflet',
     'rest_framework',
-    'api',
     'django.contrib.gis',
     'geoposition',
     'sorl.thumbnail',

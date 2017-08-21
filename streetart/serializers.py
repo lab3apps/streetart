@@ -7,5 +7,5 @@ class ArtworkSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
         model = Artwork
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'artist', 'category')
         read_only_fields = ()

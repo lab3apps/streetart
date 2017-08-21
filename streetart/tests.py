@@ -1,5 +1,8 @@
 from django.test import TestCase
 from streetart.models import Artwork, Artist, Artwork_Category
+from rest_framework.test import APIClient
+from rest_framework import status
+from django.core.urlresolvers import reverse
 
 class ModelTestCase(TestCase):
     """This class defines the test suite for the streetart api."""
@@ -25,9 +28,22 @@ class ModelTestCase(TestCase):
         self.artwork.thumbnail = "Test"
         self.artwork.city = "Christchurch"
 
+        ### API Tests ###
+
+        self.client = APIClient()
+        self.artwork_data = {'name': self.artwork.name, 'artist':self.artist.id, 'category': self.category.id}
+        self.response = self.client.post(
+            reverse('streetart:create'),
+            self.artwork_data,
+            format="json")
+
     def test_model_can_add_artwork(self):
         """Test the streetart model can rename an artwork."""
         old_count = Artwork.objects.count()
         self.artwork.save()
         new_count = Artwork.objects.count()
         self.assertNotEqual(old_count, new_count)
+
+    def test_api_can_create_an_artwork(self):
+        """Test that the API can add an artwork"""
+        self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
