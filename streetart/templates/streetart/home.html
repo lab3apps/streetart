@@ -50,15 +50,23 @@
 
         var map;
         var artworks = [];
-        var artworksDefault = {{ artworksJson|safe }};
 
+        // Json object of Artworks, in a bad format so add it to an array: artworks[]
+        var artworksDefault = {{ artworksJson|safe }};
         for(var key in artworksDefault) {
             if (artworksDefault.hasOwnProperty(key)) {
                 artworks[artworksDefault[key].pk] = artworksDefault[key].fields;
             }
         }
 
-        console.log(artworksDefault)
+        // DIRTY - location from the json object is not formated so adding the values from template object. (Image too)
+        {% for art in artworks %}
+            artworks[{{ art.id }}].image = '{{ art.image.url }}';
+            artworks[{{ art.id }}].lat = '{{ art.location.y }}';
+            artworks[{{ art.id }}].lng = '{{ art.location.x }}';
+        {% endfor %}
+
+        console.log(artworks)
 
         function initialize() {
             var mapDiv = document.getElementById("map");
@@ -79,15 +87,19 @@
         }
 
         function addMarkers() {
+            // Added a count so the markers shown are labelled from 1+.
+            var count = 1;
             for(var key in artworks) {
                 if (artworks.hasOwnProperty(key)) {
                     var art = artworks[key];
-                    var latLng = art.location.replace(/[\(\)]/g,'').split(',');
-                    var point = new google.maps.LatLng(latLng[0], latLng[1]);
+                    //var latLng = art.location.replace(/[\(\)]/g,'').split(' ');
+                    //var point = new google.maps.LatLng(latLng[0], latLng[1]);
+                    var point = new google.maps.LatLng(art.lat, art.lng);
                     var marker = new google.maps.Marker({
+                        id: key,
                         position: point,
                         map: map,
-                        label: key,
+                        label: '' + count,
                         animation: google.maps.Animation.DROP
                     });
                     marker['infowindow'] = new google.maps.InfoWindow({
@@ -97,13 +109,14 @@
                         this['infowindow'].open(map, this);
                     });
                     google.maps.event.addListener(marker, 'click', function () {
-                        focusOnMarker(this.label)
-                        getNearestArtworks(this.label)
+                        focusOnMarker(this.id)
+                        getNearestArtworks(this.id)
                     });
                     google.maps.event.addListener(marker, 'mouseout', function () {
                         this['infowindow'].close(map, this);
 
                     });
+                    count += 1;
                 }
             }
         }
@@ -111,9 +124,11 @@
         function focusOnMarker(index) {
             if (artworks.hasOwnProperty(index)) {
                 var art = artworks[index];
-                var latLng = art.location.replace(/[\(\)]/g, '').split(',');
-                var point = new google.maps.LatLng(latLng[0], latLng[1]);
-                $('#marker-image').attr("src", "/media/" + art.image);
+                //var latLng = art.location.replace(/[\(\)]/g, '').split(',');
+                //var point = new google.maps.LatLng(latLng[0], latLng[1]);
+                var point = new google.maps.LatLng(art.lat, art.lng);
+                //$('#marker-image').attr("src", "/media/" + art.image);
+                $('#marker-image').attr("src", art.image);
                 $('#marker-title').html(art.name);
                 $('#marker-description').html(art.description);
                 map.panTo(point);
@@ -121,7 +136,7 @@
         }
 
         function getNearestArtworks(index) {
-            console.log("button clicked")
+            console.log("Ajax - Artwork requested. PK: " + index);
             $.ajax({
                 url: '/streetart/getdata/' + index + '/',
                 type: 'GET',

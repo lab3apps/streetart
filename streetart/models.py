@@ -67,7 +67,7 @@ class Artwork(models.Model):
     photo_credit = models.CharField(max_length=200)
     city = models.CharField(max_length=200)
     link = models.URLField(blank=True, null=True)
-    location = GeopositionField()
+    location = models.PointField(srid=4326)
     objects = models.GeoManager()
 
     def __str__(self):
