@@ -3,12 +3,83 @@
 
 {% block content %}
 
-    <h1>New artwork</h1>
+    <h1>New Artwork</h1>
     <script src="{% static 'bootstrap/js/jquery-3.2.1.min.js' %}"></script>
     <form method="POST" class="artwork-form" enctype="multipart/form-data">{% csrf_token %}
     	{{ artworkForm.media }}
-        {{ artworkForm.as_p }}
-        {{ artistForm.as_p }}
-        <button type="submit" class="save btn btn-default">Save</button>
+    	<p class="bs-component">
+            <div class="form-group">
+            	{{ artworkForm.title.errors }}
+				<label class="control-label" for="id_{{ artworkForm.title.name }}">{{ artworkForm.title.label }}</label>
+				<input type="text" class="form-control"
+				name="{{ artworkForm.title.name }}"
+				id="id_{{ artworkForm.title.name }}" > 
+				<p class="help-text">{{ artworkForm.title.help_text }} </p>
+			</div>
+			<div class="form-group">
+            	{{ artworkForm.artist.errors }}
+				<label class="control-label" for="id_{{ artworkForm.artist.name }}">{{ artworkForm.artist.label }}</label>
+				<select class="form-control"
+				name="{{ artworkForm.artist.name }}"
+				id="id_{{ artworkForm.artist.name }}"> 
+					{% for x,y in artworkForm.artist.field.choices %}
+					    <option value="{{ x }}"{% if artworkForm.artist..value == x %} selected{% endif %}>{{ y }}</option>
+					{% endfor %}
+				</select>
+				<p class="help-text">{{ artworkForm.artist.help_text }} </p>
+				<div id="plusCol"><span class="btn btn-success btn-small glyphicon glyphicon-plus" onclick="addArtist()"></span></div>
+                <div id="minusCol" style="display: none;"><span class=" btn btn-danger btn-small glyphicon glyphicon-minus" onclick="hideNewArtist()"></span></div>
+			</div>
+			<div class="form-group"  id="newArtistRow" style="display: none;">
+            	{{ artistForm.name.errors }}
+				<label class="control-label" for="id_{{ artistForm.name.name }}">{{ artworkForm.title.label }}</label>
+				<input type="text" class="form-control"
+				name="{{ artistForm.name.name }}"
+				id="id_{{ artistForm.name.name }}" > 
+				<p class="help-text">{{ artistForm.name.help_text }} </p>
+			</div>
+			<div class="form-group">
+            	{{ artworkForm.image.errors }}
+				<label class="control-label" for="id_{{ artworkForm.image.name }}">{{ artworkForm.image.label }}</label>
+				<input type="text" class="form-control"
+				name="{{ artworkForm.image.name }}"
+				id="id_{{ artworkForm.image.name }}"> 
+				<p class="help-text">{{ artworkForm.image.help_text }} </p>
+			</div>
+			<div class="form-group">
+            	{{ artworkForm.photo_credit.errors }}
+				<label class="control-label" for="id_{{ artworkForm.photo_credit.name }}">{{ artworkForm.photo_credit.label }}</label>
+				<input type="text" class="form-control"
+				name="{{ artworkForm.photo_credit.name }}"
+				id="id_{{ artworkForm.photo_credit.name }}" > 
+				<p class="help-text">{{ artworkForm.photo_credit.help_text }} </p>
+			</div>
+            <div>
+            	{{ artworkForm.location.errors }}
+                {{ artworkForm.location.label_tag }}
+                {{ artworkForm.location }}
+            </div>
+        </p>
+        <p class="bs-component">
+            <center>
+                <input class="btn btn-success btn-sm" type="submit" value="Save" />
+            </center>
+        </p>
     </form>
+    <script type="text/javascript">
+		function addArtist(){
+			$('#newArtistRow').toggle();
+			$('#id_artist').prop('disabled', true);
+			$('#minusCol').toggle();
+			$('#plusCol').toggle();
+		}
+		function hideNewArtist(){
+			$('#newArtistRow').toggle();
+			$('#id_artist').prop('disabled', false);
+			$('#minusCol').toggle();
+			$('#plusCol').toggle();
+			$('#id_name').empty();
+		}
+	</script>
 {% endblock %}
+
