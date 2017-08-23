@@ -12,10 +12,10 @@ from django.utils.encoding import force_text
 
 
 class SignUpForm(UserCreationForm):
-    birth_date = forms.DateField(required=False, help_text='Optional. Format: YYYY-MM-DD')
-    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+    birth_date = forms.DateField(required=False, help_text='Optional. Format: YYYY-MM-DD', widget=forms.TextInput(attrs={'class': 'form-control datepicker', 'name': 'birth_date'}))
+    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.', widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'first_name'}))
+    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.', widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'last_name'}))
+    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.', widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'email'}))
 
     class Meta:
         model = User
@@ -68,3 +68,9 @@ class ArtworkForm(forms.ModelForm):
                 }
             ),
         }
+
+class SettingsForm(forms.Form):
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'birth_date')

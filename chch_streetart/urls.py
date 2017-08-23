@@ -23,7 +23,7 @@ from streetart import views as streetart_views
 from streetart import forms as streetart_forms
 
 urlpatterns = [
-	url(r'^streetart/', include('streetart.urls')),
+	url(r'^', include('streetart.urls')),
 	url(r'^signup/$', streetart_views.signup, name='signup'),
 	url(r'^login/$', auth_views.login, {'template_name':'registration/login.html', 'authentication_form': streetart_forms.LoginForm}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/login'}, name='logout'),
@@ -32,5 +32,5 @@ urlpatterns = [
     url(r'^settings/$', streetart_views.settings, name='settings'),
     url(r'^settings/password/$', streetart_views.password, name='password'),
     url(r'^select2/', include('django_select2.urls')),
-    url(r'^', include('cms.urls')),
+    url(r'^blog/', include('cms.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
