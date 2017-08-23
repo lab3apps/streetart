@@ -15,7 +15,7 @@ class ModelTestCase(TestCase):
         self.artist.save()
         self.category.save()
 
-        self.artwork.name = "Write world class code"
+        self.artwork.title = "Write world class code"
         self.artwork.commission_date = "2017-08-01"
         self.artwork.longitude = "172.643366"
         self.artwork.latitude = "-43.531269"
@@ -31,7 +31,7 @@ class ModelTestCase(TestCase):
         ### API Tests ###
 
         self.client = APIClient()
-        self.artwork_data = {'name': self.artwork.name, 'artist':self.artist.id, 'category': self.category.id}
+        self.artwork_data = {'title': self.artwork.title, 'artist':self.artist.id, 'category': self.category.id}
         self.response = self.client.post(
             reverse('streetart:create'),
             self.artwork_data,
