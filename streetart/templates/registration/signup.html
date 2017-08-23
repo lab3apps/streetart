@@ -4,7 +4,41 @@
   <h2>Sign up</h2>
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <div>
+    	{{ form.username.errors }}
+        {{ form.username.label_tag }}
+        {{ form.username }}
+    </div>
+    <div>
+    	{{ form.first_name.errors }}
+        {{ form.first_name.label_tag }}
+        {{ form.first_name }}
+    </div>
+    <div>
+    	{{ form.last_name.errors }}
+        {{ form.last_name.label_tag }}
+        {{ form.last_name }}
+    </div>
+    <div>
+    	{{ form.email.errors }}
+        {{ form.email.label_tag }}
+        {{ form.email }}
+    </div>
+    <div>
+    	{{ form.birth_date.errors }}
+        {{ form.birth_date.label_tag }}
+        {{ form.birth_date }}
+    </div>
+    <div>
+    	{{ form.password1.errors }}
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}
+    </div>
+    <div>
+    	{{ form.password2.errors }}
+        {{ form.password2.label_tag }}
+        {{ form.password2 }}
+    </div>
     <button type="submit">Sign up</button>
   </form>
 {% endblock %}

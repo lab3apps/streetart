@@ -16,9 +16,9 @@ from django.utils import timezone
 from rest_framework import generics
 import json
 
-from .forms import SignUpForm, ArtworkForm, ArtistForm
+from .forms import SignUpForm, ArtworkForm, ArtistForm, SettingsForm
 
-from .serializers import ArtworkSerializer
+from .serializers import ArtworkSerializer, ArtistSerializer
 from .models import Artwork, Artist
 from django import forms
 from django.forms.models import modelformset_factory
@@ -33,22 +33,31 @@ def home(request):
 def settings(request):
     user = request.user
 
-    try:
-        github_login = user.social_auth.get(provider='github')
-    except UserSocialAuth.DoesNotExist:
-        github_login = None
+    if request.method == 'POST':
+        form = SettingsForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()  # load the profile instance created by the signal
+            user.profile.birth_date = form.cleaned_data.get('birth_date')
+            user.save()
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
+            return redirect('/')
+    else:
+        form = SettingsForm()
 
-    try:
-        twitter_login = user.social_auth.get(provider='twitter')
-    except UserSocialAuth.DoesNotExist:
-        twitter_login = None
+        try:
+            twitter_login = user.social_auth.get(provider='twitter')
+        except UserSocialAuth.DoesNotExist:
+            twitter_login = None
 
-    try:
-        facebook_login = user.social_auth.get(provider='facebook')
-    except UserSocialAuth.DoesNotExist:
-        facebook_login = None
+        try:
+            facebook_login = user.social_auth.get(provider='facebook')
+        except UserSocialAuth.DoesNotExist:
+            facebook_login = None
 
-    can_disconnect = (user.social_auth.count() > 1 or user.has_usable_password())
+        can_disconnect = (user.social_auth.count() > 1 or user.has_usable_password())
 
     return render(request, 'registration/settings.html', {
         'twitter_login': twitter_login,
@@ -87,7 +96,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            return redirect('/streetart')
+            return redirect('/')
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
@@ -115,14 +124,27 @@ def new_artwork(request):
             artwork.author = request.user
             artwork.published_date = timezone.now()
             artwork.save()
-            return redirect('/streetart', pk=artwork.pk)
+            return redirect('/', pk=artwork.pk)
     return render(request, "streetart/artwork_form.html", {'artworkForm': artworkForm, 'artistForm': artistForm})
 
 
-class CreateView(generics.ListCreateAPIView):
+class ArtworkCreateView(generics.ListCreateAPIView):
     """This class defines the create behavior of our rest api."""
     queryset = Artwork.objects.all()
     serializer_class = ArtworkSerializer
+
+    def perform_create(self, serializer):
+        """Save the post data when creating a new bucketlist."""
+        serializer.save()
+
+class ArtistCreateView(generics.ListCreateAPIView):
+    """This class defines the create behavior of our rest api."""
+    queryset = Artist.objects.all()
+    serializer_class = ArtistSerializer
+
+    def perform_create(self, serializer):
+        """Save the post data when creating a new bucketlist."""
+        serializer.save()
 
 def closest_artwork(request, index):
     artworkObject = Artwork.objects.get(pk=index)
