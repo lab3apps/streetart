@@ -13,6 +13,7 @@ class ArtworkForm(admin.ModelAdmin):
     formfield_overrides = {
         models.PointField: {"widget": GooglePointFieldWidget}
     }
+    filter_horizontal = ('artists',)
 
 
 admin.site.register(Artwork, ArtworkForm)

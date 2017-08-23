@@ -196,5 +196,5 @@ MAP_WIDGETS = {
         'mapCenterLocation': [-43.5314, 172.6365],
         "GooglePlaceAutocompleteOptions": {'componentRestrictions': {'country': 'nz'}},
     },
-    "GOOGLE_MAPS_API_KEY": GOOGLE_MAPS_API_KEY
+    "GOOGLE_MAP_API_KEY": GOOGLE_MAPS_API_KEY
 }
