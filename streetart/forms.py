@@ -26,7 +26,7 @@ class ArtworkForm(forms.ModelForm):
 
     class Meta:
         model = Artwork
-        fields = ('title', 'artist', 'image', 'photo_credit', 'location')
+        fields = ('title', 'artists', 'image', 'photo_credit', 'location')
         widgets = {
             'location': GooglePointFieldWidget,
         }
