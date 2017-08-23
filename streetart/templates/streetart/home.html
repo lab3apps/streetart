@@ -1,28 +1,32 @@
 {% extends 'base.html' %}
 {% load thumbnail %}
+{% load static %}
 
 {% block title %}Home{% endblock title %}
 
 {% block content %}
     <div class="row">
-        <div class="left-panel col-md-6 col-sm-12">
-            <div class="card-holder col-sm-10 col-sm-offset-1">
+        <div class="left-panel col-md-7 col-sm-12">
+            <div class="title-block"></div>
+            <div class="back-block">
+                <a class="back-block-button" onclick="colapseMap()"><span class="glyphicon glyphicon glyphicon-arrow-left white"></span></a>
+            </div>
+            <div class="card-holder">
                 <div class="card">
                     <div class="card-image">
                         <img class="image" src="">
                     </div>
-
                     <div class="card-content">
                         <span class="card-title">Example Card</span>
                         <p class="card-description">Cards for display in portfolio style material design.</p>
                     </div>
                 </div>
             </div>
-            <div id="artwork-scroll-list" class="col-sm-10 col-sm-offset-1">
+            <div class="scroll-gallery">
                 {% for art in artworks %}
-                        <div class="list-card col-sm-4 col-lg-3">
-                            <a class="thumbnail" onclick="focusOnMarker({{ art.id }})">
-                                {% thumbnail art.image "150x150" as im %}
+                        <div class="gallery-item col-md-3">
+                            <a onclick="focusOnMarker({{ art.id }}), expandMap()">
+                                {% thumbnail art.image "250x250" as im %}
                                     <img class="thumbnail-image" src="{{ im.url }}">
                                 {% empty %}
                                     <img class="thumbnail-image" src="{{ art.image.url }}">
@@ -31,11 +35,10 @@
                         </div>
                 {% endfor %}
             </div>
-            <a class="map-add" href="{% url 'streetart:new_artwork' %}"><span class="glyphicon glyphicon-plus"></span></a>
         </div>
-        <div class="right-panel col-md-6 col-sm-12">
-            <div id="map" class="map-container">
-            </div>
+        <div class="right-panel col-md-5 col-sm-12">
+            <div id="map" class="map-container"></div>
+            <a class="map-add" href="{% url 'streetart:new_artwork' %}"><span class="glyphicon glyphicon-plus"></span></a>
         </div>
     </div>
 
@@ -46,20 +49,8 @@
     <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}" type="text/javascript"></script>
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
     <script type="text/javascript">
-
-        var map;
         var artworks = [];
 
-        // Json object of Artworks, in a bad format so add it to an array: artworks[]
-        //var artworksDefault = {{ artworksJson|safe }};
-        //console.log(artworksDefault)
-        /*for(var key in artworksDefault) {
-            if (artworksDefault.hasOwnProperty(key)) {
-                artworks[artworksDefault[key].pk] = artworksDefault[key].fields;
-            }
-        }*/
-
-        // DIRTY - Work around to get all the json data from template
         {% for art in artworks %}
             artworks[{{ art.id }}] = {
                 name: '{{ art.title }}',
@@ -69,90 +60,7 @@
                 lng: '{{ art.location.x }}'
             };
         {% endfor %}
-
-        function initialize() {
-            var mapDiv = document.getElementById("map");
-            var layer = "toner";
-            map = new google.maps.Map(
-                mapDiv, {
-                    center: new google.maps.LatLng(-43.5314, 172.6365),
-                    zoom: 12,
-                    maxZoom: 18,
-                    minZoom: 12,
-                    mapTypeId: layer,
-                    mapTypeControlOptions: {
-                        mapTypeIds: [layer]
-                    }
-                });
-            map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
-            google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
-        }
-
-        function addMarkers() {
-            // Added a count so the markers shown are labelled from 1+.
-            var count = 1;
-            for(var key in artworks) {
-                if (artworks.hasOwnProperty(key)) {
-                    var art = artworks[key];
-                    //var latLng = art.location.replace(/[\(\)]/g,'').split(' ');
-                    //var point = new google.maps.LatLng(latLng[0], latLng[1]);
-                    var point = new google.maps.LatLng(art.lat, art.lng);
-                    var marker = new google.maps.Marker({
-                        id: key,
-                        position: point,
-                        map: map,
-                        label: '' + count,
-                        animation: google.maps.Animation.DROP
-                    });
-                    marker['infowindow'] = new google.maps.InfoWindow({
-                        content: "<h2>" + art.name + "</h2>"
-                    });
-                    google.maps.event.addListener(marker, 'mouseover', function () {
-                        this['infowindow'].open(map, this);
-                    });
-                    google.maps.event.addListener(marker, 'click', function () {
-                        focusOnMarker(this.id)
-                        getNearestArtworks(this.id)
-                    });
-                    google.maps.event.addListener(marker, 'mouseout', function () {
-                        this['infowindow'].close(map, this);
-
-                    });
-                    count += 1;
-                }
-            }
-            focusOnMarker(8);
-        }
-
-        function focusOnMarker(index) {
-            if (artworks.hasOwnProperty(index)) {
-                var art = artworks[index];
-                //var latLng = art.location.replace(/[\(\)]/g, '').split(',');
-                //var point = new google.maps.LatLng(latLng[0], latLng[1]);
-                var point = new google.maps.LatLng(art.lat, art.lng);
-                //$('#marker-image').attr("src", "/media/" + art.image);
-                $('.image').attr("src", art.imageUrl);
-                $('.card-title').html(art.name);
-                $('.card-description').html(art.description);
-                map.panTo(point);
-            }
-        }
-
-        function getNearestArtworks(index) {
-            console.log("Ajax - Artwork requested. PK: " + index);
-            $.ajax({
-                url: '/streetart/getdata/' + index + '/',
-                type: 'GET',
-                success: function(data) {
-                    console.log("We got some data yo!")
-                    console.log(data);
-                },
-                failure: function() {
-                    console.log('Got an error dude');
-                }
-            });
-        }
-
-        initialize();
     </script>
+    <script src="{% static 'streetart/js/map.js' %}"></script>
+    <script src="{% static 'streetart/js/animations.js' %}"></script>
 {% endblock %}
