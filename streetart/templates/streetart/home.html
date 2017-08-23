@@ -4,47 +4,46 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-
-    <h2>Homepage</h2>
-    <p>Hello {{ user.username }}!</p>
     <div class="row">
-        <div class="col-md-6">
-            <div id="marker-content" class="thumbnail">
-                <img id="marker-image" class="img-top" src="">
-                <div class="caption">
-                    <h4 id="marker-title">Test title</h4>
-                    <p id="marker-description" >Test description</p>
+        <div class="left-panel col-md-6 col-sm-12">
+            <div class="card-holder col-sm-10 col-sm-offset-1">
+                <div class="card">
+                    <div class="card-image">
+                        <img class="image" src="">
+                    </div>
+
+                    <div class="card-content">
+                        <span class="card-title">Example Card</span>
+                        <p class="card-description">Cards for display in portfolio style material design.</p>
+                    </div>
                 </div>
             </div>
-            <div id="gallery">
+            <div id="artwork-scroll-list" class="col-sm-10 col-sm-offset-1">
                 {% for art in artworks %}
-                        <div class="col-md-4">
+                        <div class="list-card col-sm-4 col-lg-3">
                             <a class="thumbnail" onclick="focusOnMarker({{ art.id }})">
                                 {% thumbnail art.image "150x150" as im %}
-                                    <img src="{{ im.url }}">
+                                    <img class="thumbnail-image" src="{{ im.url }}">
                                 {% empty %}
-                                    <img src="{{ art.image.url }}">
+                                    <img class="thumbnail-image" src="{{ art.image.url }}">
                                 {% endthumbnail %}
                             </a>
                         </div>
                 {% endfor %}
             </div>
+            <a class="map-add" href="{% url 'streetart:new_artwork' %}"><span class="glyphicon glyphicon-plus"></span></a>
         </div>
-        <div class="col-md-6">
-            <div id="map" class="map-container"></div>
-            <a href="{% url 'streetart:new_artwork' %}" class=""><span class="glyphicon glyphicon-plus"></span></a>
-
-        </div>
-        <div>
-            <button onclick="test()">Test button</button>
+        <div class="right-panel col-md-6 col-sm-12">
+            <div id="map" class="map-container">
+            </div>
         </div>
     </div>
+
 {% endblock %}
 
 {% block head-javascript %}
     {{ block.super }}
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}"
-        type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}" type="text/javascript"></script>
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
     <script type="text/javascript">
 
@@ -70,8 +69,6 @@
                 lng: '{{ art.location.x }}'
             };
         {% endfor %}
-
-        console.log(artworks)
 
         function initialize() {
             var mapDiv = document.getElementById("map");
@@ -124,6 +121,7 @@
                     count += 1;
                 }
             }
+            focusOnMarker(8);
         }
 
         function focusOnMarker(index) {
@@ -133,9 +131,9 @@
                 //var point = new google.maps.LatLng(latLng[0], latLng[1]);
                 var point = new google.maps.LatLng(art.lat, art.lng);
                 //$('#marker-image').attr("src", "/media/" + art.image);
-                $('#marker-image').attr("src", art.image);
-                $('#marker-title').html(art.name);
-                $('#marker-description').html(art.description);
+                $('.image').attr("src", art.imageUrl);
+                $('.card-title').html(art.name);
+                $('.card-description').html(art.description);
                 map.panTo(point);
             }
         }
