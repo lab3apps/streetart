@@ -2,8 +2,6 @@
 {% load static %}
 
 {% block content %}
-	<link href="{% static 'lou-multi-select/css/multi-select.css' %}" media="screen" rel="stylesheet" type="text/css">
-
     <h1>New Artwork</h1>
     <script src="{% static 'bootstrap/js/jquery-3.2.1.min.js' %}"></script>
     <form method="POST" class="artwork-form" enctype="multipart/form-data">{% csrf_token %}
@@ -56,46 +54,5 @@
             </center>
         </p>
     </form>
-    <script type="text/javascript">
-		function addArtist(){
-			$('#newArtistRow').toggle();
-			$('#id_artists').prop('disabled', true);
-			$('#minusCol').toggle();
-			$('#plusCol').toggle();
-		}
-		function hideNewArtist(){
-			$('#newArtistRow').toggle();
-			$('#id_artists').prop('disabled', false);
-			$('#minusCol').toggle();
-			$('#plusCol').toggle();
-			$('#id_name').empty();
-		}
-	</script>
-	<script src="{% static 'lou-multi-select/js/jquery.multi-select.js' %}" type="text/javascript"></script>
-	<script src="{% static 'lou-multi-select/js/jquery.quicksearch.js' %}" type="text/javascript"></script>
-	<script type="text/javascript">
-		/*$('#id_artists').multiSelect({
-		  selectableHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='Search eg. \"John\"'>",
-		  afterInit: function(ms){
-		    var that = this,
-		        $selectableSearch = that.$selectableUl.prev(),
-		        selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)';
-
-		    that.qs = $selectableSearch.quicksearch(selectableSearchString)
-		    .on('keydown', function(e){
-		      if (e.which === 40){
-		        that.$selectableUl.focus();
-		        return false;
-		      }
-		    });
-		  },
-		  afterSelect: function(){
-		    this.qs.cache();
-		  },
-		  afterDeselect: function(){
-		    this.qs.cache();
-		  }
-		});*/
-	</script>
 {% endblock %}
 

@@ -8,6 +8,12 @@ Written by Lab3 Limited for Watch This Space
 
 [VirtualEnv](https://virtualenv.pypa.io/en/stable/installation/)
 
+Memcached
+
+OSX `brew install memcached`
+
+Debian/Ubuntu `sudo apt-get install memcached`
+
 ----
 
 ### Installation

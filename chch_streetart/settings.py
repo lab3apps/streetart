@@ -199,3 +199,15 @@ MAP_WIDGETS = {
     },
     "GOOGLE_MAP_API_KEY": GOOGLE_MAPS_API_KEY
 }
+
+CACHES = {
+    "default": {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'unix:/tmp/memcached.sock',
+    },
+    'select2': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'unix:/tmp/memcached.sock',
+    }
+}
+SELECT2_CACHE_BACKEND = 'select2'
