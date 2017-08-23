@@ -16,7 +16,7 @@ from django.utils import timezone
 from rest_framework import generics
 import json
 
-from .forms import SignUpForm, ArtworkForm, ArtistForm
+from .forms import SignUpForm, ArtworkForm
 
 from .serializers import ArtworkSerializer
 from .models import Artwork, Artist
@@ -98,25 +98,17 @@ def new_artwork(request):
     model artist
     '''
     artworkForm = ArtworkForm()
-    artistForm = ArtistForm()
     if request.method == "POST":
         artworkForm = ArtworkForm(request.POST, request.FILES)
-        artistForm = ArtistForm(request.POST)
-        if artworkForm.is_valid() and artistForm.is_valid():
+        if artworkForm.is_valid():
             # do something with the form data here
             artwork = artworkForm.save(commit=False)
-            if artistForm.is_valid() and artistForm.has_changed():
-                # do something with the formset data
-                artist = artistForm.save(commit=False)
-                artist.author = request.user
-                artist.published_date = timezone.now()
-                artist.save()
-                artwork.artist = artist
             artwork.author = request.user
             artwork.published_date = timezone.now()
             artwork.save()
+            artworkForm.save_m2m()
             return redirect('/streetart', pk=artwork.pk)
-    return render(request, "streetart/artwork_form.html", {'artworkForm': artworkForm, 'artistForm': artistForm})
+    return render(request, "streetart/artwork_form.html", {'artworkForm': artworkForm,})
 
 
 class CreateView(generics.ListCreateAPIView):

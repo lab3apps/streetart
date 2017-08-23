@@ -4,17 +4,22 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm 
 from .models import Artwork, Artist
 from mapwidgets.widgets import GooglePointFieldWidget
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django_select2.forms import (
+    ModelSelect2TagWidget,
+)
+from django.utils.encoding import force_text
 
 
 class SignUpForm(UserCreationForm):
-	birth_date = forms.DateField(required=False, help_text='Optional. Format: YYYY-MM-DD')
-	first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-	last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-	email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+    birth_date = forms.DateField(required=False, help_text='Optional. Format: YYYY-MM-DD')
+    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
 
-	class Meta:
-		model = User
-		fields = ('username', 'first_name', 'last_name', 'email', 'birth_date', 'password1', 'password2')
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'birth_date', 'password1', 'password2')
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(label="Username", max_length=30, 
@@ -22,17 +27,44 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(label="Password", max_length=30, 
                                widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'password', 'type': 'password'}))
 
-class ArtworkForm(forms.ModelForm):
+class ArtistSelect2TagWidget(ModelSelect2TagWidget):
+    queryset = Artist.objects.all()
+    search_fields = [
+        'name__icontains',
+    ]
 
+    def value_from_datadict(self, data, files, name):
+        values = super(ArtistSelect2TagWidget, self).value_from_datadict(data, files, name)
+        qs = self.queryset.filter(**{'pk__in': [l for l in values if is_int(l)]})
+        names = [k.name for k in self.queryset.filter(**{'name__in': values})]
+        pks = set(force_text(getattr(o, 'pk')) for o in qs)
+        cleaned_values = []
+        for val in values:
+            if force_text(val) not in pks and force_text(val) not in names:
+                val = self.queryset.create(name=val).pk
+            cleaned_values.append(val)
+        return cleaned_values
+
+def is_int(s):
+    try:
+        int(str(s))
+        return True
+    except ValueError:
+        return False
+
+
+
+class ArtworkForm(forms.ModelForm):
     class Meta:
         model = Artwork
         fields = ('title', 'artists', 'image', 'photo_credit', 'location')
         widgets = {
             'location': GooglePointFieldWidget,
+            'artists': ArtistSelect2TagWidget(
+                attrs={
+                    "data-width": "100%",
+                    "data-placeholder": "Search artists",
+                    'data-token-separators': [','],
+                }
+            ),
         }
-
-class ArtistForm(forms.ModelForm):
-
-    class Meta:
-        model = Artist
-        fields = ('name',)

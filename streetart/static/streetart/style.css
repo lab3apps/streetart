@@ -27,5 +27,9 @@ body {
 }
 
 .button-div{
-	
+
+}
+
+.django-select2 {
+    width: 14em;
 }

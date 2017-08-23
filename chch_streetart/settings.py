@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'sorl.thumbnail',
     'mapwidgets',
+    'django_select2',
 ]
 
 MIDDLEWARE = [
