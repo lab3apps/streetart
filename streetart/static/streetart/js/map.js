@@ -54,7 +54,7 @@ function addMarkers() {
 function getNearestArtworks(index) {
     console.log("Ajax - Artwork requested. PK: " + index);
     $.ajax({
-        url: '/streetart/getdata/' + index + '/',
+        url: '/getdata/' + index + '/',
         type: 'GET',
         success: function(data) {
             console.log("We got some data yo!")

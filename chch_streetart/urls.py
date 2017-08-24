@@ -33,4 +33,5 @@ urlpatterns = [
     url(r'^settings/password/$', streetart_views.password, name='password'),
     url(r'^select2/', include('django_select2.urls')),
     url(r'^blog/', include('cms.urls')),
+    url(r'^comments/', include('django_comments.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

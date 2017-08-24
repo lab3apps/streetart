@@ -146,3 +146,7 @@ def get_closest_artworks(lat, long):
     point = geos.fromstr("POINT(%s %s)" % (long, lat))
     artworks = Artwork.objects.filter(location__distance_lte=(point, D(km=10))).distance(point).order_by('distance')
     return artworks
+
+def image_selected(request, index):
+    return render(request, 'streetart/card_detail_body.html', {'art': Artwork.objects.get(pk=index)})
+

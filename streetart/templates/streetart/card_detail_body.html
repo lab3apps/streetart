@@ -1,0 +1,12 @@
+{% load comments %}
+
+<div class="card">
+    <div class="card-image">
+        <img class="image" src="{{ art.image.url }}">
+    </div>
+    <div class="card-content">
+        <span class="card-title">{{ art.title }}</span>
+        <p class="card-description">{{ art.description }}</p>
+        <div class="card-comment">{% render_comment_form for art %}</div>
+    </div>
+</div>
