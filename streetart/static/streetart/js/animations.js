@@ -8,7 +8,20 @@ function focusOnMarker(index) {
         map.panTo(point);
     }
 }
-
+function moreInfoClicked(index) {
+    if (artworks.hasOwnProperty(index)) {
+        $.ajax({
+            url: '/imageselected/' + index + '/',
+            type: 'GET',
+            success: function(data) {
+                $('.card-holder').empty().append(data);
+            },
+            failure: function() {
+                console.log('Got an error dude');
+            }
+        });
+    }
+}
 function expandMap() {
     $('.left-panel').removeClass('col-md-7');
     $('.left-panel').addClass('col-md-4');
