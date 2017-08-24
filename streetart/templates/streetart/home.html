@@ -24,7 +24,7 @@
             </div>
             <div class="scroll-gallery">
                 {% for art in artworks %}
-                        <div class="gallery-item col-md-3">
+                        <div id="artbox-{{ art.id }}" class="gallery-item col-md-3">
                             <a onclick="focusOnMarker({{ art.id }}), expandMap()">
                                 {% thumbnail art.image "250x250" as im %}
                                     <img class="thumbnail-image" src="{{ im.url }}">
@@ -37,6 +37,13 @@
             </div>
         </div>
         <div class="right-panel col-md-5 col-sm-12">
+            <div class="filter-block">
+                <select class="multiselect" multiple="multiple">
+                    <option value="1" selected="selected">Viewable</option>
+                    <option value="2" selected="selected">Partially-Viewable</option>
+                    <option value="3">Not Viewable</option>
+                </select>
+            </div>
             <div id="map" class="map-container"></div>
             <a class="map-add" href="{% url 'streetart:new_artwork' %}"><span class="glyphicon glyphicon-plus"></span></a>
         </div>
@@ -48,13 +55,17 @@
     {{ block.super }}
     <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}" type="text/javascript"></script>
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+    <script type="text/javascript" src="{% static 'multiselect/bootstrap-multiselect.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'multiselect/bootstrap-multiselect.css' %}" type="text/css"/>
     <script type="text/javascript">
         var artworks = [];
+        var markers = [];
 
         {% for art in artworks %}
             artworks[{{ art.id }}] = {
                 name: '{{ art.title }}',
                 description: '{{ art.description }}',
+                status: '{{ art.status.id }}',
                 imageUrl: '{{ art.image.url }}',
                 lat: '{{ art.location.y }}',
                 lng: '{{ art.location.x }}',

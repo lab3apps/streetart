@@ -15,25 +15,40 @@ function initialize() {
             }
         });
     map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
-    google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
+    addMarkers();
+    //google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
 }
 
 function addMarkers() {
-    var count = 1;
     for(var key in artworks) {
         if (artworks.hasOwnProperty(key)) {
             var art = artworks[key];
+            var markerUrl;
+
+            if(art.status === '1') {
+                markerUrl = 'http://maps.google.com/mapfiles/ms/micons/green-dot.png';
+            } else if(art.status === '2') {
+                markerUrl = 'http://maps.google.com/mapfiles/ms/micons/orange-dot.png';
+            } else if(art.status === '3') {
+                markerUrl = 'http://maps.google.com/mapfiles/ms/micons/red-dot.png';
+            } else {
+                markerUrl = 'http://maps.google.com/mapfiles/ms/micons/blue-dot.png';
+            }
+
             var point = new google.maps.LatLng(art.lat, art.lng);
             var marker = new google.maps.Marker({
                 id: key,
                 position: point,
                 map: map,
-                label: '' + count,
+                icon: markerUrl,
                 animation: google.maps.Animation.DROP
             });
             marker['infowindow'] = new google.maps.InfoWindow({
                 content: "<h2>" + art.name + "</h2>"
             });
+
+            markers[key] = marker;
+
             google.maps.event.addListener(marker, 'mouseover', function () {
                 this['infowindow'].open(map, this);
             });
@@ -46,9 +61,9 @@ function addMarkers() {
                 this['infowindow'].close(map, this);
 
             });
-            count += 1;
         }
     }
+    console.log(markers);
 }
 
 function getNearestArtworks(index) {
@@ -66,4 +81,32 @@ function getNearestArtworks(index) {
     });
 }
 
+function filterMarkers(categoryArray) {
+    for(var key in artworks) {
+        if (artworks.hasOwnProperty(key)) {
+            var art = artworks[key];
+            var marker = markers[key];
+            if(categoryArray.indexOf(art.status) !== -1) {
+                marker.setVisible(true);
+                $('#artbox-'+key).css('display', 'block');
+            } else {
+                marker.setVisible(false);
+                $('#artbox-'+key).css('display', 'none');
+            }
+        }
+    }
+}
+
+function initializeMultiSelect() {
+    $('.multiselect').multiselect({
+        onInitialized: function() {
+            filterMarkers($('.multiselect').val());
+        },
+        onChange: function() {
+            filterMarkers($('.multiselect').val());
+        }
+    });
+}
+
 initialize();
+initializeMultiSelect();
