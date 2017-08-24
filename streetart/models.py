@@ -53,13 +53,19 @@ class Artwork_Category(models.Model):
         return self.name
 
 @python_2_unicode_compatible  # only if you need to support Python 2
+class Status(models.Model):
+    name = models.CharField(max_length=200)
+    def __str__(self):
+        return self.name
+
+@python_2_unicode_compatible  # only if you need to support Python 2
 class Artwork(models.Model):
     artists = models.ManyToManyField(Artist, blank=True, related_name='artworks')
     crew = models.ForeignKey(Crew, on_delete=models.CASCADE, blank=True, null=True)
     category = models.ForeignKey(Artwork_Category, on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=200)
     commission_date = models.DateField('date commissioned', blank=True, null=True)
-    status = models.CharField(max_length=200, blank=True, null=True)
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, blank=True, null=True)
     decommission_date = models.DateField('date decommissioned', blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     image = ImageField(upload_to='artwork/')
