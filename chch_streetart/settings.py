@@ -65,6 +65,8 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'mapwidgets',
     'django_select2',
+    'fluent_comments',
+    'crispy_forms',
     'django_comments',
 ]
 
@@ -212,3 +214,8 @@ CACHES = {
     }
 }
 SELECT2_CACHE_BACKEND = 'select2'
+
+COMMENTS_APP = 'fluent_comments'
+FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'email', 'url')
+FLUENT_COMMENTS_USE_EMAIL_NOTIFICATION = True
+

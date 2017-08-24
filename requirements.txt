@@ -6,7 +6,9 @@ django-appconf==1.0.2
 django-classy-tags==0.8.0
 django-cms==3.4.4
 django-contrib-comments==1.8.0
+django-crispy-forms==1.6.1
 django-filer==1.2.8
+django-fluent-comments==1.4.3
 django-formtools==2.0
 django-geoposition==0.3.0
 django-leaflet==0.22.0
@@ -16,6 +18,7 @@ django-mptt==0.8.7
 django-polymorphic==1.0.2
 django-sekizai==0.10.0
 Django-Select2==5.11.1
+django-tag-parser==3.1
 django-treebeard==4.1.2
 djangocms-admin-style==1.2.7
 djangocms-attributes-field==0.3.0
@@ -29,6 +32,7 @@ djangocms-style==2.0.2
 djangocms-text-ckeditor==3.5.0
 djangocms-video==2.0.3
 djangorestframework==3.6.3
+docutils==0.14
 easy-thumbnails==2.3
 html5lib==0.9999999
 idna==2.5
@@ -38,6 +42,7 @@ olefile==0.44
 Pillow==4.2.1
 psycopg2==2.7.3
 PyJWT==1.5.2
+python-akismet==0.3.0
 python-memcached==1.58
 python3-openid==3.1.0
 pytz==2017.2

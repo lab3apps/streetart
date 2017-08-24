@@ -6,7 +6,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.gis.db import models
 from sorl.thumbnail import ImageField
-
 # Create your models here.
 
 class Profile(models.Model):
@@ -77,6 +76,8 @@ class Artwork(models.Model):
 
     def __str__(self):
         return self.title
+
+
 
 
 
