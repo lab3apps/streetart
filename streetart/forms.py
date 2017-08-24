@@ -63,7 +63,7 @@ class ArtworkForm(forms.ModelForm):
             'artists': ArtistSelect2TagWidget(
                 attrs={
                     "data-width": "100%",
-                    "data-placeholder": "Search artists",
+                    "data-placeholder": "Search Artists",
                     'data-token-separators': [','],
                 }
             ),

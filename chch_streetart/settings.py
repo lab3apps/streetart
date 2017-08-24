@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'mapwidgets',
     'django_select2',
+    'django_comments',
 ]
 
 MIDDLEWARE = [
