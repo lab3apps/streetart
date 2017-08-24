@@ -26,7 +26,7 @@ urlpatterns = [
 	url(r'^', include('streetart.urls')),
 	url(r'^signup/$', streetart_views.signup, name='signup'),
 	url(r'^login/$', auth_views.login, {'template_name':'registration/login.html', 'authentication_form': streetart_forms.LoginForm}, name='login'),
-    url(r'^logout/$', auth_views.logout, {'next_page': '/login'}, name='logout'),
+    url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'^admin/', admin.site.urls),
     url(r'^settings/$', streetart_views.settings, name='settings'),

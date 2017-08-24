@@ -14,15 +14,12 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
 from rest_framework import generics
-import json
 from .forms import SignUpForm, ArtworkForm, SettingsForm
 from .serializers import ArtworkSerializer, ArtistSerializer
-from .models import Artwork, Artist
-from django import forms
-from django.forms.models import modelformset_factory
+from .models import Artwork, Artist, Status
 
 def home(request):
-    return render(request, 'streetart/home.html', {'artworks': Artwork.objects.all()})
+    return render(request, 'streetart/home.html', {'artworks': Artwork.objects.all().order_by('pk')})
     #artworks = Artwork.objects.all().order_by('pk')
     #response = serializers.serialize("json", artworks)
     #return render(request, 'streetart/home.html', {'artworksJson': json_artworks, 'artworks': artworks})
