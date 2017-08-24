@@ -74,6 +74,7 @@ class Artwork(models.Model):
     link = models.URLField(blank=True, null=True)
     location = models.PointField(srid=4326)
     objects = models.GeoManager()
+    validated = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
