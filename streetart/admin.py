@@ -4,6 +4,7 @@ from .models import Artist
 from .models import Crew
 from .models import Artwork_Category
 from .models import Profile
+from .models import Status
 from mapwidgets.widgets import GooglePointFieldWidget
 from django import forms
 from django.contrib.gis.db import models
@@ -21,4 +22,5 @@ admin.site.register(Artist)
 admin.site.register(Crew)
 admin.site.register(Artwork_Category)
 admin.site.register(Profile)
+admin.site.register(Status)
 # Register your models here.
