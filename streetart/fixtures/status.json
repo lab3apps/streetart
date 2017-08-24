@@ -1,23 +1,23 @@
 [
   {
-    "model": "myapp.status",
+    "model": "streetart.status",
     "pk": 1,
     "fields": {
       "name": "Viewable"
     }
   },
   {
-    "model": "myapp.status",
+    "model": "streetart.status",
     "pk": 2,
     "fields": {
       "name": "Partially-Viewable"
     }
   },
   {
-    "model": "myapp.status",
+    "model": "streetart.status",
     "pk": 3,
     "fields": {
       "name": "Not Viewable"
     }
-  },
+  }
 ]
