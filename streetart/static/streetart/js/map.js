@@ -53,7 +53,7 @@ function addMarkers() {
                 this['infowindow'].open(map, this);
             });
             google.maps.event.addListener(marker, 'click', function () {
-                expandMap();
+                markerClicked();
                 focusOnMarker(this.id);
                 //getNearestArtworks(this.id)
             });
@@ -81,17 +81,25 @@ function getNearestArtworks(index) {
     });
 }
 
-function filterMarkers(categoryArray) {
+$('#search-input').keyup(function() {
+    filterMarkers();
+});
+
+function filterMarkers() {
+    var searchText = $('#search-input').val();
+    var catArray = $('.multiselect').val();
     for(var key in artworks) {
         if (artworks.hasOwnProperty(key)) {
             var art = artworks[key];
             var marker = markers[key];
-            if(categoryArray.indexOf(art.status) !== -1) {
+            if ((art.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0 ||
+                art.description.toLowerCase().indexOf(searchText.toLowerCase()) >= 0) &&
+                catArray.indexOf(art.status) >= 0) {
                 marker.setVisible(true);
-                $('#artbox-'+key).css('display', 'block');
+                $('#artbox-'+key).show();
             } else {
                 marker.setVisible(false);
-                $('#artbox-'+key).css('display', 'none');
+                $('#artbox-'+key).hide();
             }
         }
     }
@@ -99,11 +107,12 @@ function filterMarkers(categoryArray) {
 
 function initializeMultiSelect() {
     $('.multiselect').multiselect({
+        buttonWidth: "100%",
         onInitialized: function() {
-            filterMarkers($('.multiselect').val());
+            filterMarkers();
         },
         onChange: function() {
-            filterMarkers($('.multiselect').val());
+            filterMarkers();
         }
     });
 }

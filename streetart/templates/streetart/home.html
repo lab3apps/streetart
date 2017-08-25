@@ -7,12 +7,14 @@
 {% block content %}
     <div class="row">
         <div class="left-panel col-md-7 col-sm-12">
-            <div class="title-block"></div>
-            <div class="back-block">
-                <a class="back-block-button" onclick="colapseMap()"><span class="glyphicon glyphicon glyphicon-arrow-left white"></span></a>
+            <div class="title-block">
+                <img class="placeholder-image" src="/media/artwork/placeholder.png">
             </div>
-            <div class="card-holder">
-                <div class="card">
+            <div class="back-block">
+                <a class="back-button-block" onclick="backClicked()"><span class="glyphicon glyphicon-arrow-left back-span white"></span></a>
+            </div>
+            <div id="marker-card-holder" class="card-holder">
+                <div class="card marker-card">
                     <div class="card-image">
                         <img class="image" src="">
                     </div>
@@ -20,31 +22,42 @@
                         <span class="card-title"></span>
                         <p class="card-description"></p>
                     </div>
+                    <div class="card-action">
+                        <a onclick="expandCard()">EXPAND</a>
+                    </div>
                 </div>
+            </div>
+            <div id="gallery-card-holder" class="card-holder">
+            </div>
+            <div id="comment-card-holder" class="card-holder">
+                <div class="card comment-card"></div>
             </div>
             <div class="scroll-gallery">
                 {% for art in artworks %}
                         <div id="artbox-{{ art.id }}" class="gallery-item col-md-3">
-                            <a onclick="focusOnMarker({{ art.id }}), expandMap()">
+                            <a onclick="focusOnMarker({{ art.id }}), markerClicked()">
                                 {% thumbnail art.image "250x250" as im %}
                                     <img class="thumbnail-image" src="{{ im.url }}">
                                 {% empty %}
                                     <img class="thumbnail-image" src="{{ art.image.url }}">
                                 {% endthumbnail %}
                             </a>
-                            {% render_comment_list for art %}
-                            {% render_comment_form for art %}
                         </div>
                 {% endfor %}
             </div>
         </div>
         <div class="right-panel col-md-5 col-sm-12">
-            <div class="filter-block">
-                <select class="multiselect" multiple="multiple">
-                    <option value="1" selected="selected">Viewable</option>
-                    <option value="2" selected="selected">Partially-Viewable</option>
-                    <option value="3">Not Viewable</option>
-                </select>
+            <div class="filter-block col-md-8 col-md-offset-2">
+                <div class="col-md-6">
+                    <select class="multiselect" multiple="multiple">
+                        <option value="1" selected="selected">Viewable</option>
+                        <option value="2" selected="selected">Partially-Viewable</option>
+                        <option value="3">Not Viewable</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <input id="search-input" type="text" class="form-control" placeholder="Search for...">
+                </div>
             </div>
             <div id="map" class="map-container"></div>
             <a class="map-add" href="{% url 'streetart:new_artwork' %}"><span class="glyphicon glyphicon-plus"></span></a>
@@ -55,8 +68,6 @@
 
 {% block head-javascript %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{% static 'fluent_comments/css/ajaxcomments.css' %}" />
-    <script type="text/javascript" src="{% static 'fluent_comments/js/ajaxcomments.js' %}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}" type="text/javascript"></script>
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
     <script type="text/javascript" src="{% static 'multiselect/bootstrap-multiselect.js' %}"></script>
@@ -75,6 +86,8 @@
                 lng: '{{ art.location.x }}',
             };
         {% endfor %}
+
+        console.log(artworks);
     </script>
     <script src="{% static 'streetart/js/map.js' %}"></script>
     <script src="{% static 'streetart/js/animations.js' %}"></script>
