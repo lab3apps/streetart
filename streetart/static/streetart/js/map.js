@@ -10,9 +10,8 @@ function initialize() {
             maxZoom: 18,
             minZoom: 12,
             mapTypeId: layer,
-            mapTypeControlOptions: {
-                mapTypeIds: [layer]
-            }
+            mapTypeControl: false,
+            streetViewControl: false,
         });
     map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
     addMarkers();
@@ -63,7 +62,19 @@ function addMarkers() {
             });
         }
     }
-    console.log(markers);
+}
+
+function focusOnMarker(index) {
+    if (artworks.hasOwnProperty(index)) {
+        var art = artworks[index];
+        var point = new google.maps.LatLng(art.lat, art.lng);
+        $('.image').attr("src", art.imageUrl);
+        $('.card-title').html(art.name);
+        $('.card-description').html(art.description);
+        loadCommentSection(index);
+        loadAltImages(index);
+        map.panTo(point);
+    }
 }
 
 function getNearestArtworks(index) {

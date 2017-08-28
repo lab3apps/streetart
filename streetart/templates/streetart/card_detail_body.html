@@ -1,8 +1,8 @@
 {% load comments static %}
 
 <div class="card-content">
-    {% render_comment_list for art %}
     {% render_comment_form for art %}
+    {% render_comment_list for art %}
 </div>
 
 <link rel="stylesheet" type="text/css" href="{% static 'fluent_comments/css/ajaxcomments.css' %}" />

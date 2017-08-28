@@ -3,27 +3,16 @@
  * 1: Large map panel with small card and gallery.
  * 2: Large left panel with expanded Card.
  */
-
 var viewState = 0;
 
-function focusOnMarker(index) {
-    if (artworks.hasOwnProperty(index)) {
-        var art = artworks[index];
-        var point = new google.maps.LatLng(art.lat, art.lng);
-        $('.image').attr("src", art.imageUrl);
-        $('.card-title').html(art.name);
-        $('.card-description').html(art.description);
-        moreInfoClicked(index);
-        map.panTo(point);
-    }
-}
-function moreInfoClicked(index) {
+/* Loads the comment section into html using ajax request with the index on clicked artwork */
+function loadCommentSection(index) {
     if (artworks.hasOwnProperty(index)) {
         $.ajax({
             url: '/imageselected/' + index + '/',
             type: 'GET',
             success: function(data) {
-                $('.comment-card').empty().append(data);
+                $('#comment-card').empty().append(data);
             },
             failure: function() {
                 console.log('Ajax failure: unable to GET "/imageselected/' + index + '/"');
@@ -32,16 +21,32 @@ function moreInfoClicked(index) {
     }
 }
 
+/* Places any alternative images into the card holder for the clicked artwork. Empties if no alt images */
+function loadAltImages(index) {
+    if (artworks.hasOwnProperty(index)) {
+        var art = artworks[index];
+        if(art.altImages.length >= 1) {
+            $('#images-card-holder').empty();
+            $('#images-card-holder').append('<div id="alt-images-card" class="card"></div>');
+            for(var key in art.altImages) {
+                    $('#alt-images-card').append('<div id="alt-image" class="col-md-3"><img class="img-responsive" src="' + art.altImages[key] + '"></div>');
+            }
+        } else {
+            $('#images-card-holder').empty();
+        }
+    }
+}
+
 function markerClicked() {
-    if(viewState == 0) {
+    if(viewState === 0) {
         expandMap();
     }
 }
 
 function backClicked() {
-    if(viewState == 1){
+    if(viewState === 1){
         colapseMap();
-    } else if (viewState == 2) {
+    } else if (viewState === 2) {
         colapseCard();
     }
 }
@@ -89,13 +94,19 @@ function colapseMap() {
 function expandCard() {
     focusLeft();
     $('#comment-card-holder').show();
+    $('#images-card-holder').show();
     $('.scroll-gallery').hide();
+    $('.left-panel').css('overflow-y', 'scroll');
+    $('.image').css('height', '30%');
     viewState = 2;
 }
 
 function colapseCard() {
     focusRight();
     $('#comment-card-holder').hide();
+    $('#images-card-holder').hide();
     $('.scroll-gallery').show();
+    $('.left-panel').css('overflow-y', 'hidden');
+    $('.image').css('height', '20%');
     viewState = 1;
 }

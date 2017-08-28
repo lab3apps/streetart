@@ -19,6 +19,7 @@ class ArtworkForm(admin.ModelAdmin):
         models.PointField: {"widget": GooglePointFieldWidget}
     }
     filter_horizontal = ('artists',)
+    list_display = ('title', 'validated', 'status')
     inlines = [ ImageAdmin ]
 
 

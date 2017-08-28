@@ -5,16 +5,24 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-    <div class="row">
+    <div class="row" xmlns="http://www.w3.org/1999/html">
+
+        <!-- This panel relates to the left half of the screen -->
         <div class="left-panel col-md-7 col-sm-12">
+
+            <!-- This is where the site logo goes -->
             <div class="title-block">
                 <img class="placeholder-image" src="/media/artwork/placeholder.png">
             </div>
+
+            <!-- This is where the back button will appear -->
             <div class="back-block">
                 <a class="back-button-block" onclick="backClicked()"><span class="glyphicon glyphicon-arrow-left back-span white"></span></a>
             </div>
+
+            <!-- This is what holds the main view card -->
             <div id="marker-card-holder" class="card-holder">
-                <div class="card marker-card">
+                <div class="card">
                     <div class="card-image">
                         <img class="image" src="">
                     </div>
@@ -27,11 +35,21 @@
                     </div>
                 </div>
             </div>
-            <div id="gallery-card-holder" class="card-holder">
+
+            <!-- This div holds the alternative images card if any are available -->
+            <div id="images-card-holder" class="card-holder">
+                <div id="alt-images-card" class="card">
+                </div>
             </div>
+
+            <!-- This card holder will display The comments section -->
             <div id="comment-card-holder" class="card-holder">
-                <div class="card comment-card"></div>
+                <div id="comment-card" class="card">
+                </div>
             </div>
+
+            <!-- This is the main scrolling gallery which shows images relating to those on the map
+                 Image div boxes added using django tempting. -->
             <div class="scroll-gallery">
                 {% for art in artworks %}
                         <div id="artbox-{{ art.id }}" class="gallery-item col-md-3">
@@ -46,7 +64,11 @@
                 {% endfor %}
             </div>
         </div>
+
+        <!-- This panel relates to the right side of the screen and holds the map -->
         <div class="right-panel col-md-5 col-sm-12">
+
+            <!-- This block shows the category selector and search bar -->
             <div class="filter-block col-md-8 col-md-offset-2">
                 <div class="col-md-6">
                     <select class="multiselect" multiple="multiple">
@@ -59,7 +81,11 @@
                     <input id="search-input" type="text" class="form-control" placeholder="Search for...">
                 </div>
             </div>
+
+            <!-- This div is where the map will be displayed -->
             <div id="map" class="map-container"></div>
+
+            <!-- This button directs the user to the subject new artwork form page -->
             <a class="map-add" href="{% url 'streetart:new_artwork' %}"><span class="glyphicon glyphicon-plus"></span></a>
         </div>
     </div>
@@ -84,9 +110,13 @@
                 imageUrl: '{{ art.image.url }}',
                 lat: '{{ art.location.y }}',
                 lng: '{{ art.location.x }}',
+                altImages : [
+                    {% for altimage in art.other_images.all %}
+                      '{{ altimage.image.url }}',
+                    {% endfor %}
+                ]
             };
         {% endfor %}
-
         console.log(artworks);
     </script>
     <script src="{% static 'streetart/js/map.js' %}"></script>
