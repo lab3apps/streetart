@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.gis.db import models
 from sorl.thumbnail import ImageField
+from django.template.defaultfilters import slugify
 # Create your models here.
 
 class Profile(models.Model):
@@ -74,6 +75,29 @@ class Artwork(models.Model):
     location = models.PointField(srid=4326)
     objects = models.GeoManager()
     validated = models.BooleanField(default=False)
+    slug = models.SlugField()
+    likes = models.ManyToManyField(User, related_name='likes')
+    checkins = models.ManyToManyField(User, related_name='checkins')
+
+    @property
+    def total_likes(self):
+        """
+        Likes for the artwork
+        :return: Integer: Likes for the artwork
+        """
+        return self.likes.count()
+
+    @property
+    def total_checkins(self):
+        """
+        Check ins for the artwork
+        :return: Integer: Check ins for the artwork
+        """
+        return self.checkins.count()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Artwork, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -82,6 +106,8 @@ class Artwork(models.Model):
 class AlternativeImage(models.Model):
     image = ImageField(upload_to='artwork/')
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='other_images')
+
+
 
 
 

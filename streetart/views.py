@@ -17,6 +17,11 @@ from rest_framework import generics
 from .forms import SignUpForm, ArtworkForm, SettingsForm
 from .serializers import ArtworkSerializer, ArtistSerializer
 from .models import Artwork, Artist, Status
+try:
+    from django.utils import simplejson as json
+except ImportError:
+    import json
+from django.views.decorators.http import require_POST
 
 def home(request):
     return render(request, 'streetart/home.html', {'artworks': Artwork.objects.all().order_by('pk')})
@@ -146,4 +151,48 @@ def get_closest_artworks(lat, long):
 
 def image_selected(request, index):
     return render(request, 'streetart/card_detail_body.html', {'art': Artwork.objects.get(pk=index)})
+
+@login_required
+@require_POST
+def like(request):
+    if request.method == 'POST':
+        user = request.user
+        slug = request.POST.get('slug', None)
+        artwork = get_object_or_404(Artwork, slug=slug)
+
+        if artwork.likes.filter(id=user.id).exists():
+            # user has already liked this artwork
+            # remove like/user
+            artwork.likes.remove(user)
+            message = 'You unliked this'
+        else:
+            # add a new like for a artwork
+            artwork.likes.add(user)
+            message = 'You liked this'
+
+    ctx = {'likes_count': artwork.total_likes, 'message': message}
+    # use mimetype instead of content_type if django < 5
+    return HttpResponse(json.dumps(ctx), content_type='application/json')
+
+@login_required
+@require_POST
+def checkIn(request):
+    if request.method == 'POST':
+        user = request.user
+        slug = request.POST.get('slug', None)
+        artwork = get_object_or_404(Artwork, slug=slug)
+
+        if artwork.checkins.filter(id=user.id).exists():
+            # user has already liked this artwork
+            # remove like/user
+            artwork.checkins.remove(user)
+            message = 'You unliked this'
+        else:
+            # add a new like for a artwork
+            artwork.checkins.add(user)
+            message = 'You liked this'
+
+    ctx = {'checkins_count': artwork.total_checkins, 'message': message}
+    # use mimetype instead of content_type if django < 5
+    return HttpResponse(json.dumps(ctx), content_type='application/json')
 
