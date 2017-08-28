@@ -69,7 +69,7 @@ class Artwork(models.Model):
     description = models.TextField(blank=True, null=True)
     image = ImageField(upload_to='artwork/')
     photo_credit = models.CharField(max_length=200)
-    city = models.CharField(max_length=200)
+    city = models.CharField(max_length=200, blank=True, null=True)
     link = models.URLField(blank=True, null=True)
     location = models.PointField(srid=4326)
     objects = models.GeoManager()
@@ -78,7 +78,10 @@ class Artwork(models.Model):
     def __str__(self):
         return self.title
 
-
+@python_2_unicode_compatible  # only if you need to support Python 2
+class AlternativeImage(models.Model):
+    image = ImageField(upload_to='artwork/')
+    artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='other_images')
 
 
 
