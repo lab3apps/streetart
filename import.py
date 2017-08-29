@@ -2,8 +2,11 @@ import chch_streetart.wsgi
 from streetart.models import Artwork, Artist, Artwork_Category, Crew, Status
 import json
 from django.core.files import File  # you need this somewhere
-import urllib
+import urllib.request
 import csv
+import os
+from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.geos import Point
 
 artists = {}
 artworks = {}
@@ -14,31 +17,36 @@ routes = {}
 
 def newArtwork(artistData,routeData,title,imageURL,photo_credit,city,locationLon,locationLat,
 	link,crew,category,status,decommission_date,commission_date,description):
+	if imageURL.strip() == '':
+		return
 
 	artwork = Artwork()
 
+	artwork.title = title
+	artwork.commission_date = commission_date
+	artwork.decommission_date = decommission_date
+	artwork.description = description[:49]
+	# Need to figure a way to pull the image from the url and to then put it into the database.
+	result = urllib.request.urlretrieve(imageURL)
+	artwork.photo_credit = photo_credit
+	print(locationLon, locationLat)
+	artwork.location = Point(float(locationLon), float(locationLat))
+	# y = locationLat
+	# artwork.location.x = locationLon
+	
+	artwork.city = city
+	artwork.link = link
+	artwork.image.save(
+    	os.path.basename(imageURL),
+    	File(open(result[0], 'rb'))
+    )
+	artwork.save()
 	for artist in getArtists(artistData):
 		artwork.artists.add(artist)
 	artwork.status = getStatus(status)
 	artwork.crew = getCrew(crew)
 	artwork.category = getCategory(category)
 	addRoutes(routeData)
-
-	artwork.title = title
-	artwork.commission_date = commission_date
-	artwork.decommission_date = decommission_date
-	artwork.description = description
-	# Need to figure a way to pull the image from the url and to then put it into the database.
-	result = urllib.urlretrieve(imageURL)
-	artwork.image.save(
-    	os.path.basename(imageURL),
-    	File(open(result[0]))
-    )
-	artwork.photo_credit = photo_credit
-	artwork.location.longitude = locationLon
-	artwork.location.latitude = locationLat
-	artwork.city = city
-	artwork.link = link
 	artwork.save()
 
 def getStatus(status):
@@ -57,6 +65,9 @@ def getCrew(crew):
 	else:
 		_crew = Crew()
 		_crew.name = crew
+		_crew.city = ''
+		_crew.is_disbanded = False
+		_crew.formed_date = '2017-01-01'
 		_crew.save()
 		crews[crew] = _crew
 		return _crew
@@ -90,12 +101,14 @@ def getArtists(artistData):
 				twitter = None
 				otherlinks = None
 			else:
-				artist_from = artistData['from']
 				website = artistData['website']
 				facebook = artistData['facebook']
 				insta = artistData['insta']
 				twitter = None
 				otherlinks = artistData['otherlinks']
+			artist_from = artistData['from']
+			if artist_from.strip() == '':
+				artist_from = 'Unknown'
 			artist_ = newArtist(name,website,facebook,insta,twitter,artist_from,otherlinks)
 			artists_.append(artist_)
 	return artists_
@@ -150,9 +163,14 @@ def csvimport():
 		status = row[headerdata.index('status')]
 		decommission_date = row[headerdata.index('Decommission_date')]
 		commission_date = row[headerdata.index('Commission_date')]
+		#if decommission_date.strip(' ') == '':
+		decommission_date = None
+		#if commission_date.strip(' ') == '':
+		commission_date = None
 		description = row[headerdata.index('descriptio')]
 		routeData = {'route':row[headerdata.index('Recommended_route')], 'position':row[headerdata.index('Order_in_route')]}
-		newArtwork()
+		newArtwork(artistData,routeData,title,imageURL,photo_credit,city,locationLon,locationLat,
+				link,crew,category,status,decommission_date,commission_date,description)
 
 def jsonimport():
 	with open('lab3_json_2017-08-16.geojson') as f:
