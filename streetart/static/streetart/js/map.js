@@ -71,9 +71,10 @@ function focusOnMarker(index) {
         $('.image').attr("src", art.imageUrl);
         $('.card-title').html(art.name);
         $('.card-description').html(art.description);
-        $('#like').attr('name', index);
+        $('.card-fullscreen-image').attr('href', art.imageUrl);
+        $('#like').attr('value', index);
         $('#likeCount').html(art.likes_count);
-        $('#checkin').attr('name', index);
+        $('#checkin').attr('value', index);
         $('#checkinCount').html(art.checkins_count);
         loadCommentSection(index);
         loadAltImages(index);

@@ -29,7 +29,7 @@ function loadAltImages(index) {
             $('#images-card-holder').empty();
             $('#images-card-holder').append('<div id="alt-images-card" class="card"></div>');
             for(var key in art.altImages) {
-                    $('#alt-images-card').append('<div id="alt-image" class="col-md-3"><img class="img-responsive" src="' + art.altImages[key] + '"></div>');
+                    $('#alt-images-card').append('<a id="alt-image" href="' +  art.altImages[key] + '" data-lightbox="altimages" class="col-xs-3"><img class="img-responsive" src="' + art.altImages[key] + '"></a>');
             }
         } else {
             $('#images-card-holder').empty();

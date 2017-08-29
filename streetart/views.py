@@ -26,7 +26,8 @@ except ImportError:
 from django.views.decorators.http import require_POST
 
 def home(request):
-    return render(request, 'streetart/home.html', {'artworks': Artwork.objects.all().order_by('pk')})
+    artwork = Artwork.objects.filter(validated=True).order_by('pk');
+    return render(request, 'streetart/home.html', {'artworks': artwork})
     #artworks = Artwork.objects.all().order_by('pk')
     #response = serializers.serialize("json", artworks)
     #return render(request, 'streetart/home.html', {'artworksJson': json_artworks, 'artworks': artworks})
@@ -192,11 +193,10 @@ def image_selected(request, index):
 
 @login_required
 @require_POST
-def like(request):
+def like(request, key):
     if request.method == 'POST':
         user = request.user
-        slug = request.POST.get('slug', None)
-        artwork = get_object_or_404(Artwork, slug=slug)
+        artwork = get_object_or_404(Artwork, pk=key)
 
         if artwork.likes.filter(id=user.id).exists():
             # user has already liked this artwork
@@ -214,11 +214,10 @@ def like(request):
 
 @login_required
 @require_POST
-def checkIn(request):
+def checkIn(request, key):
     if request.method == 'POST':
         user = request.user
-        slug = request.POST.get('slug', None)
-        artwork = get_object_or_404(Artwork, slug=slug)
+        artwork = get_object_or_404(Artwork, pk=key)
 
         if artwork.checkins.filter(id=user.id).exists():
             # user has already liked this artwork

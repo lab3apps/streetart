@@ -172,6 +172,14 @@ a {
     transition: height 0.5s ease;
 }
 
+.card .card-fullscreen-image {
+    position: absolute;
+    margin-top: 10px;
+    margin-right: 10px;
+    top: 0;
+    right: 0;
+}
+
 .card .card-content {
     padding: 16px;
     border-radius: 0 0 2px 2px;
@@ -202,7 +210,7 @@ a {
 
 #alt-images-card {
     white-space: nowrap;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 #alt-image {
