@@ -17,6 +17,10 @@ body {
     margin-bottom: 0;
 }
 
+a {
+    cursor: hand;
+}
+
 /* * * * * * * * * * * * * *
  * Split page related stuff
  * * * * * * * * * * * * * */

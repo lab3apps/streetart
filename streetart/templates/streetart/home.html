@@ -5,7 +5,7 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-    <div class="row" xmlns="http://www.w3.org/1999/html">
+    <div class="row">
 
         <!-- This panel relates to the left half of the screen -->
         <div class="left-panel col-md-7 col-sm-12">
@@ -31,7 +31,11 @@
                         <p class="card-description"></p>
                     </div>
                     <div class="card-action">
-                        <a onclick="expandCard()">EXPAND</a>
+                        <a id="expand" onclick="expandCard()">EXPAND</a>
+                        {% if user.is_authenticated %}
+                            <a id="like" onclick="like()" type="button" name="">LIKE <span id="likeCount"></span></a>
+                            <a id="checkin" onclick="checkin()" name="">CHECK IN <span id="checkinCount"></span></a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -110,6 +114,9 @@
                 imageUrl: '{{ art.image.url }}',
                 lat: '{{ art.location.y }}',
                 lng: '{{ art.location.x }}',
+                slug: '{{ art.slug }}',
+                likes_count: '{{ art.total_likes }}',
+                checkins_count: '{{ art.total_checkins }}',
                 altImages : [
                     {% for altimage in art.other_images.all %}
                       '{{ altimage.image.url }}',
@@ -117,6 +124,48 @@
                 ]
             };
         {% endfor %}
+
+        function like() {
+            var index = $('#like').attr('name');
+            if (artworks.hasOwnProperty(index)) {
+                var art = artworks[index];
+                $.ajax({
+                    type: "POST",
+                    url: "/like/",
+                    data: {'slug': art.slug, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                    dataType: "json",
+                    success: function (response) {
+                        alert(response.message);
+                        art.likes_count = response.likes_count;
+                        $('#likeCount').html(art.likes_count);
+                    },
+                    error: function (rs, e) {
+                        alert('Error: Unable to like artwork.');
+                    }
+                })
+            }
+        }
+
+        function checkin() {
+            var index = $('#checkin').attr('name');
+            if (artworks.hasOwnProperty(index)) {
+                var art = artworks[index];
+                $.ajax({
+                    type: "POST",
+                    url: "/checkin/",
+                    data: {'slug': art.slug, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                    dataType: "json",
+                    success: function (response) {
+                        alert(response.message);
+                        art.checkins_count = response.checkins_count;
+                        $('#checkinCount').html(art.checkins_count);
+                    },
+                    error: function (rs, e) {
+                        alert('Error: Unable to check in.');
+                    }
+                })
+            }
+        }
         console.log(artworks);
     </script>
     <script src="{% static 'streetart/js/map.js' %}"></script>

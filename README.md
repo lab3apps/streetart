@@ -83,6 +83,8 @@ Or to customise ip and port (default is http://127.0.0.1:8000/)
 
 Run these commands on the production server:
 
+`cd ~WTSAdmin/watchthisspace`
+
 `source env/bin/activate`
 
 `git pull`

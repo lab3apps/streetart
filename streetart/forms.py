@@ -2,7 +2,11 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm 
+<<<<<<< HEAD
 from .models import Artwork, Artist, ArtistExpressionOfInterest, WallSpace, MuralCommission
+=======
+from .models import Artwork, Artist, Profile
+>>>>>>> d20f89d6147a8db85d4242bd1f848d5cbc9b0de9
 from mapwidgets.widgets import GooglePointFieldWidget
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django_select2.forms import (
@@ -10,9 +14,8 @@ from django_select2.forms import (
 )
 from django.utils.encoding import force_text
 
-
 class SignUpForm(UserCreationForm):
-    birth_date = forms.DateField(required=False, help_text='Optional. Format: YYYY-MM-DD', widget=forms.TextInput(attrs={'class': 'form-control datepicker', 'name': 'birth_date'}))
+    birth_date = forms.DateField(required=False, help_text='Optional. Format: DD/MM/YYYY', widget=forms.DateInput(attrs={'class': 'form-control datepicker', 'name': 'birth_date', 'type': 'date'}))
     first_name = forms.CharField(max_length=30, required=False, help_text='Optional.', widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'first_name'}))
     last_name = forms.CharField(max_length=30, required=False, help_text='Optional.', widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'last_name'}))
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.', widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'email'}))
@@ -82,11 +85,15 @@ class ArtistExpressionOfInterestForm(forms.ModelForm):
         model = ArtistExpressionOfInterest
         fields = ('title', 'description', 'contact')
 
-
-class SettingsForm(forms.Form):
+class UserSettingsForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'birth_date')
+        fields = ('first_name', 'last_name', 'email')
 
 
+class ProfileSettingsForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ( 'bio', 'birth_date', 'location')

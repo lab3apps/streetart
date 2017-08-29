@@ -14,9 +14,11 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
 from rest_framework import generics
-from .forms import SignUpForm, ArtworkForm, SettingsForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm
+from .forms import SignUpForm, ArtworkForm, SettingsForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm
 from .serializers import ArtworkSerializer, ArtistSerializer
 from .models import Artwork, Artist, Status
+from django.db import transaction
+
 try:
     from django.utils import simplejson as json
 except ImportError:
@@ -30,36 +32,39 @@ def home(request):
     #return render(request, 'streetart/home.html', {'artworksJson': json_artworks, 'artworks': artworks})
 
 @login_required
+@transaction.atomic
 def settings(request):
     user = request.user
 
+    try:
+        twitter_login = user.social_auth.get(provider='twitter')
+    except UserSocialAuth.DoesNotExist:
+        twitter_login = None
+
+    try:
+        facebook_login = user.social_auth.get(provider='facebook')
+    except UserSocialAuth.DoesNotExist:
+        facebook_login = None
+
+    can_disconnect = (user.social_auth.count() > 1 or user.has_usable_password())
+
     if request.method == 'POST':
-        form = SettingsForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            user.refresh_from_db()  # load the profile instance created by the signal
-            user.profile.birth_date = form.cleaned_data.get('birth_date')
-            user.save()
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=user.username, password=raw_password)
-            login(request, user)
-            return redirect('/')
+        userForm = UserSettingsForm(request.POST, instance=request.user)
+        profileForm = ProfileSettingsForm(request.POST, instance=request.user.profile)
+        if userForm.is_valid() and profileForm.is_valid():
+            userForm.save()
+            profileForm.save()
+            messages.success(request, 'Your profile was successfully updated')
+            return redirect('/settings')
+        else:
+            messages.error(request, 'Please correct the error below')
     else:
-        form = SettingsForm()
-
-        try:
-            twitter_login = user.social_auth.get(provider='twitter')
-        except UserSocialAuth.DoesNotExist:
-            twitter_login = None
-
-        try:
-            facebook_login = user.social_auth.get(provider='facebook')
-        except UserSocialAuth.DoesNotExist:
-            facebook_login = None
-
-        can_disconnect = (user.social_auth.count() > 1 or user.has_usable_password())
+        userForm = UserSettingsForm(instance=request.user)
+        profileForm = ProfileSettingsForm(instance=request.user.profile)
 
     return render(request, 'registration/settings.html', {
+        'settingsForm': userForm,
+        'profileForm': profileForm,
         'twitter_login': twitter_login,
         'facebook_login': facebook_login,
         'can_disconnect': can_disconnect
@@ -219,11 +224,11 @@ def checkIn(request):
             # user has already liked this artwork
             # remove like/user
             artwork.checkins.remove(user)
-            message = 'You unliked this'
+            message = 'You have checked out'
         else:
             # add a new like for a artwork
             artwork.checkins.add(user)
-            message = 'You liked this'
+            message = 'You have checked in'
 
     ctx = {'checkins_count': artwork.total_checkins, 'message': message}
     # use mimetype instead of content_type if django < 5

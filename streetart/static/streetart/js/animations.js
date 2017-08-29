@@ -95,6 +95,7 @@ function expandCard() {
     focusLeft();
     $('#comment-card-holder').show();
     $('#images-card-holder').show();
+    $('#expand').hide();
     $('.scroll-gallery').hide();
     $('.left-panel').css('overflow-y', 'scroll');
     $('.image').css('height', '30%');
@@ -105,6 +106,7 @@ function colapseCard() {
     focusRight();
     $('#comment-card-holder').hide();
     $('#images-card-holder').hide();
+    $('#expand').show();
     $('.scroll-gallery').show();
     $('.left-panel').css('overflow-y', 'hidden');
     $('.image').css('height', '20%');

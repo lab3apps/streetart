@@ -71,6 +71,10 @@ function focusOnMarker(index) {
         $('.image').attr("src", art.imageUrl);
         $('.card-title').html(art.name);
         $('.card-description').html(art.description);
+        $('#like').attr('name', index);
+        $('#likeCount').html(art.likes_count);
+        $('#checkin').attr('name', index);
+        $('#checkinCount').html(art.checkins_count);
         loadCommentSection(index);
         loadAltImages(index);
         map.panTo(point);
