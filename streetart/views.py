@@ -14,7 +14,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
 from rest_framework import generics
-from .forms import SignUpForm, ArtworkForm, UserSettingsForm, ProfileSettingsForm
+from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm
 from .serializers import ArtworkSerializer, ArtistSerializer
 from .models import Artwork, Artist, Status
 from django.db import transaction
@@ -106,23 +106,56 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
-def new_artwork(request):
+def add_new(request):
     '''
     Handles displaying, validating and saving a artwork and related
     model artist
     '''
     artworkForm = ArtworkForm()
+    muralCommissionForm = MuralCommissionForm()
+    wallSpaceForm = WallSpaceForm()
+    artistExpressionOfInterestForm = ArtistExpressionOfInterestForm()
+
     if request.method == "POST":
-        artworkForm = ArtworkForm(request.POST, request.FILES)
-        if artworkForm.is_valid():
-            # do something with the form data here
-            artwork = artworkForm.save(commit=False)
-            artwork.author = request.user
-            artwork.published_date = timezone.now()
-            artwork.save()
-            artworkForm.save_m2m()
-            return redirect('/', pk=artwork.pk)
-    return render(request, "streetart/artwork_form.html", {'artworkForm': artworkForm,})
+        if 'new_artwork' in request.POST:
+            artworkForm = ArtworkForm(request.POST, request.FILES)
+            if artworkForm.is_valid():
+                # do something with the form data here
+                artwork = artworkForm.save(commit=False)
+                artwork.author = request.user
+                artwork.published_date = timezone.now()
+                artwork.save()
+                artworkForm.save_m2m()
+                return redirect('/', pk=artwork.pk)
+        elif 'new_muralcommission' in request.POST:
+            muralCommissionForm = MuralCommissionForm(request.POST)
+            if muralCommissionForm.is_valid():
+                # do something with the form data here
+                muralCommission = muralCommissionForm.save(commit=False)
+                muralCommission.author = request.user
+                muralCommission.published_date = timezone.now()
+                muralCommission.save()
+                return redirect('/')
+        elif 'new_wallspace' in request.POST:
+            wallSpaceForm = WallSpaceForm(request.POST)
+            if wallSpaceForm.is_valid():
+                # do something with the form data here
+                wallSpace = wallSpaceForm.save(commit=False)
+                wallSpace.author = request.user
+                wallSpace.published_date = timezone.now()
+                wallSpace.save()
+                return redirect('/')
+        elif 'new_artistexpressionofinterest' in request.POST:
+            artistExpressionOfInterestForm = ArtistExpressionOfInterestForm(request.POST)
+            if artistExpressionOfInterestForm.is_valid():
+                # do something with the form data here
+                artistExpressionOfInterest = artistExpressionOfInterestForm.save(commit=False)
+                artistExpressionOfInterest.author = request.user
+                artistExpressionOfInterest.published_date = timezone.now()
+                artistExpressionOfInterest.save()
+                return redirect('/')
+
+    return render(request, "streetart/add_new_form.html", {'artworkForm': artworkForm, 'muralCommissionForm': muralCommissionForm, 'wallSpaceForm': wallSpaceForm, 'artistExpressionOfInterestForm': artistExpressionOfInterestForm, 'url_name': request.resolver_match.url_name})
 
 
 class ArtworkCreateView(generics.ListCreateAPIView):
