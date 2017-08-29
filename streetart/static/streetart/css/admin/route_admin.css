@@ -1,0 +1,8 @@
+
+#change-history tbody td.drag, .change-list table tbody td.drag, .dashboard table tbody td.drag, .results table tbody td.drag, .tabular table tbody td.drag{
+	cursor: not-allowed !important;
+}
+
+#change-history tbody td.drag, .change-list table tbody .has_original td.drag, .dashboard table tbody td.drag, .results table tbody td.drag, .tabular table tbody .has_original td.drag{
+    cursor: move !important;
+}
