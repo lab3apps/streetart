@@ -76,8 +76,8 @@ class Artwork(models.Model):
     objects = models.GeoManager()
     validated = models.BooleanField(default=False)
     slug = models.SlugField()
-    likes = models.ManyToManyField(User, related_name='likes')
-    checkins = models.ManyToManyField(User, related_name='checkins')
+    likes = models.ManyToManyField(User, related_name='likes', blank=True)
+    checkins = models.ManyToManyField(User, related_name='checkins', blank=True)
 
     @property
     def total_likes(self):
@@ -96,7 +96,7 @@ class Artwork(models.Model):
         return self.checkins.count()
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.title)
         super(Artwork, self).save(*args, **kwargs)
 
     def __str__(self):

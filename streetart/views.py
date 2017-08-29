@@ -186,11 +186,11 @@ def checkIn(request):
             # user has already liked this artwork
             # remove like/user
             artwork.checkins.remove(user)
-            message = 'You unliked this'
+            message = 'You have checked out'
         else:
             # add a new like for a artwork
             artwork.checkins.add(user)
-            message = 'You liked this'
+            message = 'You have checked in'
 
     ctx = {'checkins_count': artwork.total_checkins, 'message': message}
     # use mimetype instead of content_type if django < 5
