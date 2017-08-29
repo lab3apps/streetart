@@ -29,7 +29,7 @@ function loadAltImages(index) {
             $('#images-card-holder').empty();
             $('#images-card-holder').append('<div id="alt-images-card" class="card"></div>');
             for(var key in art.altImages) {
-                    $('#alt-images-card').append('<div id="alt-image" class="col-md-3"><img class="img-responsive" src="' + art.altImages[key] + '"></div>');
+                    $('#alt-images-card').append('<a id="alt-image" href="' +  art.altImages[key] + '" data-lightbox="altimages" class="col-xs-3"><img class="img-responsive" src="' + art.altImages[key] + '"></a>');
             }
         } else {
             $('#images-card-holder').empty();
@@ -38,16 +38,20 @@ function loadAltImages(index) {
 }
 
 function markerClicked() {
-    if(viewState === 0) {
+    if(viewState === 0 || viewState === 1) {
         expandMap();
     }
+    // Important for mobile
+    $('.left-panel').removeClass('mobile-hide');
+    $('.right-panel').addClass('mobile-hide');
+
 }
 
 function backClicked() {
     if(viewState === 1){
-        colapseMap();
+        collapseMap();
     } else if (viewState === 2) {
-        colapseCard();
+        collapseCard();
     }
 }
 
@@ -78,16 +82,23 @@ function expandMap() {
     $('.back-block').show();
     $('.gallery-item').removeClass('col-md-3');
     $('.gallery-item').addClass('col-md-6');
+    // Important for mobile
+    $('.left-panel').removeClass('mobile-hide');
+    $('.right-panel').addClass('mobile-hide');
     viewState = 1;
 }
 
-function colapseMap() {
+function collapseMap() {
     focusLeft();
     $('#marker-card-holder').hide();
     $('.title-block').show();
     $('.back-block').hide();
     $('.gallery-item').removeClass('col-md-6');
     $('.gallery-item').addClass('col-md-3');
+    // Important for mobile
+    $('.left-panel').addClass('mobile-hide');
+    $('.right-panel').removeClass('mobile-hide');
+
     viewState = 0;
 }
 
@@ -102,7 +113,7 @@ function expandCard() {
     viewState = 2;
 }
 
-function colapseCard() {
+function collapseCard() {
     focusRight();
     $('#comment-card-holder').hide();
     $('#images-card-holder').hide();
@@ -112,3 +123,22 @@ function colapseCard() {
     $('.image').css('height', '20%');
     viewState = 1;
 }
+
+$('#navbar-map').click(function(e) {
+    e.preventDefault();
+    // Important for mobile
+    setTimeout(function() {
+        google.maps.event.trigger(map, "resize");
+    }, 300);
+    $('.left-panel').addClass('mobile-hide');
+    $('.right-panel').removeClass('mobile-hide');
+});
+
+$('#navbar-gallery').click(function(e) {
+    e.preventDefault();
+    // Important for mobile
+    $('.left-panel').removeClass('mobile-hide');
+    $('.right-panel').addClass('mobile-hide');
+});
+
+

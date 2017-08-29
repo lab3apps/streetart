@@ -71,15 +71,29 @@ function focusOnMarker(index) {
         $('.image').attr("src", art.imageUrl);
         $('.card-title').html(art.name);
         $('.card-description').html(art.description);
-        $('#like').attr('name', index);
+        $('.card-fullscreen-image').attr('href', art.imageUrl);
+        $('#like').attr('value', index);
         $('#likeCount').html(art.likes_count);
-        $('#checkin').attr('name', index);
+        $('#checkin').attr('value', index);
         $('#checkinCount').html(art.checkins_count);
+        $('#show_on_map').data('index', index);
         loadCommentSection(index);
         loadAltImages(index);
         map.panTo(point);
     }
 }
+
+$('#show_on_map').click(function(e) {
+    $('.left-panel').addClass('mobile-hide');
+    $('.right-panel').removeClass('mobile-hide');
+    google.maps.event.trigger(map, "resize");
+    var marker_index = $(this).data('index');
+    if (artworks.hasOwnProperty(marker_index)) {
+        var art = artworks[marker_index];
+        var point = new google.maps.LatLng(art.lat, art.lng);
+        map.panTo(point);
+    }
+});
 
 function getNearestArtworks(index) {
     console.log("Ajax - Artwork requested. PK: " + index);

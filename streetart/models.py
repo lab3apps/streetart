@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from django.contrib.gis.db import models
 from sorl.thumbnail import ImageField
 from django.template.defaultfilters import slugify
+
 # Create your models here.
 
 class Profile(models.Model):
@@ -131,8 +132,21 @@ class ArtistExpressionOfInterest(models.Model):
     def __str__(self):
         return self.title
 
+@python_2_unicode_compatible  # only if you need to support Python 2
+class Route(models.Model):
+    title = models.CharField(max_length=200)
+    def __str__(self):
+        return self.title
 
-
+@python_2_unicode_compatible  # only if you need to support Python 2
+class RoutePoint(models.Model):
+    route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name='route_points')
+    artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='route_points')
+    class Meta:
+        ordering = ('route_order',)
+    route_order = models.PositiveIntegerField(default=0, blank=False, null=False)
+    def __str__(self):
+        return "" ##This is needed for the use of drag and drop sorting plugin in admin.
 
 
 

@@ -15,8 +15,8 @@ urlpatterns = [
 	url(r'^imageselected/([0-9]+)/$', views.image_selected, name='image_selected'),
     url(r'^artworks/$', ArtworkCreateView.as_view(), name='create_artwork'),
     url(r'^artists/$', ArtistCreateView.as_view(), name='create_artist'),
-    url(r'^like/$', views.like, name='like'),
-	url(r'^checkin/$', views.checkIn, name='checkIn'),
+    url(r'^like/([0-9]+)/$', views.like, name='like'),
+	url(r'^checkin/([0-9]+)/$', views.checkIn, name='checkIn'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
