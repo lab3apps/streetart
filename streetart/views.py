@@ -14,7 +14,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
 from rest_framework import generics
-from .forms import SignUpForm, ArtworkForm, SettingsForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm
+from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm
 from .serializers import ArtworkSerializer, ArtistSerializer
 from .models import Artwork, Artist, Status
 from django.db import transaction
