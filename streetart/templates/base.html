@@ -51,17 +51,28 @@
                             <ul class="nav navbar-nav navbar-left">
                               <!--Below is where you put the rest of the links to the pages you've created. Please reference your own models
                                in Django.-->
-                                <li>
-                                    <a href="{% url 'streetart:home' %}">Blog</a>
+                                <li class="visible-xs-block visible-sm-block">
+                                    <a id="navbar-map" href="{% url 'streetart:home' %}">Map</a>
                                 </li>
-                                <li>
-                                    <a href="{% url 'streetart:home' %}">Map</a>
+                                <li class="visible-xs-block visible-sm-block">
+                                    <a id="navbar-gallery" href="{% url 'streetart:home' %}">Gallery</a>
+                                </li>
+                                <li class="visible-xs-block">
+                                    <a href="/settings">Settings</a>
+                                </li>
+                                <li class="divider visible-xs-block"></li>
+                                <li class="visible-xs-block">
+                                    {% if user.is_authenticated %}
+                                        <a href="/logout">Logout</a>
+                                    {% else %}
+                                        <a href="/login">Login</a>
+                                    {% endif %}
                                 </li>
                             </ul>
                         </div>
                     </div>
                    
-                    <div class="menu-dropdown col-xs-12 col-sm-4" id="bs-example-navbar-collapse-1">
+                    <div class="menu-dropdown hidden-xs col-sm-4" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
                             {% if user.is_authenticated %}
                                 <li class="dropdown">

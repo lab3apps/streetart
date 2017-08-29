@@ -38,16 +38,20 @@ function loadAltImages(index) {
 }
 
 function markerClicked() {
-    if(viewState === 0) {
+    if(viewState === 0 || viewState === 1) {
         expandMap();
     }
+    // Important for mobile
+    $('.left-panel').removeClass('mobile-hide');
+    $('.right-panel').addClass('mobile-hide');
+
 }
 
 function backClicked() {
     if(viewState === 1){
-        colapseMap();
+        collapseMap();
     } else if (viewState === 2) {
-        colapseCard();
+        collapseCard();
     }
 }
 
@@ -78,16 +82,23 @@ function expandMap() {
     $('.back-block').show();
     $('.gallery-item').removeClass('col-md-3');
     $('.gallery-item').addClass('col-md-6');
+    // Important for mobile
+    $('.left-panel').removeClass('mobile-hide');
+    $('.right-panel').addClass('mobile-hide');
     viewState = 1;
 }
 
-function colapseMap() {
+function collapseMap() {
     focusLeft();
     $('#marker-card-holder').hide();
     $('.title-block').show();
     $('.back-block').hide();
     $('.gallery-item').removeClass('col-md-6');
     $('.gallery-item').addClass('col-md-3');
+    // Important for mobile
+    $('.left-panel').addClass('mobile-hide');
+    $('.right-panel').removeClass('mobile-hide');
+
     viewState = 0;
 }
 
@@ -102,7 +113,7 @@ function expandCard() {
     viewState = 2;
 }
 
-function colapseCard() {
+function collapseCard() {
     focusRight();
     $('#comment-card-holder').hide();
     $('#images-card-holder').hide();
@@ -112,3 +123,22 @@ function colapseCard() {
     $('.image').css('height', '20%');
     viewState = 1;
 }
+
+$('#navbar-map').click(function(e) {
+    e.preventDefault();
+    // Important for mobile
+    setTimeout(function() {
+        google.maps.event.trigger(map, "resize");
+    }, 300);
+    $('.left-panel').addClass('mobile-hide');
+    $('.right-panel').removeClass('mobile-hide');
+});
+
+$('#navbar-gallery').click(function(e) {
+    e.preventDefault();
+    // Important for mobile
+    $('.left-panel').removeClass('mobile-hide');
+    $('.right-panel').addClass('mobile-hide');
+});
+
+

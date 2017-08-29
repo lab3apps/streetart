@@ -1,9 +1,38 @@
+/*
+*
+*   StreetArt by Lab3 CSS
+*   
+*   Structure:
+*   
+*   - Elements
+*   - Colors
+*   - Navbar
+*   - Split Page
+*       - Right Panel
+*       - Left Panel
+*   - Cards
+*   - Alt Images
+*   - Gallery
+*   
+*   
+*/
+
+
+/*** Element ***/
+
 body {
     margin: 0;
     padding: 0;
     height: 100%;
     overflow:hidden;
 }
+
+a {
+    cursor: hand;
+}
+
+
+/*** Navbar ***/
 
 #navbar_whole{
 	position: relative;
@@ -17,25 +46,18 @@ body {
     margin-bottom: 0;
 }
 
-a {
-    cursor: hand;
+/*** Colours ***/
+
+.white {
+    color: white;
 }
 
-/* * * * * * * * * * * * * *
- * Split page related stuff
- * * * * * * * * * * * * * */
+/*** Split page ***/
 
 .container {
     marign: 0 auto;
     width: 100%;
     height: calc(100% - 50px);
-}
-
-/* This corrects the container height for mobile devices */
-@media screen and (max-width: 768px) {
-    .container {
-        height: calc(100% - 105px);
-    }
 }
 
 .row {
@@ -50,9 +72,7 @@ a {
     transition: width 0.5s ease;
 }
 
-/* * * * * * * * * * * * * *
- * Right Panel related stuff
- * * * * * * * * * * * * * */
+/**** Right Panel ****/
 
 .right-panel {
     padding: 0;
@@ -76,9 +96,7 @@ a {
     z-index: 1;
 }
 
-/* * * * * * * * * * * * * *
- * Left panel related stuff
- * * * * * * * * * * * * * */
+/**** Left Panel ****/
 
 .left-panel {
     padding: 0;
@@ -112,17 +130,22 @@ a {
     display: inline-block;
 }
 
-.white {
-    color: white;
-}
-
 .placeholder-image {
     height: 15%;
     display: block;
     margin: auto;
 }
 
-/* Card related properties */
+
+
+/* This corrects the container height for mobile devices */
+@media screen and (max-width: 991px) {
+    .mobile-hide {
+        display: none;
+    }
+}
+
+/*** Cards ***/
 
 .card-holder {
     display: none;
@@ -198,7 +221,7 @@ a {
     text-decoration: none;
 }
 
-/* Alt image card related properties */
+/*** Alt images ***/
 
 #alt-images-card {
     white-space: nowrap;
@@ -211,7 +234,7 @@ a {
     float: none;
 }
 
-/* Gallery properties */
+/*** Gallery ***/
 
 .scroll-gallery {
     width: 100%;
