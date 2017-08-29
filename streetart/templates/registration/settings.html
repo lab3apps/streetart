@@ -2,12 +2,45 @@
 
 {% block content %}
   <h2>Settings</h2>
-
-  <div class="form-group">
-    <label></label>
-    <input type="" name="">
-  </div>
-  
+  <form method="POST" class="settings-form" enctype="multipart/form-data">{% csrf_token %}
+    <div class="form-group">
+      <label class="control-label" for="id_{{ settingsForm.first_name.name }}">First Name</label>
+      <input class="form-control" type="text" name="{{ settingsForm.first_name.name }}" id="id_{{ settingsForm.first_name.name }}" value="{{ settingsForm.first_name.value }}">
+      <p class="help-text">{{ settingsForm.first_name.help_text }} </p>
+      {{ settingsForm.first_name.errors }}
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="id_{{ settingsForm.last_name.name }}">Last Name</label>
+      <input class="form-control" type="text" name="{{ settingsForm.last_name.name }}" id="id_{{ settingsForm.last_name.name }}" value="{{ settingsForm.last_name.value }}">
+      <p class="help-text">{{ settingsForm.last_name.help_text }} </p>
+      {{ settingsForm.last_name.errors }}
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="id_{{ settingsForm.email.name }}">Email</label>
+      <input class="form-control" type="email" name="{{ settingsForm.email.name }}" id="id_{{ settingsForm.email.name }}" value="{{ settingsForm.email.value }}">
+      <p class="help-text">{{ settingsForm.email.help_text }} </p>
+      {{ settingsForm.email.errors }}
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="id_{{ profileForm.bio.name }}">Bio</label>
+      <input class="form-control" type="text" name="{{ profileForm.bio.name }}" id="id_{{ profileForm.bio.name }}" value="{{ profileForm.bio.value }}">
+      <p class="help-text">{{ profileForm.bio.help_text }} </p>
+      {{ profileForm.bio.errors }}
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="id_{{ profileForm.birth_date.name }}">Date of Birth</label>
+      <input class="form-control" type="date" name="{{ profileForm.birth_date.name }}" id="id_{{ profileForm.birth_date.name }}" value="{{ profileForm.birth_date.value | date:"Y-m-d" }}">
+      <p class="help-text">{{ profileForm.birth_date.help_text }} </p>
+      {{ profileForm.birth_date.errors }}
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="id_{{ profileForm.location.name }}">Location</label>
+      <input class="form-control" type="text" name="{{ profileForm.location.name }}" id="id_{{ profileForm.location.name }}" value="{{ profileForm.location.value }}">
+      <p class="help-text">{{ profileForm.location.help_text }} </p>
+      {{ profileForm.location.errors }}
+    </div>
+    <input class="btn btn-success btn-sm" type="submit" value="Save" />
+  </form>
   <h3>Twitter</h3>
   {% if twitter_login %}
     <p>Connected as <a href="https://twitter.com/{{ twitter_login.extra_data.access_token.screen_name }}/" target="_blank">@{{ twitter_login.extra_data.access_token.screen_name }}</a></p>
