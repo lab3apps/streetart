@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm 
-from .models import Artwork, Artist
+from .models import Artwork, Artist, ArtistExpressionOfInterest, WallSpace, MuralCommission
 from mapwidgets.widgets import GooglePointFieldWidget
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django_select2.forms import (
@@ -52,8 +52,6 @@ def is_int(s):
     except ValueError:
         return False
 
-
-
 class ArtworkForm(forms.ModelForm):
     class Meta:
         model = Artwork
@@ -69,8 +67,26 @@ class ArtworkForm(forms.ModelForm):
             ),
         }
 
+class MuralCommissionForm(forms.ModelForm):
+    class Meta:
+        model = MuralCommission
+        fields = ('title', 'description', 'contact')
+
+class WallSpaceForm(forms.ModelForm):
+    class Meta:
+        model = WallSpace
+        fields = ('title', 'description', 'contact')
+
+class ArtistExpressionOfInterestForm(forms.ModelForm):
+    class Meta:
+        model = ArtistExpressionOfInterest
+        fields = ('title', 'description', 'contact')
+
+
 class SettingsForm(forms.Form):
 
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'birth_date')
+
+

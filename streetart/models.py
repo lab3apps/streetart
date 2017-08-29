@@ -107,8 +107,29 @@ class AlternativeImage(models.Model):
     image = ImageField(upload_to='artwork/')
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='other_images')
 
+@python_2_unicode_compatible  # only if you need to support Python 2
+class MuralCommission(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    contact = models.TextField()
+    def __str__(self):
+        return self.title
 
+@python_2_unicode_compatible  # only if you need to support Python 2
+class WallSpace(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    contact = models.TextField()
+    def __str__(self):
+        return self.title
 
+@python_2_unicode_compatible  # only if you need to support Python 2
+class ArtistExpressionOfInterest(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    contact = models.TextField()
+    def __str__(self):
+        return self.title
 
 
 

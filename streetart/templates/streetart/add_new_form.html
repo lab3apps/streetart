@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+	<script src="{% static 'bootstrap/js/jquery-3.2.1.min.js' %}"></script>
+	<div class="form-group">
+	  <label for="comment">What do you want to update?</label>
+	  <select class="form-control" id="form_select">
+	    <option value="newArtworkDiv" {% if url_name == "new_artwork" %}selected{% endif %}>Add a New Artwork</option>
+	    <option value="newMuralDiv"  {% if url_name == "new_muralcommission" %}selected{% endif %}>Commission a mural</option>
+	    <option value="newWallSpace"  {% if url_name == "new_wallspace" %}selected{% endif %}>Offer your wall space</option>
+	    <option value="newArtistEOIDiv"  {% if url_name == "new_artistexpressionofinterest" %}selected{% endif %}>Express interest as an artist</option>
+	  </select>
+	</div>
+
+	<div id="newArtworkDiv" {% if url_name != "new_artwork" %}style="display: none;"{% endif %}>
+		<h1>New Artwork</h1>
+	    <form method="POST" class="artwork-form" enctype="multipart/form-data">{% csrf_token %}
+	    	{{ artworkForm.media }}
+	    	<p class="bs-component">
+	            <div class="form-group">
+	            	{{ artworkForm.title.errors }}
+					<label class="control-label" for="id_{{ artworkForm.title.name }}">{{ artworkForm.title.label }}</label>
+					<input type="text" class="form-control"
+					name="{{ artworkForm.title.name }}"
+					id="id_{{ artworkForm.title.name }}" > 
+					<p class="help-text">{{ artworkForm.title.help_text }} </p>
+				</div>
+				<div class="form-group">
+					{{ artworkForm.artists.errors }}
+					<label class="control-label" for="id_{{ artworkForm.artists.name }}">Artist(s)</label>
+	                {{ artworkForm.artists }}
+				</div>
+				<div class="form-group">
+	            	{{ artworkForm.image.errors }}
+					<label class="control-label" for="id_{{ artworkForm.image.name }}">{{ artworkForm.image.label }}</label>
+					{{ artworkForm.image }}
+					<p class="help-text">{{ artworkForm.image.help_text }} </p>
+				</div>
+				<div class="form-group">
+	            	{{ artworkForm.photo_credit.errors }}
+					<label class="control-label" for="id_{{ artworkForm.photo_credit.name }}">{{ artworkForm.photo_credit.label }}</label>
+					<input type="text" class="form-control"
+					name="{{ artworkForm.photo_credit.name }}"
+					id="id_{{ artworkForm.photo_credit.name }}" > 
+					<p class="help-text">{{ artworkForm.photo_credit.help_text }} </p>
+				</div>
+	            <div>
+	            	{{ artworkForm.location.errors }}
+	                {{ artworkForm.location.label_tag }}
+	                {{ artworkForm.location }}
+	            </div>
+	        </p>
+	        <p class="bs-component">
+	            <center>
+	                <input class="btn btn-success btn-sm" type="submit" value="Save" name="new_artwork"/>
+	            </center>
+	        </p>
+	    </form>
+	</div>
+
+	<div id="newMuralDiv" {% if url_name != "new_muralcommission" %}style="display: none;"{% endif %}>
+		<h1>Commission a New Mural</h1>
+	    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
+	    	{{ muralCommissionForm.media }}
+	    	<p class="bs-component">
+	            <div class="form-group">
+	            	{{ muralCommissionForm.title.errors }}
+					<label class="control-label" for="id_{{ muralCommissionForm.title.name }}">{{ muralCommissionForm.title.label }}</label>
+					<input type="text" class="form-control"
+					name="{{ muralCommissionForm.title.name }}"
+					id="id_{{ muralCommissionForm.title.name }}" > 
+					<p class="help-text">{{ muralCommissionForm.title.help_text }} </p>
+				</div>
+				<div class="form-group">
+	            	{{ muralCommissionForm.description.errors }}
+					<label class="control-label" for="id_{{ muralCommissionForm.description.name }}">{{ muralCommissionForm.description.label }}</label>
+					<textarea class="form-control"
+					name="{{ muralCommissionForm.description.name }}"
+					id="id_{{ muralCommissionForm.description.name }}"></textarea>
+					<p class="help-text">{{ muralCommissionForm.description.help_text }} </p>
+				</div>
+				<div class="form-group">
+	            	{{ muralCommissionForm.contact.errors }}
+					<label class="control-label" for="id_{{ muralCommissionForm.contact.name }}">{{ muralCommissionForm.contact.label }}</label>
+					<textarea class="form-control"
+					name="{{ muralCommissionForm.contact.name }}"
+					id="id_{{ muralCommissionForm.contact.name }}"></textarea>
+					<p class="help-text">{{ muralCommissionForm.contact.help_text }} </p>
+				</div>
+	        </p>
+	        <p class="bs-component">
+	            <center>
+	                <input class="btn btn-success btn-sm" type="submit" value="Save" name="new_muralcommission"/>
+	            </center>
+	        </p>
+	    </form>
+	</div>
+	<div id="newWallSpace" {% if url_name != "new_wallspace" %}style="display: none;"{% endif %}>
+		<h1>Offer Your Wall Space</h1>
+	    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
+	    	{{ wallSpaceForm.media }}
+	    	<p class="bs-component">
+	            <div class="form-group">
+	            	{{ wallSpaceForm.title.errors }}
+					<label class="control-label" for="id_{{ wallSpaceForm.title.name }}">{{ wallSpaceForm.title.label }}</label>
+					<input type="text" class="form-control"
+					name="{{ wallSpaceForm.title.name }}"
+					id="id_{{ wallSpaceForm.title.name }}" > 
+					<p class="help-text">{{ wallSpaceForm.title.help_text }} </p>
+				</div>
+				<div class="form-group">
+	            	{{ wallSpaceForm.description.errors }}
+					<label class="control-label" for="id_{{ wallSpaceForm.description.name }}">{{ wallSpaceForm.description.label }}</label>
+					<textarea class="form-control"
+					name="{{ wallSpaceForm.description.name }}"
+					id="id_{{ wallSpaceForm.description.name }}"></textarea>
+					<p class="help-text">{{ wallSpaceForm.description.help_text }} </p>
+				</div>
+				<div class="form-group">
+	            	{{ wallSpaceForm.contact.errors }}
+					<label class="control-label" for="id_{{ wallSpaceForm.contact.name }}">{{ wallSpaceForm.contact.label }}</label>
+					<textarea class="form-control"
+					name="{{ wallSpaceForm.contact.name }}"
+					id="id_{{ wallSpaceForm.contact.name }}"></textarea>
+					<p class="help-text">{{ wallSpaceForm.contact.help_text }} </p>
+				</div>
+	        </p>
+	        <p class="bs-component">
+	            <center>
+	                <input class="btn btn-success btn-sm" type="submit" value="Save" name="new_wallspace"/>
+	            </center>
+	        </p>
+	    </form>
+	</div>
+	<div id="newArtistEOIDiv" {% if url_name != "new_artistexpressionofinterest" %}style="display: none;"{% endif %}>
+		<h1>Express Your Interest as an Artist</h1>
+	    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
+	    	{{ artistExpressionOfInterestForm.media }}
+	    	<p class="bs-component">
+	            <div class="form-group">
+	            	{{ artistExpressionOfInterestForm.title.errors }}
+					<label class="control-label" for="id_{{ artistExpressionOfInterestForm.title.name }}">{{ artistExpressionOfInterestForm.title.label }}</label>
+					<input type="text" class="form-control"
+					name="{{ artistExpressionOfInterestForm.title.name }}"
+					id="id_{{ artistExpressionOfInterestForm.title.name }}" > 
+					<p class="help-text">{{ artistExpressionOfInterestForm.title.help_text }} </p>
+				</div>
+				<div class="form-group">
+	            	{{ artistExpressionOfInterestForm.description.errors }}
+					<label class="control-label" for="id_{{ artistExpressionOfInterestForm.description.name }}">{{ artistExpressionOfInterestForm.description.label }}</label>
+					<textarea class="form-control"
+					name="{{ artistExpressionOfInterestForm.description.name }}"
+					id="id_{{ artistExpressionOfInterestForm.description.name }}"></textarea>
+					<p class="help-text">{{ artistExpressionOfInterestForm.description.help_text }} </p>
+				</div>
+				<div class="form-group">
+	            	{{ artistExpressionOfInterestForm.contact.errors }}
+					<label class="control-label" for="id_{{ artistExpressionOfInterestForm.contact.name }}">{{ artistExpressionOfInterestForm.contact.label }}</label>
+					<textarea class="form-control"
+					name="{{ artistExpressionOfInterestForm.contact.name }}"
+					id="id_{{ artistExpressionOfInterestForm.contact.name }}"></textarea>
+					<p class="help-text">{{ artistExpressionOfInterestForm.contact.help_text }} </p>
+				</div>
+	        </p>
+	        <p class="bs-component">
+	            <center>
+	                <input class="btn btn-success btn-sm" type="submit" value="Save" name="new_artistexpressionofinterest"/>
+	            </center>
+	        </p>
+	    </form>
+	</div>
+
+	<script>
+	$( "#form_select" )
+	  .change(function () {
+	    $( "#form_select option:selected" ).each(function() {
+	      $('#'+$( this ).val()).css({ display: "block" });
+	    });
+	    $('#form_select option:not(:selected)').each(function() {
+	    	$('#'+$( this ).val()).css({ display: "none" });
+	    });
+	  })
+	  .change();
+	</script>
+    
+{% endblock %}
+
