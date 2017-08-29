@@ -124,6 +124,22 @@ function collapseCard() {
     viewState = 1;
 }
 
+function hideLeftPanel() {
+    $('.left-panel').addClass('no-width');
+    $('.right-panel').addClass('full-width');
+}
+
+function showLeftPanel() {
+    $('.left-panel').removeClass('no-width');
+    $('.right-panel').removeClass('full-width');
+}
+
+function resizeMap() {
+    setTimeout(function() {
+        google.maps.event.trigger(map, "resize");
+    }, 300);
+}
+
 $('#navbar-map').click(function(e) {
     e.preventDefault();
     // Important for mobile
@@ -139,6 +155,16 @@ $('#navbar-gallery').click(function(e) {
     // Important for mobile
     $('.left-panel').removeClass('mobile-hide');
     $('.right-panel').addClass('mobile-hide');
+
 });
 
-
+$('#left-panel-toggle').click(function(e) {
+    if ($('.left-panel').hasClass('no-width')) {
+        showLeftPanel();
+        $('#left-panel-toggle').removeClass('rotate-180');
+    } else {
+        hideLeftPanel();
+        $('#left-panel-toggle').addClass('rotate-180');
+    }
+    resizeMap();
+});
