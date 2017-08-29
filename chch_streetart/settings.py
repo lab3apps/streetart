@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'fluent_comments',
     'crispy_forms',
     'django_comments',
+    'adminsortable2',
 ]
 
 MIDDLEWARE = [
@@ -106,6 +107,7 @@ TEMPLATES = [
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
                 'streetart.context_processors.global_settings',
+                'django.template.context_processors.static',
             ],
         },
     },
