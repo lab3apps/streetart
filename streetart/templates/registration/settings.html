@@ -4,6 +4,10 @@
   <h2>Settings</h2>
   <form method="POST" class="settings-form" enctype="multipart/form-data">{% csrf_token %}
     <div class="form-group">
+      <label class="control-label" for="id_{{ user.username }}">Username</label>
+      <input class="form-control" type="text" id="id_{{ user.username }}" value="{{ user.username }}" disabled>
+    </div>
+    <div class="form-group">
       <label class="control-label" for="id_{{ settingsForm.first_name.name }}">First Name</label>
       <input class="form-control" type="text" name="{{ settingsForm.first_name.name }}" id="id_{{ settingsForm.first_name.name }}" value="{{ settingsForm.first_name.value }}">
       <p class="help-text">{{ settingsForm.first_name.help_text }} </p>

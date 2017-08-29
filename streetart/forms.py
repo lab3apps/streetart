@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm 
-from .models import Artwork, Artist, ArtistExpressionOfInterest, WallSpace, MuralCommission, Profile
+from django.contrib.auth.forms import AuthenticationForm
+from .models import Artwork, Artist, Profile, ArtistExpressionOfInterest, WallSpace, MuralCommission
 from mapwidgets.widgets import GooglePointFieldWidget
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django_select2.forms import (
