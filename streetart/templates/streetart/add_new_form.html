@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+<div class="add-new-content">
 	<script src="{% static 'bootstrap/js/jquery-3.2.1.min.js' %}"></script>
 	<div class="form-group">
 	  <label for="comment">What do you want to update?</label>
@@ -60,116 +61,13 @@
 	</div>
 
 	<div id="newMuralDiv" {% if url_name != "new_muralcommission" %}style="display: none;"{% endif %}>
-		<h1>Commission a New Mural</h1>
-	    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
-	    	{{ muralCommissionForm.media }}
-	    	<p class="bs-component">
-	            <div class="form-group">
-	            	{{ muralCommissionForm.title.errors }}
-					<label class="control-label" for="id_{{ muralCommissionForm.title.name }}">{{ muralCommissionForm.title.label }}</label>
-					<input type="text" class="form-control"
-					name="{{ muralCommissionForm.title.name }}"
-					id="id_{{ muralCommissionForm.title.name }}" > 
-					<p class="help-text">{{ muralCommissionForm.title.help_text }} </p>
-				</div>
-				<div class="form-group">
-	            	{{ muralCommissionForm.description.errors }}
-					<label class="control-label" for="id_{{ muralCommissionForm.description.name }}">{{ muralCommissionForm.description.label }}</label>
-					<textarea class="form-control"
-					name="{{ muralCommissionForm.description.name }}"
-					id="id_{{ muralCommissionForm.description.name }}"></textarea>
-					<p class="help-text">{{ muralCommissionForm.description.help_text }} </p>
-				</div>
-				<div class="form-group">
-	            	{{ muralCommissionForm.contact.errors }}
-					<label class="control-label" for="id_{{ muralCommissionForm.contact.name }}">{{ muralCommissionForm.contact.label }}</label>
-					<textarea class="form-control"
-					name="{{ muralCommissionForm.contact.name }}"
-					id="id_{{ muralCommissionForm.contact.name }}"></textarea>
-					<p class="help-text">{{ muralCommissionForm.contact.help_text }} </p>
-				</div>
-	        </p>
-	        <p class="bs-component">
-	            <center>
-	                <input class="btn btn-success btn-sm" type="submit" value="Save" name="new_muralcommission"/>
-	            </center>
-	        </p>
-	    </form>
+		<script type="text/javascript" src="https://form.jotform.co/jsform/72407793035862"></script>
 	</div>
 	<div id="newWallSpace" {% if url_name != "new_wallspace" %}style="display: none;"{% endif %}>
-	<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf4NLSPd6oEB6j8EUPepb8T44qhUFqi7lK7liBS_4hgA4w6lw/viewform?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
-		<!--h1>Offer Your Wall Space</h1>
-	    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
-	    	{{ wallSpaceForm.media }}
-	    	<p class="bs-component">
-	            <div class="form-group">
-	            	{{ wallSpaceForm.title.errors }}
-					<label class="control-label" for="id_{{ wallSpaceForm.title.name }}">{{ wallSpaceForm.title.label }}</label>
-					<input type="text" class="form-control"
-					name="{{ wallSpaceForm.title.name }}"
-					id="id_{{ wallSpaceForm.title.name }}" > 
-					<p class="help-text">{{ wallSpaceForm.title.help_text }} </p>
-				</div>
-				<div class="form-group">
-	            	{{ wallSpaceForm.description.errors }}
-					<label class="control-label" for="id_{{ wallSpaceForm.description.name }}">{{ wallSpaceForm.description.label }}</label>
-					<textarea class="form-control"
-					name="{{ wallSpaceForm.description.name }}"
-					id="id_{{ wallSpaceForm.description.name }}"></textarea>
-					<p class="help-text">{{ wallSpaceForm.description.help_text }} </p>
-				</div>
-				<div class="form-group">
-	            	{{ wallSpaceForm.contact.errors }}
-					<label class="control-label" for="id_{{ wallSpaceForm.contact.name }}">{{ wallSpaceForm.contact.label }}</label>
-					<textarea class="form-control"
-					name="{{ wallSpaceForm.contact.name }}"
-					id="id_{{ wallSpaceForm.contact.name }}"></textarea>
-					<p class="help-text">{{ wallSpaceForm.contact.help_text }} </p>
-				</div>
-	        </p>
-	        <p class="bs-component">
-	            <center>
-	                <input class="btn btn-success btn-sm" type="submit" value="Save" name="new_wallspace"/>
-	            </center>
-	        </p>
-	    </form-->
+		<script type="text/javascript" src="https://form.jotform.co/jsform/72407343635859"></script>
 	</div>
 	<div id="newArtistEOIDiv" {% if url_name != "new_artistexpressionofinterest" %}style="display: none;"{% endif %}>
-		<h1>Express Your Interest as an Artist</h1>
-	    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
-	    	{{ artistExpressionOfInterestForm.media }}
-	    	<p class="bs-component">
-	            <div class="form-group">
-	            	{{ artistExpressionOfInterestForm.title.errors }}
-					<label class="control-label" for="id_{{ artistExpressionOfInterestForm.title.name }}">{{ artistExpressionOfInterestForm.title.label }}</label>
-					<input type="text" class="form-control"
-					name="{{ artistExpressionOfInterestForm.title.name }}"
-					id="id_{{ artistExpressionOfInterestForm.title.name }}" > 
-					<p class="help-text">{{ artistExpressionOfInterestForm.title.help_text }} </p>
-				</div>
-				<div class="form-group">
-	            	{{ artistExpressionOfInterestForm.description.errors }}
-					<label class="control-label" for="id_{{ artistExpressionOfInterestForm.description.name }}">{{ artistExpressionOfInterestForm.description.label }}</label>
-					<textarea class="form-control"
-					name="{{ artistExpressionOfInterestForm.description.name }}"
-					id="id_{{ artistExpressionOfInterestForm.description.name }}"></textarea>
-					<p class="help-text">{{ artistExpressionOfInterestForm.description.help_text }} </p>
-				</div>
-				<div class="form-group">
-	            	{{ artistExpressionOfInterestForm.contact.errors }}
-					<label class="control-label" for="id_{{ artistExpressionOfInterestForm.contact.name }}">{{ artistExpressionOfInterestForm.contact.label }}</label>
-					<textarea class="form-control"
-					name="{{ artistExpressionOfInterestForm.contact.name }}"
-					id="id_{{ artistExpressionOfInterestForm.contact.name }}"></textarea>
-					<p class="help-text">{{ artistExpressionOfInterestForm.contact.help_text }} </p>
-				</div>
-	        </p>
-	        <p class="bs-component">
-	            <center>
-	                <input class="btn btn-success btn-sm" type="submit" value="Save" name="new_artistexpressionofinterest"/>
-	            </center>
-	        </p>
-	    </form>
+		<script type="text/javascript" src="https://form.jotform.co/jsform/72407665835868"></script>
 	</div>
 
 	<script>
@@ -184,6 +82,8 @@
 	  })
 	  .change();
 	</script>
+</div>
+	
     
 {% endblock %}
 

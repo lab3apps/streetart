@@ -305,3 +305,14 @@ a {
     height: 20%;
 }
 
+/*** Add New Form ***/
+
+.add-new-content{
+    overflow: auto; 
+    height: 100%;
+}
+
+.formFooter {
+    display: none;
+}
+
