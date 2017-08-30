@@ -70,30 +70,13 @@
 	    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
 	    	{{ muralCommissionForm.media }}
 	    	<p class="bs-component">
+	    		{% for field in muralCommissionForm %}
 	            <div class="form-group">
-	            	{{ muralCommissionForm.title.errors }}
-					<label class="control-label" for="id_{{ muralCommissionForm.title.name }}">{{ muralCommissionForm.title.label }}</label>
-					<input type="text" class="form-control"
-					name="{{ muralCommissionForm.title.name }}"
-					id="id_{{ muralCommissionForm.title.name }}" > 
-					<p class="help-text">{{ muralCommissionForm.title.help_text }} </p>
+	            	{{ field.errors }}
+					<label class="control-label" for="id_{{ wallSpaceForm.title.name }}">{{ field.label }}</label>
+					{% render_field field class+="form-control" %}
 				</div>
-				<div class="form-group">
-	            	{{ muralCommissionForm.description.errors }}
-					<label class="control-label" for="id_{{ muralCommissionForm.description.name }}">{{ muralCommissionForm.description.label }}</label>
-					<textarea class="form-control"
-					name="{{ muralCommissionForm.description.name }}"
-					id="id_{{ muralCommissionForm.description.name }}"></textarea>
-					<p class="help-text">{{ muralCommissionForm.description.help_text }} </p>
-				</div>
-				<div class="form-group">
-	            	{{ muralCommissionForm.contact.errors }}
-					<label class="control-label" for="id_{{ muralCommissionForm.contact.name }}">{{ muralCommissionForm.contact.label }}</label>
-					<textarea class="form-control"
-					name="{{ muralCommissionForm.contact.name }}"
-					id="id_{{ muralCommissionForm.contact.name }}"></textarea>
-					<p class="help-text">{{ muralCommissionForm.contact.help_text }} </p>
-				</div>
+				{% endfor %}
 	        </p>
 	        <p class="bs-component">
 	            <center>
@@ -128,30 +111,21 @@
 	    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
 	    	{{ artistExpressionOfInterestForm.media }}
 	    	<p class="bs-component">
+				{% for field in artistExpressionOfInterestForm %}
 	            <div class="form-group">
-	            	{{ artistExpressionOfInterestForm.title.errors }}
-					<label class="control-label" for="id_{{ artistExpressionOfInterestForm.title.name }}">{{ artistExpressionOfInterestForm.title.label }}</label>
-					<input type="text" class="form-control"
-					name="{{ artistExpressionOfInterestForm.title.name }}"
-					id="id_{{ artistExpressionOfInterestForm.title.name }}" > 
-					<p class="help-text">{{ artistExpressionOfInterestForm.title.help_text }} </p>
+	            	{{ field.errors }}
+					<label class="control-label" for="id_{{ wallSpaceForm.title.name }}">{{ field.label }}</label>
+					{% if field == artistExpressionOfInterestForm.project_types %}
+						{% for value, text in field.field.choices %}
+						  <div class="checkbox">
+						    <label><input id="id_providers_{{ forloop.counter0 }}" name="{{ form.providers.name }}" type="checkbox" value="{{ value }}"{% if value in checked_providers %} checked="checked"{% endif %}>{{ text }}</label>
+						  </div>
+						{% endfor %}
+					{% else %}
+						{% render_field field class+="form-control" %}
+					{% endif %}
 				</div>
-				<div class="form-group">
-	            	{{ artistExpressionOfInterestForm.description.errors }}
-					<label class="control-label" for="id_{{ artistExpressionOfInterestForm.description.name }}">{{ artistExpressionOfInterestForm.description.label }}</label>
-					<textarea class="form-control"
-					name="{{ artistExpressionOfInterestForm.description.name }}"
-					id="id_{{ artistExpressionOfInterestForm.description.name }}"></textarea>
-					<p class="help-text">{{ artistExpressionOfInterestForm.description.help_text }} </p>
-				</div>
-				<div class="form-group">
-	            	{{ artistExpressionOfInterestForm.contact.errors }}
-					<label class="control-label" for="id_{{ artistExpressionOfInterestForm.contact.name }}">{{ artistExpressionOfInterestForm.contact.label }}</label>
-					<textarea class="form-control"
-					name="{{ artistExpressionOfInterestForm.contact.name }}"
-					id="id_{{ artistExpressionOfInterestForm.contact.name }}"></textarea>
-					<p class="help-text">{{ artistExpressionOfInterestForm.contact.help_text }} </p>
-				</div>
+				{% endfor %}
 	        </p>
 	        <p class="bs-component">
 	            <center>
@@ -165,8 +139,16 @@
 	  .change(function () {
 	    $( "#form_select option:selected" ).each(function() {
 	      $('#'+$( this ).val()).css({ display: "block" });
-	      google.maps.event.trigger(locationmap.map,'resize')
-	      google.maps.event.trigger(wall_locationmap.map,'resize')
+	      if ($('#form_select').val() == 'newArtworkDiv'){
+			google.maps.event.trigger(locationmap.map,'resize')
+	      }
+	      else if ($('#form_select').val() == 'newMuralDiv') {
+			google.maps.event.trigger(mural_locationmap.map,'resize')
+	      }
+	      else if ($('#form_select').val() == 'newWallSpace'){
+			google.maps.event.trigger(wall_locationmap.map,'resize')
+	      }
+	      
 	    });
 	    $('#form_select option:not(:selected)').each(function() {
 	    	$('#'+$( this ).val()).css({ display: "none" });

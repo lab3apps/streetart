@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'django_comments',
     'adminsortable2',
     'widget_tweaks',
+    'multiselectfield',
 ]
 
 MIDDLEWARE = [

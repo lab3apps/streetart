@@ -9,6 +9,7 @@ from sorl.thumbnail import ImageField
 from django.template.defaultfilters import slugify
 from fluent_comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
+from multiselectfield import MultiSelectField
 
 # Create your models here.
 
@@ -121,11 +122,19 @@ class AlternativeImage(models.Model):
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class MuralCommission(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    contact = models.TextField()
+    name = models.CharField(max_length=200, verbose_name="Name")
+    email = models.EmailField(verbose_name="Email Address")
+    phone = models.CharField(max_length=15)
+    mural_location = models.PointField(srid=4326, verbose_name="Where will the mural be?")
+    objects = models.GeoManager()
+    dimensions = models.TextField(blank=True, null=True, verbose_name="How big is the wall? Please give us the dimensions of the wall so we can give the artist an idea of how big the space is.")
+    image = ImageField(upload_to='muralcommission/', blank=True, null=True, verbose_name="If possible please attach a photo of the wall.")
+    reason = models.TextField(blank=True, null=True, verbose_name="Most artists prefer to have creative freedom when creating their works, but could you give us an idea of what you are commissioning the mural for or what you hope to see in it? This will help us figure out which artists to get you in contact with.")
+    budget = models.TextField(blank=True, null=True, verbose_name="Do you have a budget? Roughly how much have you put aside for the art work?")
+    deadline = models.TextField(blank=True, null=True, verbose_name="Does this project have a deadline?")
+    other = models.TextField(blank=True, null=True, verbose_name="Is there anything else we should know that will help us to connect you up with the right artist?")
     def __str__(self):
-        return self.title
+        return self.name
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class WallSpace(models.Model):
@@ -135,17 +144,27 @@ class WallSpace(models.Model):
     wall_location = models.PointField(srid=4326, verbose_name="Where is the space?")
     objects = models.GeoManager()
     dimensions = models.TextField(blank=True, null=True, verbose_name="How big is the wall? Please give us the dimensions of the wall so we can give the artist an idea of how big the space is.")
-    image = ImageField(upload_to='wallspace/', blank=True, null=True, verbose_name="If possible please aattach a photo of the wall.")
+    image = ImageField(upload_to='wallspace/', blank=True, null=True, verbose_name="If possible please attach a photo of the wall.")
     relation = models.TextField(blank=True, null=True, verbose_name="What is your relation to this wall space?")
     other = models.TextField(blank=True, null=True, verbose_name="Is there anything else we should know?")
     def __str__(self):
         return self.name
 
+PROJECT_TYPE_CHOICES = ((1, 'Paid commisionings'),
+               (2, 'I would consider unpaid opportunities or less than market rate. I am more interested in building my portfolio and giving back to the community.'),
+               (3, 'Mentoring and teaching opportunties. Working with up and coming artists or students.'),)
+
 @python_2_unicode_compatible  # only if you need to support Python 2
 class ArtistExpressionOfInterest(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    contact = models.TextField()
+    name = models.CharField(max_length=200, verbose_name="Name")
+    email = models.EmailField(verbose_name="Email Address")
+    phone = models.CharField(max_length=15)
+    project_types = MultiSelectField(choices=PROJECT_TYPE_CHOICES)
+    location = models.TextField(blank=True, null=True, verbose_name="Are you located in Christchurch? If not, where are you from?")
+    why = models.TextField(blank=True, null=True, verbose_name="Why do you want to create work here in Christchurch?")
+    materials = models.TextField(blank=True, null=True, verbose_name="Would you be able to organize your own materials? What supplies do you require us to organize for you?")
+    samples = models.TextField(blank=True, null=True, verbose_name="Please provide samples of past work or include a link to your website or portfolio.")
+    other = models.TextField(blank=True, null=True, verbose_name="Is there anything you'd like us to know?")
     def __str__(self):
         return self.title
 

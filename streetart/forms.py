@@ -94,7 +94,10 @@ class ArtworkForm(forms.ModelForm):
 class MuralCommissionForm(forms.ModelForm):
     class Meta:
         model = MuralCommission
-        fields = ('title', 'description', 'contact')
+        fields = '__all__'
+        widgets = {
+            'mural_location': MyGooglePointFieldWidget,
+        }
 
 class WallSpaceForm(forms.ModelForm):
     class Meta:
@@ -107,8 +110,8 @@ class WallSpaceForm(forms.ModelForm):
 class ArtistExpressionOfInterestForm(forms.ModelForm):
     class Meta:
         model = ArtistExpressionOfInterest
-        fields = ('title', 'description', 'contact')
-
+        fields = '__all__'
+        
 class UserSettingsForm(forms.ModelForm):
 
     class Meta:
