@@ -21,6 +21,7 @@ django-sekizai==0.10.0
 Django-Select2==5.11.1
 django-tag-parser==3.1
 django-treebeard==4.1.2
+django-widget-tweaks==1.4.1
 djangocms-admin-style==1.2.7
 djangocms-attributes-field==0.3.0
 djangocms-column==1.7.0
@@ -33,7 +34,6 @@ djangocms-style==2.0.2
 djangocms-text-ckeditor==3.5.0
 djangocms-video==2.0.3
 djangorestframework==3.6.3
-djangorestframework-gis==0.11.2
 docutils==0.14
 easy-thumbnails==2.3
 html5lib==0.9999999
