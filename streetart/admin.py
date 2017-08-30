@@ -13,7 +13,8 @@ class ArtworkForm(admin.ModelAdmin):
     formfield_overrides = {
         models.PointField: {"widget": GooglePointFieldWidget}
     }
-    filter_horizontal = ('artists',)
+    exclude = ('likes', 'checkins')
+    filter_horizontal = ('artists', 'crews')
     list_display = ('title', 'validated', 'status')
     inlines = [ ImageAdmin ]
 
