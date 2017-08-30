@@ -7,6 +7,8 @@ from django.dispatch import receiver
 from django.contrib.gis.db import models
 from sorl.thumbnail import ImageField
 from django.template.defaultfilters import slugify
+from fluent_comments.models import Comment
+from django.contrib.contenttypes.models import ContentType
 
 # Create your models here.
 
@@ -99,6 +101,12 @@ class Artwork(models.Model):
         """
         return self.checkins.count()
 
+    @property
+    def comments(self):
+        ct = ContentType.objects.get_for_model(Artwork)
+        obj_pk = self.id
+        return Comment.objects.filter(content_type=ct,object_pk=obj_pk)
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Artwork, self).save(*args, **kwargs)
@@ -151,9 +159,15 @@ class Route(models.Model):
 class RoutePoint(models.Model):
     route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name='route_points')
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='route_points')
+    route_order = models.PositiveIntegerField(default=0, blank=False, null=False)
+
     class Meta:
         ordering = ('route_order',)
-    route_order = models.PositiveIntegerField(default=0, blank=False, null=False)
+
+    @property
+    def location(self):
+        return self.artwork.location
+
     def __str__(self):
         return "" ##This is needed for the use of drag and drop sorting plugin in admin.
 

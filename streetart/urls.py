@@ -2,7 +2,6 @@ from django.conf.urls import url, include
 
 from . import views
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import ArtworkCreateView, ArtistCreateView
 
 app_name = 'streetart'
 urlpatterns = [
@@ -13,8 +12,12 @@ urlpatterns = [
 	url(r'^artistexpressionofinterest/new/$', views.add_new, name='new_artistexpressionofinterest'),
 	url(r'^getdata/([0-9]+)/$', views.closest_artwork, name='closest_artwork'),
 	url(r'^imageselected/([0-9]+)/$', views.image_selected, name='image_selected'),
-    url(r'^artworks/$', ArtworkCreateView.as_view(), name='create_artwork'),
-    url(r'^artists/$', ArtistCreateView.as_view(), name='create_artist'),
+    url(r'^artworks/$', views.artwork_list, name='artwork_list'),
+    url(r'^artworks/(?P<pk>[0-9]+)$', views.artwork_detail, name='artwork_detail'),
+    url(r'^artists/$', views.artist_list, name='artist_list'),
+    url(r'^artists/(?P<pk>[0-9]+)$', views.artist_detail, name='artist_detail'),
+    url(r'^routes/$', views.route_list, name='route_list'),
+    url(r'^routes/(?P<pk>[0-9]+)$', views.route_detail, name='route_detail'),
     url(r'^like/([0-9]+)/$', views.like, name='like'),
 	url(r'^checkin/([0-9]+)/$', views.checkIn, name='checkIn'),
 ]
