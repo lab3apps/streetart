@@ -6,7 +6,7 @@ function initialize() {
     map = new google.maps.Map(
         mapDiv, {
             center: new google.maps.LatLng(-43.5314, 172.6365),
-            zoom: 12,
+            zoom: 14,
             maxZoom: 18,
             minZoom: 12,
             mapTypeId: layer,
@@ -52,8 +52,8 @@ function addMarkers() {
                 this['infowindow'].open(map, this);
             });
             google.maps.event.addListener(marker, 'click', function () {
-                markerClicked();
                 focusOnMarker(this.id);
+                markerClicked();
                 //getNearestArtworks(this.id)
             });
             google.maps.event.addListener(marker, 'mouseout', function () {
