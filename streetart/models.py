@@ -61,16 +61,16 @@ class Status(models.Model):
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Artwork(models.Model):
-    artists = models.ManyToManyField(Artist, blank=True, related_name='artworks')
-    crew = models.ForeignKey(Crew, on_delete=models.CASCADE, blank=True, null=True)
+    artists = models.ManyToManyField(Artist, blank=True,related_name='artworks')
+    crews = models.ManyToManyField(Crew, blank=True, related_name='artworks')
     category = models.ForeignKey(Artwork_Category, on_delete=models.CASCADE, blank=True, null=True)
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, blank=True, null=True)
     commission_date = models.DateField('date commissioned', blank=True, null=True)
     status = models.ForeignKey(Status, on_delete=models.CASCADE, blank=True, null=True)
     decommission_date = models.DateField('date decommissioned', blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     image = ImageField(upload_to='artwork/')
-    photo_credit = models.CharField(max_length=200)
+    photo_credit = models.CharField(max_length=200, blank=True, null=True)
     city = models.CharField(max_length=200, blank=True, null=True)
     link = models.URLField(blank=True, null=True)
     location = models.PointField(srid=4326)
@@ -79,6 +79,9 @@ class Artwork(models.Model):
     slug = models.SlugField()
     likes = models.ManyToManyField(User, related_name='likes', blank=True)
     checkins = models.ManyToManyField(User, related_name='checkins', blank=True)
+    submitter_description = models.TextField(blank=True, null=True, verbose_name="Submitter's Description")
+    submitter_name = models.CharField(blank=True, null=True, max_length=200, verbose_name="Submitter's Name")
+    submitter_email = models.EmailField(blank=True, null=True, verbose_name="Submitter's Email Address")
 
     @property
     def total_likes(self):
