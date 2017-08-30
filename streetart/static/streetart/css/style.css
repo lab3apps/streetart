@@ -70,6 +70,7 @@ a {
 /*** Split page ***/
 
 .container {
+    marign: 0 auto;
     width: 100%;
     height: calc(100% - 50px);
 }
@@ -308,11 +309,91 @@ a {
 /*** Add New Form ***/
 
 .add-new-content{
-    overflow: auto; 
+    overflow: auto;
     height: 100%;
 }
 
 .formFooter {
     display: none;
+}
+
+/*** Social Logins ***/
+
+.button-social {
+    width: auto;
+    display: inline-block;
+    padding: 0px 18px 0px 6px;
+    border: 0 none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 250ms linear;
+    margin-bottom: 12px;
+    margin-right: 12px;
+    color: white;
+    height: 50px;
+    line-height: 46px;
+    position: relative;
+    text-align: left;
+}
+
+.button-social .icon {
+    margin-right: 12px;
+    font-size: 24px;
+    line-height: 24px;
+    width: 42px;
+    height: 24px;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    top: 4px;
+}
+
+.button-social .icon:before {
+    display: inline-block;
+    width: 40px;
+}
+
+.button-social .icon:after {
+    content:"";
+}
+
+.button-social:hover {
+    text-decoration: none;
+}
+
+.button-facebook {
+    background-color: #4b70ab;
+    border: 1px solid #3b5988;
+}
+
+.button-facebook:hover {
+    color: white;
+    background-color: #3b5988;
+}
+
+.button-facebook .icon {
+    border-right:1px solid #3b5988;
+}
+
+.button-facebook .icon:hover {
+    border-right:1px solid #4b70ab;
+}
+
+.button-twitter {
+    background-color: #00A4EF;
+    border: 1px solid #0093d6;
+}
+
+.button-twitter:hover {
+    color: white;
+    background-color: #0093d6;
+}
+
+.button-twitter .icon {
+    border-right:1px solid #0093d6;
+}
+
+.button-twitter .icon:hover {
+    border-right:1px solid #00A4EF;
 }
 
