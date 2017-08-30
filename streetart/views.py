@@ -14,9 +14,12 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
 from rest_framework import generics
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm
-from .serializers import ArtworkSerializer, ArtistSerializer
-from .models import Artwork, Artist, Status
+from .serializers import ArtworkSerializer, ArtistSerializer, RouteSerializer
+from .models import Artwork, Artist, Status, Route
 from django.db import transaction
 
 try:
@@ -158,24 +161,79 @@ def add_new(request):
 
     return render(request, "streetart/add_new_form.html", {'artworkForm': artworkForm, 'muralCommissionForm': muralCommissionForm, 'wallSpaceForm': wallSpaceForm, 'artistExpressionOfInterestForm': artistExpressionOfInterestForm, 'url_name': request.resolver_match.url_name})
 
+# API Functions
 
-class ArtworkCreateView(generics.ListCreateAPIView):
-    """This class defines the create behavior of our rest api."""
-    queryset = Artwork.objects.all()
-    serializer_class = ArtworkSerializer
+@api_view(['GET'])
+def artwork_list(request):
+    """
+    List all artworks.
+    """
+    if request.method == 'GET':
+        artworks = Artwork.objects.all()
+        serializer = ArtworkSerializer(artworks, many=True)
+        return Response(serializer.data)
 
-    def perform_create(self, serializer):
-        """Save the post data when creating a new bucketlist."""
-        serializer.save()
+@api_view(['GET'])
+def artwork_detail(request, pk):
+    """
+    Retrieve, update or delete an artwork instance.
+    """
+    try:
+        artwork = Artwork.objects.get(pk=pk)
+    except Artwork.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
-class ArtistCreateView(generics.ListCreateAPIView):
-    """This class defines the create behavior of our rest api."""
-    queryset = Artist.objects.all()
-    serializer_class = ArtistSerializer
+    if request.method == 'GET':
+        serializer = ArtworkSerializer(artwork)
+        return Response(serializer.data)
 
-    def perform_create(self, serializer):
-        """Save the post data when creating a new bucketlist."""
-        serializer.save()
+@api_view(['GET'])
+def artist_list(request):
+    """
+    List all artists.
+    """
+    if request.method == 'GET':
+        artists = Artist.objects.all()
+        serializer = ArtistSerializer(artists, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def artist_detail(request, pk):
+    """
+    Retrieve, update or delete an artist instance.
+    """
+    try:
+        artist = Artist.objects.get(pk=pk)
+    except Artist.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = ArtistSerializer(artist)
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def route_list(request):
+    """
+    List all routes.
+    """
+    if request.method == 'GET':
+        routes = Route.objects.all()
+        serializer = RouteSerializer(routes, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def route_detail(request, pk):
+    """
+    Retrieve, update or delete a route instance.
+    """
+    try:
+        route = Route.objects.get(pk=pk)
+    except Route.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = RouteSerializer(route)
+        return Response(serializer.data)
 
 def closest_artwork(request, index):
     artworkObject = Artwork.objects.get(pk=index)
