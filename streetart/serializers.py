@@ -2,6 +2,8 @@ from rest_framework import serializers
 from streetart.models import Artwork, Artist, Artwork_Category, Route, RoutePoint, Crew, Artwork_Category, Status, User
 from fluent_comments.models import Comment
 from streetart.processors import add_watermark
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
+from django.core.serializers import serialize
 import socket
 
 
@@ -86,20 +88,30 @@ class ArtworkSerializer(serializers.ModelSerializer):
     def get_checkins(self, obj):
         return obj.checkins.count()
 
+class RouteArtworkSerializer(GeoFeatureModelSerializer):
+    """Serializer to map the Model instance into JSON format."""
+
+    class Meta:
+        """Meta class to map serializer's fields with the model fields."""
+        model = Artwork
+        geo_field = "location"
+        fields = ('title','location')
+
 class RoutePointSerializer(serializers.ModelSerializer):
     """Serializer to map the RoutePoint instance into JSON format."""
-    artwork = ArtworkSerializer(many=False, read_only=True)
+    artwork = RouteArtworkSerializer(many=False, read_only=True)
 
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
         model = RoutePoint
         fields = '__all__'
 
-class RouteSerializer(serializers.ModelSerializer):
+class RouteSerializer(GeoFeatureModelSerializer):
     """Serializer to map the Route instance into JSON format."""
     route_points = RoutePointSerializer(many=True, read_only=True)
 
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
         model = Route
+        geo_field = "route_points"
         fields = '__all__'

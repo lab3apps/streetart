@@ -33,6 +33,7 @@ djangocms-style==2.0.2
 djangocms-text-ckeditor==3.5.0
 djangocms-video==2.0.3
 djangorestframework==3.6.3
+djangorestframework-gis==0.11.2
 docutils==0.14
 easy-thumbnails==2.3
 html5lib==0.9999999
