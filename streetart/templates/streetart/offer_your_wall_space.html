@@ -1,0 +1,21 @@
+{% load widget_tweaks %}
+<h1>Offer Your Wall Space</h1>
+<p>Are you located in Christchurch and have wall space available for artists to use for free? Local muralists, graffiti artists, and creators of street art are always looking for open space and free walls to practice their craft and make art work on. International traveling artists occasionally enquire through our website looking for legal places to paint so they can leave their mark on Christchurch.</p>
+<form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
+	{{ wallSpaceForm.media }}
+	<p class="bs-component">
+		{% for field in wallSpaceForm %}
+        <div class="form-group">
+        	{{ field.errors }}
+			<label class="control-label" for="id_{{ wallSpaceForm.title.name }}">{{ field.label }}</label>
+			{% render_field field class+="form-control" %}
+		</div>
+		{% endfor %}
+    </p>
+    <p class="bs-component">
+        <center>
+            <input class="btn btn-success btn-sm" type="submit" value="Save" name="new_wallspace"/>
+        </center>
+    </p>
+</form>
+

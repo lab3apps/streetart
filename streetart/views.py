@@ -129,7 +129,6 @@ def add_new(request):
                 artwork.author = request.user
                 artwork.published_date = timezone.now()
                 artwork.save()
-                artworkForm.save_m2m()
                 return redirect('/', pk=artwork.pk)
         elif 'new_muralcommission' in request.POST:
             muralCommissionForm = MuralCommissionForm(request.POST)

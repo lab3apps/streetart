@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
-<div class="add-new-content">
+<div class="add-new-content" ">
 	<script src="{% static 'bootstrap/js/jquery-3.2.1.min.js' %}"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key={{ google_api_key }}" type="text/javascript"></script>
 	<div class="form-group">
 	  <label for="comment">What do you want to update?</label>
 	  <select class="form-control" id="form_select">
@@ -20,31 +22,34 @@
 	    	{{ artworkForm.media }}
 	    	<p class="bs-component">
 	            <div class="form-group">
-	            	{{ artworkForm.title.errors }}
-					<label class="control-label" for="id_{{ artworkForm.title.name }}">{{ artworkForm.title.label }}</label>
-					<input type="text" class="form-control"
-					name="{{ artworkForm.title.name }}"
-					id="id_{{ artworkForm.title.name }}" > 
-					<p class="help-text">{{ artworkForm.title.help_text }} </p>
+	            	{{ artworkForm.submitter_description.errors }}
+					<label class="control-label" for="id_{{ artworkForm.submitter_description.name }}">Tell us about this work of street art.</label>
+					<textarea class="form-control"
+					name="{{ artworkForm.submitter_description.name }}"
+					id="id_{{ artworkForm.submitter_description.name }}" ></textarea>
+					<p class="help-text">{{ artworkForm.submitter_description.help_text }} </p>
 				</div>
 				<div class="form-group">
-					{{ artworkForm.artists.errors }}
-					<label class="control-label" for="id_{{ artworkForm.artists.name }}">Artist(s)</label>
-	                {{ artworkForm.artists }}
+	            	{{ artworkForm.submitter_name.errors }}
+					<label class="control-label" for="id_{{ artworkForm.submitter_name.name }}">Your Name</label>
+					<input type="text" class="form-control"
+					name="{{ artworkForm.submitter_name.name }}"
+					id="id_{{ artworkForm.submitter_name.name }}" required> 
+					<p class="help-text">{{ artworkForm.submitter_name.help_text }} </p>
+				</div>
+				<div class="form-group">
+	            	{{ artworkForm.submitter_email.errors }}
+					<label class="control-label" for="id_{{ artworkForm.submitter_email.name }}">Your Email Address</label>
+					<input type="email" class="form-control"
+					name="{{ artworkForm.submitter_email.name }}"
+					id="id_{{ artworkForm.submitter_email.name }}" required> 
+					<p class="help-text">{{ artworkForm.submitter_email.help_text }} </p>
 				</div>
 				<div class="form-group">
 	            	{{ artworkForm.image.errors }}
 					<label class="control-label" for="id_{{ artworkForm.image.name }}">{{ artworkForm.image.label }}</label>
 					{{ artworkForm.image }}
 					<p class="help-text">{{ artworkForm.image.help_text }} </p>
-				</div>
-				<div class="form-group">
-	            	{{ artworkForm.photo_credit.errors }}
-					<label class="control-label" for="id_{{ artworkForm.photo_credit.name }}">{{ artworkForm.photo_credit.label }}</label>
-					<input type="text" class="form-control"
-					name="{{ artworkForm.photo_credit.name }}"
-					id="id_{{ artworkForm.photo_credit.name }}" > 
-					<p class="help-text">{{ artworkForm.photo_credit.help_text }} </p>
 				</div>
 	            <div>
 	            	{{ artworkForm.location.errors }}
@@ -61,20 +66,107 @@
 	</div>
 
 	<div id="newMuralDiv" {% if url_name != "new_muralcommission" %}style="display: none;"{% endif %}>
-		<script type="text/javascript" src="https://form.jotform.co/jsform/72407793035862"></script>
+		<h1>Commission a New Mural</h1>
+	    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
+	    	{{ muralCommissionForm.media }}
+	    	<p class="bs-component">
+	            <div class="form-group">
+	            	{{ muralCommissionForm.title.errors }}
+					<label class="control-label" for="id_{{ muralCommissionForm.title.name }}">{{ muralCommissionForm.title.label }}</label>
+					<input type="text" class="form-control"
+					name="{{ muralCommissionForm.title.name }}"
+					id="id_{{ muralCommissionForm.title.name }}" > 
+					<p class="help-text">{{ muralCommissionForm.title.help_text }} </p>
+				</div>
+				<div class="form-group">
+	            	{{ muralCommissionForm.description.errors }}
+					<label class="control-label" for="id_{{ muralCommissionForm.description.name }}">{{ muralCommissionForm.description.label }}</label>
+					<textarea class="form-control"
+					name="{{ muralCommissionForm.description.name }}"
+					id="id_{{ muralCommissionForm.description.name }}"></textarea>
+					<p class="help-text">{{ muralCommissionForm.description.help_text }} </p>
+				</div>
+				<div class="form-group">
+	            	{{ muralCommissionForm.contact.errors }}
+					<label class="control-label" for="id_{{ muralCommissionForm.contact.name }}">{{ muralCommissionForm.contact.label }}</label>
+					<textarea class="form-control"
+					name="{{ muralCommissionForm.contact.name }}"
+					id="id_{{ muralCommissionForm.contact.name }}"></textarea>
+					<p class="help-text">{{ muralCommissionForm.contact.help_text }} </p>
+				</div>
+	        </p>
+	        <p class="bs-component">
+	            <center>
+	                <input class="btn btn-success btn-sm" type="submit" value="Save" name="new_muralcommission"/>
+	            </center>
+	        </p>
+	    </form>
 	</div>
 	<div id="newWallSpace" {% if url_name != "new_wallspace" %}style="display: none;"{% endif %}>
-		<script type="text/javascript" src="https://form.jotform.co/jsform/72407343635859"></script>
+		<h1>Offer Your Wall Space</h1>
+		<p>Are you located in Christchurch and have wall space available for artists to use for free? Local muralists, graffiti artists, and creators of street art are always looking for open space and free walls to practice their craft and make art work on. International traveling artists occasionally enquire through our website looking for legal places to paint so they can leave their mark on Christchurch.</p>
+	    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
+	    	{{ wallSpaceForm.media }}
+	    	<p class="bs-component">
+	    		{% for field in wallSpaceForm %}
+	            <div class="form-group">
+	            	{{ field.errors }}
+					<label class="control-label" for="id_{{ wallSpaceForm.title.name }}">{{ field.label }}</label>
+					{% render_field field class+="form-control" %}
+				</div>
+				{% endfor %}
+	        </p>
+	        <p class="bs-component">
+	            <center>
+	                <input class="btn btn-success btn-sm" type="submit" value="Save" name="new_wallspace"/>
+	            </center>
+	        </p>
+	    </form>
 	</div>
 	<div id="newArtistEOIDiv" {% if url_name != "new_artistexpressionofinterest" %}style="display: none;"{% endif %}>
-		<script type="text/javascript" src="https://form.jotform.co/jsform/72407665835868"></script>
+		<h1>Express Your Interest as an Artist</h1>
+	    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
+	    	{{ artistExpressionOfInterestForm.media }}
+	    	<p class="bs-component">
+	            <div class="form-group">
+	            	{{ artistExpressionOfInterestForm.title.errors }}
+					<label class="control-label" for="id_{{ artistExpressionOfInterestForm.title.name }}">{{ artistExpressionOfInterestForm.title.label }}</label>
+					<input type="text" class="form-control"
+					name="{{ artistExpressionOfInterestForm.title.name }}"
+					id="id_{{ artistExpressionOfInterestForm.title.name }}" > 
+					<p class="help-text">{{ artistExpressionOfInterestForm.title.help_text }} </p>
+				</div>
+				<div class="form-group">
+	            	{{ artistExpressionOfInterestForm.description.errors }}
+					<label class="control-label" for="id_{{ artistExpressionOfInterestForm.description.name }}">{{ artistExpressionOfInterestForm.description.label }}</label>
+					<textarea class="form-control"
+					name="{{ artistExpressionOfInterestForm.description.name }}"
+					id="id_{{ artistExpressionOfInterestForm.description.name }}"></textarea>
+					<p class="help-text">{{ artistExpressionOfInterestForm.description.help_text }} </p>
+				</div>
+				<div class="form-group">
+	            	{{ artistExpressionOfInterestForm.contact.errors }}
+					<label class="control-label" for="id_{{ artistExpressionOfInterestForm.contact.name }}">{{ artistExpressionOfInterestForm.contact.label }}</label>
+					<textarea class="form-control"
+					name="{{ artistExpressionOfInterestForm.contact.name }}"
+					id="id_{{ artistExpressionOfInterestForm.contact.name }}"></textarea>
+					<p class="help-text">{{ artistExpressionOfInterestForm.contact.help_text }} </p>
+				</div>
+	        </p>
+	        <p class="bs-component">
+	            <center>
+	                <input class="btn btn-success btn-sm" type="submit" value="Save" name="new_artistexpressionofinterest"/>
+	            </center>
+	        </p>
+	    </form>
 	</div>
-
 	<script>
 	$( "#form_select" )
 	  .change(function () {
 	    $( "#form_select option:selected" ).each(function() {
 	      $('#'+$( this ).val()).css({ display: "block" });
+	      google.maps.event.trigger(locationmap.map,'resize')
+	      google.maps.event.trigger(wall_locationmap.map,'resize')
 	    });
 	    $('#form_select option:not(:selected)').each(function() {
 	    	$('#'+$( this ).val()).css({ display: "none" });
