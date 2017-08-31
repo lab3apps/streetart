@@ -44,7 +44,7 @@ function markerClicked() {
     // Important for mobile
     $('.left-panel').removeClass('mobile-hide');
     $('.right-panel').addClass('mobile-hide');
-
+    showLeftPanel();
 }
 
 function backClicked() {
@@ -129,11 +129,13 @@ function collapseCard() {
 function hideLeftPanel() {
     $('.left-panel').addClass('no-width');
     $('.right-panel').addClass('full-width');
+    $('#left-panel-toggle').addClass('rotate-180');
 }
 
 function showLeftPanel() {
     $('.left-panel').removeClass('no-width');
     $('.right-panel').removeClass('full-width');
+    $('#left-panel-toggle').removeClass('rotate-180');
 }
 
 function resizeMap() {
@@ -163,10 +165,8 @@ $('#navbar-gallery').click(function(e) {
 $('#left-panel-toggle').click(function(e) {
     if ($('.left-panel').hasClass('no-width')) {
         showLeftPanel();
-        $('#left-panel-toggle').removeClass('rotate-180');
     } else {
         hideLeftPanel();
-        $('#left-panel-toggle').addClass('rotate-180');
     }
     resizeMap();
 });

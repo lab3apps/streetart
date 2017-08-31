@@ -6,7 +6,7 @@ env/
 *.cpython-36.pyc
 chch_streetart/settings_secret.py
 media/artwork/
-
+media/cache/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

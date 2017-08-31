@@ -25,6 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'christchurchstreetart.org.nz',
     '128.199.156.54',
     '127.0.0.1',
     'localhost'
@@ -61,6 +62,7 @@ INSTALLED_APPS = [
     'djangocms_column',
     'social_django',
     'rest_framework',
+    'rest_framework_gis',
     'django.contrib.gis',
     'sorl.thumbnail',
     'mapwidgets',
@@ -69,6 +71,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_comments',
     'adminsortable2',
+    'widget_tweaks',
+    'multiselectfield',
 ]
 
 MIDDLEWARE = [

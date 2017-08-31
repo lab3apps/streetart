@@ -11,7 +11,7 @@ function initialize() {
             minZoom: 12,
             mapTypeId: layer,
             mapTypeControl: false,
-            streetViewControl: false,
+            streetViewControl: true,
         });
     map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
     addMarkers();
