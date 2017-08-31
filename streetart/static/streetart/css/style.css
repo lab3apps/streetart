@@ -351,6 +351,7 @@ a {
 .add-new-content{
     overflow: auto;
     height: 100%;
+    padding-bottom: 100px;
 }
 
 .formFooter {

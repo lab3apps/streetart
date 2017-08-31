@@ -21,6 +21,8 @@ from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, 
 from .serializers import ArtworkSerializer, ArtistSerializer, RouteSerializer
 from .models import Artwork, Artist, Status, Route
 from django.db import transaction
+from django.core.mail import send_mail
+from django.conf import settings as site_settings
 
 try:
     from django.utils import simplejson as json
@@ -134,7 +136,14 @@ def add_new(request):
                 artwork.author = request.user
                 artwork.published_date = timezone.now()
                 artwork.save()
+                artworkAdminURL = 'christchurchstreetart.org.nz/admin/streetart/artwork/'
+                send_mail('New Artwork', 'A art work has been subimitted by a user, find it here: '+artworkAdminURL+str(artwork.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
                 return redirect('/', pk=artwork.pk)
+            else:
+                if 'location' in artworkForm.errors.as_data():
+                    messages.error(request, 'Please choose a location.')
+                else:
+                    messages.error(request, 'There was an unexpected error when submitting. Please check your entries and try again.')
         elif 'new_muralcommission' in request.POST:
             muralCommissionForm = MuralCommissionForm(request.POST, request.FILES)
             if muralCommissionForm.is_valid():
@@ -143,7 +152,15 @@ def add_new(request):
                 muralCommission.author = request.user
                 muralCommission.published_date = timezone.now()
                 muralCommission.save()
+                muralAdminURL = 'christchurchstreetart.org.nz/admin/streetart/muralcommission/'
+                send_mail('New Mural Comission', 'A new mural commission has been subimitted by a user, find it here: '+muralAdminURL+str(muralCommission.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
                 return redirect('/')
+            else:
+                if 'mural_location' in muralCommissionForm.errors.as_data():
+                    messages.error(request, 'Please choose a location.')
+                else:
+                    messages.error(request, 'There was an unexpected error when submitting. Please check your entries and try again.')
+                
         elif 'new_wallspace' in request.POST:
             wallSpaceForm = WallSpaceForm(request.POST, request.FILES)
             if wallSpaceForm.is_valid():
@@ -152,7 +169,14 @@ def add_new(request):
                 wallSpace.author = request.user
                 wallSpace.published_date = timezone.now()
                 wallSpace.save()
+                wallspaceAdminURL = 'christchurchstreetart.org.nz/admin/streetart/wallspace/'
+                send_mail('New Wall Space', 'A new wall space has been subimitted by a user, find it here: '+wallspaceAdminURL+str(wallSpace.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
                 return redirect('/')
+            else:
+                if 'wall_location' in wallSpaceForm.errors.as_data():
+                    messages.error(request, 'Please choose a location.')
+                else:
+                    messages.error(request, 'There was an unexpected error when submitting. Please check your entries and try again.')
         elif 'new_artistexpressionofinterest' in request.POST:
             artistExpressionOfInterestForm = ArtistExpressionOfInterestForm(request.POST)
             if artistExpressionOfInterestForm.is_valid():
@@ -161,6 +185,8 @@ def add_new(request):
                 artistExpressionOfInterest.author = request.user
                 artistExpressionOfInterest.published_date = timezone.now()
                 artistExpressionOfInterest.save()
+                artistEOIAdminURL = 'christchurchstreetart.org.nz/admin/streetart/artistexpressionofinterest/'
+                send_mail('New Artist EOI', 'A new artist expression of interest has been subimitted by a user, find it here: '+artistEOIAdminURL+str(artistExpressionOfInterest.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
                 return redirect('/')
 
     return render(request, "streetart/add_new_form.html", {'artworkForm': artworkForm, 'muralCommissionForm': muralCommissionForm, 'wallSpaceForm': wallSpaceForm, 'artistExpressionOfInterestForm': artistExpressionOfInterestForm, 'url_name': request.resolver_match.url_name})
