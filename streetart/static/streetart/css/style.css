@@ -258,7 +258,6 @@ a {
     line-height: 1em;
     bottom: 0;
     right: 0;
-    color: #F44336;
 }
 
 .card-image .overlay-checkin {
@@ -429,3 +428,46 @@ a {
     border-right:1px solid #00A4EF;
 }
 
+/*** Snackbar ***/
+
+.snackbar {
+    visibility: hidden;
+    width: 300px;
+    margin-left: -150px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+.snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadeup 0.5s, fadedown 0.5s 2.5s;
+    animation: fadeup 0.5s, fadedown 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadeup {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadedown {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadedown {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
