@@ -69,22 +69,22 @@ function focusOnMarker(index) {
         var art = artworks[index];
         var point = new google.maps.LatLng(art.lat, art.lng);
         $('.main-image').attr("src", art.imageUrl);
+        $('#main-card').data('index', index);
         $('.overlay-title').html(art.name);
         $('.card-title').html(art.name);
         $('.card-description').html(art.description);
         $('.overlay-fullscreen').attr('href', art.imageUrl);
-        $('#like').attr('value', index);
+        if(art.hasLiked === 'True') {
+            $('.overlay-like i').html('favorite');
+        } else {
+            $('.overlay-like i').html('favorite_border');
+        }
         $('#likeCount').html(art.likes_count);
-        $('#checkin').attr('value', index);
-        $('#checkinCount').html(art.checkins_count);
-        $('#like').attr('value', index);
-        $('#likeCount').html(art.likes_count);
-        $('#checkin').attr('value', index);
         $('#checkinCount').html(art.checkins_count);
         $('#show_on_map').data('index', index);
+        map.panTo(point);
         loadCommentSection(index);
         loadAltImages(index);
-        map.panTo(point);
     }
 }
 

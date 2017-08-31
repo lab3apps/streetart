@@ -31,11 +31,16 @@ except ImportError:
 from django.views.decorators.http import require_POST
 
 def home(request):
-    artwork = Artwork.objects.filter(validated=True).order_by('pk');
+    artwork = Artwork.objects.filter(validated=True).order_by('pk')
+    if request.user.is_authenticated():
+        for art in artwork:
+            art.has_liked = art.likes.filter(id=request.user.id).exists()
+            art.has_checkedin = art.checkins.filter(id=request.user.id).exists()
+    else:
+        for art in artwork:
+            art.has_liked = False
+            art.has_checkedin = False
     return render(request, 'streetart/home.html', {'artworks': artwork})
-    #artworks = Artwork.objects.all().order_by('pk')
-    #response = serializers.serialize("json", artworks)
-    #return render(request, 'streetart/home.html', {'artworksJson': json_artworks, 'artworks': artworks})
 
 @login_required
 @transaction.atomic
@@ -285,11 +290,11 @@ def like(request, key):
             # user has already liked this artwork
             # remove like/user
             artwork.likes.remove(user)
-            message = 'You unliked this'
+            message = 'liked'
         else:
             # add a new like for a artwork
             artwork.likes.add(user)
-            message = 'You liked this'
+            message = 'unliked'
 
     ctx = {'likes_count': artwork.total_likes, 'message': message}
     # use mimetype instead of content_type if django < 5
@@ -306,11 +311,11 @@ def checkIn(request, key):
             # user has already liked this artwork
             # remove like/user
             artwork.checkins.remove(user)
-            message = 'You have checked out'
+            message = 'checkedin'
         else:
             # add a new like for a artwork
             artwork.checkins.add(user)
-            message = 'You have checked in'
+            message = 'checkedout'
 
     ctx = {'checkins_count': artwork.total_checkins, 'message': message}
     # use mimetype instead of content_type if django < 5

@@ -170,3 +170,11 @@ $('#left-panel-toggle').click(function(e) {
     }
     resizeMap();
 });
+
+function activateSnackbar(snackbarDiv) {
+    $(snackbarDiv).addClass('show');
+    setTimeout(function() {
+        $(snackbarDiv).removeClass('show');
+    }, 3000);
+}
+
