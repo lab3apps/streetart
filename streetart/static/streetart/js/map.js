@@ -74,10 +74,18 @@ function focusOnMarker(index) {
         $('.card-title').html(art.name);
         $('.card-description').html(art.description);
         $('.overlay-fullscreen').attr('href', art.imageUrl);
+        console.log("art.hasLiked: " + art.hasLiked);
         if(art.hasLiked === 'True') {
             $('.overlay-like i').html('favorite');
         } else {
             $('.overlay-like i').html('favorite_border');
+        }
+        if(art.hasCheckedin === 'True') {
+            $('.overlay-checkin i').addClass('palette-Green');
+            $('.overlay-checkin i').removeClass('palette-White');
+        } else {
+            $('.overlay-checkin i').addClass('palette-White');
+            $('.overlay-checkin i').removeClass('palette-Green');
         }
         $('#likeCount').html(art.likes_count);
         $('#checkinCount').html(art.checkins_count);

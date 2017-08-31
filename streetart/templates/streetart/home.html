@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
+    <div class="main row">
 
         <!-- This panel relates to the left half of the screen -->
         <div class="left-panel col-md-7 col-sm-12">
@@ -29,10 +29,10 @@
                     <div class="card-image">
                         <span class="overlay overlay-title"></span>
                         <img class="main-image img-responsive" src="">
-                        <a class="overlay overlay-fullscreen" href="" data-lightbox="main"><i class="material-icons md-light md-36">fullscreen</i></a>
+                        <a class="overlay-fullscreen" href="" data-lightbox="lightbox"><i class="material-icons md-light md-36">fullscreen</i></a>
                         <a class="overlay overlay-expand" onclick="expandCard()"><i class="material-icons md-light md-36">expand_more</i></a>
-                        <a class="overlay overlay-like" onclick="like()"><i class="material-icons palette-Red text md-36">favorite_border</i></a>
-                        <a class="overlay overlay-checkin" onclick="checkin()"><i class="material-icons md-light md-36">beenhere</i></a>
+                        <a class="overlay-like" onclick="like()"><i class="material-icons palette-Red text md-36">favorite_border</i></a>
+                        <a class="overlay-checkin" onclick="checkin()"><i class="material-icons palette-White text md-36">beenhere</i></a>
                     </div>
                     <div class="card-details">
                         <div class="card-content">
@@ -195,9 +195,14 @@
                         $('#checkinCount').html(art.checkins_count);
                         if(response.message === 'checkedin') {
                             art.hasCheckedin = 'True';
+                            $('.overlay-checkin i').addClass('palette-Green');
+                            $('.overlay-checkin i').removeClass('palette-White');
+
                             activateSnackbar('#checkinSnackbar');
                         } else {
                             art.hasCheckedin = 'False';
+                            $('.overlay-checkin i').addClass('palette-White');
+                            $('.overlay-checkin i').removeClass('palette-Green');
                             activateSnackbar('#checkoutSnackbar');
                         }
                     },

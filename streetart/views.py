@@ -264,11 +264,11 @@ def like(request, key):
             # user has already liked this artwork
             # remove like/user
             artwork.likes.remove(user)
-            message = 'liked'
+            message = 'unliked'
         else:
             # add a new like for a artwork
             artwork.likes.add(user)
-            message = 'unliked'
+            message = 'liked'
 
     ctx = {'likes_count': artwork.total_likes, 'message': message}
     # use mimetype instead of content_type if django < 5
@@ -285,11 +285,11 @@ def checkIn(request, key):
             # user has already liked this artwork
             # remove like/user
             artwork.checkins.remove(user)
-            message = 'checkedin'
+            message = 'checkedout'
         else:
             # add a new like for a artwork
             artwork.checkins.add(user)
-            message = 'checkedout'
+            message = 'checkedin'
 
     ctx = {'checkins_count': artwork.total_checkins, 'message': message}
     # use mimetype instead of content_type if django < 5

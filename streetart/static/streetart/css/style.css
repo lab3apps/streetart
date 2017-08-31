@@ -31,6 +31,10 @@ a {
     cursor: hand;
 }
 
+.main {
+    height: 100%;
+}
+
 /*** Material Icon Rules ***/
 
 /* Rules for sizing the icon. */
@@ -223,12 +227,9 @@ a {
     transition: height 0.5s ease;
 }
 
-.card-image .overlay {
+.card .overlay-title {
     position: absolute;
     padding: 5px;
-}
-
-.card .overlay-title {
     color: #fff;
     font-size: 24px;
     font-weight: 300;
@@ -242,18 +243,24 @@ a {
 }
 
 .card-image .overlay-fullscreen {
+    position: absolute;
+    padding: 5px;
     line-height: 1em;
     top: 0;
     right: 0;
 }
 
 .card-image .overlay-expand {
+    position: absolute;
+    padding: 5px;
     line-height: 1em;
     bottom: 0;
     left: 0;
 }
 
 .card-image .overlay-like {
+    position: absolute;
+    padding: 5px;
     margin-right: 36px;
     line-height: 1em;
     bottom: 0;
@@ -261,6 +268,8 @@ a {
 }
 
 .card-image .overlay-checkin {
+    position: absolute;
+    padding: 5px;
     line-height: 1em;
     bottom: 0;
     right: 0;
