@@ -153,12 +153,18 @@
 		      $('#'+$( this ).val()).css({ display: "block" });
 		      if ($('#form_select').val() == 'newArtworkDiv'){
 				google.maps.event.trigger(locationmap.map,'resize')
+				history.replaceState({}, null, '/artwork/new/');
 		      }
 		      else if ($('#form_select').val() == 'newMuralDiv') {
 				google.maps.event.trigger(mural_locationmap.map,'resize')
+				history.replaceState({}, null, '/muralcommision/new/');
 		      }
 		      else if ($('#form_select').val() == 'newWallSpace'){
 				google.maps.event.trigger(wall_locationmap.map,'resize')
+				history.replaceState({}, null, '/wallspace/new/');
+		      }
+		      else {
+		      	history.replaceState({}, null, '/artistexpressionofinterest/new/');
 		      }
 		      
 		    });

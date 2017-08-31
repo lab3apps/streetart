@@ -32,6 +32,10 @@ a {
     cursor: hand;
 }
 
+.main {
+    height: 100%;
+}
+
 /*** Material Icon Rules ***/
 
 /* Rules for sizing the icon. */
@@ -224,12 +228,9 @@ a {
     transition: height 0.5s ease;
 }
 
-.card-image .overlay {
+.card .overlay-title {
     position: absolute;
     padding: 5px;
-}
-
-.card .overlay-title {
     color: #fff;
     font-size: 24px;
     font-weight: 300;
@@ -243,26 +244,33 @@ a {
 }
 
 .card-image .overlay-fullscreen {
+    position: absolute;
+    padding: 5px;
     line-height: 1em;
     top: 0;
     right: 0;
 }
 
 .card-image .overlay-expand {
+    position: absolute;
+    padding: 5px;
     line-height: 1em;
     bottom: 0;
     left: 0;
 }
 
 .card-image .overlay-like {
+    position: absolute;
+    padding: 5px;
     margin-right: 36px;
     line-height: 1em;
     bottom: 0;
     right: 0;
-    color: #F44336;
 }
 
 .card-image .overlay-checkin {
+    position: absolute;
+    padding: 5px;
     line-height: 1em;
     bottom: 0;
     right: 0;
@@ -359,6 +367,7 @@ a {
 .add-new-content{
     overflow: auto;
     height: 100%;
+    padding-bottom: 100px;
 }
 
 .formFooter {
@@ -443,6 +452,50 @@ a {
 
 .button-twitter .icon:hover {
     border-right:1px solid #00A4EF;
+}
+
+/*** Snackbar ***/
+
+.snackbar {
+    visibility: hidden;
+    width: 300px;
+    margin-left: -150px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+.snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadeup 0.5s, fadedown 0.5s 2.5s;
+    animation: fadeup 0.5s, fadedown 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadeup {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadedown {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadedown {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
 }
 
 /*** Widgets ***/

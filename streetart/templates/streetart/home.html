@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
+    <div class="main row">
 
         <!-- This panel relates to the left half of the screen -->
         <div class="left-panel col-md-7 col-sm-12">
@@ -23,24 +23,16 @@
                 <a class="back-button-block" onclick="backClicked()"><span class="glyphicon glyphicon-arrow-left back-span white"></span></a>
             </div>
 
-            <div class="focused-image-holder">
-                <div class="focused-image-div">
-                    <img class="focused-image">
-                </div>
-            </div>
-
             <!-- This is what holds the main view card -->
             <div id="marker-card-holder" class="card-holder">
-                <div class="card">
+                <div id="main-card" class="card">
                     <div class="card-image">
                         <span class="overlay overlay-title"></span>
                         <img class="main-image img-responsive" src="">
-                        <a class="overlay overlay-fullscreen" href="" data-lightbox="main"><i class="material-icons md-light md-36">fullscreen</i></a>
+                        <a class="overlay-fullscreen" href="" data-lightbox="lightbox"><i class="material-icons md-light md-36">fullscreen</i></a>
                         <a class="overlay overlay-expand" onclick="expandCard()"><i class="material-icons md-light md-36">expand_more</i></a>
-                        {% if user.is_authenticated %}
-                            <a class="overlay overlay-like"><i class="material-icons palette-Red md-36">favorite_border</i></a>
-                            <a class="overlay overlay-checkin"><i class="material-icons md-light md-36">beenhere</i></a>
-                        {% endif %}
+                        <a class="overlay-like" onclick="like()"><i class="material-icons palette-Red text md-36">favorite_border</i></a>
+                        <a class="overlay-checkin" onclick="checkin()"><i class="material-icons palette-White text md-36">beenhere</i></a>
                     </div>
                     <div class="card-details">
                         <div class="card-content">
@@ -49,10 +41,9 @@
                         </div>
 
                         <div class="card-action">
-                            {% if user.is_authenticated %}
-                                <a id="like" onclick="like()" type="button" value="">LIKE <span id="likeCount"></span></a>
-                                <a id="checkin" onclick="checkin()" value="">CHECK IN <span id="checkinCount"></span></a>
-                            {% endif %}
+                            <a id="like" onclick="like()">LIKE <span id="likeCount"></span></a>
+                            <a id="checkin" onclick="checkin()">CHECK IN <span id="checkinCount"></span></a>
+                            <a id="show_on_map">SHOW ON MAP</a>
                         </div>
                     </div>
                 </div>
@@ -99,7 +90,7 @@
             <i class="left-panel-toggle material-icons md-dark md-48" id="left-panel-toggle">chevron_left</i>
 
             <!-- This block shows the category selector and search bar -->
-            <div class="filter-block col-xs-10 col-md-offset-1">
+            <div class="filter-block col-xs-10 col-xs-offset-1">
                 <div class="col-xs-6">
                     <select class="multiselect" multiple="multiple">
                         <option value="1" selected="selected">Viewable</option>
@@ -125,6 +116,11 @@
             </a>
         </div>
     </div>
+    <div id="likeSnackbar" class="snackbar">Thank you for liking this artwork!</div>
+    <div id="unlikeSnackbar" class="snackbar">You have unliked this artwork.</div>
+    <div id="loginSnackbar" class="snackbar">Please login before liking or checking in.</div>
+    <div id="checkinSnackbar" class="snackbar">Thank you for checking in on this artwork!</div>
+    <div id="checkoutSnackbar" class="snackbar">You have unchecked this artwork.</div>
 
 {% endblock %}
 
@@ -136,6 +132,7 @@
     <script type="text/javascript" src="{% static 'lightbox/js/lightbox.js' %}"></script>
     <script type="text/javascript" src="{% static 'fluent_comments/js/ajaxcomments.js' %}"></script>
     <script type="text/javascript">
+        var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
         var artworks = [];
         var markers = [];
 
@@ -147,7 +144,9 @@
                 imageUrl: '{{ art.image.url }}',
                 lat: '{{ art.location.y }}',
                 lng: '{{ art.location.x }}',
+                hasLiked: '{{ art.has_liked }}',
                 likes_count: '{{ art.total_likes }}',
+                hasCheckedin: '{{ art.has_checkedin }}',
                 checkins_count: '{{ art.total_checkins }}',
                 altImages : [
                     {% for altimage in art.other_images.all %}
@@ -158,7 +157,11 @@
         {% endfor %}
 
         function like() {
-            var index = $('#like').attr('value');
+            if(!is_authenticated) {
+                activateSnackbar('#loginSnackbar');
+                return;
+            }
+            var index = $('#main-card').data('index');
             if (artworks.hasOwnProperty(index)) {
                 var art = artworks[index];
                 $.ajax({
@@ -169,7 +172,15 @@
                     success: function (response) {
                         art.likes_count = response.likes_count;
                         $('#likeCount').html(art.likes_count);
-                        alert(response.message);
+                        if(response.message === 'liked') {
+                            art.hasLiked = 'True';
+                            activateSnackbar('#likeSnackbar');
+                            $('.overlay-like i').html('favorite');
+                        } else {
+                            art.hasLiked = 'False';
+                            activateSnackbar('#unlikeSnackbar');
+                            $('.overlay-like i').html('favorite_border');
+                        }
                     },
                     error: function (rs, e) {
                         alert('Error: Unable to like artwork.');
@@ -179,7 +190,11 @@
         }
 
         function checkin() {
-            var index = $('#checkin').attr('value');
+            if(!is_authenticated) {
+                activateSnackbar('#loginSnackbar');
+                return;
+            }
+            var index = $('#main-card').data('index');
             if (artworks.hasOwnProperty(index)) {
                 var art = artworks[index];
                 $.ajax({
@@ -190,7 +205,18 @@
                     success: function (response) {
                         art.checkins_count = response.checkins_count;
                         $('#checkinCount').html(art.checkins_count);
-                        alert(response.message);
+                        if(response.message === 'checkedin') {
+                            art.hasCheckedin = 'True';
+                            $('.overlay-checkin i').addClass('palette-Green');
+                            $('.overlay-checkin i').removeClass('palette-White');
+
+                            activateSnackbar('#checkinSnackbar');
+                        } else {
+                            art.hasCheckedin = 'False';
+                            $('.overlay-checkin i').addClass('palette-White');
+                            $('.overlay-checkin i').removeClass('palette-Green');
+                            activateSnackbar('#checkoutSnackbar');
+                        }
                     },
                     error: function (rs, e) {
                         alert('Error: Unable to check in.');
@@ -204,8 +230,7 @@
             'fitImagesInViewport': true,
             'resizeDuration': 500,
             'wrapAround': true
-        })
-        console.log(artworks);
+        });
     </script>
     <script src="{% static 'streetart/js/map.js' %}"></script>
     <script src="{% static 'streetart/js/animations.js' %}"></script>
