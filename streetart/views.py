@@ -136,7 +136,7 @@ def add_new(request):
                 artwork.save()
                 return redirect('/', pk=artwork.pk)
         elif 'new_muralcommission' in request.POST:
-            muralCommissionForm = MuralCommissionForm(request.POST)
+            muralCommissionForm = MuralCommissionForm(request.POST, request.FILES)
             if muralCommissionForm.is_valid():
                 # do something with the form data here
                 muralCommission = muralCommissionForm.save(commit=False)
@@ -145,7 +145,7 @@ def add_new(request):
                 muralCommission.save()
                 return redirect('/')
         elif 'new_wallspace' in request.POST:
-            wallSpaceForm = WallSpaceForm(request.POST)
+            wallSpaceForm = WallSpaceForm(request.POST, request.FILES)
             if wallSpaceForm.is_valid():
                 # do something with the form data here
                 wallSpace = wallSpaceForm.save(commit=False)

@@ -18,6 +18,11 @@ class ArtworkForm(admin.ModelAdmin):
     list_display = ('title', 'validated', 'status')
     inlines = [ ImageAdmin ]
 
+class NewInfoForm(admin.ModelAdmin):
+    formfield_overrides = {
+        models.PointField: {"widget": GooglePointFieldWidget}
+    }
+
 class RoutePointInline(SortableInlineAdminMixin, admin.TabularInline):
     model = RoutePoint
 
@@ -35,9 +40,9 @@ admin.site.register(Artwork_Category)
 admin.site.register(Profile)
 admin.site.register(Status)
 admin.site.register(AlternativeImage)
-admin.site.register(ArtistExpressionOfInterest)
-admin.site.register(WallSpace)
-admin.site.register(MuralCommission)
+admin.site.register(ArtistExpressionOfInterest, NewInfoForm)
+admin.site.register(WallSpace, NewInfoForm)
+admin.site.register(MuralCommission, NewInfoForm)
 admin.site.register(Route, RouteForm)
 admin.site.register(RoutePoint)
 # Register your models here.

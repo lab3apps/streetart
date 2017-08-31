@@ -69,7 +69,7 @@ a {
 
 /*** Split page ***/
 
-.container {
+.split-page {
     marign: 0 auto;
     width: 100%;
     height: calc(100% - 50px);
@@ -471,3 +471,11 @@ a {
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
 }
+
+/*** Widgets ***/
+
+.mw-wrap{
+    width: 100% !important;
+}
+
+
