@@ -79,8 +79,8 @@
             </div>
 
             <!-- Colored FAB button with ripple -->
-            <button class="fab navbar-map mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored visible-xs-block visible-sm-block">
-              <i class="material-icons">place</i>
+            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored visible-xs-block visible-sm-block fab navbar-map">
+              <i class="material-icons">map</i>
             </button>
         </div>
 
@@ -107,20 +107,20 @@
             <div id="map" class="map-container"></div>
 
 
-            <button class="fab navbar-gallery mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored visible-xs-block visible-sm-block">
+            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored visible-xs-block visible-sm-block fab navbar-gallery">
               <i class="material-icons">collections</i>
             </button>
             <!-- Colored FAB button with ripple -->
-            <a href="{% url 'streetart:new_artwork' %}" class="fab mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+            <a href="{% url 'streetart:new_artwork' %}" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored fab">
               <i class="material-icons">add_location</i>
             </a>
         </div>
     </div>
-    <div id="likeSnackbar" class="snackbar">Thank you for liking this artwork!</div>
-    <div id="unlikeSnackbar" class="snackbar">You have unliked this artwork.</div>
+    <div id="likeSnackbar" class="snackbar">Liked</div>
+    <div id="unlikeSnackbar" class="snackbar">Unliked</div>
     <div id="loginSnackbar" class="snackbar">Please login before liking or checking in.</div>
-    <div id="checkinSnackbar" class="snackbar">Thank you for checking in on this artwork!</div>
-    <div id="checkoutSnackbar" class="snackbar">You have unchecked this artwork.</div>
+    <div id="checkinSnackbar" class="snackbar">Checked In</div>
+    <div id="checkoutSnackbar" class="snackbar">Removed Checkin</div>
 
 {% endblock %}
 

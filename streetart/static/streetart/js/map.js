@@ -53,7 +53,8 @@ function addMarkers() {
                 animation: google.maps.Animation.DROP
             });
             marker['infowindow'] = new google.maps.InfoWindow({
-                content: "<h2>" + art.name + "</h2>"
+                content: "<p class='map-tooltip'>" + art.name + "</p>",
+                disableAutoPan: true
             });
 
             markers[key] = marker;

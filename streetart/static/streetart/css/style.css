@@ -69,7 +69,7 @@ a {
 .navbar-inverse {
     background-color: black;
     background-image: none;
-    border: none;
+    border: 1px solid black;
 }
 
 /*** Colours ***/
@@ -605,6 +605,8 @@ a {
     position: absolute;
     right: 10px;
     bottom: 10px;
+    background: white;
+    color: rgb(158,158,158);
 }
 
 .fab.navbar-gallery {
