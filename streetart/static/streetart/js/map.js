@@ -12,6 +12,16 @@ function initialize() {
             mapTypeId: layer,
             mapTypeControl: false,
             streetViewControl: true,
+            zoomControl: true,
+            zoomControlOptions: {
+              position: google.maps.ControlPosition.RIGHT_CENTER
+            },
+            scaleControl: true,
+            streetViewControl: true,
+            streetViewControlOptions: {
+              position: google.maps.ControlPosition.LEFT_TOP
+            },
+            fullscreenControl: true
         });
     map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
     addMarkers();
@@ -25,11 +35,11 @@ function addMarkers() {
             var markerUrl;
 
             if(art.status === '1') {
-                markerUrl = 'http://maps.google.com/mapfiles/ms/micons/green-dot.png';
+                markerUrl = '/static/img/visible.png';
             } else if(art.status === '2') {
-                markerUrl = 'http://maps.google.com/mapfiles/ms/micons/orange-dot.png';
+                markerUrl = '/static/img/part_visible.png';
             } else if(art.status === '3') {
-                markerUrl = 'http://maps.google.com/mapfiles/ms/micons/red-dot.png';
+                markerUrl = '/static/img/not_visible.png';
             } else {
                 markerUrl = 'http://maps.google.com/mapfiles/ms/micons/blue-dot.png';
             }

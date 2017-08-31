@@ -144,7 +144,7 @@ function resizeMap() {
     }, 300);
 }
 
-$('#navbar-map').click(function(e) {
+$('.navbar-map').click(function(e) {
     e.preventDefault();
     // Important for mobile
     setTimeout(function() {
@@ -154,7 +154,7 @@ $('#navbar-map').click(function(e) {
     $('.right-panel').removeClass('mobile-hide');
 });
 
-$('#navbar-gallery').click(function(e) {
+$('.navbar-gallery').click(function(e) {
     e.preventDefault();
     // Important for mobile
     $('.left-panel').removeClass('mobile-hide');

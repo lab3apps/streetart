@@ -8,7 +8,7 @@
         <!--Add keywords that describe your project between the quotation marks. This helps search engines find and index your content-->
         <meta name="keywords" content="REPLACE WITH YOUR OWN KEYWORDS HERE, AND HERE, AND HERE">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         {% endblock %}
 
     <!--The Block CSS is an example of what could go in your base.html file. If you already have these added into your static files then
@@ -23,6 +23,7 @@
         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="{% static 'streetart/css/palette.css' %}" rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.grey-blue.min.css">
         <link rel="stylesheet" type="text/css" href="{% static 'streetart/css/style.css' %}" />
         {% endblock %}
 
@@ -54,10 +55,10 @@
                               <!--Below is where you put the rest of the links to the pages you've created. Please reference your own models
                                in Django.-->
                                 <li class="visible-xs-block visible-sm-block">
-                                    <a id="navbar-map" href="{% url 'streetart:home' %}">Map</a>
+                                    <a id="navbar-gallery" class="navbar-gallery" href="{% url 'streetart:home' %}">Gallery</a>
                                 </li>
                                 <li class="visible-xs-block visible-sm-block">
-                                    <a id="navbar-gallery" href="{% url 'streetart:home' %}">Gallery</a>
+                                    <a id="navbar-map" class="navbar-map" href="{% url 'streetart:home' %}">Map</a>
                                 </li>
                                 <li class="visible-xs-block">
                                     <a href="/settings">Settings</a>
@@ -143,6 +144,7 @@
     {% block head-javascript %}
         <script src="{% static 'bootstrap/js/jquery-3.2.1.min.js' %}"></script>
         <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+        <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     {% endblock %}
 
 </html>

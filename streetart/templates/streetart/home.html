@@ -74,8 +74,9 @@
                  Image div boxes added using django tempting. -->
             <div class="scroll-gallery">
                 {% for art in artworks %}
-                        <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-4 col-md-3">
-                            <a onclick="focusOnMarker({{ art.id }}), markerClicked()">
+                        <div id="artbox-{{ art.id }}" class="gallery-item col-6 col-xs-4 col-sm-4 col-md-3">
+                            <div class="dummy"></div>
+                            <a class="img-link" onclick="focusOnMarker({{ art.id }}), markerClicked()">
                                 {% thumbnail art.image "250x250" as im %}
                                     <img class="thumbnail-image" src="{{ im.url }}">
                                 {% empty %}
@@ -85,6 +86,11 @@
                         </div>
                 {% endfor %}
             </div>
+
+            <!-- Colored FAB button with ripple -->
+            <button class="fab navbar-map mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored visible-xs-block visible-sm-block">
+              <i class="material-icons">place</i>
+            </button>
         </div>
 
         <!-- This panel relates to the right side of the screen and holds the map -->
@@ -109,8 +115,14 @@
             <!-- This div is where the map will be displayed -->
             <div id="map" class="map-container"></div>
 
-            <!-- This button directs the user to the subject new artwork form page -->
-            <a class="map-add" href="{% url 'streetart:new_artwork' %}"><span class="glyphicon glyphicon-plus"></span></a>
+
+            <button class="fab navbar-gallery mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored visible-xs-block visible-sm-block">
+              <i class="material-icons">collections</i>
+            </button>
+            <!-- Colored FAB button with ripple -->
+            <a href="{% url 'streetart:new_artwork' %}" class="fab mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+              <i class="material-icons">add_location</i>
+            </a>
         </div>
     </div>
 

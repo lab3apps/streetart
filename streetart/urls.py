@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^routes/(?P<pk>[0-9]+)$', views.route_detail, name='route_detail'),
     url(r'^like/([0-9]+)/$', views.like, name='like'),
 	url(r'^checkin/([0-9]+)/$', views.checkIn, name='checkIn'),
+	url(r'^thanks/$', views.thanks, name='thanks'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

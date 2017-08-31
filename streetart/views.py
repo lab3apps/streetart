@@ -290,3 +290,6 @@ def checkIn(request, key):
     # use mimetype instead of content_type if django < 5
     return HttpResponse(json.dumps(ctx), content_type='application/json')
 
+def thanks(request):
+    return render(request, 'streetart/thank_you.html')
+
