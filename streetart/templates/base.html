@@ -112,7 +112,7 @@
     </header>
 
     <!-- This is where you'll put your page content. Leave it blank for now. -->
-    <div class="container">
+    <div class="container split-page">
     {% if messages %}
         {% for message in messages %}
         <div{% if message.tags %} class="alert alert-warning {{ message.tags }}"{% endif %}>{{ message }}</div>
