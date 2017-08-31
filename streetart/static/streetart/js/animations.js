@@ -106,10 +106,11 @@ function expandCard() {
     focusLeft();
     $('#comment-card-holder').show();
     $('#images-card-holder').show();
-    $('#expand').hide();
     $('.scroll-gallery').hide();
     $('.left-panel').css('overflow-y', 'scroll');
-    $('.image').css('height', '30%');
+    $('.main-image').css('height', '25%');
+    $(".card-details").slideDown();
+    $(".overlay").fadeOut();
     viewState = 2;
 }
 
@@ -117,10 +118,11 @@ function collapseCard() {
     focusRight();
     $('#comment-card-holder').hide();
     $('#images-card-holder').hide();
-    $('#expand').show();
     $('.scroll-gallery').show();
     $('.left-panel').css('overflow-y', 'hidden');
-    $('.image').css('height', '20%');
+    $('.main-image').css('height', '30%');
+    $(".card-details").slideUp();
+    $(".overlay").fadeIn();
     viewState = 1;
 }
 

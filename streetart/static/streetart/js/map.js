@@ -68,10 +68,15 @@ function focusOnMarker(index) {
     if (artworks.hasOwnProperty(index)) {
         var art = artworks[index];
         var point = new google.maps.LatLng(art.lat, art.lng);
-        $('.image').attr("src", art.imageUrl);
+        $('.main-image').attr("src", art.imageUrl);
+        $('.overlay-title').html(art.name);
         $('.card-title').html(art.name);
         $('.card-description').html(art.description);
-        $('.card-fullscreen-image').attr('href', art.imageUrl);
+        $('.overlay-fullscreen').attr('href', art.imageUrl);
+        $('#like').attr('value', index);
+        $('#likeCount').html(art.likes_count);
+        $('#checkin').attr('value', index);
+        $('#checkinCount').html(art.checkins_count);
         $('#like').attr('value', index);
         $('#likeCount').html(art.likes_count);
         $('#checkin').attr('value', index);
