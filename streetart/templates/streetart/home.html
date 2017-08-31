@@ -9,6 +9,7 @@
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'multiselect/bootstrap-multiselect.css' %}" type="text/css"/>
     <link href="{% static 'lightbox/css/lightbox.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'fluent_comments/css/ajaxcomments.css' %}" />
 {% endblock %}
 
 {% block content %}
@@ -22,24 +23,37 @@
                 <a class="back-button-block" onclick="backClicked()"><span class="glyphicon glyphicon-arrow-left back-span white"></span></a>
             </div>
 
+            <div class="focused-image-holder">
+                <div class="focused-image-div">
+                    <img class="focused-image">
+                </div>
+            </div>
+
             <!-- This is what holds the main view card -->
             <div id="marker-card-holder" class="card-holder">
                 <div class="card">
                     <div class="card-image">
-                        <img class="image" src="">
-                        <a class="card-fullscreen-image" href="" data-lightbox="main"><span class="glyphicon glyphicon-resize-full"></span></a>
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title"></span>
-                        <p class="card-description"></p>
-                    </div>
-                    <div class="card-action">
-                        <a id="expand" onclick="expandCard()">EXPAND</a>
+                        <span class="overlay overlay-title"></span>
+                        <img class="main-image img-responsive" src="">
+                        <a class="overlay overlay-fullscreen" href="" data-lightbox="main"><i class="material-icons md-light md-36">fullscreen</i></a>
+                        <a class="overlay overlay-expand" onclick="expandCard()"><i class="material-icons md-light md-36">expand_more</i></a>
                         {% if user.is_authenticated %}
-                            <a id="like" onclick="like()" type="button" value="">LIKE <span id="likeCount"></span></a>
-                            <a id="checkin" onclick="checkin()" value="">CHECK IN <span id="checkinCount"></span></a>
+                            <a class="overlay overlay-like"><i class="material-icons palette-Red md-36">favorite_border</i></a>
+                            <a class="overlay overlay-checkin"><i class="material-icons md-light md-36">beenhere</i></a>
                         {% endif %}
-                        <a class="visible-xs-inline-block visible-sm-inline-block" id="show_on_map">SHOW ON MAP</a>
+                    </div>
+                    <div class="card-details">
+                        <div class="card-content">
+                            <span class="card-title"></span>
+                            <p class="card-description">Cards for display in portfolio style material design by Google.</p>
+                        </div>
+
+                        <div class="card-action">
+                            {% if user.is_authenticated %}
+                                <a id="like" onclick="like()" type="button" value="">LIKE <span id="likeCount"></span></a>
+                                <a id="checkin" onclick="checkin()" value="">CHECK IN <span id="checkinCount"></span></a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -60,7 +74,7 @@
                  Image div boxes added using django tempting. -->
             <div class="scroll-gallery">
                 {% for art in artworks %}
-                        <div id="artbox-{{ art.id }}" class="gallery-item col-md-3">
+                        <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-4 col-md-3">
                             <a onclick="focusOnMarker({{ art.id }}), markerClicked()">
                                 {% thumbnail art.image "250x250" as im %}
                                     <img class="thumbnail-image" src="{{ im.url }}">
@@ -108,6 +122,7 @@
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
     <script type="text/javascript" src="{% static 'multiselect/bootstrap-multiselect.js' %}"></script>
     <script type="text/javascript" src="{% static 'lightbox/js/lightbox.js' %}"></script>
+    <script type="text/javascript" src="{% static 'fluent_comments/js/ajaxcomments.js' %}"></script>
     <script type="text/javascript">
         var artworks = [];
         var markers = [];
