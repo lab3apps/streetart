@@ -53,7 +53,7 @@ function addMarkers() {
                 animation: google.maps.Animation.DROP
             });
             marker['infowindow'] = new google.maps.InfoWindow({
-                content: "<p class='map-tooltip'>" + art.name + "</p>",
+                content: "<p class='map-tooltip'>" + art.title + "</p>",
                 disableAutoPan: true
             });
 
@@ -80,12 +80,38 @@ function focusOnMarker(index) {
         var art = artworks[index];
         var point = new google.maps.LatLng(art.lat, art.lng);
         $('.main-image').attr("src", art.imageUrl);
+        //Used to get focused artworks id for liking and checking in.
         $('#main-card').data('index', index);
-        $('.overlay-title').html(art.name);
-        $('.card-title').html(art.name);
+        $('.overlay-title').html(art.title);
+        $('.card-title').html(art.title);
         $('.card-description').html(art.description);
+        if(art.commission_date !== 'None') {
+            $('.card-commission').show();
+            $('.commission-date').html(art.commission_date);
+        } else {
+            $('.card-commission').hide();
+        }
+        if(art.decommission_date !== 'None') {
+            $('.card-decommission').show();
+            $('.decommission-date').html(art.decommission_date);
+        } else {
+            $('.decard-commission').hide();
+        }
+
+        if(art.artists.length >= 1) {
+            var artistsNames = $('.artists-names');
+            artistsNames.empty();
+            for(var key in art.artists) {
+                    artistsNames.append(art.artists[key]);
+                    if(!(key == art.artists.length - 1)) {
+                        artistsNames.append(', ');
+                    }
+            }
+        } else {
+            $('.artists-names').empty();
+        }
+
         $('.overlay-fullscreen').attr('href', art.imageUrl);
-        console.log("art.hasLiked: " + art.hasLiked);
         if(art.hasLiked === 'True') {
             $('.overlay-like i').html('favorite');
         } else {
@@ -145,7 +171,7 @@ function filterMarkers() {
         if (artworks.hasOwnProperty(key)) {
             var art = artworks[key];
             var marker = markers[key];
-            if ((art.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0 ||
+            if ((art.title.toLowerCase().indexOf(searchText.toLowerCase()) >= 0 ||
                 art.description.toLowerCase().indexOf(searchText.toLowerCase()) >= 0) &&
                 catArray.indexOf(art.status) >= 0) {
                 marker.setVisible(true);

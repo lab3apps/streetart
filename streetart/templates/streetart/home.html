@@ -20,7 +20,7 @@
 
             <!-- This is where the back button will appear -->
             <div class="back-block">
-                <a class="back-button-block" onclick="backClicked()"><span class="glyphicon glyphicon-arrow-left back-span white"></span></a>
+                <a class="back-button-block" onclick="backClicked()"><span class="glyphicon glyphicon-arrow-left back-span black"></span></a>
             </div>
 
             <!-- This is what holds the main view card -->
@@ -39,7 +39,19 @@
                     <div class="card-details">
                         <div class="card-content">
                             <span class="card-title"></span>
-                            <p class="card-description">Cards for display in portfolio style material design by Google.</p>
+                            <p class="card-description"></p>
+                            <p class="card-commission">
+                                <span class="value-title">Commission date: </span>
+                                <span class="commission-date"></span>
+                            </p>
+                            <p class="card-decommission">
+                                <span class="value-title">Decommission date: </span>
+                                <span class="decommission-date"></span>
+                            </p>
+                            <p class="card-artists">
+                                <span class="value-title">Artists: </span>
+                                <span class="artists-names"></span>
+                            </p>
                         </div>
 
                         <div class="card-action">
@@ -92,9 +104,9 @@
             <i class="left-panel-toggle material-icons md-dark md-48" id="left-panel-toggle">chevron_left</i>
 
             <!-- This block shows the category selector and search bar -->
-            <div class="filter-block">
+            <div class="filter-block col-xs-10 col-xs-offset-1">
                 <div class="col-xs-6">
-                    <select class="multiselect" multiple="multiple">
+                    <select class="multiselect hidden" multiple="multiple">
                         <option value="1" selected="selected">Viewable</option>
                         <option value="2" selected="selected">Partially-Viewable</option>
                         <option value="3">Not Viewable</option>
@@ -140,9 +152,18 @@
 
         {% for art in artworks %}
             artworks[{{ art.id }}] = {
-                name: '{{ art.title }}',
+                title: '{{ art.title }}',
                 description: '{{ art.description }}',
+                commission_date: '{{ art.commission_date }}',
+                decommission_date: '{{ art.decommission_date }}',
                 status: '{{ art.status.id }}',
+                photo_credit: '{{ art.photo_credit }}',
+                link: '{{ art.link }}',
+                artists: [
+                    {% for artist in art.artists.all %}
+                        '{{ artist.name }}',
+                    {% endfor %}
+                ],
                 imageUrl: '{{ art.image.url }}',
                 lat: '{{ art.location.y }}',
                 lng: '{{ art.location.x }}',
@@ -157,6 +178,8 @@
                 ]
             };
         {% endfor %}
+
+        console.log(artworks);
 
         function like() {
             if(!is_authenticated) {
