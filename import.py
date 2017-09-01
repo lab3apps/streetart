@@ -44,7 +44,8 @@ def newArtwork(artistData,routeData,title,imageURL,photo_credit,city,locationLon
 	for artist in getArtists(artistData):
 		artwork.artists.add(artist)
 	artwork.status = getStatus(status)
-	artwork.crew = getCrew(crew)
+	for crew in getCrew(crew):
+		artwork.crew.add(crew)
 	artwork.category = getCategory(category)
 	addRoutes(routeData)
 	artwork.save()
@@ -70,7 +71,7 @@ def getCrew(crew):
 		_crew.formed_date = '2017-01-01'
 		_crew.save()
 		crews[crew] = _crew
-		return _crew
+		return [_crew]
 
 def getCategory(category):
 	if category in artwork_categories:
@@ -136,6 +137,7 @@ def csvimport():
 		reader = csv.reader(f)
 		data = list(reader)
 	headerdata = data[0]
+	print(headerdata)
 	for row in data[1:-1]:
 		#'FID', 'artwork_name', 'artist_name', 'crew',
 		#'Artist_from', 'WTS_status', 'status', 'Category', 'Commissioned_by', 
@@ -145,30 +147,30 @@ def csvimport():
 		print(row)
 		artistData = {
 					'name':row[headerdata.index('artist_name')],
-					'from':row[headerdata.index('Artist_from')],
-					'website':row[headerdata.index('Website')],
-					'insta':row[headerdata.index('Instagram')],
-					'facebook':row[headerdata.index('Facebook')],
-					'otherlinks':row[headerdata.index('LinksUnk')]
+					'from':row[headerdata.index('artist_from')],
+					'website':row[headerdata.index('website')],
+					'insta':row[headerdata.index('instagram')],
+					'facebook':row[headerdata.index('facebook')],
+					'otherlinks':row[headerdata.index('links')]
 					}
 		title = row[headerdata.index('artwork_name')]
 		imageURL = row[headerdata.index('pic_url')]
-		photo_credit = row[headerdata.index('Photo_credit')]
-		city = row[headerdata.index('City')]
+		photo_credit = row[headerdata.index('photo_credit')]
+		city = row[headerdata.index('city')]
 		locationLon = row[headerdata.index('x')]
 		locationLat = row[headerdata.index('y')]
 		link = None
 		crew = row[headerdata.index('crew')]
-		category = row[headerdata.index('Category')]
+		category = row[headerdata.index('category')]
 		status = row[headerdata.index('status')]
-		decommission_date = row[headerdata.index('Decommission_date')]
-		commission_date = row[headerdata.index('Commission_date')]
+		decommission_date = row[headerdata.index('decommission_date')]
+		commission_date = row[headerdata.index('commission_date')]
 		#if decommission_date.strip(' ') == '':
 		decommission_date = None
 		#if commission_date.strip(' ') == '':
 		commission_date = None
-		description = row[headerdata.index('descriptio')]
-		routeData = {'route':row[headerdata.index('Recommended_route')], 'position':row[headerdata.index('Order_in_route')]}
+		description = row[headerdata.index('description')]
+		routeData = {'route':row[headerdata.index('recommended_route')], 'position':row[headerdata.index('Order_in_route')]}
 		newArtwork(artistData,routeData,title,imageURL,photo_credit,city,locationLon,locationLat,
 				link,crew,category,status,decommission_date,commission_date,description)
 
