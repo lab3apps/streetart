@@ -86,6 +86,9 @@ class Artwork(models.Model):
     submitter_name = models.CharField(blank=True, null=True, max_length=200, verbose_name="Submitter's Name")
     submitter_email = models.EmailField(blank=True, null=True, verbose_name="Submitter's Email Address")
 
+    def get_artists(self):
+        return "\n".join([p.name for p in self.artists.all()])
+
     @property
     def total_likes(self):
         """

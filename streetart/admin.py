@@ -15,7 +15,7 @@ class ArtworkForm(admin.ModelAdmin):
     }
     exclude = ('likes', 'checkins')
     filter_horizontal = ('artists', 'crews')
-    list_display = ('title', 'validated', 'status')
+    list_display = ('pk', 'title', 'get_artists', 'validated', 'status')
     inlines = [ ImageAdmin ]
 
 class NewInfoForm(admin.ModelAdmin):
