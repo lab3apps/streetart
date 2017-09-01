@@ -201,12 +201,12 @@ a {
 .back-block {
     width: 100%;
     display: none;
+    border-bottom: solid 3px black;
 }
 
 .back-button-block {
-    font-size: 2em;
+    font-size: 3em;
     text-align: center;
-    padding-top: 15px;
     display: inline-block;
     width: 100%;
 }
