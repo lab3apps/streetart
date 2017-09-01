@@ -37,20 +37,14 @@
                 <nav class = "navbar navbar-inverse navbar-fixed-top" id="navbar_whole">
                     <div class="col-xs-12 col-sm-8">
                          <div class = "navbar-header">
-                            <button type= "button" class = "navbar-toggle collapsed" data-toggle = "collapse" data-target= "#navbar" aria-expanded="false" aria-controls = "navbar">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
                             <!--Below is the top-left hand side of the screen where you usually see a company/project name and a logo-->
                             <!--The next line sends the user back to the home page-->
-                            <a class="navbar-brand" href="{% url 'streetart:home' %}"> 
+                            <a class="header-image" href="{% url 'streetart:home' %}"> 
                                 <!--Insert the file name of your brand image below after the 'img'-->
-                                 <img class="img-responsive" src="/static/bootstrap/img/test.jpg"> 
+                                 <img class="img-responsive" src="{% static 'img/wts-logo-white.png' %}"> 
                             </a>
                         </div>
-                        <div id= "navbar" class="navbar-collapse collapse">
+                        <div id= "navbar" class="hidden-xs">
                             <ul class="nav navbar-nav navbar-left">
                               <!--Below is where you put the rest of the links to the pages you've created. Please reference your own models
                                in Django.-->
@@ -59,6 +53,12 @@
                                 </li>
                                 <li class="visible-xs-block visible-sm-block">
                                     <a id="navbar-map" class="navbar-map" href="{% url 'streetart:home' %}">Map</a>
+                                </li>
+                                <li class="">
+                                    <a id="navbar-about" class="navbar-about" href="{% url 'streetart:home' %}">About</a>
+                                </li>
+                                <li class="">
+                                    <a id="navbar-contact" class="navbar-contact" href="{% url 'streetart:home' %}">Contact</a>
                                 </li>
                                 <li class="visible-xs-block">
                                     <a href="/settings">Settings</a>
