@@ -24,6 +24,9 @@ def newArtwork(artistData,routeData,title,imageURL,photo_credit,city,locationLon
 
 	artwork.title = title
 	artwork.commission_date = commission_date
+	print(artwork.title)
+	print(title)
+	print(artwork.commission_date)
 	artwork.decommission_date = decommission_date
 	artwork.description = description[:49]
 	# Need to figure a way to pull the image from the url and to then put it into the database.
@@ -36,18 +39,17 @@ def newArtwork(artistData,routeData,title,imageURL,photo_credit,city,locationLon
 	
 	artwork.city = city
 	artwork.link = link
+	artwork.category = getCategory(category)
+	addRoutes(routeData)
+	artwork.status = getStatus(status)
 	artwork.image.save(
     	os.path.basename(imageURL),
     	File(open(result[0], 'rb'))
     )
-	artwork.save()
 	for artist in getArtists(artistData):
 		artwork.artists.add(artist)
-	artwork.status = getStatus(status)
 	for crew in getCrew(crew):
-		artwork.crew.add(crew)
-	artwork.category = getCategory(category)
-	addRoutes(routeData)
+		artwork.crews.add(crew)
 	artwork.save()
 
 def getStatus(status):
@@ -60,18 +62,22 @@ def getStatus(status):
 		statuses[status] = _status
 		return _status
 		
-def getCrew(crew):
-	if crew in crews:
-		return crews[crew]
-	else:
-		_crew = Crew()
-		_crew.name = crew
-		_crew.city = ''
-		_crew.is_disbanded = False
-		_crew.formed_date = '2017-01-01'
-		_crew.save()
-		crews[crew] = _crew
-		return [_crew]
+def getCrew(crewdata):
+	_crews = crewdata.split(',')
+	crews_ = []
+	for crew in _crews:
+		crew = crew.strip(' ')
+		if crew in crews:
+			crews_.append(crews[crew])
+		else:
+			_crew = Crew()
+			_crew.name = crew
+			_crew.city = ''
+			_crew.is_disbanded = False
+			_crew.formed_date = '2017-01-01'
+			_crew.save()
+			crews[crew] = _crew
+	return crews_
 
 def getCategory(category):
 	if category in artwork_categories:
@@ -171,8 +177,12 @@ def csvimport():
 		commission_date = None
 		description = row[headerdata.index('description')]
 		routeData = {'route':row[headerdata.index('recommended_route')], 'position':row[headerdata.index('Order_in_route')]}
-		newArtwork(artistData,routeData,title,imageURL,photo_credit,city,locationLon,locationLat,
+		try:
+			newArtwork(artistData,routeData,title,imageURL,photo_credit,city,locationLon,locationLat,
 				link,crew,category,status,decommission_date,commission_date,description)
+		except:
+			print(row)
+
 
 def jsonimport():
 	with open('lab3_json_2017-08-16.geojson') as f:
