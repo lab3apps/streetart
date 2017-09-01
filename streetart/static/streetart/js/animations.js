@@ -130,12 +130,14 @@ function hideLeftPanel() {
     $('.left-panel').addClass('no-width');
     $('.right-panel').addClass('full-width');
     $('#left-panel-toggle').addClass('rotate-180');
+    $('.left-panel').css('border-right', 'none');
 }
 
 function showLeftPanel() {
     $('.left-panel').removeClass('no-width');
     $('.right-panel').removeClass('full-width');
     $('#left-panel-toggle').removeClass('rotate-180');
+    $('.left-panel').css('border-right', 'solid 3px black');
 }
 
 function resizeMap() {

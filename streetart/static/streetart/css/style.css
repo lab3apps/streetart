@@ -64,13 +64,15 @@ a {
 
 .navbar {
     margin-bottom: 0;
+    min-height: 80px;
 }
 
 .navbar-inverse {
     background-color: black;
     background-image: none;
-    border: 1px solid black;
+    border-bottom: 3px solid black;
 }
+
 
 /*** Colours ***/
 
@@ -81,9 +83,8 @@ a {
 /*** Split page ***/
 
 .split-page {
-    marign: 0 auto;
     width: 100%;
-    height: calc(100% - 50px);
+    height: calc(100% - 80px);
 }
 
 
@@ -144,20 +145,26 @@ a {
 }
 
 .filter-block {
-    top: 0;
-    position: absolute;
-    z-index: 1;
+
 }
 
 /**** Left Panel ****/
 
 .left-panel {
     padding: 0;
-    background-color: black;
+    background-color: white;
     height: inherit;
     display: flex;
     min-height: 100%;
     flex-direction: column;
+    border-right: solid 3px black;
+}
+
+
+@media screen and (max-width: 991px) {
+  .left-panel {
+    border-right: none;
+  }
 }
 
 .title-block {
@@ -345,10 +352,10 @@ a {
 
 .img-link {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: 10px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
 }
 
 .dummy {
@@ -356,10 +363,16 @@ a {
 }
 
 .thumbnail-image {
-    padding: 10px;
     object-fit: cover;
     width: 100%;
     height: 100%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    border: solid 3px black;
+}
+
+.thumbnail-image:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); */
 }
 
 /*** Add New Form ***/
@@ -367,11 +380,25 @@ a {
 .add-new-content{
     overflow: auto;
     height: 100%;
+    padding-top: 50px;
     padding-bottom: 100px;
 }
 
 .formFooter {
     display: none;
+}
+
+.contribute-div {
+  padding-top: 50px;
+}
+
+/*** Settings Page ***/
+
+.settings-page {
+    overflow: auto;
+    height: 100%;
+    padding-top: 100px;
+    padding-bottom: 100px;
 }
 
 /*** Social Logins ***/

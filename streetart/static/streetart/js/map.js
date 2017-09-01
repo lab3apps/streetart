@@ -7,7 +7,7 @@ function initialize() {
         mapDiv, {
             center: new google.maps.LatLng(-43.5314, 172.6365),
             zoom: 14,
-            maxZoom: 18,
+            maxZoom: 25,
             minZoom: 12,
             mapTypeId: layer,
             mapTypeControl: false,

@@ -17,7 +17,7 @@
 		  </select>
 		</div>
 
-		<div id="newArtworkDiv" {% if url_name != "new_artwork" %}style="display: none;"{% endif %}>
+		<div class="contribute-div" id="newArtworkDiv" {% if url_name != "new_artwork" %}style="display: none;"{% endif %}>
 			<h1>Contribute to the map</h1>
 			<p>Is our map out of date?
 
@@ -75,7 +75,7 @@
 		    </form>
 		</div>
 
-		<div id="newMuralDiv" {% if url_name != "new_muralcommission" %}style="display: none;"{% endif %}>
+		<div class="contribute-div" id="newMuralDiv" {% if url_name != "new_muralcommission" %}style="display: none;"{% endif %}>
 			<h1>Commission a New Mural</h1>
 			<p>Have you seen art work on this website you like and want to commission a mural? It could be for your business, organisation, or your very own home. We'll help find the right artist for you.</p>
 		    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
@@ -96,7 +96,7 @@
 		        </p>
 		    </form>
 		</div>
-		<div id="newWallSpace" {% if url_name != "new_wallspace" %}style="display: none;"{% endif %}>
+		<div class="contribute-div" id="newWallSpace" {% if url_name != "new_wallspace" %}style="display: none;"{% endif %}>
 			<h1>Offer Your Wall Space</h1>
 			<p>Are you located in Christchurch and have wall space available for artists to use for free? Local muralists, graffiti artists, and creators of street art are always looking for open space and free walls to practice their craft and make art work on. International traveling artists occasionally enquire through our website looking for legal places to paint so they can leave their mark on Christchurch.</p>
 		    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
@@ -117,7 +117,7 @@
 		        </p>
 		    </form>
 		</div>
-		<div id="newArtistEOIDiv" {% if url_name != "new_artistexpressionofinterest" %}style="display: none;"{% endif %}>
+		<div class="contribute-div" id="newArtistEOIDiv" {% if url_name != "new_artistexpressionofinterest" %}style="display: none;"{% endif %}>
 			<h1>Express Your Interest as an Artist</h1>
 			<p>Do you want to get your work up on the walls of Christchurch? It's important to Watch This Space Trust to keep creating opportunities for local and visiting artists to Christchurch and keep our city a vibrant, lively city. </p>
 		    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}

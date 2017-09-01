@@ -27,8 +27,10 @@
             <div id="marker-card-holder" class="card-holder">
                 <div id="main-card" class="card">
                     <div class="card-image">
-                        <span class="overlay overlay-title"></span>
-                        <img class="main-image img-responsive" src="">
+                        <a onclick="expandCard()">
+                            <span class="overlay overlay-title"></span>
+                            <img class="main-image img-responsive" src="">
+                        </a>
                         <a class="overlay-fullscreen" href="" data-lightbox="lightbox"><i class="material-icons md-light md-36">fullscreen</i></a>
                         <a class="overlay overlay-expand" onclick="expandCard()"><i class="material-icons md-light md-36">expand_more</i></a>
                         <a class="overlay-like" onclick="like()"><i class="material-icons palette-Red text md-36">favorite_border</i></a>
@@ -65,7 +67,7 @@
                  Image div boxes added using django tempting. -->
             <div class="scroll-gallery">
                 {% for art in artworks %}
-                        <div id="artbox-{{ art.id }}" class="gallery-item col-6 col-xs-4 col-sm-4 col-md-3">
+                        <div id="artbox-{{ art.id }}" class="gallery-item col-xs-4 col-sm-4 col-md-3">
                             <div class="dummy"></div>
                             <a class="img-link" onclick="focusOnMarker({{ art.id }}), markerClicked()">
                                 {% thumbnail art.image "250x250" as im %}
@@ -90,7 +92,7 @@
             <i class="left-panel-toggle material-icons md-dark md-48" id="left-panel-toggle">chevron_left</i>
 
             <!-- This block shows the category selector and search bar -->
-            <div class="filter-block col-xs-10 col-xs-offset-1">
+            <div class="filter-block">
                 <div class="col-xs-6">
                     <select class="multiselect" multiple="multiple">
                         <option value="1" selected="selected">Viewable</option>
