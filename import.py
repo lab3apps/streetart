@@ -1,5 +1,5 @@
 import chch_streetart.wsgi
-from streetart.models import Artwork, Artist, Artwork_Category, Crew, Status
+from streetart.models import Artwork, Artist, Artwork_Category, Crew, Status, Route
 import json
 from django.core.files import File  # you need this somewhere
 import urllib.request
@@ -28,7 +28,7 @@ def newArtwork(artistData,routeData,title,imageURL,photo_credit,city,locationLon
 	print(title)
 	print(artwork.commission_date)
 	artwork.decommission_date = decommission_date
-	artwork.description = description[:49]
+	artwork.description = description
 	# Need to figure a way to pull the image from the url and to then put it into the database.
 	result = urllib.request.urlretrieve(imageURL)
 	artwork.photo_credit = photo_credit
@@ -90,7 +90,11 @@ def getCategory(category):
 		return artwork_category
 
 def addRoutes(routeData):
-
+	if not (routeData in routes):
+		route = Route()
+		route.name = routeData
+		route.save()
+		routes[routeData] = route
 	return None
 
 def getArtists(artistData):
@@ -176,7 +180,7 @@ def csvimport():
 		#if commission_date.strip(' ') == '':
 		commission_date = None
 		description = row[headerdata.index('description')]
-		routeData = {'route':row[headerdata.index('recommended_route')], 'position':row[headerdata.index('Order_in_route')]}
+		routeData = row[headerdata.index('recommended_route')]
 		try:
 			newArtwork(artistData,routeData,title,imageURL,photo_credit,city,locationLon,locationLat,
 				link,crew,category,status,decommission_date,commission_date,description)
