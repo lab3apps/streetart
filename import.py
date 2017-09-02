@@ -92,7 +92,7 @@ def getCategory(category):
 def addRoutes(routeData):
 	if not (routeData in routes):
 		route = Route()
-		route.name = routeData
+		route.title = routeData
 		route.save()
 		routes[routeData] = route
 	return None
