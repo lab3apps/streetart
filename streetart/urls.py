@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 
 from . import views
 from rest_framework.urlpatterns import format_suffix_patterns
+from django.views.generic import TemplateView
 
 app_name = 'streetart'
 urlpatterns = [
@@ -21,6 +22,8 @@ urlpatterns = [
     url(r'^like/([0-9]+)/$', views.like, name='like'),
 	url(r'^checkin/([0-9]+)/$', views.checkIn, name='checkIn'),
 	url(r'^thanks/$', views.thanks, name='thanks'),
+	url(r'^donate/$', TemplateView.as_view(template_name='streetart/thank_you.html'), name='donate'),
+	url(r'^get_involved/$', TemplateView.as_view(template_name='streetart/thank_you.html'), name='getinvolved'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

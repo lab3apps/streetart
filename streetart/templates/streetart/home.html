@@ -80,18 +80,34 @@
             <!-- This is the main scrolling gallery which shows images relating to those on the map
                  Image div boxes added using django tempting. -->
             <div class="scroll-gallery">
-                {% for art in artworks %}
-                        <div id="artbox-{{ art.id }}" class="gallery-item col-xs-4 col-sm-4 col-md-3">
-                            <div class="dummy"></div>
-                            <a class="img-link" onclick="focusOnMarker({{ art.id }}), markerClicked()">
-                                {% thumbnail art.image "250x250" as im %}
-                                    <img class="thumbnail-image" src="{{ im.url }}">
-                                {% empty %}
-                                    <img class="thumbnail-image" src="{{ art.image.url }}">
-                                {% endthumbnail %}
-                            </a>
-                        </div>
-                {% endfor %}
+                <div class="getinvolved-section">
+                    {% for section in sections %}
+                            <div id="section-{{ section.id }}" class="getinvolved-item col-xs-4 col-sm-4 col-md-3">
+                                <div class="dummy"></div>
+                                <a class="img-link" href="{{section.link}}">
+                                    {% thumbnail section.image "250x250" as im %}
+                                        <img class="thumbnail-image" src="{{ im.url }}">
+                                    {% empty %}
+                                        
+                                    {% endthumbnail %}
+                                </a>
+                            </div>
+                    {% endfor %}
+                </div>
+                <div class="gallery-section">
+                    {% for art in artworks %}
+                            <div id="artbox-{{ art.id }}" class="gallery-item col-xs-4 col-sm-4 col-md-3">
+                                <div class="dummy"></div>
+                                <a class="img-link" onclick="focusOnMarker({{ art.id }}), markerClicked()">
+                                    {% thumbnail art.image "250x250" as im %}
+                                        <img class="thumbnail-image" src="{{ im.url }}">
+                                    {% empty %}
+                                        <img class="thumbnail-image" src="{{ art.image.url }}">
+                                    {% endthumbnail %}
+                                </a>
+                            </div>
+                    {% endfor %}
+                </div>
             </div>
 
             <!-- Colored FAB button with ripple -->
