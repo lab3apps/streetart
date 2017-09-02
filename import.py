@@ -53,13 +53,21 @@ def newArtwork(artistData,routeData,title,imageURL,photo_credit,city,locationLon
 	artwork.save()
 
 def getStatus(status):
+	status_name = status.strip(' ').lower()
 	if status in statuses:
 		return statuses[status]
 	else:
-		_status = Status()
-		_status.name = status
-		_status.save()
-		statuses[status] = _status
+		if status_name == 'viewable':
+			_status = Status.objects.get(pk=1)
+		else if 'semi' in status_name:
+			_status = Status.objects.get(pk=2)
+		else if 'not' in status_name:
+			_status = Status.objects.get(pk=3)
+		else:
+			_status = Status()
+			_status.name = status_name
+			_status.save()
+		statuses[status_name] = _status
 		return _status
 		
 def getCrew(crewdata):
@@ -134,7 +142,7 @@ def newArtist(name, website, facebook, insta, twitter, artist_from, otherlinks):
 	artist.artist_from = artist_from
 	artist.other_links = otherlinks
 	artist.save()
-	artists['name'] = artist
+	artists[name] = artist
 	return artist
 
 
