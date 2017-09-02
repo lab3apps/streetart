@@ -24,6 +24,9 @@
                     <i style="float: left;" class="material-icons md-dark md-48">chevron_left</i>
                 </a>
             </div>
+            <div class="tab-block">
+                
+            </div>
 
             <!-- This is what holds the main view card -->
             <div id="marker-card-holder" class="card-holder">
@@ -82,13 +85,13 @@
             <div class="scroll-gallery">
                 <div class="getinvolved-section">
                     {% for section in sections %}
-                            <div id="section-{{ section.id }}" class="getinvolved-item col-xs-4 col-sm-4 col-md-3">
+                            <div id="section-{{ section.id }}" class="getinvolved-item col-xs-4 col-sm-3 col-md-3">
                                 <div class="dummy"></div>
                                 <a class="img-link" href="{{section.link}}">
                                     {% thumbnail section.image "250x250" as im %}
                                         <img class="thumbnail-image" src="{{ im.url }}">
                                     {% empty %}
-                                        
+                                        <div class="thumbnail-image"></div>
                                     {% endthumbnail %}
                                 </a>
                             </div>
@@ -96,7 +99,7 @@
                 </div>
                 <div class="gallery-section">
                     {% for art in artworks %}
-                            <div id="artbox-{{ art.id }}" class="gallery-item col-xs-4 col-sm-4 col-md-3">
+                            <div id="artbox-{{ art.id }}" class="gallery-item col-xs-4 col-sm-3 col-md-3">
                                 <div class="dummy"></div>
                                 <a class="img-link" onclick="focusOnMarker({{ art.id }}), markerClicked()">
                                     {% thumbnail art.image "250x250" as im %}

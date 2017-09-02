@@ -206,6 +206,16 @@ class Section(models.Model):
     def __str__(self):
         return self.title
 
+@python_2_unicode_compatible  # only if you need to support Python 2
+class Logo(models.Model):
+    title = models.CharField(max_length=200, blank=True, null=True)
+    image = ImageField(upload_to='logos/', blank=True, null=True)
+    link = models.URLField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
 
 
 
