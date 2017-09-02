@@ -59,9 +59,9 @@ def getStatus(status):
 	else:
 		if status_name == 'viewable':
 			_status = Status.objects.get(pk=1)
-		else if 'semi' in status_name:
+		elif 'semi' in status_name:
 			_status = Status.objects.get(pk=2)
-		else if 'not' in status_name:
+		elif 'not' in status_name:
 			_status = Status.objects.get(pk=3)
 		else:
 			_status = Status()
