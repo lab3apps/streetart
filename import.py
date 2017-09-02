@@ -1,5 +1,5 @@
 import chch_streetart.wsgi
-from streetart.models import Artwork, Artist, Artwork_Category, Crew, Status
+from streetart.models import Artwork, Artist, Artwork_Category, Crew, Status, Route
 import json
 from django.core.files import File  # you need this somewhere
 import urllib.request
@@ -28,7 +28,7 @@ def newArtwork(artistData,routeData,title,imageURL,photo_credit,city,locationLon
 	print(title)
 	print(artwork.commission_date)
 	artwork.decommission_date = decommission_date
-	artwork.description = description[:49]
+	artwork.description = description
 	# Need to figure a way to pull the image from the url and to then put it into the database.
 	result = urllib.request.urlretrieve(imageURL)
 	artwork.photo_credit = photo_credit
@@ -53,13 +53,21 @@ def newArtwork(artistData,routeData,title,imageURL,photo_credit,city,locationLon
 	artwork.save()
 
 def getStatus(status):
+	status_name = status.strip(' ').lower()
 	if status in statuses:
 		return statuses[status]
 	else:
-		_status = Status()
-		_status.name = status
-		_status.save()
-		statuses[status] = _status
+		if status_name == 'viewable':
+			_status = Status.objects.get(pk=1)
+		elif 'semi' in status_name:
+			_status = Status.objects.get(pk=2)
+		elif 'not' in status_name:
+			_status = Status.objects.get(pk=3)
+		else:
+			_status = Status()
+			_status.name = status_name
+			_status.save()
+		statuses[status_name] = _status
 		return _status
 		
 def getCrew(crewdata):
@@ -90,7 +98,11 @@ def getCategory(category):
 		return artwork_category
 
 def addRoutes(routeData):
-
+	if not (routeData in routes):
+		route = Route()
+		route.title = routeData
+		route.save()
+		routes[routeData] = route
 	return None
 
 def getArtists(artistData):
@@ -130,7 +142,7 @@ def newArtist(name, website, facebook, insta, twitter, artist_from, otherlinks):
 	artist.artist_from = artist_from
 	artist.other_links = otherlinks
 	artist.save()
-	artists['name'] = artist
+	artists[name] = artist
 	return artist
 
 
@@ -176,7 +188,7 @@ def csvimport():
 		#if commission_date.strip(' ') == '':
 		commission_date = None
 		description = row[headerdata.index('description')]
-		routeData = {'route':row[headerdata.index('recommended_route')], 'position':row[headerdata.index('Order_in_route')]}
+		routeData = row[headerdata.index('recommended_route')]
 		try:
 			newArtwork(artistData,routeData,title,imageURL,photo_credit,city,locationLon,locationLat,
 				link,crew,category,status,decommission_date,commission_date,description)
