@@ -112,7 +112,7 @@ class Artwork(models.Model):
         return Comment.objects.filter(content_type=ct,object_pk=obj_pk)
 
     def save(self, *args, **kwargs):
-        if self.title != None or self.title != '':
+        if self.title != None and self.title != '':
             self.slug = slugify(self.title)
         else:
             self.slug = slugify(self.pk)
