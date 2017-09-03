@@ -112,7 +112,10 @@ class Artwork(models.Model):
         return Comment.objects.filter(content_type=ct,object_pk=obj_pk)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        if self.title != None or self.title != '':
+            self.slug = slugify(self.title)
+        else:
+            self.slug = slugify(self.pk)
         super(Artwork, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -192,6 +195,26 @@ class RoutePoint(models.Model):
 
     def __str__(self):
         return "" ##This is needed for the use of drag and drop sorting plugin in admin.
+
+@python_2_unicode_compatible  # only if you need to support Python 2
+class Section(models.Model):
+    title = models.CharField(max_length=200, blank=True, null=True)
+    image = ImageField(upload_to='artwork/', blank=True, null=True)
+    link = models.URLField(blank=True, null=True)
+    order = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+@python_2_unicode_compatible  # only if you need to support Python 2
+class Logo(models.Model):
+    title = models.CharField(max_length=200, blank=True, null=True)
+    image = ImageField(upload_to='logos/', blank=True, null=True)
+    link = models.URLField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
 
 
 

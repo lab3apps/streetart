@@ -19,7 +19,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm
 from .serializers import ArtworkSerializer, ArtistSerializer, RouteSerializer
-from .models import Artwork, Artist, Status, Route
+from .models import Artwork, Artist, Status, Route, Section
 from django.db import transaction
 from django.core.mail import send_mail
 from django.conf import settings as site_settings
@@ -32,6 +32,7 @@ from django.views.decorators.http import require_POST
 
 def home(request):
     artwork = Artwork.objects.filter(validated=True).order_by('pk')
+    section = Section.objects.order_by('order')
     if request.user.is_authenticated():
         for art in artwork:
             art.has_liked = art.likes.filter(id=request.user.id).exists()
@@ -40,7 +41,7 @@ def home(request):
         for art in artwork:
             art.has_liked = False
             art.has_checkedin = False
-    return render(request, 'streetart/home.html', {'artworks': artwork})
+    return render(request, 'streetart/home.html', {'artworks': artwork, 'sections': section})
 
 @login_required
 @transaction.atomic
