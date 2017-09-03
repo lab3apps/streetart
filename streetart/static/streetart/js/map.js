@@ -1,7 +1,5 @@
 var map;
 
-var images = [];
-
 function initialize() {
     var mapDiv = document.getElementById("map");
     var layer = "toner";
@@ -129,18 +127,22 @@ function focusOnMarker(index) {
         marker['infowindow'].open(map, marker);
         var point = new google.maps.LatLng(art.lat, art.lng);
         // Image Loading
+        $('.loader').removeClass('none');
         if (art.image) {
+            $('.loader').addClass('none');
             $('.main-image').attr('src', art.image.src);
         } else {
             var imgPreload = new Image();
             imgPreload.src = art.imageUrl;
             art.image = imgPreload;
             if (imgPreload.complete || imgPreload.readyState === 4) {
+                $('.loader').addClass('none');
                 $('.main-image').attr('src', imgPreload.src);
             } else {
-                $('.loader').removeClass('none');
+                //$('.loader').removeClass('none');
                 $(imgPreload).on('load', function(response, status, xhr) {
                     if (status == 'error') {
+                        $('.loader').addClass('none');
                         console.log('Failed to load image');
                     } else {
                         $('.loader').addClass('none');
