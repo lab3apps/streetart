@@ -148,6 +148,9 @@ function focusOnMarker(index) {
                     console.log('Failed to load image');
                 } else {
                     $('.loader').addClass('none');
+                    console.log(self);
+                    console.log(imgPreload);
+                    console.log(art.imageUrl);
                     $('.main-image').attr("src", imgPreload.src);
                 }
             });
