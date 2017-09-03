@@ -137,14 +137,14 @@ function focusOnMarker(index) {
         imgPreload.src = art.imageUrl;
         if (imgPreload.complete || imgPreload.readyState === 4) {
             $('.loader').addClass('none');
-            $('.main-image').attr("src", art.imageUrl);
+            $('.main-image').attr("src", imgPreload.src);
         } else {
             $(imgPreload).on('load', function(response, status, xhr) {
                 if (status == 'error') {
                     console.log('Failed to load image');
                 } else {
                     $('.loader').addClass('none');
-                    $('.main-image').attr("src", art.imageUrl);
+                    $('.main-image').attr("src", imgPreload.src);
                 }
             });
         }
