@@ -129,32 +129,27 @@ function focusOnMarker(index) {
         marker['infowindow'].open(map, marker);
         var point = new google.maps.LatLng(art.lat, art.lng);
         // Image Loading
-       
-        var imgPreload = new Image();
-        imgPreload.src = art.imageUrl;
-        art.image = imgPreload;
-        console.log(art.image);
-        console.log(art.imageUrl);
-        if (imgPreload.complete || imgPreload.readyState === 4) {
-            $('.loader').addClass('none');
-            $('.main-image').attr("src", art.imageUrl);
-            console.log('imgPreload.src');
-            console.log(imgPreload.src);
+        if (art.image) {
+            $('.main-image').attr('src', art.image.src);
         } else {
-            //$('.main-image').attr("src", "");
-            $('.loader').removeClass('none');
-            $(imgPreload).on('load', function(response, status, xhr) {
-                if (status == 'error') {
-                    console.log('Failed to load image');
-                } else {
-                    $('.loader').addClass('none');
-                    console.log(self);
-                    console.log(imgPreload);
-                    console.log(art.imageUrl);
-                    $('.main-image').attr("src", imgPreload.src);
-                }
-            });
+            var imgPreload = new Image();
+            imgPreload.src = art.imageUrl;
+            art.image = imgPreload;
+            if (imgPreload.complete || imgPreload.readyState === 4) {
+                $('.main-image').attr('src', imgPreload.src);
+            } else {
+                $('.loader').removeClass('none');
+                $(imgPreload).on('load', function(response, status, xhr) {
+                    if (status == 'error') {
+                        console.log('Failed to load image');
+                    } else {
+                        $('.loader').addClass('none');
+                        $('.main-image').attr('src', imgPreload.src);
+                    }
+                });
+            }
         }
+        
         
         //Used to get focused artworks id for liking and checking in.
         $('#main-card').data('index', index);
