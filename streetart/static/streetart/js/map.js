@@ -132,6 +132,8 @@ function focusOnMarker(index) {
        
         var imgPreload = new Image();
         imgPreload.src = art.imageUrl;
+        art.image = imgPreload;
+        console.log(art.image);
         console.log(art.imageUrl);
         if (imgPreload.complete || imgPreload.readyState === 4) {
             $('.loader').addClass('none');
@@ -141,13 +143,11 @@ function focusOnMarker(index) {
         } else {
             //$('.main-image').attr("src", "");
             $('.loader').removeClass('none');
-            $('.main-image').addClass('none');
             $(imgPreload).on('load', function(response, status, xhr) {
                 if (status == 'error') {
                     console.log('Failed to load image');
                 } else {
                     $('.loader').addClass('none');
-                    $('.main-image').removeClass('none');
                     $('.main-image').attr("src", imgPreload.src);
                 }
             });
