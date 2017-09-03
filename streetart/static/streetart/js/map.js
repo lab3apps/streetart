@@ -135,7 +135,7 @@ function focusOnMarker(index) {
         console.log(art.imageUrl);
         if (imgPreload.complete || imgPreload.readyState === 4) {
             $('.loader').addClass('none');
-            $('.main-image').attr("src", imgPreload.src);
+            $('.main-image').attr("src", art.imageUrl);
             console.log('imgPreload.src');
             console.log(imgPreload.src);
         } else {
