@@ -41,6 +41,8 @@ function markerClicked() {
     if(viewState === 0 || viewState === 1) {
         expandMap();
     }
+    // Hide image while other loads
+    $('.main-image').attr('src', '');
     // Important for mobile
     $('.left-panel').removeClass('mobile-hide');
     $('.right-panel').addClass('mobile-hide');

@@ -5,9 +5,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from .models import Artwork, Artist, Profile, ArtistExpressionOfInterest, WallSpace, MuralCommission
 from mapwidgets.widgets import GooglePointFieldWidget
 from django.contrib.admin.widgets import FilteredSelectMultiple
-from django_select2.forms import (
-    ModelSelect2TagWidget,
-)
 from django.utils.encoding import force_text
 from mapwidgets.settings import MapWidgetSettings, mw_settings
 
@@ -57,24 +54,6 @@ class LoginForm(AuthenticationForm):
                                widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'username'}))
     password = forms.CharField(label="Password", max_length=30, 
                                widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'password', 'type': 'password'}))
-
-class ArtistSelect2TagWidget(ModelSelect2TagWidget):
-    queryset = Artist.objects.all()
-    search_fields = [
-        'name__icontains',
-    ]
-
-    def value_from_datadict(self, data, files, name):
-        values = super(ArtistSelect2TagWidget, self).value_from_datadict(data, files, name)
-        qs = self.queryset.filter(**{'pk__in': [l for l in values if is_int(l)]})
-        names = [k.name for k in self.queryset.filter(**{'name__in': values})]
-        pks = set(force_text(getattr(o, 'pk')) for o in qs)
-        cleaned_values = []
-        for val in values:
-            if force_text(val) not in pks and force_text(val) not in names:
-                val = self.queryset.create(name=val).pk
-            cleaned_values.append(val)
-        return cleaned_values
 
 def is_int(s):
     try:
