@@ -139,13 +139,15 @@ function focusOnMarker(index) {
             console.log('imgPreload.src');
             console.log(imgPreload.src);
         } else {
-            $('.main-image').attr("src", "");
+            //$('.main-image').attr("src", "");
             $('.loader').removeClass('none');
+            $('.main-image').addClass('none');
             $(imgPreload).on('load', function(response, status, xhr) {
                 if (status == 'error') {
                     console.log('Failed to load image');
                 } else {
                     $('.loader').addClass('none');
+                    $('.main-image').removeClass('none');
                     $('.main-image').attr("src", imgPreload.src);
                 }
             });
