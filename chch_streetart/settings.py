@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'sorl.thumbnail',
     'mapwidgets',
-    'django_select2',
     'fluent_comments',
     'crispy_forms',
     'django_comments',
@@ -214,12 +213,7 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
         'LOCATION': 'cache_table',
     },
-    'select2': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'cache_table',
-    }
 }
-SELECT2_CACHE_BACKEND = 'select2'
 
 COMMENTS_APP = 'fluent_comments'
 FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'email', 'url')

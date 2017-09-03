@@ -37,7 +37,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^settings/$', streetart_views.settings, name='settings'),
     url(r'^settings/password/$', streetart_views.password, name='password'),
-    url(r'^select2/', include('django_select2.urls')),
     url(r'^blog/comments/', include('fluent_comments.urls')),
     url(r'^blog/', include('cms.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
