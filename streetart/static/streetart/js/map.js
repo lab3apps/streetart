@@ -129,16 +129,18 @@ function focusOnMarker(index) {
         marker['infowindow'].open(map, marker);
         var point = new google.maps.LatLng(art.lat, art.lng);
         // Image Loading
-        var imgPreload;
-        $('.main-image').attr("src", "");
-        $('.loader').removeClass('none');
-        
-        imgPreload = new Image();
+       
+        var imgPreload = new Image();
         imgPreload.src = art.imageUrl;
+        console.log(art.imageUrl);
         if (imgPreload.complete || imgPreload.readyState === 4) {
             $('.loader').addClass('none');
             $('.main-image').attr("src", imgPreload.src);
+            console.log('imgPreload.src');
+            console.log(imgPreload.src);
         } else {
+            $('.main-image').attr("src", "");
+            $('.loader').removeClass('none');
             $(imgPreload).on('load', function(response, status, xhr) {
                 if (status == 'error') {
                     console.log('Failed to load image');
