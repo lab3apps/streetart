@@ -1,5 +1,7 @@
 var map;
 
+var images = [];
+
 function initialize() {
     var mapDiv = document.getElementById("map");
     var layer = "toner";
@@ -25,7 +27,7 @@ function initialize() {
         });
     map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
     addMarkers();
-    preloadImages();
+    //preloadImages();
     //google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
 }
 
@@ -103,20 +105,16 @@ function preloadImages() {
     for(var key in artworks) {
         if (arrayHasOwnIndex(artworks, key)) {
             var art = artworks[key];
+            //$('<img />').attr('src',art.imageUrl).appendTo('body').css('display','none');
+
             var imgPreload = new Image();
-            $(imgPreload).attr({
-                src: art.imageUrl
-            });
+            imgPreload.src = art.imageUrl;
             if (imgPreload.complete || imgPreload.readyState === 4) {
                 art.image = imgPreload;
             } else {
-                $(imgPreload).on('load', function(response, status, xhr) {
-                    if (status == 'error') {
-                        console.log('Failed to load image');
-                    } else {
-                        //console.log('Loaded key: ' + key);
-                        art.image = imgPreload;
-                    }
+                $(imgPreload).on('load', function() {
+                    /*images[key] = imgPreload;
+                    console.log(images[key]);*/
                 });
             }
         }
@@ -132,19 +130,13 @@ function focusOnMarker(index) {
         var point = new google.maps.LatLng(art.lat, art.lng);
         // Image Loading
         var imgPreload;
-        if (art.image) {
-            imgPreload = art.image;
-        } else {
-            $('.main-image').attr("src", "");
-            $('.loader').removeClass('none');
-            
-            imgPreload = new Image();
-            $(imgPreload).attr({
-                src: art.imageUrl
-            });
-        }
+        $('.main-image').attr("src", "");
+        $('.loader').removeClass('none');
         
+        imgPreload = new Image();
+        imgPreload.src = art.imageUrl;
         if (imgPreload.complete || imgPreload.readyState === 4) {
+            $('.loader').addClass('none');
             $('.main-image').attr("src", art.imageUrl);
         } else {
             $(imgPreload).on('load', function(response, status, xhr) {
@@ -152,12 +144,11 @@ function focusOnMarker(index) {
                     console.log('Failed to load image');
                 } else {
                     $('.loader').addClass('none');
-                    //$('.card-image').removeClass('none');
                     $('.main-image').attr("src", art.imageUrl);
                 }
             });
         }
-
+        
         //Used to get focused artworks id for liking and checking in.
         $('#main-card').data('index', index);
         var overlay_title = '';
