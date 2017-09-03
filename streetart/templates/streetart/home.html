@@ -32,6 +32,7 @@
             <div id="marker-card-holder" class="card-holder">
                 <div id="main-card" class="card">
                     <div class="card-image">
+                        <div class="loader none"></div>
                         <a onclick="expandCard()">
                             <span class="overlay overlay-title"></span>
                             <img class="main-image img-responsive" src="">
@@ -208,7 +209,7 @@
                 return;
             }
             var index = $('#main-card').data('index');
-            if (artworks.hasOwnProperty(index)) {
+            if (arrayHasOwnIndex(artworks, index)) {
                 var art = artworks[index];
                 $.ajax({
                     type: "POST",
@@ -241,7 +242,7 @@
                 return;
             }
             var index = $('#main-card').data('index');
-            if (artworks.hasOwnProperty(index)) {
+            if (arrayHasOwnIndex(artworks, index)) {
                 var art = artworks[index];
                 $.ajax({
                     type: "POST",

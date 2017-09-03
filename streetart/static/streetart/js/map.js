@@ -25,12 +25,13 @@ function initialize() {
         });
     map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
     addMarkers();
+    preloadImages();
     //google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
 }
 
 function addMarkers() {
     for(var key in artworks) {
-        if (artworks.hasOwnProperty(key)) {
+        if (arrayHasOwnIndex(artworks, key)) {
             var art = artworks[key];
             var markerUrl;
 
@@ -52,8 +53,23 @@ function addMarkers() {
                 icon: markerUrl,
                 animation: google.maps.Animation.DROP
             });
+            var marker_content = '';
+            for(var a_index in art.artists) {
+                if (arrayHasOwnIndex(art.artists, a_index)) {
+                    if (marker_content != '') {
+                        marker_content += ', ';
+                    }
+                    marker_content += art.artists[a_index];
+                }
+            }
+            if (art.title !== "") {
+                marker_content = '"' + art.title + '"<br>' + marker_content;
+            }
+            if (marker_content === '') {
+                marker_content = 'Unknown';
+            }
             marker['infowindow'] = new google.maps.InfoWindow({
-                content: "<p class='map-tooltip'>" + art.title + "</p>",
+                content: "<p class='map-tooltip'>" + marker_content + "</p>",
                 disableAutoPan: true
             });
 
@@ -69,20 +85,99 @@ function addMarkers() {
             });
             google.maps.event.addListener(marker, 'mouseout', function () {
                 this['infowindow'].close(map, this);
-
             });
         }
     }
 }
 
+function closeMarkers() {
+    for(var key in markers) {
+        if (arrayHasOwnIndex(markers, key)) {
+            var marker = markers[key];
+            marker['infowindow'].close(map, marker);
+        }
+    }
+}
+
+function preloadImages() {
+    for(var key in artworks) {
+        if (arrayHasOwnIndex(artworks, key)) {
+            var art = artworks[key];
+            var imgPreload = new Image();
+            $(imgPreload).attr({
+                src: art.imageUrl
+            });
+            if (imgPreload.complete || imgPreload.readyState === 4) {
+                art.image = imgPreload;
+            } else {
+                $(imgPreload).on('load', function(response, status, xhr) {
+                    if (status == 'error') {
+                        console.log('Failed to load image');
+                    } else {
+                        //console.log('Loaded key: ' + key);
+                        art.image = imgPreload;
+                    }
+                });
+            }
+        }
+    }
+}
+
 function focusOnMarker(index) {
-    if (artworks.hasOwnProperty(index)) {
+    if (arrayHasOwnIndex(artworks, index)) {
         var art = artworks[index];
+        var marker = markers[index];
+        closeMarkers();
+        marker['infowindow'].open(map, marker);
         var point = new google.maps.LatLng(art.lat, art.lng);
-        $('.main-image').attr("src", art.imageUrl);
+        // Image Loading
+        var imgPreload;
+        if (art.image) {
+            imgPreload = art.image;
+        } else {
+            $('.main-image').attr("src", "");
+            $('.loader').removeClass('none');
+            
+            imgPreload = new Image();
+            $(imgPreload).attr({
+                src: art.imageUrl
+            });
+        }
+        
+        if (imgPreload.complete || imgPreload.readyState === 4) {
+            $('.main-image').attr("src", art.imageUrl);
+        } else {
+            $(imgPreload).on('load', function(response, status, xhr) {
+                if (status == 'error') {
+                    console.log('Failed to load image');
+                } else {
+                    $('.loader').addClass('none');
+                    //$('.card-image').removeClass('none');
+                    $('.main-image').attr("src", art.imageUrl);
+                }
+            });
+        }
+
         //Used to get focused artworks id for liking and checking in.
         $('#main-card').data('index', index);
-        $('.overlay-title').html(art.title);
+        var overlay_title = '';
+        for(var key in art.artists) {
+            if (arrayHasOwnIndex(art.artists, key)) {
+                if (overlay_title != '') {
+                    overlay_title += ', ';
+                }
+                overlay_title += art.artists[key];
+            }
+        }
+        if (art.title !== "") {
+            overlay_title = '"' + art.title + '"<br>' + overlay_title;
+        }
+        if (overlay_title === ''){
+            $('.overlay-title').addClass('none');
+        } else {
+            $('.overlay-title').removeClass('none');
+            $('.overlay-title').html(overlay_title);
+        }
         $('.card-title').html(art.title);
         $('.card-description').html(art.description);
         if(art.commission_date !== 'None') {
@@ -138,7 +233,7 @@ $('#show_on_map').click(function(e) {
     $('.right-panel').removeClass('mobile-hide');
     google.maps.event.trigger(map, "resize");
     var marker_index = $(this).data('index');
-    if (artworks.hasOwnProperty(marker_index)) {
+    if (arrayHasOwnIndex(artworks, marker_index)) {
         var art = artworks[marker_index];
         var point = new google.maps.LatLng(art.lat, art.lng);
         map.panTo(point);
@@ -168,7 +263,7 @@ function filterMarkers() {
     var searchText = $('#search-input').val();
     var catArray = $('.multiselect').val();
     for(var key in artworks) {
-        if (artworks.hasOwnProperty(key)) {
+        if (arrayHasOwnIndex(artworks, key)) {
             var art = artworks[key];
             var marker = markers[key];
             if ((art.title.toLowerCase().indexOf(searchText.toLowerCase()) >= 0 ||

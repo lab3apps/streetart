@@ -7,7 +7,7 @@ var viewState = 0;
 
 /* Loads the comment section into html using ajax request with the index on clicked artwork */
 function loadCommentSection(index) {
-    if (artworks.hasOwnProperty(index)) {
+    if (arrayHasOwnIndex(artworks, index)) {
         $.ajax({
             url: '/imageselected/' + index + '/',
             type: 'GET',
@@ -23,7 +23,7 @@ function loadCommentSection(index) {
 
 /* Places any alternative images into the card holder for the clicked artwork. Empties if no alt images */
 function loadAltImages(index) {
-    if (artworks.hasOwnProperty(index)) {
+    if (arrayHasOwnIndex(artworks, index)) {
         var art = artworks[index];
         if(art.altImages.length >= 1) {
             $('#images-card-holder').empty();
