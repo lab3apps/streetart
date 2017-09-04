@@ -1,5 +1,6 @@
 from django.conf.urls import url, include
-
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 from rest_framework.urlpatterns import format_suffix_patterns
 from django.views.generic import TemplateView
@@ -24,6 +25,6 @@ urlpatterns = [
 	url(r'^thanks/$', views.thanks, name='thanks'),
 	url(r'^donate/$', TemplateView.as_view(template_name='streetart/thank_you.html'), name='donate'),
 	url(r'^get_involved/$', TemplateView.as_view(template_name='streetart/thank_you.html'), name='getinvolved'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns = format_suffix_patterns(urlpatterns)
