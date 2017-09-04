@@ -192,10 +192,12 @@ function focusOnMarker(index) {
             var artistsNames = $('.artists-names');
             artistsNames.empty();
             for(var key in art.artists) {
+                if (arrayHasOwnIndex(art.artists, key)) {
                     artistsNames.append(art.artists[key]);
                     if(!(key == art.artists.length - 1)) {
                         artistsNames.append(', ');
                     }
+                }
             }
         } else {
             $('.artists-names').empty();
@@ -266,6 +268,21 @@ function filterMarkers() {
                 catArray.indexOf(art.status) >= 0) {
                 marker.setVisible(true);
                 $('#artbox-'+key).show();
+            } else if(art.artists.length >= 1) {
+                var artist_found = false;
+                for(var key in art.artists) {
+                    if (arrayHasOwnIndex(art.artists, key)) {
+                        if (art.artists[key].toLowerCase().indexOf(searchText.toLowerCase()) >= 0) {
+                            artist_found = true;
+                            marker.setVisible(true);
+                            $('#artbox-'+key).show();
+                        }
+                    }
+                }
+                if (!artist_found) {
+                    marker.setVisible(false);
+                    $('#artbox-'+key).hide();
+                }
             } else {
                 marker.setVisible(false);
                 $('#artbox-'+key).hide();
