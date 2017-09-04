@@ -272,7 +272,8 @@ function filterMarkers() {
                 var artist_found = false;
                 for(var key in art.artists) {
                     if (arrayHasOwnIndex(art.artists, key)) {
-                        if (art.artists[key].toLowerCase().indexOf(searchText.toLowerCase()) >= 0) {
+                        if (art.artists[key].toLowerCase().indexOf(searchText.toLowerCase()) >= 0 &&
+                            catArray.indexOf(art.status) >= 0) {
                             artist_found = true;
                             marker.setVisible(true);
                             $('#artbox-'+key).show();
