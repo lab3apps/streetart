@@ -222,4 +222,3 @@ FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'email', 'url')
 FLUENT_COMMENTS_USE_EMAIL_NOTIFICATION = True
 
 CITY = 'Christchurch'
-
