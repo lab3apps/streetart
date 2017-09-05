@@ -7,7 +7,7 @@ function initialize() {
         mapDiv, {
             center: new google.maps.LatLng(-43.5314, 172.6365),
             zoom: 14,
-            maxZoom: 25,
+            maxZoom: 20,
             minZoom: 12,
             mapTypeId: layer,
             mapTypeControl: false,
@@ -26,6 +26,7 @@ function initialize() {
     map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
     markerCluster = new MarkerClusterer(map, markers,
             {imagePath: '/static/img/m'});
+    markerCluster.setMaxZoom(20);
     addMarkers();
     //preloadImages();
     //google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
@@ -259,6 +260,7 @@ $('#search-input').keyup(function() {
 function filterMarkers() {
     var searchText = $('#search-input').val();
     var catArray = $('.multiselect').val();
+    markerCluster.clearMarkers();
     for(var key in artworks) {
         if (arrayHasOwnIndex(artworks, key)) {
             var art = artworks[key];
