@@ -240,7 +240,7 @@ a {
 
 .left-panel {
     padding: 0;
-    background-color: white;
+    background-color: black;
     height: inherit;
     display: flex;
     min-height: 100%;
@@ -262,10 +262,16 @@ a {
     display: block;
 }
 
+.tab-block {
+    width: 100%;
+    display: none;
+    border-bottom: solid 3px white;
+}
+
 .back-block {
     width: 100%;
     display: none;
-    border-bottom: solid 3px black;
+    border-bottom: solid 3px white;
 }
 
 .back-button-block {
@@ -276,6 +282,20 @@ a {
 }
 .back-span {
     display: inline-block;
+}
+.back-icon {
+  float: left;
+}
+.back-text {
+  float: left;
+  text-decoration: none;
+  color: white;
+  line-height: 48px;
+  padding: 0;
+  margin: 0;
+}
+.back-text:hover {
+  text-decoration: none;
 }
 
 .placeholder-image {
@@ -376,7 +396,6 @@ a {
     line-height: 48px;
     font-size: 24px;
     font-weight: 300;
-    text-transform: uppercase;
 }
 
 .card .card-content {
@@ -471,7 +490,7 @@ a {
     height: 100%;
     box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.24);
     transition: all 0.2s cubic-bezier(.25,.8,.25,1);
-    border: solid 3px black;
+    border: solid 2px #bfbfbf;
 }
 
 .thumbnail-image:hover {

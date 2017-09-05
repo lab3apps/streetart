@@ -158,17 +158,24 @@ function focusOnMarker(index) {
         
         //Used to get focused artworks id for liking and checking in.
         $('#main-card').data('index', index);
-        var overlay_title = '';
+        var artists_text = '';
         for(var key in art.artists) {
             if (arrayHasOwnIndex(art.artists, key)) {
-                if (overlay_title != '') {
-                    overlay_title += ', ';
+                if (artists_text != '') {
+                    artists_text += ', ';
                 }
-                overlay_title += art.artists[key];
+                artists_text += art.artists[key];
             }
         }
+        console.dir(art);
+        var overlay_title = '';
         if (art.title !== "") {
-            overlay_title = '"' + art.title + '"<br>' + overlay_title;
+            overlay_title = '"'+art.title+'"';
+            if (artists_text !== "") {
+                overlay_title += '<br>'+artists_text;
+            }
+        } else if (artists_text !== "") {
+            overlay_title = artists_text;
         }
         if (overlay_title === ''){
             $('.overlay-title').addClass('none');
@@ -176,21 +183,11 @@ function focusOnMarker(index) {
             $('.overlay-title').removeClass('none');
             $('.overlay-title').html(overlay_title);
         }
-        $('.card-title').html(art.title);
-        $('.card-description').html(art.description);
-        if(art.commission_date !== 'None') {
-            $('.card-commission').show();
-            $('.commission-date').html(art.commission_date);
-        } else {
-            $('.card-commission').hide();
+        if (art.title != "") {
+            $("#card-content").append('<p class="card-commission">\
+                <span class="artwork-title">'+art.title+'</span>\
+            </p>');
         }
-        if(art.decommission_date !== 'None') {
-            $('.card-decommission').show();
-            $('.decommission-date').html(art.decommission_date);
-        } else {
-            $('.decard-commission').hide();
-        }
-
         if(art.artists.length >= 1) {
             var artistsNames = $('.artists-names');
             artistsNames.empty();

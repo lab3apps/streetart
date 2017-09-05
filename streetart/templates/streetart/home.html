@@ -168,11 +168,13 @@
             <!-- This is where the back button will appear -->
             <div class="back-block">
                 <a class="back-button-block" onclick="backClicked()">
-                    <i style="float: left;" class="material-icons md-dark md-48">chevron_left</i>
+                    <i class="material-icons md-light md-48 back-icon">chevron_left</i>
+                    <p class="back-text">Back</p>
                 </a>
             </div>
             <div class="tab-block">
-                
+                <a class="tab-link">Gallery</a>
+                <a class="tab-link">Get Involved</a>
             </div>
 
             <!-- This is what holds the main view card -->
@@ -190,21 +192,7 @@
                         <a class="overlay-checkin" onclick="checkin()"><i class="material-icons palette-White text md-36">beenhere</i></a>
                     </div>
                     <div class="card-details">
-                        <div class="card-content">
-                            <span class="card-title"></span>
-                            <p class="card-description"></p>
-                            <p class="card-commission">
-                                <span class="value-title">Commission date: </span>
-                                <span class="commission-date"></span>
-                            </p>
-                            <p class="card-decommission">
-                                <span class="value-title">Decommission date: </span>
-                                <span class="decommission-date"></span>
-                            </p>
-                            <p class="card-artists">
-                                <span class="value-title">Artists: </span>
-                                <span class="artists-names"></span>
-                            </p>
+                        <div class="card-content" id="card-content">
                         </div>
 
                         <div class="card-action">
