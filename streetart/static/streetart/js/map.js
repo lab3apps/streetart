@@ -1,5 +1,5 @@
 var map;
-
+var markerCluster
 function initialize() {
     var mapDiv = document.getElementById("map");
     var layer = "toner";
@@ -24,6 +24,8 @@ function initialize() {
             fullscreenControl: true
         });
     map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
+    markerCluster = new MarkerClusterer(map, markers,
+            {imagePath: '/static/img/m'});
     addMarkers();
     //preloadImages();
     //google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
@@ -74,6 +76,7 @@ function addMarkers() {
             });
 
             markers[key] = marker;
+            markerCluster.addMarker(marker);
 
             google.maps.event.addListener(marker, 'mouseover', function () {
                 this['infowindow'].open(map, this);
@@ -267,6 +270,7 @@ function filterMarkers() {
                 art.description.toLowerCase().indexOf(searchText.toLowerCase()) >= 0) &&
                 catArray.indexOf(art.status) >= 0) {
                 marker.setVisible(true);
+                markerCluster.addMarker(marker);
                 $('#artbox-'+key).show();
             } else if(art.artists.length >= 1) {
                 var artist_found = false;
@@ -276,16 +280,19 @@ function filterMarkers() {
                             catArray.indexOf(art.status) >= 0) {
                             artist_found = true;
                             marker.setVisible(true);
+                            markerCluster.addMarker(marker);
                             $('#artbox-'+key).show();
                         }
                     }
                 }
                 if (!artist_found) {
                     marker.setVisible(false);
+                    markerCluster.removeMarker(marker);
                     $('#artbox-'+key).hide();
                 }
             } else {
                 marker.setVisible(false);
+                markerCluster.removeMarker(marker);
                 $('#artbox-'+key).hide();
             }
         }

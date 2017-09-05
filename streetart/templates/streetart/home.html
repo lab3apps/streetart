@@ -20,6 +20,7 @@
     <script type="text/javascript" src="{% static 'lightbox/js/lightbox.js' %}"></script>
     <script type="text/javascript" src="{% static 'fluent_comments/js/ajaxcomments.js' %}"></script>
     <script type="text/javascript" src="{% static 'lazy/jquery.lazy.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'streetart/js/markerclusterer.js' %}"></script>
     <script type="text/javascript">
         var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
         var artworks = [];
