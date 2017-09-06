@@ -10,6 +10,7 @@ from django.template.defaultfilters import slugify
 from fluent_comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
 from multiselectfield import MultiSelectField
+from sorl.thumbnail import get_thumbnail
 
 # Create your models here.
 
@@ -73,6 +74,11 @@ class Artwork(models.Model):
     decommission_date = models.DateField('date decommissioned', blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     image = ImageField(upload_to='artwork/')
+    def image_thumbnail(self):
+        return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
+    image_thumbnail.short_description = 'Uploaded Image'
+    image_thumbnail.allow_tags = True
+
     photo_credit = models.CharField(max_length=200, blank=True, null=True)
     city = models.CharField(max_length=200, blank=True, null=True)
     link = models.URLField(blank=True, null=True)
@@ -85,6 +91,8 @@ class Artwork(models.Model):
     submitter_description = models.TextField(blank=True, null=True, verbose_name="Submitter's Description")
     submitter_name = models.CharField(blank=True, null=True, max_length=200, verbose_name="Submitter's Name")
     submitter_email = models.EmailField(blank=True, null=True, verbose_name="Submitter's Email Address")
+
+    
 
     def get_artists(self):
         return "\n".join([p.name for p in self.artists.all()])
@@ -124,6 +132,10 @@ class Artwork(models.Model):
 @python_2_unicode_compatible  # only if you need to support Python 2
 class AlternativeImage(models.Model):
     image = ImageField(upload_to='artwork/')
+    def image_thumbnail(self):
+        return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
+    image_thumbnail.short_description = 'Uploaded Image'
+    image_thumbnail.allow_tags = True
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='other_images')
 
 @python_2_unicode_compatible  # only if you need to support Python 2
@@ -210,6 +222,10 @@ class Section(models.Model):
 class Logo(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     image = ImageField(upload_to='logos/', blank=True, null=True)
+    def image_thumbnail(self):
+        return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
+    image_thumbnail.short_description = 'Uploaded Image'
+    image_thumbnail.allow_tags = True
     link = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 

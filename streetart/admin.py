@@ -8,6 +8,7 @@ from adminsortable2.admin import SortableInlineAdminMixin
 
 class ImageAdmin(admin.TabularInline):
     model = AlternativeImage
+    readonly_fields = ('image_thumbnail',)
 
 class ArtworkForm(admin.ModelAdmin):
     formfield_overrides = {
@@ -15,8 +16,9 @@ class ArtworkForm(admin.ModelAdmin):
     }
     exclude = ('likes', 'checkins')
     filter_horizontal = ('artists', 'crews')
-    list_display = ('pk', 'title', 'get_artists', 'validated', 'status')
+    list_display = ('pk', 'image_thumbnail', 'title', 'get_artists', 'validated', 'status')
     inlines = [ ImageAdmin ]
+    readonly_fields = ('image_thumbnail',)
 
 class NewInfoForm(admin.ModelAdmin):
     formfield_overrides = {
@@ -33,6 +35,11 @@ class RouteForm(admin.ModelAdmin):
              'all': ('streetart/css/admin/route_admin.css',)
         }
 
+class LogoForm(admin.ModelAdmin):
+    exclude = ()
+    list_display = ('pk', 'image_thumbnail', 'title')
+    readonly_fields = ('image_thumbnail',)
+
 admin.site.register(Artwork, ArtworkForm)
 admin.site.register(Artist)
 admin.site.register(Crew)
@@ -46,5 +53,5 @@ admin.site.register(MuralCommission, NewInfoForm)
 admin.site.register(Route, RouteForm)
 admin.site.register(RoutePoint)
 admin.site.register(Section)
-admin.site.register(Logo)
+admin.site.register(Logo, LogoForm)
 # Register your models here.
