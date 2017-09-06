@@ -169,6 +169,9 @@ function focusOnMarker(index) {
             }
         }
         console.dir(art);
+
+        $("#card-content").html('');
+
         var overlay_title = '';
         if (art.title !== "") {
             overlay_title = '"'+art.title+'"';
@@ -185,25 +188,35 @@ function focusOnMarker(index) {
             $('.overlay-title').html(overlay_title);
         }
         if (art.title != "") {
-            $("#card-content").append('<p class="card-commission">\
+            $("#card-content").append('<p class="card-title">\
                 <span class="artwork-title">'+art.title+'</span>\
             </p>');
         }
-        if(art.artists.length >= 1) {
-            var artistsNames = $('.artists-names');
-            artistsNames.empty();
-            for(var key in art.artists) {
-                if (arrayHasOwnIndex(art.artists, key)) {
-                    artistsNames.append(art.artists[key]);
-                    if(!(key == art.artists.length - 1)) {
-                        artistsNames.append(', ');
-                    }
+        if (artists_text != "") {
+            $("#card-content").append('<p class="card-artists">\
+                <span class="artwork-artists">'+artists_text+'</span>\
+            </p>');
+        }
+        for(var key in art) {
+            if (art[key] != 'None' && art[key] != '') {
+                if (key == 'commission_date' || key == 'decommission_date' || key == 'description') {
+                    $("#card-content").append('<p class="card-generated">\
+                        <span class="value-title">'+key.replace('_', ' ')+': </span>\
+                        <span class="artwork-'+key+'">'+art[key]+'</span>\
+                    </p>');
+                } else if (key == 'link') {
+                    $("#card-content").append('<p class="card-generated">\
+                        <span class="value-title">'+key.replace('_', ' ')+': </span>\
+                        <span class="artwork-'+key+'"><a href="'+art[key]+'">'+art[key]+'</a></span>\
+                    </p>');
+                } else if (key == 'lat') {
+                    $("#card-content").append('<p class="card-generated">\
+                        <span class="value-title">Coordinates: </span>\
+                        <span class="artwork-'+key+'"><a target="_blank" href="http://www.google.com/maps/place/'+art['lat']+','+art['lng']+'">'+art['lat']+','+art['lng']+'</a></span>\
+                    </p>');
                 }
             }
-        } else {
-            $('.artists-names').empty();
         }
-
         $('.overlay-fullscreen').attr('href', art.imageUrl);
         if(art.hasLiked === 'True') {
             $('.overlay-like i').html('favorite');

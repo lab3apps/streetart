@@ -110,7 +110,7 @@ function expandCard() {
     $('#images-card-holder').show();
     $('.scroll-gallery').hide();
     $('.left-panel').css('overflow-y', 'scroll');
-    $('.main-image').css('height', '25%');
+    $('.main-image').addClass('expanded');
     $(".card-details").slideDown();
     $(".overlay").fadeOut();
     viewState = 2;
@@ -122,7 +122,7 @@ function collapseCard() {
     $('#images-card-holder').hide();
     $('.scroll-gallery').show();
     $('.left-panel').css('overflow-y', 'hidden');
-    $('.main-image').css('height', '30%');
+    $('.main-image').removeClass('expanded');
     $(".card-details").slideUp();
     $(".overlay").fadeIn();
     viewState = 1;
