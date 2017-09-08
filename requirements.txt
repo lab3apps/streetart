@@ -3,7 +3,7 @@ chardet==3.0.4
 defusedxml==0.5.0
 Django==1.10.7
 django-admin-sortable2==0.6.15
-django-appconf==1.0.2
+django-appconf==1.0.1
 django-classy-tags==0.8.0
 django-cms==3.4.4
 django-contrib-comments==1.8.0
@@ -12,6 +12,7 @@ django-filer==1.2.8
 django-fluent-comments==1.4.3
 django-formtools==2.0
 django-geoposition==0.3.0
+django-image-cropping==1.1.0
 django-leaflet==0.22.0
 django-location-field==2.0.3
 django-map-widgets==0.1.9
@@ -19,6 +20,7 @@ django-mptt==0.8.7
 django-multiselectfield==0.1.8
 django-polymorphic==1.0.2
 django-sekizai==0.10.0
+Django-Select2==5.11.1
 django-tag-parser==3.1
 django-treebeard==4.1.2
 django-widget-tweaks==1.4.1
@@ -54,6 +56,6 @@ requests-oauthlib==0.8.0
 six==1.10.0
 social-auth-app-django==1.2.0
 social-auth-core==1.4.0
--e git+https://github.com/mariocesar/sorl-thumbnail.git@b88fc32a68d1f754e54afe4424cf7a40d0f848a2#egg=sorl_thumbnail
+sorl-thumbnail==12.3
 Unidecode==0.4.21
 urllib3==1.22
