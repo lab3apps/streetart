@@ -7,7 +7,7 @@ function initialize() {
         mapDiv, {
             center: new google.maps.LatLng(-43.5314, 172.6365),
             zoom: 14,
-            maxZoom: 20,
+            maxZoom: 17,
             minZoom: 12,
             mapTypeId: layer,
             mapTypeControl: false,
@@ -26,7 +26,7 @@ function initialize() {
     map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
     markerCluster = new MarkerClusterer(map, markers,
             {imagePath: '/static/img/m'});
-    markerCluster.setMaxZoom(20);
+    markerCluster.setMaxZoom(16);
     addMarkers();
     //preloadImages();
     //google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);

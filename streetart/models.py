@@ -5,12 +5,15 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.gis.db import models
-from sorl.thumbnail import ImageField
 from django.template.defaultfilters import slugify
 from fluent_comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
 from multiselectfield import MultiSelectField
+from easy_thumbnails.files import get_thumbnailer
+from image_cropping import ImageRatioField
+from image_cropping.utils import get_backend
 from sorl.thumbnail import get_thumbnail
+from sorl.thumbnail import ImageField
 
 # Create your models here.
 
@@ -74,8 +77,20 @@ class Artwork(models.Model):
     decommission_date = models.DateField('date decommissioned', blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     image = ImageField(upload_to='artwork/')
+    cropping = ImageRatioField('image', '10000x10000')
     def image_thumbnail(self):
         return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
+    def image_thumbnail_url(self):
+        cropping_thumbnailer = get_thumbnailer(self.image)
+        thumbnail_url = cropping_thumbnailer.get_thumbnail(
+            {
+                'size': (10000, 10000),
+                'box': self.cropping,
+                'crop': True,
+                'detail': True,
+            }
+        )
+        return thumbnail_url.url
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
 
@@ -131,9 +146,15 @@ class Artwork(models.Model):
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class AlternativeImage(models.Model):
-    image = ImageField(upload_to='artwork/')
+    image = models.ImageField(upload_to='artwork/')
     def image_thumbnail(self):
-        return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
+        thumbnail_url = get_thumbnailer(self.image).get_thumbnail({
+            'size': (250, 250),
+            'box': self.cropping,
+            'crop': True,
+            'detail': True,
+        }).url
+        return '<img src="%s" />' % thumbnail_url
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='other_images')
@@ -146,7 +167,7 @@ class MuralCommission(models.Model):
     mural_location = models.PointField(srid=4326, verbose_name="Where will the mural be?")
     objects = models.GeoManager()
     dimensions = models.TextField(blank=True, null=True, verbose_name="How big is the wall? Please give us the dimensions of the wall so we can give the artist an idea of how big the space is.")
-    image = ImageField(upload_to='muralcommission/', blank=True, null=True, verbose_name="If possible please attach a photo of the wall.")
+    image = models.ImageField(upload_to='muralcommission/', blank=True, null=True, verbose_name="If possible please attach a photo of the wall.")
     reason = models.TextField(blank=True, null=True, verbose_name="Most artists prefer to have creative freedom when creating their works, but could you give us an idea of what you are commissioning the mural for or what you hope to see in it? This will help us figure out which artists to get you in contact with.")
     budget = models.TextField(blank=True, null=True, verbose_name="Do you have a budget? Roughly how much have you put aside for the art work?")
     deadline = models.TextField(blank=True, null=True, verbose_name="Does this project have a deadline?")
@@ -162,7 +183,7 @@ class WallSpace(models.Model):
     wall_location = models.PointField(srid=4326, verbose_name="Where is the space?")
     objects = models.GeoManager()
     dimensions = models.TextField(blank=True, null=True, verbose_name="How big is the wall? Please give us the dimensions of the wall so we can give the artist an idea of how big the space is.")
-    image = ImageField(upload_to='wallspace/', blank=True, null=True, verbose_name="If possible please attach a photo of the wall.")
+    image = models.ImageField(upload_to='wallspace/', blank=True, null=True, verbose_name="If possible please attach a photo of the wall.")
     relation = models.TextField(blank=True, null=True, verbose_name="What is your relation to this wall space?")
     other = models.TextField(blank=True, null=True, verbose_name="Is there anything else we should know?")
     def __str__(self):
@@ -211,7 +232,7 @@ class RoutePoint(models.Model):
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Section(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
-    image = ImageField(upload_to='artwork/', blank=True, null=True)
+    image = models.ImageField(upload_to='artwork/', blank=True, null=True)
     link = models.URLField(blank=True, null=True)
     order = models.IntegerField(blank=True, null=True)
 
@@ -221,9 +242,15 @@ class Section(models.Model):
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Logo(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
-    image = ImageField(upload_to='logos/', blank=True, null=True)
+    image = models.ImageField(upload_to='logos/', blank=True, null=True)
     def image_thumbnail(self):
-        return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
+        thumbnail_url = get_thumbnailer(self.image).get_thumbnail({
+            'size': (250, 250),
+            'box': self.cropping,
+            'crop': True,
+            'detail': True,
+        }).url
+        return '<img src="%s" />' % thumbnail_url
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
     link = models.URLField(blank=True, null=True)

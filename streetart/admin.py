@@ -4,13 +4,14 @@ from mapwidgets.widgets import GooglePointFieldWidget
 from django import forms
 from django.contrib.gis.db import models
 from adminsortable2.admin import SortableInlineAdminMixin
+from image_cropping import ImageCroppingMixin
 
 
 class ImageAdmin(admin.TabularInline):
     model = AlternativeImage
     readonly_fields = ('image_thumbnail',)
 
-class ArtworkForm(admin.ModelAdmin):
+class ArtworkForm(ImageCroppingMixin, admin.ModelAdmin):
     formfield_overrides = {
         models.PointField: {"widget": GooglePointFieldWidget}
     }

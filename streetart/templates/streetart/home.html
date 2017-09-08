@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load thumbnail %}
+{% load cropping %}
 {% load static %}
 {% load comments static %}
 
@@ -224,11 +225,7 @@
                             <div id="section-{{ section.id }}" class="getinvolved-item col-xs-4 col-sm-3 col-md-3">
                                 <div class="dummy"></div>
                                 <a class="img-link" href="{{section.link}}">
-                                    {% thumbnail section.image "250x250" as im %}
-                                        <img class="thumbnail-image" src="{{ im.url }}">
-                                    {% empty %}
-                                        <div class="thumbnail-image"></div>
-                                    {% endthumbnail %}
+                                        <img class="thumbnail-image" src="{% thumbnail section.image '250x250' %}">
                                 </a>
                             </div>
                     {% endfor %}
@@ -238,11 +235,12 @@
                             <div id="artbox-{{ art.id }}" class="gallery-item col-xs-4 col-sm-3 col-md-3">
                                 <div class="dummy"></div>
                                 <a class="img-link" onclick="focusOnMarker({{ art.id }}), markerClicked()">
-                                    {% thumbnail art.image "250x250" as im %}
-                                        <img class="lazy thumbnail-image" data-src="{{ im.url }}">
-                                    {% empty %}
-                                        <img class="lazy thumbnail-image" data-src="{{ art.image.url }}">
-                                    {% endthumbnail %}
+                                    {% with 'http://'|add:request.get_host|add:art.image_thumbnail_url as path %}
+                                        {% thumbnail path "250x250" as im %}
+                                          <img class="lazy thumbnail-image" src="{{ im.url }}" >
+                                        {% endthumbnail %}
+                                    {% endwith %}
+                                    
                                 </a>
                             </div>
                     {% endfor %}
