@@ -23,6 +23,7 @@ def artistfrom_text_to_relation(apps, schema_editor):
             artist_from_objs[artist.artist_from] = _location
             _location.save()
         artist.artist_from_location = _location
+        artist.save()
 
 class Migration(migrations.Migration):
 
@@ -36,10 +37,6 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='streetart.ArtistFrom'),
         ),
         migrations.RunPython(artistfrom_text_to_relation),
-        migrations.RemoveField(
-            model_name='artist',
-            name='artist_from',
-        ),
         migrations.AlterField(
             model_name='artwork',
             name='category',
