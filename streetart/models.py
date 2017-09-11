@@ -52,6 +52,7 @@ class Artist(models.Model):
     twitter = models.URLField(blank=True, null=True)
     artist_from = models.CharField(max_length=200, null=True)
     other_links = models.TextField(blank=True, null=True)
+    biography = models.TextField(blank=True, null=True)
     def __str__(self):
         return self.name
 
