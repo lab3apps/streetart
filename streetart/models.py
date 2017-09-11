@@ -58,7 +58,7 @@ class Artist(models.Model):
     instagram = models.CharField(max_length=200, blank=True, null=True)
     twitter = models.URLField(blank=True, null=True)
     artist_from_location = models.ForeignKey(ArtistFrom, on_delete=models.SET_NULL, blank=True, null=True)
-    artist_from = models.CharField(max_length=200, blank=True, null=True)
+    artist_from = models.CharField(max_length=200)
     other_links = models.TextField(blank=True, null=True)
     biography = models.TextField(blank=True, null=True)
     def __str__(self):
