@@ -240,9 +240,17 @@
                                           <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
                                         {% endthumbnail %}
                                     {% else %}
-                                        {% thumbnail art.image "250x250" as im %}
-                                          <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
-                                        {% endthumbnail %}
+                                        {% thumbnail art.image "250x250" as anythinghereworks %}
+                                            {% if art.image|is_portrait %}
+                                                {% thumbnail art.image "250x100000" as im %}
+                                                  <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
+                                                {% endthumbnail %} 
+                                            {% else %}
+                                                 {% thumbnail art.image "x250" as im %}
+                                                  <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
+                                                {% endthumbnail %} 
+                                            {% endif %}
+                                        {% endthumbnail %} 
                                     {% endif %}
                                 </a>
                             </div>
