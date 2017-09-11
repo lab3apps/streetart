@@ -78,7 +78,7 @@ class Artwork(models.Model):
     decommission_date = models.DateField('date decommissioned', blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     image = ImageField(upload_to='artwork/')
-    cropping = ImageRatioField('image', '10000x10000')
+    cropping = ImageRatioField('image', '250x250')
     cropped_image = ImageField(upload_to='artwork/', blank=True, null=True)
     def image_thumbnail(self):
         return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
