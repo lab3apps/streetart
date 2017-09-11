@@ -198,13 +198,6 @@ MAP_WIDGETS = {
     "GOOGLE_MAP_API_KEY": GOOGLE_MAPS_API_KEY
 }
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'cache_table',
-    },
-}
-
 COMMENTS_APP = 'fluent_comments'
 FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'email', 'url')
 FLUENT_COMMENTS_USE_EMAIL_NOTIFICATION = True
