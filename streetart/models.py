@@ -14,6 +14,7 @@ from image_cropping import ImageRatioField
 from image_cropping.utils import get_backend
 from sorl.thumbnail import get_thumbnail
 from sorl.thumbnail import ImageField
+from PIL import Image
 
 # Create your models here.
 
@@ -78,20 +79,9 @@ class Artwork(models.Model):
     description = models.TextField(blank=True, null=True)
     image = ImageField(upload_to='artwork/')
     cropping = ImageRatioField('image', '10000x10000')
-    cropped_image = ImageField(upload_to='artwork/cropped', blank=True, null=True)
+    cropped_image = ImageField(upload_to='artwork/', blank=True, null=True)
     def image_thumbnail(self):
         return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
-    def gen_cropped_file(self):
-        cropping_thumbnailer = get_thumbnailer(self.image)
-        cropped_file = cropping_thumbnailer.get_thumbnail(
-            {
-                'size': (10000, 10000),
-                'box': self.cropping,
-                'crop': True,
-                'detail': True,
-            }
-        )
-        return cropped_file
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
 
@@ -136,7 +126,14 @@ class Artwork(models.Model):
         return Comment.objects.filter(content_type=ct,object_pk=obj_pk)
 
     def save(self, *args, **kwargs):
-        self.cropped_image = self.gen_cropped_file()
+        self.cropped_image = get_thumbnailer(self.image).get_thumbnail(
+            {
+                'size': (10000, 10000),
+                'box': self.cropping,
+                'crop': True,
+                'detail': True,
+            }
+        ).name
         if self.title != None and self.title != '':
             self.slug = slugify(self.title)
         else:
@@ -155,7 +152,7 @@ class AlternativeImage(models.Model):
             'box': self.cropping,
             'crop': True,
             'detail': True,
-        }).url
+        }).name
         return '<img src="%s" />' % thumbnail_url
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
