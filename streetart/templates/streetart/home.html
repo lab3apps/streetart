@@ -235,12 +235,15 @@
                             <div id="artbox-{{ art.id }}" class="gallery-item col-xs-4 col-sm-3 col-md-3">
                                 <div class="dummy"></div>
                                 <a class="img-link" onclick="focusOnMarker({{ art.id }}), markerClicked()">
-                                    {% with 'http://'|add:request.get_host|add:art.image_thumbnail_url as path %}
-                                        {% thumbnail path "250x250" as im %}
+                                    {% if art.cropped_image %}
+                                        {% thumbnail art.cropped_image "250x250" as im %}
                                           <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
                                         {% endthumbnail %}
-                                    {% endwith %}
-                                    
+                                    {% else %}
+                                        {% thumbnail art.image "250x250" as im %}
+                                          <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
+                                        {% endthumbnail %}
+                                    {% endif %}
                                 </a>
                             </div>
                     {% endfor %}

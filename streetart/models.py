@@ -78,11 +78,12 @@ class Artwork(models.Model):
     description = models.TextField(blank=True, null=True)
     image = ImageField(upload_to='artwork/')
     cropping = ImageRatioField('image', '10000x10000')
+    cropped_image = ImageField(upload_to='artwork/cropped', blank=True, null=True)
     def image_thumbnail(self):
         return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
-    def image_thumbnail_url(self):
+    def gen_cropped_file(self):
         cropping_thumbnailer = get_thumbnailer(self.image)
-        thumbnail_url = cropping_thumbnailer.get_thumbnail(
+        cropped_file = cropping_thumbnailer.get_thumbnail(
             {
                 'size': (10000, 10000),
                 'box': self.cropping,
@@ -90,7 +91,7 @@ class Artwork(models.Model):
                 'detail': True,
             }
         )
-        return thumbnail_url.url
+        return cropped_file
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
 
@@ -135,6 +136,7 @@ class Artwork(models.Model):
         return Comment.objects.filter(content_type=ct,object_pk=obj_pk)
 
     def save(self, *args, **kwargs):
+        self.cropped_image = self.gen_cropped_file()
         if self.title != None and self.title != '':
             self.slug = slugify(self.title)
         else:
