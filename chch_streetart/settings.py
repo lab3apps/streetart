@@ -167,7 +167,6 @@ THUMBNAIL_HIGH_RESOLUTION = True
 
 IMAGE_CROPPING_SIZE_WARNING = True
 
-IMAGE_CROPPING_THUMB_SIZE = (300, 300)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
