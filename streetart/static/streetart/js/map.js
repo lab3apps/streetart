@@ -71,16 +71,12 @@ function addMarkers() {
             if (marker_content === '') {
                 marker_content = 'Unknown';
             }
-            marker['infowindow'] = new google.maps.InfoWindow({
-                content: "<p class='map-tooltip'>" + marker_content + "</p>",
-                disableAutoPan: true
-            });
 
             markers[key] = marker;
             markerCluster.addMarker(marker);
 
             google.maps.event.addListener(marker, 'mouseover', function () {
-                this['infowindow'].open(map, this);
+                //this['infowindow'].open(map, this);
             });
             google.maps.event.addListener(marker, 'click', function () {
                 focusOnMarker(this.id);
@@ -88,7 +84,7 @@ function addMarkers() {
                 //getNearestArtworks(this.id)
             });
             google.maps.event.addListener(marker, 'mouseout', function () {
-                this['infowindow'].close(map, this);
+                //this['infowindow'].close(map, this);
             });
         }
     }
@@ -127,8 +123,8 @@ function focusOnMarker(index) {
     if (arrayHasOwnIndex(artworks, index)) {
         var art = artworks[index];
         var marker = markers[index];
-        closeMarkers();
-        marker['infowindow'].open(map, marker);
+        //closeMarkers();
+        //marker['infowindow'].open(map, marker);
         var point = new google.maps.LatLng(art.lat, art.lng);
         // Image Loading
         $('.loader').removeClass('none');
@@ -212,26 +208,36 @@ function focusOnMarker(index) {
                 } else if (key == 'lat') {
                     $("#card-content").append('<p class="card-generated">\
                         <span class="value-title">Coordinates: </span>\
-                        <span class="artwork-'+key+'"><a target="_blank" href="http://www.google.com/maps/place/'+art['lat']+','+art['lng']+'">'+art['lat']+','+art['lng']+'</a></span>\
+                        <span class="artwork-'+key+'">'+art['lat']+','+art['lng']+' <a target="_blank" href="http://www.google.com/maps/place/'+art['lat']+','+art['lng']+'">(Open in Google Maps)</a></span>\
                     </p>');
                 }
             }
         }
         $('.overlay-fullscreen').attr('href', art.imageUrl);
         if(art.hasLiked === 'True') {
-            $('.overlay-like i').html('favorite');
+            $('.like i').html('favorite');
         } else {
-            $('.overlay-like i').html('favorite_border');
+            $('.like i').html('favorite_border');
         }
         if(art.hasCheckedin === 'True') {
-            $('.overlay-checkin i').addClass('palette-Green');
-            $('.overlay-checkin i').removeClass('palette-White');
+            $('.checkin-icon-unfilled').hide();
+            $('.checkin-icon-filled').show();
         } else {
-            $('.overlay-checkin i').addClass('palette-White');
-            $('.overlay-checkin i').removeClass('palette-Green');
+            $('.checkin-icon-filled').hide();
+            $('.checkin-icon-unfilled').show();
         }
         $('#likeCount').html(art.likes_count);
+        if (art.likes_count != 1) {
+            $('#like-plural').show();
+        } else {
+            $('#like-plural').hide();
+        }
         $('#checkinCount').html(art.checkins_count);
+        if (art.checkins_count != 1) {
+            $('#checkin-plural').show();
+        } else {
+            $('#checkin-plural').hide();
+        }
         $('#show_on_map').data('index', index);
         map.panTo(point);
         loadCommentSection(index);

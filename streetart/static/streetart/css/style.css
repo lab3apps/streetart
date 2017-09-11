@@ -407,10 +407,17 @@ a {
     display: none;
 }
 
-.card span.card-title {
-    line-height: 48px;
+.card span.artwork-title {
+    line-height: 32px;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.card span.artwork-artists {
+    line-height: 32px;
     font-size: 24px;
     font-weight: 300;
+    padding-bottom: 12px;
 }
 
 .card .card-content {
@@ -433,18 +440,30 @@ a {
 .card .card-action {
   border-top: 1px solid rgba(160, 160, 160, 0.2);
   padding: 16px;
+  white-space: nowrap;
+  height: 68px;
 }
 
 .card .card-action a {
-  color: #ffab40;
-  margin-right: 16px;
-  transition: color 0.3s ease;
-  text-transform: uppercase;
+  float: left;
+  height: 36px;
+  width: 36px;
 }
 
-.card .card-action a:hover {
-  color: #ffd8a6;
-  text-decoration: none;
+.card .like-checkin-count {
+  border-top: 1px solid rgba(160, 160, 160, 0.2);
+  padding: 5px;
+  padding-left: 16px;
+}
+
+#show_on_map {
+  float: right;
+}
+
+#show_on_map i {
+  height: 36px;
+  width: 36px;
+  font-size: 32px;
 }
 
 /*** Alt images ***/
