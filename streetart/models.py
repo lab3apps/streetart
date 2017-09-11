@@ -42,6 +42,13 @@ class Crew(models.Model):
     def __str__(self):
         return self.name
 
+
+@python_2_unicode_compatible  # only if you need to support Python 2
+class ArtistFrom(models.Model):
+    location = models.CharField(max_length=200)
+    def __str__(self):
+        return self.location
+
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Artist(models.Model):
     crews = models.ManyToManyField(Crew)
@@ -50,7 +57,7 @@ class Artist(models.Model):
     facebook = models.URLField(blank=True, null=True)
     instagram = models.CharField(max_length=200, blank=True, null=True)
     twitter = models.URLField(blank=True, null=True)
-    artist_from = models.CharField(max_length=200, null=True)
+    artist_from_location = models.ForeignKey(ArtistFrom, on_delete=models.SET_NULL, blank=True, null=True)
     other_links = models.TextField(blank=True, null=True)
     biography = models.TextField(blank=True, null=True)
     def __str__(self):
@@ -72,10 +79,10 @@ class Status(models.Model):
 class Artwork(models.Model):
     artists = models.ManyToManyField(Artist, blank=True,related_name='artworks')
     crews = models.ManyToManyField(Crew, blank=True, related_name='artworks')
-    category = models.ForeignKey(Artwork_Category, on_delete=models.CASCADE, blank=True, null=True)
+    category = models.ForeignKey(Artwork_Category, on_delete=models.SET_NULL, blank=True, null=True)
     title = models.CharField(max_length=200, blank=True, null=True)
     commission_date = models.DateField('date commissioned', blank=True, null=True)
-    status = models.ForeignKey(Status, on_delete=models.CASCADE, blank=True, null=True)
+    status = models.ForeignKey(Status, on_delete=models.SET_NULL, blank=True, null=True)
     decommission_date = models.DateField('date decommissioned', blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     image = ImageField(upload_to='artwork/')
@@ -201,7 +208,7 @@ class ArtistExpressionOfInterest(models.Model):
     def __str__(self):
         return self.title
 
-@python_2_unicode_compatible  # only if you need to support Python 2
+@python_2_unicode_compatible
 class Route(models.Model):
     title = models.CharField(max_length=200)
     def __str__(self):
