@@ -145,15 +145,9 @@ class Artwork(models.Model):
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class AlternativeImage(models.Model):
-    image = models.ImageField(upload_to='artwork/')
+    image = models.ImageField(upload_to='artwork/alternate/')
     def image_thumbnail(self):
-        thumbnail_url = get_thumbnailer(self.image).get_thumbnail({
-            'size': (250, 250),
-            'box': self.cropping,
-            'crop': True,
-            'detail': True,
-        }).name
-        return '<img src="%s" />' % thumbnail_url
+        return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='other_images')
@@ -243,13 +237,7 @@ class Logo(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='logos/', blank=True, null=True)
     def image_thumbnail(self):
-        thumbnail_url = get_thumbnailer(self.image).get_thumbnail({
-            'size': (250, 250),
-            'box': self.cropping,
-            'crop': True,
-            'detail': True,
-        }).url
-        return '<img src="%s" />' % thumbnail_url
+        return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
     link = models.URLField(blank=True, null=True)
