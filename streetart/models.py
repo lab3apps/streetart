@@ -48,10 +48,11 @@ class Artist(models.Model):
     name = models.CharField(max_length=200)
     website = models.URLField(blank=True, null=True)
     facebook = models.URLField(blank=True, null=True)
-    instagram = models.URLField(blank=True, null=True)
+    instagram = models.CharField(max_length=200, blank=True, null=True)
     twitter = models.URLField(blank=True, null=True)
-    artist_from = models.CharField(max_length=200)
+    artist_from = models.CharField(max_length=200, null=True)
     other_links = models.TextField(blank=True, null=True)
+    biography = models.TextField(blank=True, null=True)
     def __str__(self):
         return self.name
 
