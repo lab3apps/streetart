@@ -47,7 +47,7 @@ class Crew(models.Model):
 class ArtistFrom(models.Model):
     location = models.CharField(max_length=200)
     def __str__(self):
-        return self.title
+        return self.location
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Artist(models.Model):
