@@ -23,6 +23,7 @@ def artistfrom_text_to_relation(apps, schema_editor):
             artist_from_objs[artist.artist_from] = _location
             _location.save()
         artist.artist_from_location = _location
+        artist.save()
 
 class Migration(migrations.Migration):
 
