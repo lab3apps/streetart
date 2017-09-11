@@ -36,10 +36,6 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='streetart.ArtistFrom'),
         ),
         migrations.RunPython(artistfrom_text_to_relation),
-        migrations.RemoveField(
-            model_name='artist',
-            name='artist_from',
-        ),
         migrations.AlterField(
             model_name='artwork',
             name='category',
