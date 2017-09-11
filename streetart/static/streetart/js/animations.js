@@ -112,7 +112,12 @@ function expandCard() {
     $('.left-panel').css('overflow-y', 'scroll');
     $('.main-image').addClass('expanded');
     $(".card-details").slideDown();
-    $(".overlay").fadeOut();
+    $('.overlay-title').fadeOut();
+    $('.overlay-like').fadeOut();
+    $('.overlay-checkin').fadeOut();
+    $('.overlay-expand').addClass('rotate-180');
+    $('.overlay-expand').attr('onclick', 'collapseCard()');
+    $('.card-image-link').attr('onclick', 'collapseCard()');
     viewState = 2;
 }
 
@@ -124,7 +129,12 @@ function collapseCard() {
     $('.left-panel').css('overflow-y', 'hidden');
     $('.main-image').removeClass('expanded');
     $(".card-details").slideUp();
-    $(".overlay").fadeIn();
+    $('.overlay-title').fadeIn();
+    $('.overlay-like').fadeIn();
+    $('.overlay-checkin').fadeIn();
+    $('.overlay-expand').removeClass('rotate-180');
+    $('.overlay-expand').attr('onclick', 'expandCard()');
+    $('.card-image-link').attr('onclick', 'expandCard()');
     viewState = 1;
 }
 

@@ -20,9 +20,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
- #
-
-# SECURITY WARNING: don't run with debug turned on in production!
 
 ALLOWED_HOSTS = [
     'christchurchstreetart.org.nz',
@@ -75,7 +72,6 @@ INSTALLED_APPS = [
     'image_cropping',
 ]
 
-
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
     'easy_thumbnails.processors.autocrop',
@@ -83,7 +79,6 @@ THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.filters',
     'image_cropping.thumbnail_processors.crop_corners',
 ) + thumbnail_settings.THUMBNAIL_PROCESSORS
-
 
 ROOT_URLCONF = 'chch_streetart.urls'
 

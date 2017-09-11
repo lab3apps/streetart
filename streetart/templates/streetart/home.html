@@ -75,11 +75,11 @@
                         if(response.message === 'liked') {
                             art.hasLiked = 'True';
                             activateSnackbar('#likeSnackbar');
-                            $('.overlay-like i').html('favorite');
+                            $('.like i').html('favorite');
                         } else {
                             art.hasLiked = 'False';
                             activateSnackbar('#unlikeSnackbar');
-                            $('.overlay-like i').html('favorite_border');
+                            $('.like i').html('favorite_border');
                         }
                     },
                     error: function (rs, e) {
@@ -107,14 +107,14 @@
                         $('#checkinCount').html(art.checkins_count);
                         if(response.message === 'checkedin') {
                             art.hasCheckedin = 'True';
-                            $('.overlay-checkin i').addClass('palette-Green');
-                            $('.overlay-checkin i').removeClass('palette-White');
+                            $('.checkin-icon-unfilled').hide();
+                            $('.checkin-icon-filled').show();
 
                             activateSnackbar('#checkinSnackbar');
                         } else {
                             art.hasCheckedin = 'False';
-                            $('.overlay-checkin i').addClass('palette-White');
-                            $('.overlay-checkin i').removeClass('palette-Green');
+                            $('.checkin-icon-filled').hide();
+                            $('.checkin-icon-unfilled').show();
                             activateSnackbar('#checkoutSnackbar');
                         }
                     },
@@ -183,23 +183,29 @@
                 <div id="main-card" class="card">
                     <div class="card-image">
                         <div class="loader none"></div>
-                        <a onclick="expandCard()">
+                        <a class="card-image-link" onclick="expandCard()">
                             <span class="overlay overlay-title"></span>
                             <img class="main-image img-responsive" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D">
                         </a>
                         <a class="overlay-fullscreen" href="" data-lightbox="lightbox"><i class="material-icons md-light md-36">fullscreen</i></a>
                         <a class="overlay overlay-expand" onclick="expandCard()"><i class="material-icons md-light md-36">expand_more</i></a>
-                        <a class="overlay-like" onclick="like()"><i class="material-icons palette-Red text md-36">favorite_border</i></a>
-                        <a class="overlay-checkin" onclick="checkin()"><i class="material-icons palette-White text md-36">beenhere</i></a>
+                        <a class="overlay-like like" onclick="like()"><i class="material-icons palette-Red text md-36">favorite_border</i></a>
+                        <a class="overlay-checkin checkin" onclick="checkin()">
+                            <img class="checkin-icon checkin-icon-unfilled" src="{% static 'material-design-icons/ic_place_check_border_36px.svg'%}"></img>
+                            <img class="checkin-icon checkin-icon-filled" src="{% static 'material-design-icons/ic_place_check_border_filled_36px.svg'%}" style="display: none;"></img>
+                        </a>
                     </div>
                     <div class="card-details">
                         <div class="card-content" id="card-content">
                         </div>
-
+                        <div class="like-checkin-count"><span id="likeCount"></span> like<span id="like-plural">s</span> and <span id="checkinCount"></span> checkin<span id="checkin-plural">s</span></div>
                         <div class="card-action">
-                            <a id="like" onclick="like()">LIKE <span id="likeCount"></span></a>
-                            <a id="checkin" onclick="checkin()">CHECK IN <span id="checkinCount"></span></a>
-                            <a id="show_on_map">SHOW ON MAP</a>
+                            <a class="like" id="like" onclick="like()"><i class="material-icons palette-Red text md-36">favorite_border</i></a>
+                            <a class="checkin" id="checkin" onclick="checkin()">
+                                <img class="checkin-icon checkin-icon-unfilled" src="{% static 'material-design-icons/ic_place_check_border_36px.svg'%}"></img>
+                                <img class="checkin-icon checkin-icon-filled" src="{% static 'material-design-icons/ic_place_check_border_filled_36px.svg'%}" style="display: none;"></img>
+                            </a>
+                            <a id="show_on_map"><i class="fa fa-map-pin"></i></a>
                         </div>
                     </div>
                 </div>
@@ -220,7 +226,7 @@
             <!-- This is the main scrolling gallery which shows images relating to those on the map
                  Image div boxes added using django tempting. -->
             <div id="lazy-container" class="scroll-gallery">
-                <div class="getinvolved-section">
+                <div class="getinvolved-section" style="display: none">
                     {% for section in sections %}
                             <div id="section-{{ section.id }}" class="getinvolved-item col-xs-4 col-sm-3 col-md-3">
                                 <div class="dummy"></div>
