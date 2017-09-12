@@ -573,7 +573,7 @@ a {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100%
+    width: 100%;
     transform: translate(-50%, -50%);
     font-size: 17pt;
     font-weight: 300;
