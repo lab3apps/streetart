@@ -82,8 +82,11 @@ function expandMap() {
     $('#marker-card-holder').show();
     $('.title-block').hide();
     $('.back-block').show();
+    $('.tab-block').hide();
     $('.gallery-item').removeClass('col-md-3');
+    $('.getinvolved-item').removeClass('col-md-3');
     $('.gallery-item').addClass('col-md-6');
+    $('.getinvolved-item').addClass('col-md-6');
     // Important for mobile
     $('.left-panel').removeClass('mobile-hide');
     $('.right-panel').addClass('mobile-hide');
@@ -95,8 +98,11 @@ function collapseMap() {
     $('#marker-card-holder').hide();
     $('.title-block').show();
     $('.back-block').hide();
+    $('.tab-block').show();
     $('.gallery-item').removeClass('col-md-6');
+    $('.getinvolved-item').removeClass('col-md-6');
     $('.gallery-item').addClass('col-md-3');
+    $('.getinvolved-item').addClass('col-md-3');
     // Important for mobile
     $('.left-panel').addClass('mobile-hide');
     $('.right-panel').removeClass('mobile-hide');
@@ -190,5 +196,28 @@ function activateSnackbar(snackbarDiv) {
     setTimeout(function() {
         $(snackbarDiv).removeClass('show');
     }, 3000);
+}
+
+$('#gallery-tab').click(function() {
+    showGalleryTab();
+});
+
+
+$('#getinvolved-tab').click(function() {
+    showGetInvolvedTab();
+});
+
+function showGalleryTab() {
+    $('.getinvolved-section').hide();
+    $('.gallery-section').show();
+    $('#gallery-tab').addClass('active');
+    $('#getinvolved-tab').removeClass('active');
+}
+
+function showGetInvolvedTab() {
+    $('.getinvolved-section').show();
+    $('.gallery-section').hide();
+    $('#getinvolved-tab').addClass('active');
+    $('#gallery-tab').removeClass('active');
 }
 
