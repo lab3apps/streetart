@@ -573,10 +573,11 @@ a {
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 100%
     transform: translate(-50%, -50%);
-    font-size: 21pt;
+    font-size: 17pt;
     font-weight: 300;
-    line-height: 21pt;
+    line-height: 20pt;
     color: white;
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
