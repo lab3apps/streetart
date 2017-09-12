@@ -232,7 +232,8 @@
                             <div id="section-{{ section.id }}" class="getinvolved-item col-xs-4 col-sm-3 col-md-3">
                                 <div class="dummy"></div>
                                 <a class="img-link" href="{{section.link}}">
-                                        <img class="thumbnail-image" data-src="{% thumbnail section.image '250x250' %}">
+                                        <img class="lazy thumbnail-image" data-src="{% thumbnail section.image '250x250' %}">
+                                        <div class="section-thumb-overlay">{{section.title}}</div>
                                 </a>
                             </div>
                     {% endfor %}
