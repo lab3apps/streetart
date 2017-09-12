@@ -246,7 +246,10 @@ class Logo(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='logos/', blank=True, null=True)
     def image_thumbnail(self):
-        return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
+        if self.image:
+            return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
+        else:
+            return ""
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
     link = models.URLField(blank=True, null=True)
