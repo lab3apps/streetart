@@ -1,3 +1,36 @@
+/*!
+ * @param {number} duration - The speed amount
+ * @param {string} easing - The easing method
+ * @param {function} complete - A callback function
+**/
+jQuery.fn.blindLeftToggle = function (duration, easing, complete) {
+    return this.animate({
+        marginLeft: parseFloat(this.css('marginLeft')) < 0 ? 0 : -this.outerWidth()
+    }, jQuery.speed(duration, easing, complete));
+};
+
+/*!
+ * @param {number} duration - The speed amount
+ * @param {string} easing - The easing method
+ * @param {function} complete - A callback function
+**/
+jQuery.fn.blindLeftOut = function (duration, easing, complete) {
+    return this.animate({
+        marginLeft: -this.outerWidth()
+    }, jQuery.speed(duration, easing, complete));
+};
+
+/*!
+ * @param {number} duration - The speed amount
+ * @param {string} easing - The easing method
+ * @param {function} complete - A callback function
+**/
+jQuery.fn.blindLeftIn = function (duration, easing, complete) {
+    return this.animate({
+        marginLeft: 0
+    }, jQuery.speed(duration, easing, complete));
+};
+
 /* View States:
  * 0: Default large left panel with gallery.
  * 1: Large map panel with small card and gallery.
@@ -145,15 +178,17 @@ function collapseCard() {
 }
 
 function hideLeftPanel() {
-    $('.left-panel').addClass('no-width');
+    //$('.left-panel').addClass('no-width');
     $('.right-panel').addClass('full-width');
+    $('.left-panel').blindLeftOut('fast');
     $('#left-panel-toggle').addClass('rotate-180');
     $('.left-panel').css('border-right', 'none');
 }
 
 function showLeftPanel() {
-    $('.left-panel').removeClass('no-width');
+    //$('.left-panel').removeClass('no-width');
     $('.right-panel').removeClass('full-width');
+    $('.left-panel').blindLeftIn('fast');
     $('#left-panel-toggle').removeClass('rotate-180');
     $('.left-panel').css('border-right', 'solid 3px black');
 }
@@ -183,7 +218,7 @@ $('.navbar-gallery').click(function(e) {
 });
 
 $('#left-panel-toggle').click(function(e) {
-    if ($('.left-panel').hasClass('no-width')) {
+    if ($('.right-panel').hasClass('full-width')) {
         showLeftPanel();
     } else {
         hideLeftPanel();
