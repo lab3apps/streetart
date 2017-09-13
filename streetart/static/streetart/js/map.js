@@ -169,12 +169,7 @@ function focusOnMarker(index) {
         $("#card-content").html('');
 
         var overlay_title = '';
-        if (art.title !== "") {
-            overlay_title = '"'+art.title+'"';
-            if (artists_text !== "") {
-                overlay_title += '<br>'+artists_text;
-            }
-        } else if (artists_text !== "") {
+        if (artists_text !== "") {
             overlay_title = artists_text;
         }
         if (overlay_title === ''){
@@ -242,7 +237,7 @@ function focusOnMarker(index) {
         map.panTo(point);
         loadCommentSection(index);
         loadAltImages(index);
-        history.replaceState({}, null, '/artselected/'+index);
+        history.replaceState({}, null, '/artwork/'+index);
     }
 }
 

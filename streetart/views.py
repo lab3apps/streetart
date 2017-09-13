@@ -43,6 +43,12 @@ def home(request, **kwargs):
             art.has_checkedin = False
 
     if ('pk' in kwargs):
+        try:
+            Artwork.objects.get(pk=kwargs.get('pk'))
+        except Artwork.DoesNotExist:
+            ##return Response(status=status.HTTP_404_NOT_FOUND)
+            messages.error(request, 'This artwork does not exist.')
+            return redirect('/')
         return render(request, 'streetart/home.html', {'artworks': artwork, 'sections': section, 'loadedart': kwargs.get('pk')})
     else:
         return render(request, 'streetart/home.html', {'artworks': artwork, 'sections': section})

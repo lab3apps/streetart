@@ -109,7 +109,7 @@ class Artwork(models.Model):
     submitter_email = models.EmailField(blank=True, null=True, verbose_name="Submitter's Email Address")
 
     def get_absolute_url(self):
-        return "/artselected/%d" % self.id
+        return "/artwork/%d" % self.id
 
     def get_artists(self):
         return "\n".join([p.name for p in self.artists.all()])
