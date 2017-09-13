@@ -235,6 +235,8 @@ function focusOnMarker(index) {
         }
         $('#show_on_map').data('index', index);
         map.panTo(point);
+        map.setZoom(17);
+        toggleBounce(marker);
         loadCommentSection(index);
         loadAltImages(index);
         history.replaceState({}, null, '/artwork/'+index);
@@ -312,6 +314,19 @@ function filterMarkers() {
         }
     }
 }
+var currentBounceMarker;
+function toggleBounce(marker) {
+    if (currentBounceMarker) {
+        if (currentBounceMarker.getAnimation() !== null) {
+          currentBounceMarker.setAnimation(null);
+        } 
+        currentBounceMarker = marker;
+        currentBounceMarker.setAnimation(google.maps.Animation.BOUNCE);
+    }else{
+        currentBounceMarker = marker;
+        currentBounceMarker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+ }       
 
 function initializeMultiSelect() {
     $('.multiselect').multiselect({
