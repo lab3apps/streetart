@@ -325,3 +325,21 @@ def checkIn(request, key):
 def thanks(request):
     return render(request, 'streetart/thank_you.html')
 
+def post_comment(request):
+    if request.method == 'POST':
+        author = request.POST.get('author')
+        artwork = request.POST.get('artwork')
+        text = request.POST.get('text')
+        response_data = {
+            'author' : author,
+            'text' : text,
+            'artwork' : artwork
+        }
+
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+    else:
+        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
