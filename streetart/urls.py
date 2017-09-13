@@ -8,6 +8,7 @@ from django.views.generic import TemplateView
 app_name = 'streetart'
 urlpatterns = [
 	url(r'^$', views.home, name='home'),
+	url(r'^artselected/(?P<pk>[0-9]+)$', views.home, name='image_selected'),
 	url(r'^artwork/new/$', views.add_new, name='new_artwork'),
 	url(r'^muralcommision/new/$', views.add_new, name='new_muralcommission'),
 	url(r'^wallspace/new/$', views.add_new, name='new_wallspace'),

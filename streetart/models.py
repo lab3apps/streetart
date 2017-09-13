@@ -6,7 +6,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.gis.db import models
 from django.template.defaultfilters import slugify
-from fluent_comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
 from multiselectfield import MultiSelectField
 from easy_thumbnails.files import get_thumbnailer
@@ -15,6 +14,8 @@ from image_cropping.utils import get_backend
 from sorl.thumbnail import get_thumbnail
 from sorl.thumbnail import ImageField
 from PIL import Image
+from django_comments_xtd.moderation import moderator, XtdCommentModerator
+from streetart.badwords import badwords
 
 # Create your models here.
 
@@ -107,7 +108,8 @@ class Artwork(models.Model):
     submitter_name = models.CharField(blank=True, null=True, max_length=200, verbose_name="Submitter's Name")
     submitter_email = models.EmailField(blank=True, null=True, verbose_name="Submitter's Email Address")
 
-    
+    def get_absolute_url(self):
+        return "/artselected/%d" % self.id
 
     def get_artists(self):
         return "\n".join([p.name for p in self.artists.all()])
@@ -258,8 +260,44 @@ class Logo(models.Model):
     def __str__(self):
         return self.title
 
+class PostCommentModerator(XtdCommentModerator):
+    removal_suggestion_notification = True
+    email_notification = True
 
+    def moderate(self, comment, content_object, request):
+        # Make a dictionary where the keys are the words of the message and
+        # the values are their relative position in the message.
+        def clean(word):
+            ret = word
+            if word.startswith('.') or word.startswith(','):
+                ret = word[1:]
+            if word.endswith('.') or word.endswith(','):
+                ret = word[:-1]
+            return ret
 
+        lowcase_comment = comment.comment.lower()
+        msg = dict([(clean(w), i)
+                    for i, w in enumerate(lowcase_comment.split())])
+        for badword in badwords:
+            if isinstance(badword, str):
+                if lowcase_comment.find(badword) > -1:
+                    return True
+            else:
+                lastindex = -1
+                for subword in badword:
+                    if subword in msg:
+                        if lastindex > -1:
+                            if msg[subword] == (lastindex + 1):
+                                lastindex = msg[subword]
+                        else:
+                            lastindex = msg[subword]
+                    else:
+                        break
+                if msg.get(badword[-1]) and msg[badword[-1]] == lastindex:
+                    return True
+        return super(PostCommentModerator, self).moderate(comment,
+                                                          content_object,
+                                                          request)
 
-
+moderator.register(Artwork, PostCommentModerator)
 

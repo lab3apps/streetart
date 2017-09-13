@@ -242,6 +242,7 @@ function focusOnMarker(index) {
         map.panTo(point);
         loadCommentSection(index);
         loadAltImages(index);
+        history.replaceState({}, null, '/artselected/'+index);
     }
 }
 

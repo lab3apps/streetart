@@ -1,7 +1,18 @@
-{% load comments static %}
-
+{% load comments %}
+{% load comments_xtd %}
+{% get_comment_count for art as comment_count %}
 <div class="card-content">
+<div class="comment">
+  <h4 class="text-center">Your comment</h4>
+  <div class="well">
     {% render_comment_form for art %}
-    {% render_comment_list for art %}
+  </div>
+</div>
+{% if comment_count %}
+<hr/>
+<ul class="media-list">
+  {% render_xtdcomment_tree for art allow_flagging  %}
+</ul>
+{% endif %}
 </div>
 

@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from streetart.models import Artwork, Artist, Artwork_Category, Route, RoutePoint, Crew, Artwork_Category, Status, User
-from fluent_comments.models import Comment
 from streetart.processors import add_watermark
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from django.core.serializers import serialize
@@ -58,14 +57,14 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('username', 'first_name', 'last_name', 'email')
 
-class CommentSerializer(serializers.ModelSerializer):
-    """Serializer to map the Status instance into JSON format."""
-    user = UserSerializer(many=False, read_only=True)
-
-    class Meta:
-        """Meta class to map serializer's fields with the model fields."""
-        model = Comment
-        fields = ('id', 'object_pk', 'comment', 'ip_address', 'user', 'submit_date',)
+##class CommentSerializer(serializers.ModelSerializer):
+##    """Serializer to map the Status instance into JSON format."""
+##    user = UserSerializer(many=False, read_only=True)
+##
+##    class Meta:
+##        """Meta class to map serializer's fields with the model fields."""
+##        model = Comment
+##        fields = ('id', 'object_pk', 'comment', 'ip_address', 'user', 'submit_date',)
 
 class ArtworkSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
@@ -73,7 +72,7 @@ class ArtworkSerializer(serializers.ModelSerializer):
     artists = ArtistSerializer(many=True, read_only=True)
     category = CategorySerializer(many=False, read_only=True)
     status = StatusSerializer(many=False, read_only=True)
-    comments = CommentSerializer(many=True, read_only=True)
+    ##comments = CommentSerializer(many=True, read_only=True)
     likes = serializers.SerializerMethodField()
     checkins = serializers.SerializerMethodField()
 
