@@ -14,7 +14,7 @@ from image_cropping.utils import get_backend
 from sorl.thumbnail import get_thumbnail
 from sorl.thumbnail import ImageField
 from PIL import Image
-from django_comments_xtd.moderation import moderator, XtdCommentModerator
+from django_comments_xtd.moderation import moderator, XtdCommentModerator, SpamModerator
 from streetart.badwords import badwords
 
 # Create your models here.
@@ -152,7 +152,10 @@ class Artwork(models.Model):
         super(Artwork, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.title
+        if self.title != "" or (self.artists.all().count() > 1 or (self.artists.all().count() == 1 and self.artists.filter(name="").count() != 1)):
+            return (self.title if self.title != "" else "Untitled") + " by " + ", ".join([artist.__str__() for artist in self.artists.all()])
+        else:
+            return "Unknown Artwork"
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class AlternativeImage(models.Model):
@@ -260,7 +263,7 @@ class Logo(models.Model):
     def __str__(self):
         return self.title
 
-class PostCommentModerator(XtdCommentModerator):
+class PostCommentModerator(SpamModerator):
     removal_suggestion_notification = True
     email_notification = True
 

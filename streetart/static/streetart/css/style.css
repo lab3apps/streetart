@@ -752,3 +752,49 @@ a {
   left: 10px;
 }
 
+/*** Comments ***/
+
+.comment h4 {
+  display: none;
+}
+
+ .comment button{
+    outline: none;
+    border: none;
+  }
+
+
+  form{
+    padding: 1em;
+  }
+
+ .comment .form-control {
+    display: block;
+    width: 100% ;
+    padding: 0.375rem 0.1rem !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    color: #55595c !important;
+    background-color: white !important;
+    background-image: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid #ccc !important;
+  }
+
+  .comment .form-control:focus{
+    border-color: rgba(3, 161, 241, 1) !important;
+  }
+
+.well{
+  padding: 0;
+  margin: 0;
+  border: none;
+  box-shadow: none;
+}
+.well form{
+  background-color: white;
+}
+
+

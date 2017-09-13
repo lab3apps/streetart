@@ -3,16 +3,24 @@
 {% get_comment_count for art as comment_count %}
 <div class="card-content">
 <div class="comment">
-  <h4 class="text-center">Your comment</h4>
+{% if user.is_authenticated %}
   <div class="well">
     {% render_comment_form for art %}
   </div>
+{% else %}
+	To comment, please log in.
+{% endif %}
 </div>
 {% if comment_count %}
 <hr/>
 <ul class="media-list">
-  {% render_xtdcomment_tree for art allow_flagging  %}
+  {% render_xtdcomment_tree for art allow_flagging allow_feedback show_feedback %}
 </ul>
 {% endif %}
 </div>
+
+<script type="text/javascript">
+	$(".btn-primary").val("Submit");
+	$(".btn-default").val("Preview Comment");
+</script>
 
