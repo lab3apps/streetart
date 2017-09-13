@@ -83,19 +83,19 @@ Or to customise ip and port (default is http://127.0.0.1:8000/)
 
 Run these commands on the production server:
 
-`cd ~WTSAdmin/watchthisspace`
+`cd ~WTSAdmin/watch_this_space/streetart`
 
 `source env/bin/activate`
 
 `git pull`
 
-`python3 manage.py migrate`
+`python manage.py migrate`
 
-`~/watch_this_space/streetart/manage.py collectstatic`
+`python manage.py collectstatic`
 
 `deactivate`
 
-`sudo systemctl restart gunicorn`
+`sudo systemctl restart gunicorn` (or via restart.sh script)
 
 ### Changing the Model
 

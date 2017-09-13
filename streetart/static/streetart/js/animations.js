@@ -137,8 +137,8 @@ function collapseMap() {
     $('.gallery-item').addClass('col-md-3');
     $('.getinvolved-item').addClass('col-md-3');
     // Important for mobile
-    $('.left-panel').addClass('mobile-hide');
-    $('.right-panel').removeClass('mobile-hide');
+    $('.left-panel').removeClass('mobile-hide');
+    $('.right-panel').addClass('mobile-hide');
 
     viewState = 0;
 }
