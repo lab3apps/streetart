@@ -28,11 +28,27 @@
         
     </head>
     <!-- This is the start of the navigation bar at the top of the page-->
-    <header>
+    <header class="nav-header">
         <div class="clearfix">   
             <div class= "navbar-wrapper">
                 <nav class = "navbar navbar-inverse navbar-fixed-top" id="navbar_whole">
-                    <div class="col-xs-12 col-sm-8">
+                    <div id="mySidenav" class="sidenav">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                        <a href="{% url 'streetart:home' %}">Home</a>
+                        <a href="{% url 'streetart:home' %}">Map</a>
+                        <a href="{% url 'streetart:home' %}">About</a>
+                        <a href="{% url 'streetart:donate' %}">Donate</a>
+                        <a href="/settings">Settings</a>
+                        {% if user.is_authenticated %}
+                            <a href="/logout">Logout</a>
+                        {% else %}
+                            <a href="/login">Login</a>
+                        {% endif %}
+                    </div>
+                    <div class="visible-xs-block col-xs-3 menu-toggle">
+                        <a onclick="openNav()"><i class="material-icons md-light md-48">menu</i></a>
+                    </div>
+                    <div class="col-xs-6 col-sm-8">
                          <div class = "navbar-header">
                             <!--Below is the top-left hand side of the screen where you usually see a company/project name and a logo-->
                             <!--The next line sends the user back to the home page-->
@@ -74,7 +90,7 @@
                             </ul>
                         </div>
                     </div>
-
+                    <div class="visible-xs-block col-xs-3"></div>
                     <div class="menu-dropdown hidden-xs col-sm-4" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
                             {% if user.is_authenticated %}
