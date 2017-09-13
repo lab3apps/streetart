@@ -153,7 +153,8 @@ LANGUAGES = [
 ]
 
 CMS_TEMPLATES = [
-    ('home.html', 'Home page template'),
+    ('cms_base.html', 'Base template'),
+    ('cms_content.html', 'Content Template'),
 ]
 
 MEDIA_URL = "/media/"
