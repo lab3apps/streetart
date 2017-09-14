@@ -85,9 +85,9 @@ class Artwork(models.Model):
     crews = models.ManyToManyField(Crew, blank=True, related_name='artworks')
     category = models.ForeignKey(Artwork_Category, on_delete=models.SET_NULL, blank=True, null=True)
     title = models.CharField(max_length=200, blank=True, null=True)
-    commission_date = models.DateField('date commissioned', blank=True, null=True)
+    commission_date = models.CharField(max_length=200, blank=True, null=True, verbose_name='date commissioned')
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, blank=True, null=True)
-    decommission_date = models.DateField('date decommissioned', blank=True, null=True)
+    decommission_date = models.CharField(max_length=200, blank=True, null=True, verbose_name='date decommissioned')
     description = models.TextField(blank=True, null=True)
     image = ImageField(upload_to='artwork/')
     cropping = ImageRatioField('image', '250x250')
@@ -103,6 +103,10 @@ class Artwork(models.Model):
     location = models.PointField(srid=4326)
     objects = models.GeoManager()
     validated = models.BooleanField(default=False)
+    street = models.CharField(max_length=200, blank=True, null=True, verbose_name="What street is the artwork on (to help in identifying)")
+    admin_notes = models.TextField(blank=True, null=True, verbose_name="Write any notes about the artwork here (will not be shown on map)")
+    map_enabled = models.BooleanField(default=True, verbose_name="Show this artwork on the map")
+    smart_cities = models.BooleanField(default=True,verbose_name="Allow this artwork to be accessed by smartcities")
     slug = models.SlugField(blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='likes', blank=True)
     checkins = models.ManyToManyField(User, related_name='checkins', blank=True)
@@ -168,9 +172,18 @@ class Artwork(models.Model):
 
     def __str__(self):
         if self.pk and (self.title != "" or (self.artists.all().count() > 1 or (self.artists.all().count() == 1 and self.artists.filter(name="").count() != 1))):
-            return (self.title if self.title != "" else "Untitled") + " by " + ", ".join([artist.__str__() for artist in self.artists.all()])
+            return_string = ""
+            if self.title != "":
+                return_string += self.title
+            else:
+                return_string += "Untitled"
+            if self.artists.all().count() > 0:
+                return_string += " by " + ", ".join([artist.__str__() for artist in self.artists.all()])
+            if self.street and self.street != "":
+                return_string += ", on " + self.street
+            return  return_string
         else:
-            return "Unknown Artwork"
+            return "Unknown Artwork" + ((", on " + self.street) if (self.street and self.street != "") else "")
 
     def __init__(self, *args, **kwargs):
         super(Artwork, self).__init__(*args, **kwargs)
