@@ -235,8 +235,11 @@ function focusOnMarker(index) {
         }
         $('#show_on_map').data('index', index);
         map.panTo(point);
+        map.setZoom(17);
+        toggleBounce(marker);
         loadCommentSection(index);
         loadAltImages(index);
+        history.replaceState({}, null, '/artwork/'+index);
     }
 }
 
@@ -285,11 +288,18 @@ function filterMarkers() {
                 marker.setVisible(true);
                 markerCluster.addMarker(marker);
                 $('#artbox-'+key).show();
-            } else if(art.artists.length >= 1) {
+                console.log(key);
+                console.log(catArray.indexOf(art.status));
+            } else {
+                marker.setVisible(false);
+                markerCluster.removeMarker(marker);
+                $('#artbox-'+key).hide();
+            }
+            if(art.artists.length >= 1) {
                 var artist_found = false;
-                for(var key in art.artists) {
-                    if (arrayHasOwnIndex(art.artists, key)) {
-                        if (art.artists[key].toLowerCase().indexOf(searchText.toLowerCase()) >= 0 &&
+                for(var artist_key in art.artists) {
+                    if (arrayHasOwnIndex(art.artists, artist_key)) {
+                        if (art.artists[artist_key].toLowerCase().indexOf(searchText.toLowerCase()) >= 0 &&
                             catArray.indexOf(art.status) >= 0) {
                             artist_found = true;
                             marker.setVisible(true);
@@ -303,14 +313,24 @@ function filterMarkers() {
                     markerCluster.removeMarker(marker);
                     $('#artbox-'+key).hide();
                 }
-            } else {
-                marker.setVisible(false);
-                markerCluster.removeMarker(marker);
-                $('#artbox-'+key).hide();
             }
         }
     }
+    $('.thumbnail-image').scroll();
 }
+var currentBounceMarker;
+function toggleBounce(marker) {
+    if (currentBounceMarker) {
+        if (currentBounceMarker.getAnimation() !== null) {
+          currentBounceMarker.setAnimation(null);
+        } 
+        currentBounceMarker = marker;
+        currentBounceMarker.setAnimation(google.maps.Animation.BOUNCE);
+    }else{
+        currentBounceMarker = marker;
+        currentBounceMarker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+ }       
 
 function initializeMultiSelect() {
     $('.multiselect').multiselect({

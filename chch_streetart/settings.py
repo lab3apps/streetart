@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'sorl.thumbnail',
     'mapwidgets',
-    'fluent_comments',
+    'django_comments_xtd',
     'crispy_forms',
     'django_comments',
     'adminsortable2',
@@ -153,7 +153,8 @@ LANGUAGES = [
 ]
 
 CMS_TEMPLATES = [
-    ('home.html', 'Home page template'),
+    ('cms_base.html', 'Base template'),
+    ('cms_content.html', 'Content Template'),
 ]
 
 MEDIA_URL = "/media/"
@@ -192,8 +193,18 @@ MAP_WIDGETS = {
     "GOOGLE_MAP_API_KEY": GOOGLE_MAPS_API_KEY
 }
 
-COMMENTS_APP = 'fluent_comments'
-FLUENT_COMMENTS_EXCLUDE_FIELDS = ('name', 'email', 'url')
-FLUENT_COMMENTS_USE_EMAIL_NOTIFICATION = True
+COMMENTS_APP = 'django_comments_xtd'
+COMMENTS_XTD_MAX_THREAD_LEVEL = 1
+COMMENTS_XTD_APP_MODEL_OPTIONS = {
+    'default': {
+        'allow_flagging': True,
+        'allow_feedback': True,
+        'show_feedback': True,
+    }
+}
+
+MANAGERS = (
+    ('Chris Marffy', 'marffyc@gmail.com'),
+)
 
 CITY = 'Christchurch'
