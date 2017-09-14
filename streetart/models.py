@@ -16,6 +16,8 @@ from sorl.thumbnail import ImageField
 from PIL import Image
 from django_comments_xtd.moderation import moderator, XtdCommentModerator, SpamModerator
 from streetart.badwords import badwords
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 # Create your models here.
 
@@ -83,9 +85,9 @@ class Artwork(models.Model):
     crews = models.ManyToManyField(Crew, blank=True, related_name='artworks')
     category = models.ForeignKey(Artwork_Category, on_delete=models.SET_NULL, blank=True, null=True)
     title = models.CharField(max_length=200, blank=True, null=True)
-    commission_date = models.DateField('date commissioned', blank=True, null=True)
+    commission_date = models.CharField(max_length=200, blank=True, null=True, verbose_name='date commissioned')
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, blank=True, null=True)
-    decommission_date = models.DateField('date decommissioned', blank=True, null=True)
+    decommission_date = models.CharField(max_length=200, blank=True, null=True, verbose_name='date decommissioned')
     description = models.TextField(blank=True, null=True)
     image = ImageField(upload_to='artwork/')
     cropping = ImageRatioField('image', '250x250')
@@ -101,7 +103,11 @@ class Artwork(models.Model):
     location = models.PointField(srid=4326)
     objects = models.GeoManager()
     validated = models.BooleanField(default=False)
-    slug = models.SlugField()
+    street = models.CharField(max_length=200, blank=True, null=True, verbose_name="What street is the artwork on (to help in identifying)")
+    admin_notes = models.TextField(blank=True, null=True, verbose_name="Write any notes about the artwork here (will not be shown on map)")
+    map_enabled = models.BooleanField(default=True, verbose_name="Show this artwork on the map")
+    smart_cities = models.BooleanField(default=True,verbose_name="Allow this artwork to be accessed by smartcities")
+    slug = models.SlugField(blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='likes', blank=True)
     checkins = models.ManyToManyField(User, related_name='checkins', blank=True)
     submitter_description = models.TextField(blank=True, null=True, verbose_name="Submitter's Description")
@@ -137,14 +143,27 @@ class Artwork(models.Model):
         return Comment.objects.filter(content_type=ct,object_pk=obj_pk)
 
     def save(self, *args, **kwargs):
-        self.cropped_image = get_thumbnailer(self.image).get_thumbnail(
-            {
-                'size': (10000, 10000),
-                'box': self.cropping,
-                'crop': True,
-                'detail': True,
-            }
-        ).name
+        if self.image != self.__original_image:
+            im = Image.open(BytesIO(self.image.read()))
+            #If RGBA, convert transparency
+            if im.mode == "RGBA":
+                im.load()
+                background = Image.new("RGB", im.size, (255, 255, 255))
+                background.paste(im, mask=im.split()[3]) # 3 is the alpha channel
+                im=background
+            im_io = BytesIO()
+            im.save(im_io, format='JPEG')
+            im_io.seek(0)
+            self.image = InMemoryUploadedFile(im_io,'ImageField', "%s.jpg" %self.image.name.split('.')[0], 'image/jpeg', im_io.getbuffer().nbytes, None)
+        if self.pk and self.image == self.__original_image:
+            self.cropped_image = get_thumbnailer(self.image).get_thumbnail(
+                {
+                    'size': (10000, 10000),
+                    'box': self.cropping,
+                    'crop': True,
+                    'detail': True,
+                }
+            ).name
         if self.title != None and self.title != '':
             self.slug = slugify(self.title)
         else:
@@ -152,10 +171,23 @@ class Artwork(models.Model):
         super(Artwork, self).save(*args, **kwargs)
 
     def __str__(self):
-        if self.title != "" or (self.artists.all().count() > 1 or (self.artists.all().count() == 1 and self.artists.filter(name="").count() != 1)):
-            return (self.title if self.title != "" else "Untitled") + " by " + ", ".join([artist.__str__() for artist in self.artists.all()])
+        if self.pk and (self.title != "" or (self.artists.all().count() > 1 or (self.artists.all().count() == 1 and self.artists.filter(name="").count() != 1))):
+            return_string = ""
+            if self.title != "":
+                return_string += self.title
+            else:
+                return_string += "Untitled"
+            if self.artists.all().count() > 0:
+                return_string += " by " + ", ".join([artist.__str__() for artist in self.artists.all()])
+            if self.street and self.street != "":
+                return_string += ", on " + self.street
+            return  return_string
         else:
-            return "Unknown Artwork"
+            return "Unknown Artwork" + ((", on " + self.street) if (self.street and self.street != "") else "")
+
+    def __init__(self, *args, **kwargs):
+        super(Artwork, self).__init__(*args, **kwargs)
+        self.__original_image = self.image
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class AlternativeImage(models.Model):
@@ -165,6 +197,25 @@ class AlternativeImage(models.Model):
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='other_images')
+    def save(self, *args, **kwargs):
+        if self.image != self.__original_image:
+            im = Image.open(BytesIO(self.image.read()))
+            #If RGBA, convert transparency
+            if im.mode == "RGBA":
+                im.load()
+                background = Image.new("RGB", im.size, (255, 255, 255))
+                background.paste(im, mask=im.split()[3]) # 3 is the alpha channel
+                im=background
+            im_io = BytesIO()
+            im.save(im_io, format='JPEG')
+            im_io.seek(0)
+            self.image = InMemoryUploadedFile(im_io,'ImageField', "%s.jpg" %self.image.name.split('.')[0], 'image/jpeg', im_io.getbuffer().nbytes, None)
+            super(AlternativeImage, self).save(*args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+        super(AlternativeImage, self).__init__(*args, **kwargs)
+        self.__original_image = self.image
+
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class MuralCommission(models.Model):
