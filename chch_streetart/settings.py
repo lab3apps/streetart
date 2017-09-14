@@ -203,8 +203,4 @@ COMMENTS_XTD_APP_MODEL_OPTIONS = {
     }
 }
 
-MANAGERS = (
-    ('Chris Marffy', 'marffyc@gmail.com'),
-)
-
 CITY = 'Christchurch'
