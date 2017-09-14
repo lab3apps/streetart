@@ -16,7 +16,7 @@ jQuery.fn.blindLeftToggle = function (duration, easing, complete) {
 **/
 jQuery.fn.blindLeftOut = function (duration, easing, complete) {
     return this.animate({
-        marginLeft: -this.outerWidth()
+        marginLeft: -$('.left-panel').width()-10
     }, jQuery.speed(duration, easing, complete));
 };
 
@@ -180,7 +180,7 @@ function collapseCard() {
 function hideLeftPanel() {
     //$('.left-panel').addClass('no-width');
     $('.right-panel').addClass('full-width');
-    $('.left-panel').blindLeftOut('fast');
+    $('.left-panel').blindLeftOut('slow');
     $('#left-panel-toggle').addClass('rotate-180');
     $('.left-panel').css('border-right', 'none');
 }
@@ -188,7 +188,7 @@ function hideLeftPanel() {
 function showLeftPanel() {
     //$('.left-panel').removeClass('no-width');
     $('.right-panel').removeClass('full-width');
-    $('.left-panel').blindLeftIn('fast');
+    $('.left-panel').blindLeftIn('slow');
     $('#left-panel-toggle').removeClass('rotate-180');
     $('.left-panel').css('border-right', 'solid 3px black');
 }
