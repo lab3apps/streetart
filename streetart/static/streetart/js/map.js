@@ -188,9 +188,14 @@ function focusOnMarker(index) {
                 <span class="artwork-artists">'+artists_text+'</span>\
             </p>');
         }
+        if (art.description != "") {
+            $("#card-content").append('<p class="card-description">\
+                <span class="artwork-description">'+art.description+'</span>\
+            </p>');
+        }
         for(var key in art) {
             if (art[key] != 'None' && art[key] != '') {
-                if (key == 'commission_date' || key == 'decommission_date' || key == 'description') {
+                if (key == 'commission_date' || key == 'decommission_date') {
                     $("#card-content").append('<p class="card-generated">\
                         <span class="value-title">'+key.replace('_', ' ')+': </span>\
                         <span class="artwork-'+key+'">'+art[key]+'</span>\
@@ -199,11 +204,6 @@ function focusOnMarker(index) {
                     $("#card-content").append('<p class="card-generated">\
                         <span class="value-title">'+key.replace('_', ' ')+': </span>\
                         <span class="artwork-'+key+'"><a href="'+art[key]+'">'+art[key]+'</a></span>\
-                    </p>');
-                } else if (key == 'lat') {
-                    $("#card-content").append('<p class="card-generated">\
-                        <span class="value-title">Coordinates: </span>\
-                        <span class="artwork-'+key+'">'+art['lat']+','+art['lng']+' <a target="_blank" href="http://www.google.com/maps/place/'+art['lat']+','+art['lng']+'">(Open in Google Maps)</a></span>\
                     </p>');
                 }
             }
@@ -256,16 +256,14 @@ $('#show_on_map').click(function(e) {
 });
 
 function getNearestArtworks(index) {
-    console.log("Ajax - Artwork requested. PK: " + index);
     $.ajax({
-        url: '/getdata/' + index + '/',
+        url: '/nearby/' + index + '/',
         type: 'GET',
-        success: function(data) {
-            console.log("We got some data yo!")
-            console.log(data);
+        success: function(response) {
+            $('.gallery-section').html(response);
         },
-        failure: function() {
-            console.log('Got an error dude');
+        failure: function(error) {
+            console.error(error);
         }
     });
 }
@@ -318,6 +316,7 @@ function filterMarkers() {
     }
     $('.thumbnail-image').scroll();
 }
+
 var currentBounceMarker;
 function toggleBounce(marker) {
     if (currentBounceMarker) {

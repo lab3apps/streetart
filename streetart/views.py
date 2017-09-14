@@ -281,7 +281,7 @@ def closest_artwork(request, index):
     artworkObject = Artwork.objects.get(pk=index)
     artwork = get_closest_artworks(artworkObject.location.y, artworkObject.location.x)
     response = serializers.serialize("json", artwork)
-    return HttpResponse(response, content_type='application/json')
+    return render(request, 'streetart/ordered_artwork_list.html', {'artworks': artwork})
 
 def get_closest_artworks(lat, long):
     point = geos.fromstr("POINT(%s %s)" % (long, lat))
