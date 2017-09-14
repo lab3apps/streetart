@@ -30,7 +30,7 @@ except ImportError:
     import json
 from django.views.decorators.http import require_POST
 
-def home(request):
+def home(request, **kwargs):
     artwork = Artwork.objects.filter(validated=True).order_by('pk')
     section = Section.objects.order_by('order')
     if request.user.is_authenticated():
@@ -41,7 +41,18 @@ def home(request):
         for art in artwork:
             art.has_liked = False
             art.has_checkedin = False
-    return render(request, 'streetart/home.html', {'artworks': artwork, 'sections': section})
+
+    if ('pk' in kwargs):
+        try:
+            Artwork.objects.get(pk=kwargs.get('pk'))
+        except Artwork.DoesNotExist:
+            ##return Response(status=status.HTTP_404_NOT_FOUND)
+            messages.error(request, 'This artwork does not exist.')
+            return redirect('/')
+        return render(request, 'streetart/home.html', {'artworks': artwork, 'sections': section, 'loadedart': kwargs.get('pk')})
+    else:
+        return render(request, 'streetart/home.html', {'artworks': artwork, 'sections': section})
+
 
 @login_required
 @transaction.atomic

@@ -6,7 +6,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.gis.db import models
 from django.template.defaultfilters import slugify
-from fluent_comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
 from multiselectfield import MultiSelectField
 from easy_thumbnails.files import get_thumbnailer
@@ -15,6 +14,10 @@ from image_cropping.utils import get_backend
 from sorl.thumbnail import get_thumbnail
 from sorl.thumbnail import ImageField
 from PIL import Image
+from django_comments_xtd.moderation import moderator, XtdCommentModerator, SpamModerator
+from streetart.badwords import badwords
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 # Create your models here.
 
@@ -100,14 +103,15 @@ class Artwork(models.Model):
     location = models.PointField(srid=4326)
     objects = models.GeoManager()
     validated = models.BooleanField(default=False)
-    slug = models.SlugField()
+    slug = models.SlugField(blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='likes', blank=True)
     checkins = models.ManyToManyField(User, related_name='checkins', blank=True)
     submitter_description = models.TextField(blank=True, null=True, verbose_name="Submitter's Description")
     submitter_name = models.CharField(blank=True, null=True, max_length=200, verbose_name="Submitter's Name")
     submitter_email = models.EmailField(blank=True, null=True, verbose_name="Submitter's Email Address")
 
-    
+    def get_absolute_url(self):
+        return "/artwork/%d" % self.id
 
     def get_artists(self):
         return "\n".join([p.name for p in self.artists.all()])
@@ -135,14 +139,27 @@ class Artwork(models.Model):
         return Comment.objects.filter(content_type=ct,object_pk=obj_pk)
 
     def save(self, *args, **kwargs):
-        self.cropped_image = get_thumbnailer(self.image).get_thumbnail(
-            {
-                'size': (10000, 10000),
-                'box': self.cropping,
-                'crop': True,
-                'detail': True,
-            }
-        ).name
+        if self.image != self.__original_image:
+            im = Image.open(BytesIO(self.image.read()))
+            #If RGBA, convert transparency
+            if im.mode == "RGBA":
+                im.load()
+                background = Image.new("RGB", im.size, (255, 255, 255))
+                background.paste(im, mask=im.split()[3]) # 3 is the alpha channel
+                im=background
+            im_io = BytesIO()
+            im.save(im_io, format='JPEG')
+            im_io.seek(0)
+            self.image = InMemoryUploadedFile(im_io,'ImageField', "%s.jpg" %self.image.name.split('.')[0], 'image/jpeg', im_io.getbuffer().nbytes, None)
+        if self.pk and self.image == self.__original_image:
+            self.cropped_image = get_thumbnailer(self.image).get_thumbnail(
+                {
+                    'size': (10000, 10000),
+                    'box': self.cropping,
+                    'crop': True,
+                    'detail': True,
+                }
+            ).name
         if self.title != None and self.title != '':
             self.slug = slugify(self.title)
         else:
@@ -150,7 +167,14 @@ class Artwork(models.Model):
         super(Artwork, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.title
+        if self.pk and (self.title != "" or (self.artists.all().count() > 1 or (self.artists.all().count() == 1 and self.artists.filter(name="").count() != 1))):
+            return (self.title if self.title != "" else "Untitled") + " by " + ", ".join([artist.__str__() for artist in self.artists.all()])
+        else:
+            return "Unknown Artwork"
+
+    def __init__(self, *args, **kwargs):
+        super(Artwork, self).__init__(*args, **kwargs)
+        self.__original_image = self.image
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class AlternativeImage(models.Model):
@@ -160,6 +184,25 @@ class AlternativeImage(models.Model):
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='other_images')
+    def save(self, *args, **kwargs):
+        if self.image != self.__original_image:
+            im = Image.open(BytesIO(self.image.read()))
+            #If RGBA, convert transparency
+            if im.mode == "RGBA":
+                im.load()
+                background = Image.new("RGB", im.size, (255, 255, 255))
+                background.paste(im, mask=im.split()[3]) # 3 is the alpha channel
+                im=background
+            im_io = BytesIO()
+            im.save(im_io, format='JPEG')
+            im_io.seek(0)
+            self.image = InMemoryUploadedFile(im_io,'ImageField', "%s.jpg" %self.image.name.split('.')[0], 'image/jpeg', im_io.getbuffer().nbytes, None)
+            super(AlternativeImage, self).save(*args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+        super(AlternativeImage, self).__init__(*args, **kwargs)
+        self.__original_image = self.image
+
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class MuralCommission(models.Model):
@@ -258,8 +301,44 @@ class Logo(models.Model):
     def __str__(self):
         return self.title
 
+class PostCommentModerator(SpamModerator):
+    removal_suggestion_notification = True
+    email_notification = True
 
+    def moderate(self, comment, content_object, request):
+        # Make a dictionary where the keys are the words of the message and
+        # the values are their relative position in the message.
+        def clean(word):
+            ret = word
+            if word.startswith('.') or word.startswith(','):
+                ret = word[1:]
+            if word.endswith('.') or word.endswith(','):
+                ret = word[:-1]
+            return ret
 
+        lowcase_comment = comment.comment.lower()
+        msg = dict([(clean(w), i)
+                    for i, w in enumerate(lowcase_comment.split())])
+        for badword in badwords:
+            if isinstance(badword, str):
+                if lowcase_comment.find(badword) > -1:
+                    return True
+            else:
+                lastindex = -1
+                for subword in badword:
+                    if subword in msg:
+                        if lastindex > -1:
+                            if msg[subword] == (lastindex + 1):
+                                lastindex = msg[subword]
+                        else:
+                            lastindex = msg[subword]
+                    else:
+                        break
+                if msg.get(badword[-1]) and msg[badword[-1]] == lastindex:
+                    return True
+        return super(PostCommentModerator, self).moderate(comment,
+                                                          content_object,
+                                                          request)
 
-
+moderator.register(Artwork, PostCommentModerator)
 

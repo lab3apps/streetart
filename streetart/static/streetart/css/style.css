@@ -78,14 +78,14 @@ a {
 /* loader animation */
 .loader {
     position: absolute;
-    left: 40%;
-    top: 40%;
+    top: 42%;
+    left: 46%;
     z-index: 1000;
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #3498db; /* Blue */
+    border: 10px solid #f3f3f3; /* Light grey */
+    border-top: 10px solid #3498db; /* Blue */
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
+    width: 60px;
+    height: 60px;
     animation: spin 2s linear infinite;
 }
 
@@ -154,6 +154,8 @@ a {
 .header-image > img {
   max-height: 80px;
   padding: 5px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /*** Colours ***/
@@ -171,6 +173,7 @@ a {
 .split-page {
     width: 100%;
     height: calc(100% - 80px);
+    background-color: black;
 }
 
 
@@ -740,7 +743,7 @@ a {
 /*** Floating Action Buttons ***/
 
 .fab {
-    position: absolute;
+    position: fixed;
     right: 10px;
     bottom: 10px;
     background: white;
@@ -750,5 +753,109 @@ a {
 .fab.navbar-gallery {
   right: auto;
   left: 10px;
+}
+
+/*** Comments ***/
+
+.comment h4 {
+  display: none;
+}
+
+ .comment button{
+    outline: none;
+    border: none;
+  }
+
+
+  form{
+    padding: 1em;
+  }
+
+ .comment .form-control {
+    display: block;
+    width: 100% ;
+    padding: 0.375rem 0.1rem !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    color: #55595c !important;
+    background-color: white !important;
+    background-image: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid #ccc !important;
+  }
+
+  .comment .form-control:focus{
+    border-color: rgba(3, 161, 241, 1) !important;
+  }
+
+.well{
+  padding: 0;
+  margin: 0;
+  border: none;
+  box-shadow: none;
+}
+.well form{
+  background-color: white;
+}
+
+/*** Side Navigation Menu ***/
+
+.menu-toggle {
+  height: 80px;
+}
+
+.menu-toggle i {
+  line-height: 80px;
+}
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+.nav-header, .split-page {
+    transition: margin-left .5s;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
 }
 

@@ -10,7 +10,6 @@
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'multiselect/bootstrap-multiselect.css' %}" type="text/css"/>
     <link href="{% static 'lightbox/css/lightbox.css' %}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static 'fluent_comments/css/ajaxcomments.css' %}" />
 {% endblock %}
 
 {% block head-javascript %}
@@ -19,7 +18,6 @@
     <script type="text/javascript" src="https://stamen-maps.a.ssl.fastly.net/js/tile.stamen.js?v1.3.0"></script>
     <script type="text/javascript" src="{% static 'multiselect/bootstrap-multiselect.js' %}"></script>
     <script type="text/javascript" src="{% static 'lightbox/js/lightbox.js' %}"></script>
-    <script type="text/javascript" src="{% static 'fluent_comments/js/ajaxcomments.js' %}"></script>
     <script type="text/javascript" src="{% static 'lazy/jquery.lazy.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'streetart/js/markerclusterer.js' %}"></script>
     <script type="text/javascript">
@@ -55,6 +53,13 @@
                 ]
             };
         {% endfor %}
+        {% if loadedart %}
+        $( document ).ready(function() {
+            focusOnMarker({{loadedart}});
+            markerClicked();
+            expandCard();
+        });
+        {% endif %}
 
         function like() {
             if(!is_authenticated) {
