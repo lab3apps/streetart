@@ -4,30 +4,49 @@
 
 {% block content %}
 <div class="add-new-content">
-	<div class="container">
+	
 		<script src="{% static 'bootstrap/js/jquery-3.2.1.min.js' %}"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key={{ google_api_key }}" type="text/javascript"></script>
-		<div class="form-group">
-		  <label for="comment">Want to get involved?</label>
-		  <select class="form-control" id="form_select">
-		    <option value="newArtworkDiv" {% if url_name == "new_artwork" %}selected{% endif %}>Contribute to the map</option>
-		    <option value="newMuralDiv"  {% if url_name == "new_muralcommission" %}selected{% endif %}>Commission a mural</option>
-		    <option value="newWallSpace"  {% if url_name == "new_wallspace" %}selected{% endif %}>Offer your wall space</option>
-		    <option value="newArtistEOIDiv"  {% if url_name == "new_artistexpressionofinterest" %}selected{% endif %}>Express interest as an artist</option>
-		  </select>
+
+	<div class="get-involved-title-block" >
+		<div class="container">	
+			<h1 class="get-involved-title">Get Involved</h1>
+			<div class="form-group">
+			  <label for="comment">I want to...</label>
+			  <select class="form-control" id="form_select">
+			    <option value="newArtworkDiv" {% if url_name == "new_artwork" %}selected{% endif %}>Contribute to the map</option>
+			    <option value="newMuralDiv"  {% if url_name == "new_muralcommission" %}selected{% endif %}>Commission a mural</option>
+			    <option value="newWallSpace"  {% if url_name == "new_wallspace" %}selected{% endif %}>Provide legal wall space</option>
+			    <option value="newArtistEOIDiv"  {% if url_name == "new_artistexpressionofinterest" %}selected{% endif %}>Register my interest as an artist</option>
+			  </select>
+			  </div>
 		</div>
+		<img class="get-involved-banner" src="{% static 'img/Contribute-banner.png' %}">
+	</div>
+	<div class="container">	
 
 		<div class="contribute-div" id="newArtworkDiv" {% if url_name != "new_artwork" %}style="display: none;"{% endif %}>
 			<h1>Contribute to the map</h1>
-			<p>Is our map out of date?
-
-			That's probably because it is! The city landscape is constantly changing, and it's almost impossible for one person to do it alone.
-
-			This map has been put together by a few volunteers. Help us keep it up to date by submitting new information or donate a coffee to keep us running.
-
-			This is a free resource, and, from what we can tell, the most up to date map of Christchurch street art that we can find.
-
-			Why are we doing this? Watch <a href="pechakucha.org/cities/christchurch/presentations/watch-this-space-christchurch-street-art" target="_blank">our Pecha Kucha talk</a> which really gets to the heart of what we're doing and why.</p>
+			<p>In order to keep this the up-to-date map of Christchurch street art, we need your help.
+				<br><br>
+			If you discover a new art work or noticed one's no longer viewable, please share this information with us. Everyone else who comes to this website will benefit from it too!
+<br><br>
+			How do we choose what art work to show on our website? We first ask ourselves, is this something the average person would stop and take a look at. If you're not sure whether to send in the image or not, send it in anyway.
+<br><br>
+			When you share an image with Watch This Space Trust, (WTS) you agree that WTS:<br>
+			<ul>
+				<li>Has the right to use your image on its website</li>
+				<li>Has the right to share your image with third parties</li>
+				<li>May choose not to include this image as part of the website</li>
+			</ul>
+			<br>
+			The ideal image:<br>
+			<ul>
+				<li>Shows the full art work with no obstructions</li>
+				<li>Could include additional close ups</li>
+				<li>Is of good quality and high resolution</li>
+			</ul>
+			</p>
 		    <form method="POST" class="artwork-form" enctype="multipart/form-data">{% csrf_token %}
 		    	{{ artworkForm.media }}
 		    	<p class="bs-component">
@@ -77,7 +96,9 @@
 
 		<div class="contribute-div" id="newMuralDiv" {% if url_name != "new_muralcommission" %}style="display: none;"{% endif %}>
 			<h1>Commission a New Mural</h1>
-			<p>Have you seen art work on this website you like and want to commission a mural? It could be for your business, organisation, or your very own home. We'll help find the right artist for you.</p>
+			<p>Has your business recently relocated back to the CBD? Do you want a mural in your home? Do you want to give back to Christchurch street art, but don't know how?  Consider commissioning a mural. We're here to help.
+ <br><br>
+Please complete the form below, and we’ll get back to you with artist recommendations for your project.</p>
 		    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
 		    	{{ muralCommissionForm.media }}
 		    	<p class="bs-component">
@@ -98,7 +119,7 @@
 		</div>
 		<div class="contribute-div" id="newWallSpace" {% if url_name != "new_wallspace" %}style="display: none;"{% endif %}>
 			<h1>Offer Your Wall Space</h1>
-			<p>Are you located in Christchurch and have wall space available for artists to use for free? Local muralists, graffiti artists, and creators of street art are always looking for open space and free walls to practice their craft and make art work on. International traveling artists occasionally enquire through our website looking for legal places to paint so they can leave their mark on Christchurch.</p>
+			<p>Are you located in Christchurch? Do you have a building or wall space you're not using? Local muralists, graffiti artists, and creators of street art are always looking for legal spaces and free walls to create their art work on. And it's not just local artists, but international, traveling artists who contact us too, looking for wall space when they pass through Christchurch. Help us to provide blank canvases and legal walls so we can continue to keep Christchurch looking vibrant and lively.</p>
 		    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
 		    	{{ wallSpaceForm.media }}
 		    	<p class="bs-component">
@@ -119,7 +140,11 @@
 		</div>
 		<div class="contribute-div" id="newArtistEOIDiv" {% if url_name != "new_artistexpressionofinterest" %}style="display: none;"{% endif %}>
 			<h1>Express Your Interest as an Artist</h1>
-			<p>Do you want to get your work up on the walls of Christchurch? It's important to Watch This Space Trust to keep creating opportunities for local and visiting artists to Christchurch and keep our city a vibrant, lively city. </p>
+			<p>Do you want to make a mural here in Christchurch? 
+<br><br>
+It's important to Watch This Space that the street art scene grows organically and learns to sustain itself. We want to do what we can to create opportunities for local and visiting artists to Christchurch and keep our city a vibrant, lively city.  
+<br><br>
+Through our website, locals and business owners can contact us to commission a mural, and we need artists like you to connect them with. </p>
 		    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
 		    	{{ artistExpressionOfInterestForm.media }}
 		    	<p class="bs-component">

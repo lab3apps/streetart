@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load thumbnail %}
+{% load easy_thumbnail %}
 {% load cropping %}
 {% load static %}
 {% load comments static %}
@@ -28,7 +28,7 @@
         {% for art in artworks %}
             artworks[{{ art.id }}] = {
                 title: '{{ art.title }}',
-                description: '{{ art.description }}',
+                description: '{% filter escapejs %}{{ art.description }}{% endfilter %}',
                 commission_date: '{{ art.commission_date }}',
                 decommission_date: '{{ art.decommission_date }}',
                 status: '{{ art.status.id }}',
@@ -36,7 +36,14 @@
                 link: '{{ art.link }}',
                 artists: [
                     {% for artist in art.artists.all %}
-                        '{{ artist.name }}',
+                        {
+                            'name':'{{ artist.name }}',
+                            'website':'{{ artist.website }}',
+                            'facebook':'{{ artist.facebook }}',
+                            'instagram':'{{ artist.instagram }}',
+                            'twitter':'{{ artist.twitter }}',
+                            'biography':'{{ artist.biography }}',
+                        },
                     {% endfor %}
                 ],
                 imageUrl: '{{ art.image.url }}',
@@ -159,6 +166,12 @@
                 }
             });
         });
+
+        $(document).ready(function(){
+            setTimeout(function() {
+            $('.alert-warning').fadeOut('fast');
+            }, 3000);
+        });
            
     </script>
     <script src="{% static 'streetart/js/map.js' %}"></script>
@@ -166,6 +179,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="container split-page">
     <div class="main row">
 
         <!-- This panel relates to the left half of the screen -->
@@ -240,7 +254,6 @@
                                         {% if section.image %}
                                             {% thumbnail section.image "250x250" crop="center" as im %}
                                                 <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
-                                            {% endthumbnail %} 
                                         {% else %}
                                             <img class="lazy thumbnail-image"/>
                                         {% endif %}
@@ -257,11 +270,9 @@
                                     {% if art.cropped_image %}
                                         {% thumbnail art.cropped_image "250x250" as im %}
                                           <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
-                                        {% endthumbnail %}
                                     {% else %}
                                         {% thumbnail art.image "250x250" crop="center" as im %}
                                             <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
-                                        {% endthumbnail %} 
                                         
                                     {% endif %}
                                 </a>
@@ -313,5 +324,5 @@
     <div id="loginSnackbar" class="snackbar">Please login before liking or checking in.</div>
     <div id="checkinSnackbar" class="snackbar">Checked In</div>
     <div id="checkoutSnackbar" class="snackbar">Removed Checkin</div>
-
+</div>
 {% endblock %}
