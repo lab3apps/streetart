@@ -517,6 +517,13 @@ a {
     padding: 10px;
     display: inline-block;
     float: none;
+    height: 180px;
+    width: auto;
+}
+
+#alt-image > .img-responsive{
+    max-height: 100%;
+    width: : auto;
 }
 
 /*** Gallery ***/
@@ -587,11 +594,22 @@ a {
 }
 
 /*** Add New Form ***/
+.get-involved-title-block{
+  background-color: lightgrey;
+}
+.get-involved-banner{
+  width: 100%;
+  height: auto;
+}
+.get-involved-title{
+    text-align: center;
+    font-weight: 700;
+    font-size: 80px;
+}
 
 .add-new-content{
     overflow: auto;
     height: 100%;
-    padding-top: 50px;
     padding-bottom: 100px;
 }
 
@@ -860,3 +878,11 @@ a {
     .sidenav a {font-size: 18px;}
 }
 
+
+/*** Alerts ***/
+.alert{
+  position: absolute;
+  top: 80px;
+  z-index: 10;
+  width: 100%;
+}
