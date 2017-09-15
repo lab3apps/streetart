@@ -28,7 +28,7 @@
         {% for art in artworks %}
             artworks[{{ art.id }}] = {
                 title: '{{ art.title }}',
-                description: '{{ art.description }}',
+                description: '{% filter escapejs %}{{ art.description }}{% endfilter %}',
                 commission_date: '{{ art.commission_date }}',
                 decommission_date: '{{ art.decommission_date }}',
                 status: '{{ art.status.id }}',
@@ -166,6 +166,12 @@
                 }
             });
         });
+
+        $(document).ready(function(){
+            setTimeout(function() {
+            $('.alert-warning').fadeOut('fast');
+            }, 3000);
+        });
            
     </script>
     <script src="{% static 'streetart/js/map.js' %}"></script>
@@ -173,6 +179,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="container split-page">
     <div class="main row">
 
         <!-- This panel relates to the left half of the screen -->
@@ -317,5 +324,5 @@
     <div id="loginSnackbar" class="snackbar">Please login before liking or checking in.</div>
     <div id="checkinSnackbar" class="snackbar">Checked In</div>
     <div id="checkoutSnackbar" class="snackbar">Removed Checkin</div>
-
+</div>
 {% endblock %}

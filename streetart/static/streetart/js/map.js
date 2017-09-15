@@ -357,6 +357,9 @@ function toggleBounce(marker) {
 
 function initializeMultiSelect() {
     $('.multiselect').multiselect({
+        buttonText: function(options, select) {
+                return 'Show artworks that are:';
+            },
         buttonWidth: "100%",
         onInitialized: function() {
             filterMarkers();
