@@ -27,7 +27,7 @@
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                     <a href="" onclick="closeNav()" class="navbar-gallery">Gallery</a>
                     <a href="" onclick="closeNav()" class="navbar-map">Map</a>
-                    <a href="{% url 'streetart:home' %}">About</a>
+                    <a href="{% url 'streetart:about' %}">About</a>
                     <a href="{% url 'streetart:donate' %}">Donate</a>
                     <a href="/settings">Settings</a>
                     {% if user.is_authenticated %}
@@ -62,7 +62,7 @@
                                 <a id="navbar-map" class="navbar-map" href="{% url 'streetart:home' %}">Map</a>
                             </li>
                             <li class="navbar-item">
-                                <a id="navbar-about" class="navbar-about" href="{% url 'streetart:home' %}">About</a>
+                                <a id="navbar-about" class="navbar-about" href="{% url 'streetart:about' %}">About</a>
                             </li>
                             <li class="navbar-item">
                                 <a id="navbar-donate" class="navbar-donate" href="{% url 'streetart:donate' %}">Donate</a>
@@ -139,4 +139,5 @@
 	<script src="{% static 'bootstrap/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'streetart/js/animations.js' %}"></script>
+    <script src="{% static 'streetart/js/navbar.js' %}"></script>
 </footer>

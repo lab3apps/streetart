@@ -53,7 +53,6 @@ def home(request, **kwargs):
     else:
         return render(request, 'streetart/home.html', {'artworks': artwork, 'sections': section})
 
-
 @login_required
 @transaction.atomic
 def settings(request):
@@ -150,7 +149,7 @@ def add_new(request):
                 artwork.save()
                 artworkAdminURL = 'christchurchstreetart.org.nz/admin/streetart/artwork/'
                 send_mail('New Artwork', 'A art work has been subimitted by a user, find it here: '+artworkAdminURL+str(artwork.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
-                return redirect('/', pk=artwork.pk)
+                return redirect('/thanks', pk=artwork.pk)
             else:
                 if 'location' in artworkForm.errors.as_data():
                     messages.error(request, 'Please choose a location.')
@@ -166,7 +165,7 @@ def add_new(request):
                 muralCommission.save()
                 muralAdminURL = 'christchurchstreetart.org.nz/admin/streetart/muralcommission/'
                 send_mail('New Mural Comission', 'A new mural commission has been subimitted by a user, find it here: '+muralAdminURL+str(muralCommission.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
-                return redirect('/')
+                return redirect('/thanks')
             else:
                 if 'mural_location' in muralCommissionForm.errors.as_data():
                     messages.error(request, 'Please choose a location.')
@@ -183,7 +182,7 @@ def add_new(request):
                 wallSpace.save()
                 wallspaceAdminURL = 'christchurchstreetart.org.nz/admin/streetart/wallspace/'
                 send_mail('New Wall Space', 'A new wall space has been subimitted by a user, find it here: '+wallspaceAdminURL+str(wallSpace.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
-                return redirect('/')
+                return redirect('/thanks')
             else:
                 if 'wall_location' in wallSpaceForm.errors.as_data():
                     messages.error(request, 'Please choose a location.')
@@ -199,7 +198,7 @@ def add_new(request):
                 artistExpressionOfInterest.save()
                 artistEOIAdminURL = 'christchurchstreetart.org.nz/admin/streetart/artistexpressionofinterest/'
                 send_mail('New Artist EOI', 'A new artist expression of interest has been subimitted by a user, find it here: '+artistEOIAdminURL+str(artistExpressionOfInterest.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
-                return redirect('/')
+                return redirect('/thanks')
 
     return render(request, "streetart/add_new_form.html", {'artworkForm': artworkForm, 'muralCommissionForm': muralCommissionForm, 'wallSpaceForm': wallSpaceForm, 'artistExpressionOfInterestForm': artistExpressionOfInterestForm, 'url_name': request.resolver_match.url_name})
 
