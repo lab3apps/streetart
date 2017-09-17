@@ -56,7 +56,7 @@ class Artist(models.Model):
     website = models.URLField(blank=True, null=True)
     facebook = models.URLField(blank=True, null=True)
     instagram = models.CharField(max_length=200, blank=True, null=True)
-    twitter = models.URLField(blank=True, null=True)
+    twitter = models.CharField(max_length=200, blank=True, null=True)
     artist_from_location = models.ForeignKey(ArtistFrom, on_delete=models.SET_NULL, blank=True, null=True)
     artist_from = models.CharField(max_length=200, null=True)
     other_links = models.TextField(blank=True, null=True)
