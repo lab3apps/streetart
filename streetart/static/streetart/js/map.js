@@ -176,9 +176,9 @@ function focusOnMarker(index) {
                 }
                 if (art.artists[key]['facebook'] && art.artists[key]['facebook'] != '' &&  art.artists[key]['facebook'] != 'None'){
                     if (art.artists[key]['facebook'].indexOf('facebook.com') !== -1) {
-                        artists_bio_html += '<span><a href="'+art.artists[key]['facebook']+'">'+'<i class="icon fa fa-facebook-official"></i>'+'</a> </span><br>';
+                        artists_bio_html += '<span><a href="'+art.artists[key]['facebook']+'">'+'<i class="icon fa fa-facebook-official"></i>'+'  '+art.artists[key]['name']+'</a> </span><br>';
                     } else {
-                        artists_bio_html += '<span><a href="https://www.facebook.com/'+art.artists[key]['facebook']+'">'+'<i class="icon fa fa-facebook-official"></i>'+'</a> </span><br>';
+                        artists_bio_html += '<span><a href="https://www.facebook.com/'+art.artists[key]['facebook']+'">'+'<i class="icon fa fa-facebook-official"></i>'+'  '+art.artists[key]['name']+'</a> </span><br>';
                     }
                 }
                 if (art.artists[key]['instagram'] && art.artists[key]['instagram'] != '' && art.artists[key]['instagram'] != 'None'){
@@ -190,10 +190,11 @@ function focusOnMarker(index) {
                     }
                 }
                 if (art.artists[key]['twitter'] && art.artists[key]['twitter'] != '' && art.artists[key]['twitter'] != 'None'){
-                    if (art.artists[key]['twitter'].indexOf('twitter.com') !== -1) {
-                        artists_bio_html += '<span><a href="'+art.artists[key]['twitter']+'">'+'<i class="icon fa fa-twitter"></i>'+'</a> </span><br>';
+                    var twitter_index = art.artists[key]['twitter'].indexOf('twitter.com/');
+                    if (twitter_index !== -1) {
+                        artists_bio_html += '<span><a href="'+art.artists[key]['twitter']+'">'+'<i class="icon fa fa-twitter"></i>'+'  @'+art.artists[key]['twitter'].split('twitter.com/')[1].replace('/', '')+'</a> </span><br>';
                     } else {
-                        artists_bio_html += '<span><a href="https://www.twitter.com/'+art.artists[key]['twitter']+'">'+'<i class="icon fa fa-twitter"></i>'+'</a> </span><br>';
+                        artists_bio_html += '<span><a href="https://www.twitter.com/'+art.artists[key]['twitter']+'">'+'<i class="icon fa fa-twitter"></i>'+'  @'+art.artists[key]['twitter']+'</a> </span><br>';
                     }
                 }
                 artists_bio_html += '</div>';
