@@ -36,7 +36,14 @@
                 link: '{{ art.link }}',
                 artists: [
                     {% for artist in art.artists.all %}
-                        '{{ artist.name }}',
+                        {
+                            'name':'{{ artist.name }}',
+                            'website':'{{ artist.website }}',
+                            'facebook':'{{ artist.facebook }}',
+                            'instagram':'{{ artist.instagram }}',
+                            'twitter':'{{ artist.twitter }}',
+                            'biography':'{{ artist.biography }}',
+                        },
                     {% endfor %}
                 ],
                 imageUrl: '{{ art.image.url }}',
