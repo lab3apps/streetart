@@ -139,7 +139,7 @@ a {
   .navbar-item>a {
     font-size: 24pt;
     font-style: italic;
-    font-family: Roboto;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
     font-weight: 300;
     color: white;
   }
@@ -281,7 +281,7 @@ a {
     width: 100%;
     font-size: 24pt;
     font-style: italic;
-    font-family: Roboto;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
     font-weight: 300;
     color: #9d9d9d;
 }
@@ -302,7 +302,7 @@ a {
     width: 100%;
     font-size: 24pt;
     font-style: italic;
-    font-family: Roboto;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
     font-weight: 300;
 }
 
@@ -460,6 +460,13 @@ a {
     padding-bottom: 12px;
 }
 
+.card span[class*="-title"] {
+    line-height: 32px;
+    font-size: 24px;
+    font-weight: 300;
+    padding-bottom: 12px;
+}
+
 .card .card-content {
   padding: 16px;
   border-radius: 0 0 2px 2px;
@@ -504,6 +511,29 @@ a {
   height: 36px;
   width: 36px;
   font-size: 32px;
+}
+
+/*** Logo Page ***/
+
+.logo-page {
+  height: calc(100% - 80px);
+  overflow: scroll;
+}
+
+.logo-card {
+  display: inline-block;
+}
+
+.logo-image {
+  max-height: 300px;
+}
+
+.logo-header {
+  text-align: center;
+}
+
+.logo-intro {
+  text-align: justify;
 }
 
 /*** Alt images ***/

@@ -85,6 +85,7 @@ function markerClicked() {
 function backClicked() {
     if(viewState === 1){
         collapseMap();
+        history.replaceState({}, null, '/');
     } else if (viewState === 2) {
         collapseCard();
     }

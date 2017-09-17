@@ -11,13 +11,10 @@ from multiselectfield import MultiSelectField
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageRatioField
 from image_cropping.utils import get_backend
-from sorl.thumbnail import get_thumbnail
-from sorl.thumbnail import ImageField
 from PIL import Image
 from django_comments_xtd.moderation import moderator, XtdCommentModerator, SpamModerator
 from streetart.badwords import badwords
-from io import BytesIO
-from django.core.files.uploadedfile import InMemoryUploadedFile
+from streetart.processors import convert_rgba
 
 # Create your models here.
 
@@ -54,12 +51,12 @@ class ArtistFrom(models.Model):
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Artist(models.Model):
-    crews = models.ManyToManyField(Crew)
+    crews = models.ManyToManyField(Crew, blank=True)
     name = models.CharField(max_length=200)
     website = models.URLField(blank=True, null=True)
     facebook = models.URLField(blank=True, null=True)
     instagram = models.CharField(max_length=200, blank=True, null=True)
-    twitter = models.URLField(blank=True, null=True)
+    twitter = models.CharField(max_length=200, blank=True, null=True)
     artist_from_location = models.ForeignKey(ArtistFrom, on_delete=models.SET_NULL, blank=True, null=True)
     artist_from = models.CharField(max_length=200, null=True)
     other_links = models.TextField(blank=True, null=True)
@@ -89,11 +86,14 @@ class Artwork(models.Model):
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, blank=True, null=True)
     decommission_date = models.CharField(max_length=200, blank=True, null=True, verbose_name='date decommissioned')
     description = models.TextField(blank=True, null=True)
-    image = ImageField(upload_to='artwork/')
+    image = models.ImageField(upload_to='artwork/')
     cropping = ImageRatioField('image', '250x250')
-    cropped_image = ImageField(upload_to='artwork/', blank=True, null=True)
+    cropped_image = models.ImageField(upload_to='artwork/', blank=True, null=True)
     def image_thumbnail(self):
-        return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
+        thumbnailer = get_thumbnailer(self.image)
+        thumbnail_options = {'size': (250, 250)}
+        thumbnailer.get_thumbnail(thumbnail_options)
+        return '<img src="%s" />' % thumbnailer.get_thumbnail(thumbnail_options).url
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
 
@@ -144,17 +144,7 @@ class Artwork(models.Model):
 
     def save(self, *args, **kwargs):
         if self.image != self.__original_image:
-            im = Image.open(BytesIO(self.image.read()))
-            #If RGBA, convert transparency
-            if im.mode == "RGBA":
-                im.load()
-                background = Image.new("RGB", im.size, (255, 255, 255))
-                background.paste(im, mask=im.split()[3]) # 3 is the alpha channel
-                im=background
-            im_io = BytesIO()
-            im.save(im_io, format='JPEG')
-            im_io.seek(0)
-            self.image = InMemoryUploadedFile(im_io,'ImageField', "%s.jpg" %self.image.name.split('.')[0], 'image/jpeg', im_io.getbuffer().nbytes, None)
+            self.image = convert_rgba(self.image)
         if self.pk and self.image == self.__original_image:
             self.cropped_image = get_thumbnailer(self.image).get_thumbnail(
                 {
@@ -193,7 +183,10 @@ class Artwork(models.Model):
 class AlternativeImage(models.Model):
     image = models.ImageField(upload_to='artwork/alternate/')
     def image_thumbnail(self):
-        return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
+        thumbnailer = get_thumbnailer(self.image)
+        thumbnail_options = {'size': (250, 250)}
+        thumbnailer.get_thumbnail(thumbnail_options)
+        return '<img src="%s" />' % thumbnailer.get_thumbnail(thumbnail_options).url
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='other_images')
@@ -303,7 +296,10 @@ class Logo(models.Model):
     image = models.ImageField(upload_to='logos/', blank=True, null=True)
     def image_thumbnail(self):
         if self.image:
-            return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
+            thumbnailer = get_thumbnailer(self.image)
+            thumbnail_options = {'size': (250, 250)}
+            thumbnailer.get_thumbnail(thumbnail_options)
+            return '<img src="%s" />' % thumbnailer.get_thumbnail(thumbnail_options).url
         else:
             return ""
     image_thumbnail.short_description = 'Uploaded Image'
@@ -311,8 +307,18 @@ class Logo(models.Model):
     link = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
+    def save(self, *args, **kwargs):
+        if self.image != self.__original_image:
+            self.image = convert_rgba(self.image)
+
+        super(Logo, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.title
+
+    def __init__(self, *args, **kwargs):
+        super(Logo, self).__init__(*args, **kwargs)
+        self.__original_image = self.image
 
 class PostCommentModerator(SpamModerator):
     removal_suggestion_notification = True

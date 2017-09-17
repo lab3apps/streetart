@@ -8,6 +8,7 @@ chch_streetart/settings_secret.py
 media/artwork/
 media/cache/
 media/logos/
+media/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

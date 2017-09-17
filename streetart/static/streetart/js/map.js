@@ -25,7 +25,7 @@ function initialize() {
         });
     map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
     markerCluster = new MarkerClusterer(map, markers,
-            {imagePath: '/static/img/m'});
+            {imagePath: '/static/img/cluster'});
     markerCluster.setMaxZoom(16);
     addMarkers();
     //preloadImages();
@@ -176,24 +176,25 @@ function focusOnMarker(index) {
                 }
                 if (art.artists[key]['facebook'] && art.artists[key]['facebook'] != '' &&  art.artists[key]['facebook'] != 'None'){
                     if (art.artists[key]['facebook'].indexOf('facebook.com') !== -1) {
-                        artists_bio_html += '<span><a href="'+art.artists[key]['facebook']+'">'+art.artists[key]['facebook']+'</a> </span><br>';
+                        artists_bio_html += '<span><a href="'+art.artists[key]['facebook']+'">'+'<i class="icon fa fa-facebook-official"></i>'+'  '+art.artists[key]['name']+'</a> </span><br>';
                     } else {
-                        artists_bio_html += '<span><a href="https://www.facebook.com/'+art.artists[key]['facebook']+'">'+art.artists[key]['facebook']+'</a> </span><br>';
+                        artists_bio_html += '<span><a href="https://www.facebook.com/'+art.artists[key]['facebook']+'">'+'<i class="icon fa fa-facebook-official"></i>'+'  '+art.artists[key]['name']+'</a> </span><br>';
                     }
                 }
                 if (art.artists[key]['instagram'] && art.artists[key]['instagram'] != '' && art.artists[key]['instagram'] != 'None'){
                     var insta_index = art.artists[key]['instagram'].indexOf('instagram.com/');
                     if (insta_index !== -1) {
-                        artists_bio_html += '<a href="'+art.artists[key]['instagram']+'">@'+art.artists[key]['instagram'].slice(insta_index,-1)+'</a> </span><br>';
+                        artists_bio_html += '<a href="'+art.artists[key]['instagram']+'"><i class="icon fa fa-instagram"></i>'+'  @'+art.artists[key]['instagram'].split('instagram.com/')[1].replace('/', '')+'</a> </span><br>';
                     } else {
-                        artists_bio_html += '<a href="https://www.instagram.com/'+art.artists[key]['instagram']+'">@'+art.artists[key]['instagram']+'</a> </span><br>';
+                        artists_bio_html += '<a href="https://www.instagram.com/'+art.artists[key]['instagram']+'"><i class="icon fa fa-instagram"></i>'+'  @'+art.artists[key]['instagram']+'</a> </span><br>';
                     }
                 }
                 if (art.artists[key]['twitter'] && art.artists[key]['twitter'] != '' && art.artists[key]['twitter'] != 'None'){
-                    if (art.artists[key]['twitter'].indexOf('twitter.com') !== -1) {
-                        artists_bio_html += '<span><a href="'+art.artists[key]['twitter']+'">'+art.artists[key]['twitter']+'</a> </span><br>';
+                    var twitter_index = art.artists[key]['twitter'].indexOf('twitter.com/');
+                    if (twitter_index !== -1) {
+                        artists_bio_html += '<span><a href="'+art.artists[key]['twitter']+'">'+'<i class="icon fa fa-twitter"></i>'+'  @'+art.artists[key]['twitter'].split('twitter.com/')[1].replace('/', '')+'</a> </span><br>';
                     } else {
-                        artists_bio_html += '<span><a href="https://www.twitter.com/'+art.artists[key]['twitter']+'">'+art.artists[key]['twitter']+'</a> </span><br>';
+                        artists_bio_html += '<span><a href="https://www.twitter.com/'+art.artists[key]['twitter']+'">'+'<i class="icon fa fa-twitter"></i>'+'  @'+art.artists[key]['twitter']+'</a> </span><br>';
                     }
                 }
                 artists_bio_html += '</div>';

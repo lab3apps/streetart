@@ -102,7 +102,7 @@ TEMPLATES = [
                 'django.template.context_processors.media',
             ],
             'libraries': {
-               'easy_thumbnail': 'easy_thumbnails.templatetags.thumbnail',
+                'easy_thumbnail': 'easy_thumbnails.templatetags.thumbnail',
             },
         },
     },
