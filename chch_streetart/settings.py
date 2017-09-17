@@ -61,7 +61,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_gis',
     'django.contrib.gis',
-    'sorl.thumbnail',
     'mapwidgets',
     'django_comments_xtd',
     'crispy_forms',
@@ -102,6 +101,9 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.media',
             ],
+            'libraries': {
+                'easy_thumbnail': 'easy_thumbnails.templatetags.thumbnail',
+            },
         },
     },
 ]

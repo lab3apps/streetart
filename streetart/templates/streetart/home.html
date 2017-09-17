@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load thumbnail %}
+{% load easy_thumbnail %}
 {% load cropping %}
 {% load static %}
 {% load comments static %}
@@ -247,7 +247,6 @@
                                         {% if section.image %}
                                             {% thumbnail section.image "250x250" crop="center" as im %}
                                                 <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
-                                            {% endthumbnail %} 
                                         {% else %}
                                             <img class="lazy thumbnail-image"/>
                                         {% endif %}
@@ -264,11 +263,9 @@
                                     {% if art.cropped_image %}
                                         {% thumbnail art.cropped_image "250x250" as im %}
                                           <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
-                                        {% endthumbnail %}
                                     {% else %}
                                         {% thumbnail art.image "250x250" crop="center" as im %}
                                             <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
-                                        {% endthumbnail %} 
                                         
                                     {% endif %}
                                 </a>
