@@ -11,8 +11,6 @@ from multiselectfield import MultiSelectField
 from easy_thumbnails.files import get_thumbnailer
 from image_cropping import ImageRatioField
 from image_cropping.utils import get_backend
-from sorl.thumbnail import get_thumbnail
-from sorl.thumbnail import ImageField
 from PIL import Image
 from django_comments_xtd.moderation import moderator, XtdCommentModerator, SpamModerator
 from streetart.badwords import badwords
@@ -54,7 +52,7 @@ class ArtistFrom(models.Model):
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Artist(models.Model):
-    crews = models.ManyToManyField(Crew)
+    crews = models.ManyToManyField(Crew, null=True)
     name = models.CharField(max_length=200)
     website = models.URLField(blank=True, null=True)
     facebook = models.URLField(blank=True, null=True)
@@ -89,11 +87,14 @@ class Artwork(models.Model):
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, blank=True, null=True)
     decommission_date = models.CharField(max_length=200, blank=True, null=True, verbose_name='date decommissioned')
     description = models.TextField(blank=True, null=True)
-    image = ImageField(upload_to='artwork/')
+    image = models.ImageField(upload_to='artwork/')
     cropping = ImageRatioField('image', '250x250')
-    cropped_image = ImageField(upload_to='artwork/', blank=True, null=True)
+    cropped_image = models.ImageField(upload_to='artwork/', blank=True, null=True)
     def image_thumbnail(self):
-        return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
+        thumbnailer = get_thumbnailer(self.image)
+        thumbnail_options = {'size': (250, 250)}
+        thumbnailer.get_thumbnail(thumbnail_options)
+        return '<img src="%s" />' % thumbnailer.get_thumbnail(thumbnail_options).url
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
 
@@ -193,7 +194,10 @@ class Artwork(models.Model):
 class AlternativeImage(models.Model):
     image = models.ImageField(upload_to='artwork/alternate/')
     def image_thumbnail(self):
-        return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
+        thumbnailer = get_thumbnailer(self.image)
+        thumbnail_options = {'size': (250, 250)}
+        thumbnailer.get_thumbnail(thumbnail_options)
+        return '<img src="%s" />' % thumbnailer.get_thumbnail(thumbnail_options).url
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='other_images')
@@ -303,7 +307,10 @@ class Logo(models.Model):
     image = models.ImageField(upload_to='logos/', blank=True, null=True)
     def image_thumbnail(self):
         if self.image:
-            return '<img src="%s" />' % get_thumbnail(self.image, '250x250').url
+            thumbnailer = get_thumbnailer(self.image)
+            thumbnail_options = {'size': (250, 250)}
+            thumbnailer.get_thumbnail(thumbnail_options)
+            return '<img src="%s" />' % thumbnailer.get_thumbnail(thumbnail_options).url
         else:
             return ""
     image_thumbnail.short_description = 'Uploaded Image'
