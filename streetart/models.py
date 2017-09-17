@@ -300,8 +300,6 @@ class Logo(models.Model):
             thumbnail_options = {'size': (250, 250)}
             thumbnailer.get_thumbnail(thumbnail_options)
             return '<img src="%s" />' % thumbnailer.get_thumbnail(thumbnail_options).url
-        else:
-            return ""
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
     link = models.URLField(blank=True, null=True)
