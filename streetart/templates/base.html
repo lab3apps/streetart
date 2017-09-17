@@ -34,8 +34,8 @@
                 <nav class = "navbar navbar-inverse navbar-fixed-top" id="navbar_whole">
                     <div id="mySidenav" class="sidenav">
                         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                        <a href="{% url 'streetart:home' %}">Gallery</a>
-                        <a href="{% url 'streetart:home' %}">Map</a>
+                        <a href="" onclick="closeNav()" class="navbar-gallery">Gallery</a>
+                        <a href="" onclick="closeNav()" class="navbar-map">Map</a>
                         <a href="{% url 'streetart:home' %}">About</a>
                         <a href="{% url 'streetart:donate' %}">Donate</a>
                         <a href="/settings">Settings</a>
@@ -62,7 +62,7 @@
                               <!--Below is where you put the rest of the links to the pages you've created. Please reference your own models
                                in Django.-->
                                 <li class="navbar-item visible-xs-block visible-sm-block">
-                                    <a id="navbar-gallery" class="navbar-gallery" href="{% url 'streetart:home' %}">Home</a>
+                                    <a id="navbar-gallery" class="navbar-gallery" href="{% url 'streetart:home' %}">Gallery</a>
                                 </li>
                                 <!--li class="navbar-item visible-xs-block visible-sm-block">
                                     <a id="navbar-gallery" class="navbar-gallery" href="{% url 'streetart:home' %}">Gallery</a>
@@ -160,7 +160,7 @@
         <script src="{% static 'bootstrap/js/jquery-3.2.1.min.js' %}"></script>
         <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
         <script defer src="{% static 'material/js/material.min.js' %}"></script>
-            
+
         <script src="{% static 'streetart/js/map.js' %}"></script>
         <script src="{% static 'streetart/js/animations.js' %}"></script>
         <script type="text/javascript">
