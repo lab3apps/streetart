@@ -14,8 +14,7 @@ from image_cropping.utils import get_backend
 from PIL import Image
 from django_comments_xtd.moderation import moderator, XtdCommentModerator, SpamModerator
 from streetart.badwords import badwords
-from io import BytesIO
-from django.core.files.uploadedfile import InMemoryUploadedFile
+from streetart.processors import convert_rgba
 
 # Create your models here.
 
@@ -145,17 +144,7 @@ class Artwork(models.Model):
 
     def save(self, *args, **kwargs):
         if self.image != self.__original_image:
-            im = Image.open(BytesIO(self.image.read()))
-            #If RGBA, convert transparency
-            if im.mode == "RGBA":
-                im.load()
-                background = Image.new("RGB", im.size, (255, 255, 255))
-                background.paste(im, mask=im.split()[3]) # 3 is the alpha channel
-                im=background
-            im_io = BytesIO()
-            im.save(im_io, format='JPEG')
-            im_io.seek(0)
-            self.image = InMemoryUploadedFile(im_io,'ImageField', "%s.jpg" %self.image.name.split('.')[0], 'image/jpeg', im_io.getbuffer().nbytes, None)
+            self.image = convert_rgba(self.image)
         if self.pk and self.image == self.__original_image:
             self.cropped_image = get_thumbnailer(self.image).get_thumbnail(
                 {
@@ -318,8 +307,18 @@ class Logo(models.Model):
     link = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
+    def save(self, *args, **kwargs):
+        if self.image != self.__original_image:
+            self.image = convert_rgba(self.image)
+
+        super(Logo, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.title
+
+    def __init__(self, *args, **kwargs):
+        super(Logo, self).__init__(*args, **kwargs)
+        self.__original_image = self.image
 
 class PostCommentModerator(SpamModerator):
     removal_suggestion_notification = True

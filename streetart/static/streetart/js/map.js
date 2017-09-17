@@ -25,7 +25,7 @@ function initialize() {
         });
     map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
     markerCluster = new MarkerClusterer(map, markers,
-            {imagePath: '/static/img/m'});
+            {imagePath: '/static/img/cluster'});
     markerCluster.setMaxZoom(16);
     addMarkers();
     //preloadImages();

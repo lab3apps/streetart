@@ -19,7 +19,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm
 from .serializers import ArtworkSerializer, ArtistSerializer, RouteSerializer
-from .models import Artwork, Artist, Status, Route, Section
+from .models import Artwork, Artist, Status, Route, Section, Logo
 from django.db import transaction
 from django.core.mail import send_mail
 from django.conf import settings as site_settings
@@ -335,6 +335,10 @@ def checkIn(request, key):
 
 def thanks(request):
     return render(request, 'streetart/thank_you.html')
+
+def logos(request):
+    logos = Logo.objects.all()
+    return render(request, 'streetart/logos.html', {'logos': logos})
 
 def post_comment(request):
     if request.method == 'POST':
