@@ -513,6 +513,13 @@ a {
   font-size: 32px;
 }
 
+/*** Logo Page ***/
+
+.logo-page {
+  height: calc(100% - 80px);
+  overflow: scroll;
+}
+
 .logo-card {
   display: inline-block;
 }
