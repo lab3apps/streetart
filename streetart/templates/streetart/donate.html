@@ -1,12 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="thanks-page">
+	<h1 style="text-align: center;">Support Us</h1>
+	<img class="get-involved-banner" src="{% static 'img/Contribute-banner.png' %}">
+
 	<div class="container" style="text-align: center;">
-		<div class="row" style="padding-top: 100px">
-			<h1>Thank you for contributing!</h1>
-			<br>
-			<p>Our site is run by a community-driven team of volunteers and we rely on you to help make it what it is.</p>
+		<div class="row">
+		<br>
+			
+			<p>Watch This Space is a free street art resource made for you, by us, and we hope you've enjoyed it. We have put hours of spare time into photography, research, funding proposals, and website development.</p>
+			<p>We are not backed by a company. We're just a bunch of individuals that came together to create this resource becasue we recognized there was nothing else like this available.</p>
+			<p>If you enjoyed using this website, we hope you'll consider supporting our project, and continue to make this a free resource for everyone.</p>
 			<p>Please consider donating to keep street art alive in {{ city }}!</p>
 			<div class="control-group" style="padding-top: 50px">
 				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
