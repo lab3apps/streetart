@@ -916,3 +916,10 @@ a {
   z-index: 10;
   width: 100%;
 }
+
+/*** Thanks Page ***/
+
+.thanks-page {
+  height: calc(100% - 80px);
+  overflow: scroll;
+}
