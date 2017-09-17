@@ -52,7 +52,7 @@ class ArtistFrom(models.Model):
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Artist(models.Model):
-    crews = models.ManyToManyField(Crew, null=True)
+    crews = models.ManyToManyField(Crew, blank=True)
     name = models.CharField(max_length=200)
     website = models.URLField(blank=True, null=True)
     facebook = models.URLField(blank=True, null=True)
