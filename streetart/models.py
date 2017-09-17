@@ -306,7 +306,7 @@ class Logo(models.Model):
     description = models.TextField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        if self.image != self.__original_image:
+        if (self.image != self.__original_image) and self.image:
             self.image = convert_rgba(self.image)
 
         super(Logo, self).save(*args, **kwargs)

@@ -155,6 +155,8 @@
     <!--This is my javascript block. If you've included the javascript files you need in the 'static' folder then there's no need to 
     put this here and you can delete the block below.-->
     {% block head-javascript %}
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}" type="text/javascript"></script>
+        <script type="text/javascript" src="https://stamen-maps.a.ssl.fastly.net/js/tile.stamen.js?v1.3.0"></script>
         <script src="{% static 'bootstrap/js/jquery-3.2.1.min.js' %}"></script>
         <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
         <script defer src="{% static 'material/js/material.min.js' %}"></script>
