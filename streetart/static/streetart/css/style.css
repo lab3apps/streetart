@@ -158,6 +158,28 @@ a {
   margin-right: auto;
 }
 
+#navbar-facebook {
+  padding-top: 25px;
+  padding-bottom: 35px;
+}
+
+#navbar-insta {
+  padding-top: 25px;
+  padding-bottom: 35px;
+}
+
+@media screen and (max-width: 991px) {
+  #navbar-facebook {
+    padding-top: 33px;
+    padding-bottom: 33px;
+  }
+
+  #navbar-insta {
+    padding-top: 33px;
+    padding-bottom: 33px;
+  }
+}
+
 /*** Colours ***/
 
 .white {
