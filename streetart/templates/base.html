@@ -36,7 +36,7 @@
                         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                         <a href="" onclick="closeNav()" class="navbar-gallery">Gallery</a>
                         <a href="" onclick="closeNav()" class="navbar-map">Map</a>
-                        <a href="{% url 'streetart:home' %}">About</a>
+                        <a href="{% url 'streetart:about' %}">About</a>
                         <a href="{% url 'streetart:donate' %}">Donate</a>
                         <a href="/settings">Settings</a>
                         {% if user.is_authenticated %}
@@ -71,7 +71,7 @@
                                     <a id="navbar-map" class="navbar-map" href="{% url 'streetart:home' %}">Map</a>
                                 </li>
                                 <li class="navbar-item">
-                                    <a id="navbar-about" class="navbar-about" href="{% url 'streetart:home' %}">About</a>
+                                    <a id="navbar-about" class="navbar-about" href="{% url 'streetart:about' %}">About</a>
                                 </li>
                                 <li class="navbar-item">
                                     <a id="navbar-donate" class="navbar-donate" href="{% url 'streetart:donate' %}">Donate</a>
@@ -155,14 +155,10 @@
     <!--This is my javascript block. If you've included the javascript files you need in the 'static' folder then there's no need to 
     put this here and you can delete the block below.-->
     {% block head-javascript %}
-        <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}" type="text/javascript"></script>
-        <script type="text/javascript" src="https://stamen-maps.a.ssl.fastly.net/js/tile.stamen.js?v1.3.0"></script>
         <script src="{% static 'bootstrap/js/jquery-3.2.1.min.js' %}"></script>
         <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
         <script defer src="{% static 'material/js/material.min.js' %}"></script>
-
-        <script src="{% static 'streetart/js/map.js' %}"></script>
-        <script src="{% static 'streetart/js/animations.js' %}"></script>
+        <script src="{% static 'streetart/js/navbar.js' %}"></script>
         <script type="text/javascript">
             function arrayHasOwnIndex(array, prop) {
                 return array.hasOwnProperty(prop) && /^0$|^[1-9]\d*$/.test(prop) && prop <= 4294967294;

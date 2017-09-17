@@ -53,7 +53,6 @@ def home(request, **kwargs):
     else:
         return render(request, 'streetart/home.html', {'artworks': artwork, 'sections': section})
 
-
 @login_required
 @transaction.atomic
 def settings(request):
