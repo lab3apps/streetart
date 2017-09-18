@@ -86,9 +86,9 @@ class Artwork(models.Model):
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, blank=True, null=True)
     decommission_date = models.CharField(max_length=200, blank=True, null=True, verbose_name='date decommissioned')
     description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='artwork/')
+    image = models.ImageField(upload_to='artwork/', max_length=500)
     cropping = ImageRatioField('image', '250x250')
-    cropped_image = models.ImageField(upload_to='artwork/', blank=True, null=True)
+    cropped_image = models.ImageField(upload_to='artwork/', blank=True, null=True, max_length=500)
     def image_thumbnail(self):
         thumbnailer = get_thumbnailer(self.image)
         thumbnail_options = {'size': (250, 250)}
@@ -107,7 +107,7 @@ class Artwork(models.Model):
     admin_notes = models.TextField(blank=True, null=True, verbose_name="Write any notes about the artwork here (will not be shown on map)")
     map_enabled = models.BooleanField(default=True, verbose_name="Show this artwork on the map")
     smart_cities = models.BooleanField(default=True,verbose_name="Allow this artwork to be accessed by smartcities")
-    slug = models.SlugField(blank=True, null=True)
+    slug = models.SlugField(max_length=255, blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='likes', blank=True)
     checkins = models.ManyToManyField(User, related_name='checkins', blank=True)
     submitter_description = models.TextField(blank=True, null=True, verbose_name="Submitter's Description")
@@ -181,7 +181,7 @@ class Artwork(models.Model):
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class AlternativeImage(models.Model):
-    image = models.ImageField(upload_to='artwork/alternate/')
+    image = models.ImageField(upload_to='artwork/alternate/', max_length=500)
     def image_thumbnail(self):
         thumbnailer = get_thumbnailer(self.image)
         thumbnail_options = {'size': (250, 250)}
@@ -218,7 +218,7 @@ class MuralCommission(models.Model):
     mural_location = models.PointField(srid=4326, verbose_name="Where will the mural be?")
     objects = models.GeoManager()
     dimensions = models.TextField(blank=True, null=True, verbose_name="How big is the wall? Please give us the dimensions of the wall so we can give the artist an idea of how big the space is.")
-    image = models.ImageField(upload_to='muralcommission/', blank=True, null=True, verbose_name="If possible please attach a photo of the wall.")
+    image = models.ImageField(upload_to='muralcommission/', blank=True, null=True, verbose_name="If possible please attach a photo of the wall.", max_length=500)
     reason = models.TextField(blank=True, null=True, verbose_name="Most artists prefer to have creative freedom when creating their works, but could you give us an idea of what you are commissioning the mural for or what you hope to see in it? This will help us figure out which artists to get you in contact with.")
     budget = models.TextField(blank=True, null=True, verbose_name="Do you have a budget? Roughly how much have you put aside for the art work?")
     deadline = models.TextField(blank=True, null=True, verbose_name="Does this project have a deadline?")
@@ -234,7 +234,7 @@ class WallSpace(models.Model):
     wall_location = models.PointField(srid=4326, verbose_name="Where is the space?")
     objects = models.GeoManager()
     dimensions = models.TextField(blank=True, null=True, verbose_name="How big is the wall? Please give us the dimensions of the wall so we can give the artist an idea of how big the space is.")
-    image = models.ImageField(upload_to='wallspace/', blank=True, null=True, verbose_name="If possible please attach a photo of the wall.")
+    image = models.ImageField(upload_to='wallspace/', blank=True, null=True, verbose_name="If possible please attach a photo of the wall.", max_length=500)
     relation = models.TextField(blank=True, null=True, verbose_name="What is your relation to this wall space?")
     other = models.TextField(blank=True, null=True, verbose_name="Is there anything else we should know?")
     def __str__(self):
@@ -293,7 +293,7 @@ class Section(models.Model):
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Logo(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
-    image = models.ImageField(upload_to='logos/', blank=True, null=True)
+    image = models.ImageField(upload_to='logos/', blank=True, null=True, max_length=500)
     def image_thumbnail(self):
         if self.image:
             thumbnailer = get_thumbnailer(self.image)
