@@ -609,6 +609,12 @@ a {
     padding: 0;
 }
 
+.whatsnew-item {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+}
+
 .img-link {
     position: absolute;
     top: 10px;
