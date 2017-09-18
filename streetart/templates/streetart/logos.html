@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load easy_thumbnail %}
 
 {% block head-css %}
     {{ block.super }}
@@ -58,7 +59,8 @@
 	                	{% if logo.image %}
 	                		<div class="loader none"></div>
 	                        <a class="card-image-link" data-lightbox="lightbox" href="{{ logo.image.url }}">
-	                            <img class="logo-image img-responsive lazy" src="{{ logo.image.url }}">
+	                        	{% thumbnail logo.image "500x500" as im %}
+	                            <img class="logo-image img-responsive lazy" src="{{ im.url }}">
 	                        </a>
 	                    {% endif %}
 	                	</td>
