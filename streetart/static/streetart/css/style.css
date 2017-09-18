@@ -489,7 +489,6 @@ a {
 
 .card span[class*="-title"] {
     line-height: 32px;
-    font-size: 24px;
     font-weight: 300;
     padding-bottom: 12px;
 }

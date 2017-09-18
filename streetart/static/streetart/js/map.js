@@ -30,6 +30,41 @@ function initialize() {
     addMarkers();
     //preloadImages();
     //google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
+
+    infoWindow = new google.maps.InfoWindow;
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        map.setCenter(pos);
+        markerUrl = '/static/img/location-marker.png';
+        var location = new google.maps.Marker({
+            id: 'location',
+            position: pos,
+            map: map,
+            icon: markerUrl
+        });
+      }, function() {
+        handleLocationError(true, infoWindow, map.getCenter());
+      });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+    }
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    /*infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ?
+                          'Error: The Geolocation service failed.' :
+                          'Error: Your browser doesn\'t support geolocation.');
+    infoWindow.open(map);*/
+    console.log(browserHasGeolocation ?
+                          'Error: The Geolocation service failed.' :
+                          'Error: Your browser doesn\'t support geolocation.');
 }
 
 function addMarkers() {
@@ -157,7 +192,6 @@ function focusOnMarker(index) {
         $('#main-card').data('index', index);
         var artists_text = '';
         var artists_bio_html = '';
-        console.log(art.artists);
         for(var key in art.artists) {
             if (arrayHasOwnIndex(art.artists, key)) {
                 if (artists_text != '') {
@@ -324,8 +358,6 @@ function filterMarkers() {
                 marker.setVisible(true);
                 markerCluster.addMarker(marker);
                 $('#artbox-'+key).show();
-                console.log(key);
-                console.log(catArray.indexOf(art.status));
             } else {
                 marker.setVisible(false);
                 markerCluster.removeMarker(marker);
