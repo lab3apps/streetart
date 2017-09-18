@@ -262,7 +262,7 @@ a {
 
 .filter-block {
     position: absolute;
-    top: 0;
+    top: 6px;
     z-index: 1;
 }
 
