@@ -129,7 +129,9 @@
     {% cms_toolbar %}
 
     <div role="main" class="container scroll-container">
-        {% block content %}{% endblock %}
+        {% block content %}
+            {% placeholder content %}
+        {% endblock %}
     </div>
     <footer>
         {% block footer %}

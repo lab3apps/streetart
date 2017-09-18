@@ -46,7 +46,18 @@ $('.navbar-gallery').click(function(e) {
     // Important for mobile
     $('.left-panel').removeClass('mobile-hide');
     $('.right-panel').addClass('mobile-hide');
+    showGalleryTab();
+});
 
+$('.navbar-getinvolved').click(function(e) {
+    e.preventDefault();
+    // Important for mobile
+    $('.left-panel').removeClass('mobile-hide');
+    $('.right-panel').addClass('mobile-hide');
+    collapseCard();
+    collapseMap();
+    history.replaceState({}, null, '/');
+    showGetInvolvedTab();
 });
 
 /* Set the width of the side navigation to 250px and the left margin of the page content to 250px and add a black background color to body */
