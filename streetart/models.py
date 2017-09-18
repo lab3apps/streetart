@@ -192,18 +192,8 @@ class AlternativeImage(models.Model):
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='other_images')
     def save(self, *args, **kwargs):
         if self.image != self.__original_image:
-            im = Image.open(BytesIO(self.image.read()))
-            #If RGBA, convert transparency
-            if im.mode == "RGBA":
-                im.load()
-                background = Image.new("RGB", im.size, (255, 255, 255))
-                background.paste(im, mask=im.split()[3]) # 3 is the alpha channel
-                im=background
-            im_io = BytesIO()
-            im.save(im_io, format='JPEG')
-            im_io.seek(0)
-            self.image = InMemoryUploadedFile(im_io,'ImageField', "%s.jpg" %self.image.name.split('.')[0], 'image/jpeg', im_io.getbuffer().nbytes, None)
-            super(AlternativeImage, self).save(*args, **kwargs)
+            self.image = convert_rgba(self.image)
+        super(AlternativeImage, self).save(*args, **kwargs)
 
     def __init__(self, *args, **kwargs):
         super(AlternativeImage, self).__init__(*args, **kwargs)
