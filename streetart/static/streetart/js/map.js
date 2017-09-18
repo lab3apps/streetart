@@ -39,7 +39,6 @@ function initialize() {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
-        map.setCenter(pos);
         markerUrl = '/static/img/location-marker.png';
         var location = new google.maps.Marker({
             id: 'location',
