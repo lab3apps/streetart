@@ -281,7 +281,17 @@ class RoutePoint(models.Model):
         return "" ##This is needed for the use of drag and drop sorting plugin in admin.
 
 @python_2_unicode_compatible  # only if you need to support Python 2
-class Section(models.Model):
+class GetInvolved(models.Model):
+    title = models.CharField(max_length=200, blank=True, null=True)
+    image = models.ImageField(upload_to='artwork/', blank=True, null=True)
+    link = models.URLField(blank=True, null=True)
+    order = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+@python_2_unicode_compatible  # only if you need to support Python 2
+class WhatsNew(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='artwork/', blank=True, null=True)
     link = models.URLField(blank=True, null=True)

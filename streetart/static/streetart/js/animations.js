@@ -192,17 +192,35 @@ $('#getinvolved-tab').click(function() {
     showGetInvolvedTab();
 });
 
+
+$('#whatsnew-tab').click(function() {
+    showWhatsNewTab();
+});
+
 function showGalleryTab() {
     $('.getinvolved-section').hide();
+    $('.whatsnew-section').hide();
     $('.gallery-section').show();
     $('#gallery-tab').addClass('active');
     $('#getinvolved-tab').removeClass('active');
+    $('#whatsnew-tab').removeClass('active');
 }
 
 function showGetInvolvedTab() {
     $('.getinvolved-section').show();
     $('.gallery-section').hide();
+    $('.whatsnew-section').hide();
     $('#getinvolved-tab').addClass('active');
     $('#gallery-tab').removeClass('active');
+    $('#whatsnew-tab').removeClass('active');
+}
+
+function showWhatsNewTab() {
+    $('.whatsnew-section').show();
+    $('.gallery-section').hide();
+    $('.getinvolved-section').hide();
+    $('#whatsnew-tab').addClass('active');
+    $('#gallery-tab').removeClass('active');
+    $('#getinvolved-tab').removeClass('active');
 }
 

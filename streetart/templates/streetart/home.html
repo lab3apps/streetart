@@ -195,6 +195,8 @@
             <div class="tab-block hidden-xs">
                 <a class="tab-link active" id="gallery-tab">Gallery</a>
                 <span class="tab-separator">/</span>
+                <a class="tab-link" id="whatsnew-tab">What's New</a>
+                <span class="tab-separator">/</span>
                 <a class="tab-link" id="getinvolved-tab">Get Involved</a>
             </div>
 
@@ -246,8 +248,24 @@
             <!-- This is the main scrolling gallery which shows images relating to those on the map
                  Image div boxes added using django tempting. -->
             <div id="lazy-container" class="scroll-gallery">
+                <div class="whatsnew-section" style="display: none">
+                    {% for item in whatsnew %}
+                            <div id="whatsnew-{{ item.id }}" class="whatsnew-item col-xs-12 col-sm-3 col-md-3">
+                                <div class="dummy"></div>
+                                <a class="img-link" href="{{item.link}}">
+                                        {% if item.image %}
+                                            {% thumbnail item.image "250x250" crop="center" as im %}
+                                                <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
+                                        {% else %}
+                                            <img class="lazy thumbnail-image"/>
+                                        {% endif %}
+                                        <div class="section-thumb-overlay">{{item.title}}</div>
+                                </a>
+                            </div>
+                    {% endfor %}
+                </div>
                 <div class="getinvolved-section" style="display: none">
-                    {% for section in sections %}
+                    {% for section in getinvolved %}
                             <div id="section-{{ section.id }}" class="getinvolved-item col-xs-12 col-sm-3 col-md-3">
                                 <div class="dummy"></div>
                                 <a class="img-link" href="{{section.link}}">
@@ -302,7 +320,7 @@
                     </select>
                 </div>
                 <div class="col-xs-6">
-                    <input id="search-input" type="text" class="form-control" placeholder="Search for...">
+                    <input id="search-input" type="text" class="form-control" placeholder="Search">
                 </div>
             </div>
 

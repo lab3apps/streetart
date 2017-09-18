@@ -262,7 +262,7 @@ a {
 
 .filter-block {
     position: absolute;
-    top: 0;
+    top: 6px;
     z-index: 1;
 }
 
@@ -604,6 +604,12 @@ a {
 }
 
 .getinvolved-item {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+}
+
+.whatsnew-item {
     display: inline-block;
     position: relative;
     padding: 0;

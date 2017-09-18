@@ -124,12 +124,14 @@
         </div>
     </div>
 </header>
-<body>
+<body class="scroll-container">
     <!-- django CMS Toolbar -->
     {% cms_toolbar %}
 
-    <div role="main" class="container scroll-container">
-        {% block content %}{% endblock %}
+    <div role="main" class="container">
+        {% block content %}
+            {% placeholder content %}
+        {% endblock %}
     </div>
     <footer>
         {% block footer %}

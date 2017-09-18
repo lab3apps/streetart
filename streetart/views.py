@@ -19,7 +19,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm
 from .serializers import ArtworkSerializer, ArtistSerializer, RouteSerializer
-from .models import Artwork, Artist, Status, Route, Section, Logo
+from .models import Artwork, Artist, Status, Route, GetInvolved, WhatsNew, Logo
 from django.db import transaction
 from django.core.mail import send_mail
 from django.conf import settings as site_settings
@@ -32,7 +32,8 @@ from django.views.decorators.http import require_POST
 
 def home(request, **kwargs):
     artwork = Artwork.objects.filter(validated=True).order_by('pk')
-    section = Section.objects.order_by('order')
+    getinvolved = GetInvolved.objects.order_by('order')
+    whatsnew = WhatsNew.objects.order_by('order')
     if request.user.is_authenticated():
         for art in artwork:
             art.has_liked = art.likes.filter(id=request.user.id).exists()
@@ -49,9 +50,9 @@ def home(request, **kwargs):
             ##return Response(status=status.HTTP_404_NOT_FOUND)
             messages.error(request, 'This artwork does not exist.')
             return redirect('/')
-        return render(request, 'streetart/home.html', {'artworks': artwork, 'sections': section, 'loadedart': kwargs.get('pk')})
+        return render(request, 'streetart/home.html', {'artworks': artwork, 'getinvolved': getinvolved, 'whatsnew': whatsnew, 'loadedart': kwargs.get('pk')})
     else:
-        return render(request, 'streetart/home.html', {'artworks': artwork, 'sections': section})
+        return render(request, 'streetart/home.html', {'artworks': artwork, 'getinvolved': getinvolved, 'whatsnew': whatsnew})
 
 @login_required
 @transaction.atomic
