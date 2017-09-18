@@ -56,7 +56,7 @@
 				<tbody>
 				{% for logo in logos %}
 					<tr>
-						<td class="col-md-6">
+						<td class="col-xs-6">
 	                	{% if logo.image %}
 	                		<div class="loader none"></div>
 	                        <a class="card-image-link" data-lightbox="lightbox" href="{{ logo.image.url }}">
@@ -65,7 +65,7 @@
 	                        </a>
 	                    {% endif %}
 	                	</td>
-	                	<td class="col-md-6">{{logo.description}}</td>
+	                	<td class="col-xs-6">{{logo.description}}</td>
 	                </tr>
 				{% endfor %}
 				</tbody>
