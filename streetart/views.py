@@ -148,7 +148,7 @@ def add_new(request):
                 artwork.author = request.user
                 artwork.published_date = timezone.now()
                 artwork.save()
-                artworkAdminURL = 'christchurchstreetart.org.nz/admin/streetart/artwork/'
+                artworkAdminURL = 'watchthisspace.org.nz/admin/streetart/artwork/'
                 send_mail('New Artwork', 'A art work has been subimitted by a user, find it here: '+artworkAdminURL+str(artwork.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
                 return redirect('/thanks', pk=artwork.pk)
             else:
@@ -164,7 +164,7 @@ def add_new(request):
                 muralCommission.author = request.user
                 muralCommission.published_date = timezone.now()
                 muralCommission.save()
-                muralAdminURL = 'christchurchstreetart.org.nz/admin/streetart/muralcommission/'
+                muralAdminURL = 'watchthisspace.org.nz/admin/streetart/muralcommission/'
                 send_mail('New Mural Comission', 'A new mural commission has been subimitted by a user, find it here: '+muralAdminURL+str(muralCommission.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
                 return redirect('/thanks')
             else:
@@ -181,7 +181,7 @@ def add_new(request):
                 wallSpace.author = request.user
                 wallSpace.published_date = timezone.now()
                 wallSpace.save()
-                wallspaceAdminURL = 'christchurchstreetart.org.nz/admin/streetart/wallspace/'
+                wallspaceAdminURL = 'watchthisspace.org.nz/admin/streetart/wallspace/'
                 send_mail('New Wall Space', 'A new wall space has been subimitted by a user, find it here: '+wallspaceAdminURL+str(wallSpace.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
                 return redirect('/thanks')
             else:
@@ -197,7 +197,7 @@ def add_new(request):
                 artistExpressionOfInterest.author = request.user
                 artistExpressionOfInterest.published_date = timezone.now()
                 artistExpressionOfInterest.save()
-                artistEOIAdminURL = 'christchurchstreetart.org.nz/admin/streetart/artistexpressionofinterest/'
+                artistEOIAdminURL = 'watchthisspace.org.nz/admin/streetart/artistexpressionofinterest/'
                 send_mail('New Artist EOI', 'A new artist expression of interest has been subimitted by a user, find it here: '+artistEOIAdminURL+str(artistExpressionOfInterest.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
                 return redirect('/thanks')
 
