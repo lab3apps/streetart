@@ -4,9 +4,13 @@
 <div class="card-content">
 <div class="comment">
 {% if user.is_authenticated %}
-  <div class="well">
-    {% render_comment_form for art %}
-  </div>
+	{% if user.email and user.email != "" %}
+		<div class="well">
+		{% render_comment_form for art %}
+		</div>
+	{% else %}
+		To comment, please <a href="/settings">update your settings</a> to include your email address.
+	{% endif %}
 {% else %}
 	To comment, please log in.
 {% endif %}
