@@ -163,7 +163,7 @@ class Artwork(models.Model):
     def __str__(self):
         if self.pk and (self.title != "" or (self.artists.all().count() > 1 or (self.artists.all().count() == 1 and self.artists.filter(name="").count() != 1))):
             return_string = ""
-            if self.title != "":
+            if self.title and self.title != "":
                 return_string += self.title
             else:
                 return_string += "Untitled"
