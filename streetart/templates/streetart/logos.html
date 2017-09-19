@@ -56,16 +56,19 @@
 				<tbody>
 				{% for logo in logos %}
 					<tr>
-						<td class="col-xs-6">
-	                	{% if logo.image %}
-	                		<div class="loader none"></div>
-	                        <a class="card-image-link" data-lightbox="lightbox" href="{{ logo.image.url }}">
-	                        	{% thumbnail logo.image "500x500" as im %}
-	                            <img class="logo-image img-responsive lazy" src="{{ im.url }}">
-	                        </a>
-	                    {% endif %}
-	                	</td>
-	                	<td class="col-xs-6">{{logo.description}}</td>
+                        <td colspan="2">
+                            <div class="col-xs-12 col-sm-6">
+                            {% if logo.image %}
+                                <div class="loader none"></div>
+                                <a class="card-image-link" data-lightbox="lightbox" href="{{ logo.image.url }}">
+                                    {% thumbnail logo.image "500x500" as im %}
+                                    <img class="logo-image img-responsive lazy" src="{{ im.url }}">
+                                </a>
+                            {% endif %}
+                            </div>
+                            <div class="col-xs-12 col-sm-6">{{logo.description}}</div>
+                        </td>
+						
 	                </tr>
 				{% endfor %}
 				</tbody>
