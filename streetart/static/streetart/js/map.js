@@ -2,14 +2,28 @@ var map;
 var markerCluster
 function initialize() {
     var mapDiv = document.getElementById("map");
-    var layer = "toner";
+    var TILE_URL = "https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png";
+    var layerID = 'https_toner';
+    var layer = new google.maps.ImageMapType({
+      name: layerID,
+      getTileUrl: function(coord, zoom) {
+        var url = TILE_URL
+          .replace('{x}', coord.x)
+          .replace('{y}', coord.y)
+          .replace('{z}', zoom);
+        return url;
+      },
+      tileSize: new google.maps.Size(256, 256),
+      minZoom: 1,
+      maxZoom: 20
+    });
     map = new google.maps.Map(
         mapDiv, {
             center: new google.maps.LatLng(-43.5314, 172.6365),
             zoom: 14,
             maxZoom: 17,
             minZoom: 12,
-            mapTypeId: layer,
+            mapTypeId: layerID,
             mapTypeControl: false,
             streetViewControl: true,
             zoomControl: true,
@@ -23,7 +37,7 @@ function initialize() {
             },
             fullscreenControl: true
         });
-    map.mapTypes.set(layer, new google.maps.StamenMapType(layer));
+    map.mapTypes.set(layerID, layer);
     markerCluster = new MarkerClusterer(map, markers,
             {imagePath: '/static/img/cluster'});
     markerCluster.setMaxZoom(16);
