@@ -42,7 +42,7 @@
                             'facebook':'{{ artist.facebook }}',
                             'instagram':'{{ artist.instagram }}',
                             'twitter':'{{ artist.twitter }}',
-                            'biography':'{{ artist.biography }}',
+                            'biography':'{% filter escapejs %}{{ artist.biography }}{% endfilter %}',
                         },
                     {% endfor %}
                 ],
