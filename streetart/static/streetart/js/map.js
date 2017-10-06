@@ -249,6 +249,16 @@ function focusOnMarker(index) {
         }
         console.dir(art);
 
+        /*for(var key in art.crews) {
+            if (arrayHasOwnIndex(art.artists, key)) {
+                if (artists_text != '') {
+                    artists_text += ', ';
+                }
+                artists_text += art.artists[key]['name'];
+                artists_bio_html += '<br><div>';
+            }
+        }*/
+
         $("#card-content").html('');
 
         var overlay_title = '';

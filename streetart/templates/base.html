@@ -50,7 +50,7 @@
                         {% if user.is_authenticated %}
                             <a href="/logout">Logout</a>
                         {% else %}
-                            <a href="/login">Login</a>
+                            <a href="{% url 'social:begin' 'facebook' %}">Login</a>
                         {% endif %}
                     </div>
                     <div class="visible-xs-block col-xs-3 menu-toggle">
@@ -95,7 +95,7 @@
                                     {% if user.is_authenticated %}
                                         <a href="/logout">Logout</a>
                                     {% else %}
-                                        <a href="/login">Login</a>
+                                        <a href="{% url 'social:begin' 'facebook' %}">Login</a>
                                     {% endif %}
                                 </li>
                             </ul>
@@ -119,17 +119,15 @@
                                                 {% if user.is_authenticated %}
                                                     <a href="/logout">Logout</a>
                                                 {% else %}
-                                                    <a href="/login">Login</a>
+                                                    <a href="{% url 'social:begin' 'facebook' %}">Login</a>
                                                 {% endif %}
                                             </li>
                                         </ul>
                                 </li>
                             {% else %}
                                 <li>
-                                    <a href="/login">Log In</a>
-                                </li>
-                                <li>
-                                    <a href="/signup">Sign Up</a>
+                                    <a class="button-social button-facebook hidden-xs hidden-sm" id="button-facebook" href="{% url 'social:begin' 'facebook' %}"><i class="icon fa fa-facebook"></i>Login with Facebook</a>
+                                    <a class="visible-xs-block visible-sm-block" href="{% url 'social:begin' 'facebook' %}">Login</a>
                                 </li>
                             {% endif %}
                         </ul>

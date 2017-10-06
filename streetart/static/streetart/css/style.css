@@ -180,6 +180,14 @@ a {
   }
 }
 
+#button-facebook {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  color: white;
+  line-height: 46px;
+  margin-top: 23px;
+}
+
 /*** Colours ***/
 
 .white {
