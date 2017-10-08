@@ -155,7 +155,7 @@ Through our website, locals and business owners can contact us to commission a m
 						{% if field == artistExpressionOfInterestForm.project_types %}
 							{% for value, text in field.field.choices %}
 							  <div class="checkbox">
-							    <label><input id="id_providers_{{ forloop.counter0 }}" name="{{ form.providers.name }}" type="checkbox" value="{{ value }}"{% if value in checked_providers %} checked="checked"{% endif %}>{{ text }}</label>
+							    <label><input id="id_providers_{{ forloop.counter0 }}" name="{{ field.name }}" type="checkbox" value="{{ value }}"{% if value in checked_providers %} checked="checked"{% endif %}>{{ text }}</label>
 							  </div>
 							{% endfor %}
 						{% else %}
