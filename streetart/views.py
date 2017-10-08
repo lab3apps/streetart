@@ -31,7 +31,7 @@ except ImportError:
 from django.views.decorators.http import require_POST
 
 def home(request, **kwargs):
-    artwork = Artwork.objects.filter(validated=True).order_by('pk')
+    artwork = Artwork.objects.filter(validated=True, map_enabled=True).order_by('pk')
     getinvolved = GetInvolved.objects.order_by('order')
     whatsnew = WhatsNew.objects.order_by('order')
     if request.user.is_authenticated():
@@ -211,7 +211,7 @@ def artwork_list(request):
     List all artworks.
     """
     if request.method == 'GET':
-        artworks = Artwork.objects.all()
+        artworks = Artwork.objects.filter(validated=True, smart_cities=True)
         serializer = ArtworkSerializer(artworks, many=True)
         return Response(serializer.data)
 
