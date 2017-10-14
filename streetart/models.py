@@ -246,7 +246,7 @@ class ArtistExpressionOfInterest(models.Model):
     samples = models.TextField(blank=True, null=True, verbose_name="Please provide samples of past work or include a link to your website or portfolio.")
     other = models.TextField(blank=True, null=True, verbose_name="Is there anything you'd like us to know?")
     def __str__(self):
-        return self.title
+        return self.name
 
 @python_2_unicode_compatible
 class Route(models.Model):
