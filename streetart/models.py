@@ -239,14 +239,14 @@ class ArtistExpressionOfInterest(models.Model):
     name = models.CharField(max_length=200, verbose_name="Name")
     email = models.EmailField(verbose_name="Email Address")
     phone = models.CharField(max_length=15)
-    project_types = MultiSelectField(choices=PROJECT_TYPE_CHOICES)
+    project_types = MultiSelectField(choices=PROJECT_TYPE_CHOICES, blank=True, null=True)
     location = models.TextField(blank=True, null=True, verbose_name="Are you located in Christchurch? If not, where are you from?")
     why = models.TextField(blank=True, null=True, verbose_name="Why do you want to create work here in Christchurch?")
     materials = models.TextField(blank=True, null=True, verbose_name="Would you be able to organize your own materials? What supplies do you require us to organize for you?")
     samples = models.TextField(blank=True, null=True, verbose_name="Please provide samples of past work or include a link to your website or portfolio.")
     other = models.TextField(blank=True, null=True, verbose_name="Is there anything you'd like us to know?")
     def __str__(self):
-        return self.title
+        return self.name
 
 @python_2_unicode_compatible
 class Route(models.Model):

@@ -79,7 +79,7 @@ class ArtworkSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
         model = Artwork
-        fields = '__all__'
+        fields = ('id', 'image', 'photo_credit', 'artists', 'category', 'status', 'likes', 'checkins', 'title', 'commission_date', 'decommission_date', 'description', 'location', 'street', 'crews')
 
     def get_likes(self, obj):
         return obj.likes.count()
