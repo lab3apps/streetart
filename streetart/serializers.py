@@ -94,7 +94,7 @@ class RouteArtworkSerializer(GeoFeatureModelSerializer):
         """Meta class to map serializer's fields with the model fields."""
         model = Artwork
         geo_field = "location"
-        fields = ('title','location')
+        fields = ('id', 'title','location')
 
 class RoutePointSerializer(serializers.ModelSerializer):
     """Serializer to map the RoutePoint instance into JSON format."""
