@@ -60,6 +60,7 @@
                 ]
             };
         {% endfor %}
+
         {% if loadedart %}
         $( document ).ready(function() {
             focusOnMarker({{loadedart}});
@@ -244,61 +245,67 @@
                 <div id="comment-card" class="card">
                 </div>
             </div>
+            <div class="scroll-gallery">
+            <!-- This is Set Of Artworkes neared to Selected Artwork -->
 
-            <!-- This is the main scrolling gallery which shows images relating to those on the map
-                 Image div boxes added using django tempting. -->
-            <div id="lazy-container" class="scroll-gallery">
-                <div class="whatsnew-section" style="display: none">
-                    {% for item in whatsnew %}
-                            <div id="whatsnew-{{ item.id }}" class="whatsnew-item col-xs-12 col-sm-3 col-md-3">
-                                <div class="dummy"></div>
-                                <a class="img-link" href="{{item.link}}">
-                                        {% if item.image %}
-                                            {% thumbnail item.image "250x250" crop="center" as im %}
-                                                <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
+                <!-- This is the main scrolling gallery which shows images relating to those on the map
+                     Image div boxes added using django tempting. -->
+                <div id="lazy-container" >
+                    <div id="nearest-artworks-holder">
+
+                    </div>
+                    <div class="whatsnew-section" style="display: none">
+                        {% for item in whatsnew %}
+                                <div id="whatsnew-{{ item.id }}" class="whatsnew-item col-xs-12 col-sm-3 col-md-3">
+                                    <div class="dummy"></div>
+                                    <a class="img-link" href="{{item.link}}">
+                                            {% if item.image %}
+                                                {% thumbnail item.image "250x250" crop="center" as im %}
+                                                    <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
+                                            {% else %}
+                                                <img class="lazy thumbnail-image"/>
+                                            {% endif %}
+                                            <div class="section-thumb-overlay">{{item.title}}</div>
+                                    </a>
+                                </div>
+                        {% endfor %}
+                    </div>
+                    <div class="getinvolved-section" style="display: none">
+                        {% for section in getinvolved %}
+                                <div id="section-{{ section.id }}" class="getinvolved-item col-xs-12 col-sm-3 col-md-3">
+                                    <div class="dummy"></div>
+                                    <a class="img-link" href="{{section.link}}">
+                                            {% if section.image %}
+                                                {% thumbnail section.image "250x250" crop="center" as im %}
+                                                    <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
+                                            {% else %}
+                                                <img class="lazy thumbnail-image"/>
+                                            {% endif %}
+                                            <div class="section-thumb-overlay">{{section.title}}</div>
+                                    </a>
+                                </div>
+                        {% endfor %}
+                    </div>
+                    <div class="gallery-section">
+                        {% for art in artworks %}
+                                <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-3 col-md-3">
+                                    <div class="dummy"></div>
+                                    <a class="img-link" onclick="focusOnMarker({{ art.id }}), markerClicked()">
+                                        {% if art.cropped_image %}
+                                            {% thumbnail art.cropped_image "250x250" as im %}
+                                              <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
                                         {% else %}
-                                            <img class="lazy thumbnail-image"/>
-                                        {% endif %}
-                                        <div class="section-thumb-overlay">{{item.title}}</div>
-                                </a>
-                            </div>
-                    {% endfor %}
-                </div>
-                <div class="getinvolved-section" style="display: none">
-                    {% for section in getinvolved %}
-                            <div id="section-{{ section.id }}" class="getinvolved-item col-xs-12 col-sm-3 col-md-3">
-                                <div class="dummy"></div>
-                                <a class="img-link" href="{{section.link}}">
-                                        {% if section.image %}
-                                            {% thumbnail section.image "250x250" crop="center" as im %}
+                                            {% thumbnail art.image "250x250" crop="center" as im %}
                                                 <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
-                                        {% else %}
-                                            <img class="lazy thumbnail-image"/>
+
                                         {% endif %}
-                                        <div class="section-thumb-overlay">{{section.title}}</div>
-                                </a>
-                            </div>
-                    {% endfor %}
+                                    </a>
+                                </div>
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="gallery-section">
-                    {% for art in artworks %}
-                            <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-3 col-md-3">
-                                <div class="dummy"></div>
-                                <a class="img-link" onclick="focusOnMarker({{ art.id }}), markerClicked()">
-                                    {% if art.cropped_image %}
-                                        {% thumbnail art.cropped_image "250x250" as im %}
-                                          <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
-                                    {% else %}
-                                        {% thumbnail art.image "250x250" crop="center" as im %}
-                                            <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
-                                        
-                                    {% endif %}
-                                </a>
-                            </div>
-                    {% endfor %}
-                </div>
+
             </div>
-
             <!-- Colored FAB button with ripple -->
             <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored visible-xs-block visible-sm-block fab navbar-map">
               <i class="material-icons">map</i>

@@ -23,6 +23,8 @@ from .models import Artwork, Artist, Status, Route, GetInvolved, WhatsNew, Logo
 from django.db import transaction
 from django.core.mail import send_mail
 from django.conf import settings as site_settings
+from django.db.models import Q
+
 
 try:
     from django.utils import simplejson as json
@@ -281,12 +283,13 @@ def closest_artwork(request, index):
     artworkObject = Artwork.objects.get(pk=index)
     artwork = get_closest_artworks(artworkObject.location.y, artworkObject.location.x)
     response = serializers.serialize("json", artwork)
-    return render(request, 'streetart/ordered_artwork_list.html', {'artworks': artwork})
+    return HttpResponse(response)
 
 def get_closest_artworks(lat, long):
     point = geos.fromstr("POINT(%s %s)" % (long, lat))
-    artworks = Artwork.objects.filter(location__distance_lte=(point, D(km=10))).distance(point).order_by('distance')
+    artworks = Artwork.objects.filter(location__distance_lte=(point, D(m=200))).exclude(status=3).exclude(validated=False).exclude(map_enabled=False).exclude(status__isnull=True).distance(point).order_by('distance')
     return artworks
+
 
 def image_selected(request, index):
     return render(request, 'streetart/card_detail_body.html', {'art': Artwork.objects.get(pk=index)})
