@@ -384,7 +384,7 @@ function RenderNearestArtworks(response,_index){
         }
 
         console.log(no_of_rows);
-        $("#nearest-artworks-holder").height( no_of_rows * height_of_row);
+        //$("#nearest-artworks-holder").height( no_of_rows * height_of_row);
         $.each(res, function (index,obj)
         {
          if(_index!=obj.pk)
