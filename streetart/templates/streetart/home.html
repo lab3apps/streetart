@@ -3,6 +3,7 @@
 {% load cropping %}
 {% load static %}
 {% load comments static %}
+{% load shuffle %}
 
 {% block title %}Home{% endblock title %}
 
@@ -287,7 +288,7 @@
                         {% endfor %}
                     </div>
                     <div class="gallery-section">
-                        {% for art in artworks %}
+                        {% for art in artworks|shuffle %}
                                 <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-3 col-md-3">
                                     <div class="dummy"></div>
                                     <a class="img-link" onclick="focusOnMarker({{ art.id }}), markerClicked()">
