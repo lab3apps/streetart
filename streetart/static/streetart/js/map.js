@@ -171,6 +171,10 @@ function focusOnMarker(index) {
     if (arrayHasOwnIndex(artworks, index)) {
         var art = artworks[index];
         var marker = markers[index];
+        getNearestArtworks(index)
+
+        //if hidden
+        $('#nearest-artworks-holder').show();
         //closeMarkers();
         //marker['infowindow'].open(map, marker);
         var point = new google.maps.LatLng(art.lat, art.lng);
@@ -352,15 +356,58 @@ $('#show_on_map').click(function(e) {
 
 function getNearestArtworks(index) {
     $.ajax({
+        async:'true',
         url: '/nearby/' + index + '/',
         type: 'GET',
         success: function(response) {
-            $('.gallery-section').html(response);
+            console.log(response);
+            RenderNearestArtworks(response,index);
         },
         failure: function(error) {
             console.error(error);
         }
     });
+}
+
+function RenderNearestArtworks(response,_index){
+    if(viewState===1 || viewState===2)
+    {
+        res =  jQuery.parseJSON( response );
+        $("#nearest-artworks-holder").html("");
+        var no_of_nearest = res.length-1;
+        var elements_in_row = 4;
+        var height_of_row =109;    //px
+        var no_of_rows = Math.floor(no_of_nearest/elements_in_row);
+        if(no_of_nearest%elements_in_row>0)
+        {
+        no_of_rows++;
+        }
+
+        console.log(no_of_rows);
+        //$("#nearest-artworks-holder").height( no_of_rows * height_of_row);
+        $.each(res, function (index,obj)
+        {
+         if(_index!=obj.pk)
+         {
+            console.log(obj);
+            var imagetag ;
+            if(obj.fields.cropped_image=="")
+            {
+            imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.image+'" >';
+            }else
+            {
+            imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.cropped_image+'" >';
+            }
+
+            var view ='<div id="artbox-'+obj.pk+'" class="gallery-item col-xs-6 col-sm-3 col-md-3">'+
+                        '<div class="dummy"></div>'+
+                        '<a class="img-link" onclick="focusOnMarker('+obj.pk+'), markerClicked()">'+ imagetag+
+                        '</a>'+
+                    '</div>';
+            $("#nearest-artworks-holder").append(view);
+         }
+        });
+    }
 }
 
 $('#search-input').keyup(function() {

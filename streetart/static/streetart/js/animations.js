@@ -37,6 +37,8 @@ function loadAltImages(index) {
     }
 }
 
+
+
 function markerClicked() {
     if(viewState === 0 || viewState === 1) {
         expandMap();
@@ -107,7 +109,7 @@ function collapseMap() {
     // Important for mobile
     $('.left-panel').removeClass('mobile-hide');
     $('.right-panel').addClass('mobile-hide');
-
+    $('#nearest-artworks-holder').hide();
     viewState = 0;
 }
 
@@ -125,6 +127,7 @@ function expandCard() {
     $('.overlay-expand').addClass('rotate-180');
     $('.overlay-expand').attr('onclick', 'collapseCard()');
     $('.card-image-link').attr('onclick', 'collapseCard()');
+    $('#nearest-artworks-holder').hide();
     viewState = 2;
 }
 
@@ -142,6 +145,7 @@ function collapseCard() {
     $('.overlay-expand').removeClass('rotate-180');
     $('.overlay-expand').attr('onclick', 'expandCard()');
     $('.card-image-link').attr('onclick', 'expandCard()');
+    $('#nearest-artworks-holder').show();
     viewState = 1;
 }
 
