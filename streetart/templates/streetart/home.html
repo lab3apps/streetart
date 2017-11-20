@@ -22,10 +22,89 @@
     <script type="text/javascript" src="{% static 'lightbox/js/lightbox.js' %}"></script>
     <script type="text/javascript" src="{% static 'lazy/jquery.lazy.min.js' %}"></script>
     <script type="text/javascript">
-        var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
-        var artworks = [];
-        var markers = [];
+    var csrftoken = '{{ csrf_token }}';
+    var artworks = [];
+    var markers = [];
+    var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
 
+    function RenderArtworksFromJson(response)
+    {
+        res =  jQuery.parseJSON( response );
+        $(".gallery-section").html("");
+         $.each(res, function (index,obj)
+         {
+            //artworks[obj.pk]=obj;
+            var imagetag ;
+            if(obj.fields.cropped_image=="")
+            {
+            imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.image+'" >';
+            }else
+            {
+            imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.cropped_image+'" >';
+            }
+
+            var view ='<div id="artbox-'+obj.pk+'" class="gallery-item col-xs-6 col-sm-3 col-md-3">'+
+                        '<div class="dummy"></div>'+
+                        '<a class="img-link" onclick="focusOnMarker('+obj.pk+'), markerClicked()">'+ imagetag+
+                        '</a>'+
+                    '</div>';
+            $(".gallery-section").append(view);
+        });
+
+
+    }
+</script>
+
+<script type="text/javascript">
+
+        function getLocation()
+        {
+            //debugger;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                $("#message").html("failed gps fetching");
+            }
+        }
+
+        function permissionDenied()
+        {
+            console.log('GPS Failed/ Denied ');
+            $.ajax({
+            async:'true',
+            url: '/allartworks/',
+            type: 'GET',
+            success: function(response) {
+                console.log("No Gps Permission");
+                RenderArtworksFromJson(response);
+            },
+            failure: function(error) {
+            console.log(" Permission denied");
+                console.error(error);
+            }
+            });
+        }
+
+        function showPosition(position)
+        {
+            console.log('GPS Available');
+            $.ajax({
+            async:'true',
+            url: '/nearby/' +  position.coords.latitude + '/' +  position.coords.longitude ,
+            data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            type: 'GET',
+            success: function(response) {
+                console.log("Have Gps Permission");
+                RenderArtworksFromJson(response);
+            },
+            failure: function(error) {
+            console.log(" in showPosition");
+                console.error(error);
+            }
+            });
+        }
+
+        // start looping artworks
         {% for art in artworks %}
             artworks[{{ art.id }}] = {
                 title: '{{ art.title }}',
@@ -62,6 +141,8 @@
             };
         {% endfor %}
 
+
+
         {% if loadedart %}
         $( document ).ready(function() {
             focusOnMarker({{loadedart}});
@@ -69,6 +150,7 @@
             expandCard();
         });
         {% endif %}
+
 
         function like() {
             if(!is_authenticated) {
@@ -147,6 +229,9 @@
         });
 
         $(function() {
+
+            getLocation();
+
             $('#lazy-container .lazy').lazy({
                 appendScroll: $('#lazy-container'),
                 scrollDirection: 'vertical',
@@ -167,13 +252,15 @@
                     console.log('Loaded All Thumbs');
                 }
             });
+
         });
+
 
         $(document).ready(function(){
             setTimeout(function() {
             $('.alert-warning').fadeOut('fast');
             }, 3000);
-        });
+        })
            
     </script>
     <script src="{% static 'streetart/js/map.js' %}"></script>

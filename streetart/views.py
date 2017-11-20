@@ -56,6 +56,13 @@ def home(request, **kwargs):
     else:
         return render(request, 'streetart/home.html', {'artworks': artwork, 'getinvolved': getinvolved, 'whatsnew': whatsnew})
 
+
+def get_artworks_as_json(request):
+    artwork = Artwork.objects.filter(validated=True, map_enabled=True).order_by('pk')
+    response = serializers.serialize("json", artwork)
+    return HttpResponse(response)
+
+
 @login_required
 @transaction.atomic
 def settings(request):
@@ -281,13 +288,19 @@ def route_detail(request, pk):
 
 def closest_artwork(request, index):
     artworkObject = Artwork.objects.get(pk=index)
-    artwork = get_closest_artworks(artworkObject.location.y, artworkObject.location.x)
+    artwork = get_closest_artworks(artworkObject.location.y, artworkObject.location.x, 0.2)
     response = serializers.serialize("json", artwork)
     return HttpResponse(response)
 
-def get_closest_artworks(lat, long):
+def closest_artworks_from_user(request,lat,lng):
+    artwork = get_closest_artworks(lat, lng, 1000)
+    response = serializers.serialize("json", artwork)
+    return HttpResponse(response)
+
+
+def get_closest_artworks(lat, long, distance):
     point = geos.fromstr("POINT(%s %s)" % (long, lat))
-    artworks = Artwork.objects.filter(location__distance_lte=(point, D(m=200))).exclude(status=3).exclude(validated=False).exclude(map_enabled=False).exclude(status__isnull=True).distance(point).order_by('distance')
+    artworks = Artwork.objects.filter(location__distance_lte=(point, D(km=distance))).exclude(status=3).exclude(validated=False).exclude(map_enabled=False).exclude(status__isnull=True).distance(point).order_by('distance')
     return artworks
 
 
