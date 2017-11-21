@@ -163,6 +163,7 @@ function showLeftPanel() {
     $('.left-panel').blindLeftIn('slow');
     $('#left-panel-toggle').removeClass('rotate-180');
     $('.left-panel').css('border-right', 'solid 3px black');
+    
 }
 
 function resizeMap() {
