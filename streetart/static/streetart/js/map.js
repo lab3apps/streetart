@@ -512,6 +512,7 @@ function getNearestArtworks(index) {
     $.ajax({
         async:'true',
         url: '/nearby/' + index + '/',
+        data: {'csrfmiddlewaretoken': csrftoken},
         type: 'GET',
         success: function(response) {
             console.log(response);
@@ -642,3 +643,4 @@ function initializeMultiSelect() {
 
 initialize();
 initializeMultiSelect();
+

@@ -10,9 +10,9 @@ Written by Lab3 Limited for Watch This Space
 
 Memcached
 
-OSX `brew install memcached`
+  - OSX `brew install memcached`
 
-Debian/Ubuntu `sudo apt-get install memcached`
+  - Debian/Ubuntu `sudo apt-get install memcached`
 
 ----
 
