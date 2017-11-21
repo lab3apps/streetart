@@ -1,3 +1,4 @@
+import os
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
 import datetime
@@ -14,7 +15,9 @@ from image_cropping.utils import get_backend
 from PIL import Image
 from django_comments_xtd.moderation import moderator, XtdCommentModerator, SpamModerator
 from streetart.badwords import badwords
-from streetart.processors import convert_rgba
+from streetart.processors import convert_rgba, add_watermark
+from django.contrib.staticfiles.storage import staticfiles_storage
+from chch_streetart.settings import STATIC_ROOT
 
 # Create your models here.
 
@@ -87,6 +90,7 @@ class Artwork(models.Model):
     decommission_date = models.CharField(max_length=200, blank=True, null=True, verbose_name='date decommissioned')
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='artwork/', max_length=500)
+    watermarked_image = models.ImageField(null=True, upload_to='API_artwork/', max_length=500)
     cropping = ImageRatioField('image', '250x250')
     cropped_image = models.ImageField(upload_to='artwork/', blank=True, null=True, max_length=500)
     def image_thumbnail(self):
@@ -145,6 +149,7 @@ class Artwork(models.Model):
     def save(self, *args, **kwargs):
         if self.image != self.__original_image:
             self.image = convert_rgba(self.image)
+            self.watermarked_image = add_watermark(self.image, Image.open(os.path.join(STATIC_ROOT, 'img/wts-logo-white.png')))
         if self.pk and self.image == self.__original_image:
             self.cropped_image = get_thumbnailer(self.image).get_thumbnail(
                 {

@@ -68,7 +68,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ArtworkSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
-    image = ImageField(read_only=True)
+    image = ImageField(source='watermarked_image', read_only=True)
     artists = ArtistSerializer(many=True, read_only=True)
     category = CategorySerializer(many=False, read_only=True)
     status = StatusSerializer(many=False, read_only=True)
