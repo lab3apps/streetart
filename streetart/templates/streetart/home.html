@@ -219,10 +219,10 @@
 
     $(function() {
 
-        getLocation();
+        //getLocation();
 
         $('#lazy-container .lazy').lazy({
-            appendScroll: $('#lazy-container'),
+            appendScroll: $('#lazy-container-top'),
             scrollDirection: 'vertical',
             effect: 'fadeIn',
             beforeLoad: function(element) {
@@ -326,7 +326,7 @@
                 <div id="comment-card" class="card">
                 </div>
             </div>
-            <div class="scroll-gallery">
+            <div class="scroll-gallery" id="lazy-container-top">
             <!-- This is Set Of Artworkes neared to Selected Artwork -->
 
                 <!-- This is the main scrolling gallery which shows images relating to those on the map
