@@ -256,9 +256,6 @@ a {
 .full-width {
     width: 100%;
 }
-.main > .full-width {
-    width: calc(100% - 48px);
-}
 
 .no-width {
     width: 0px;
@@ -269,11 +266,16 @@ a {
 .right-panel {
     padding: 0;
     height: inherit;
+}
+.right-content {
+    margin-left: 48px;
+    height: 100%;
+    width: 100%;
     border-left-width: 10px;
     border-left-color: yellow;
     border-left-style: solid;
     border-radius: 5px;
-    margin-left: 48px;
+    position: relative;
 }
 
 .map-container {
@@ -310,11 +312,6 @@ a {
   .left-panel {
     border-right: none;
   }
-}
-@media (min-width: 992px){
-    .container > .main > .col-md-7 {
-        width: calc(58.33333333% - 48px);
-    }
 }
 
 .title-block {
