@@ -282,7 +282,7 @@ function addMarkers() {
             });
             google.maps.event.addListener(marker, 'click', function () {
                 focusOnMarker(this.id);
-                markerClicked();
+                //markerClicked();
                 //getNearestArtworks(this.id)
             });
             google.maps.event.addListener(marker, 'mouseout', function () {

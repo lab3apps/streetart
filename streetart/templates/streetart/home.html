@@ -48,7 +48,7 @@
 
             var view ='<div id="artbox-'+obj.pk+'" class="gallery-item col-xs-6 col-sm-3 col-md-3">'+
                         '<div class="dummy"></div>'+
-                        '<a class="img-link" onclick="focusOnMarker('+obj.pk+'), expandCard()">'+ imagetag+
+                        '<a class="img-link" onclick="focusOnMarker('+obj.pk+')">'+ imagetag+
                         '</a>'+
                     '</div>';
             $(".gallery-section").append(view);
@@ -265,19 +265,21 @@
         <!-- This panel relates to the left half of the screen -->
         <div class="left-panel col-md-7 col-sm-12">
 
-            <!-- This is where the back button will appear -->
-            <div class="back-block">
-                <a class="back-button-block" onclick="backClicked()">
-                    <i class="material-icons md-light md-48 back-icon">chevron_left</i>
-                    <p class="back-text">Back</p>
-                </a>
-            </div>
+           
             <div class="tab-block hidden-xs">
                 <a class="tab-link active" id="gallery-tab">Gallery</a>
                 <span class="tab-separator">/</span>
                 <a class="tab-link" id="whatsnew-tab">What's New</a>
                 <span class="tab-separator">/</span>
                 <a class="tab-link" id="getinvolved-tab">Get Involved</a>
+            </div>
+
+             <!-- This is where the back button will appear -->
+            <div class="back-block">
+                <a class="back-button-block" onclick="backClicked()">
+                    <i class="material-icons md-light md-48 back-icon">chevron_left</i>
+                    <p class="back-text">Back</p>
+                </a>
             </div>
 
             <!-- This is what holds the main view card -->
