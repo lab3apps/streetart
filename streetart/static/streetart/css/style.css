@@ -134,14 +134,13 @@ a {
     border-bottom: 3px solid transparent;
 }
 
-.nav {
-  padding-left: 30px;
+.central-navbar {
+    background-color: rgb(55, 55, 55);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 @media screen and (min-width: 992px) {
-  .nav {
-    padding-left: 50px;
-  }
 
   .navbar-item>a {
     font-size: 24pt;
@@ -153,10 +152,24 @@ a {
 
 }
 
-.navbar-nav>li>a {
-    padding-top: 30px;
-    padding-bottom: 30px;
+.navbar-nav {
+    text-align: center;
+    width: 100%;
 }
+
+.navbar-nav>li {
+    float: none;
+    display: inline-block;
+}
+
+.navbar-nav>li>a {
+    text-align: center;
+}
+
+.navbar-nav>li>a>p {
+    margin: 0px;
+}
+
 
 .header-image > img {
   max-height: 80px;
