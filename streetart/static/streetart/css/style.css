@@ -152,14 +152,18 @@ a {
 
 }
 
-.navbar-nav {
+.central-navbar .navbar-nav {
     text-align: center;
     width: 100%;
+    margin: 0 auto;
+    display:table;
 }
 
 .navbar-nav>li {
     float: none;
-    display: inline-block;
+    display: table-cell;
+    margin-left: auto ;
+    margin-right: auto ;
 }
 
 .navbar-nav>li>a {
