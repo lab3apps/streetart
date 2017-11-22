@@ -166,6 +166,10 @@ a {
     text-align: center;
 }
 
+.navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-nav>li>a:hover {
+    color: yellow;
+}
+
 .navbar-nav>li>a>p {
     margin: 0px;
 }
@@ -320,7 +324,7 @@ a {
     border-radius: 10px;
     position: relative;
 }
-.right-content::after {
+.map-container > div:first-child > div:first-child > div:first-child::after {
     display: block;
     position: absolute;
     background-image: linear-gradient(to top, transparent 0%, black 100%);
@@ -328,7 +332,12 @@ a {
     width: 100%;
     content: '';
     top: 0;
+    z-index: 1;
   }
+
+.gm-svpc{
+    z-index: 10;
+}
 
 .map-container {
     width: 100%;
