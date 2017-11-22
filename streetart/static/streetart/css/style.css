@@ -656,7 +656,7 @@ a {
 }
 
 .dummy {
-    margin-top: 100%;
+    margin-top: 65%;
 }
 
 .thumbnail-image {
@@ -665,7 +665,6 @@ a {
     height: 100%;
     box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.24);
     transition: all 0.2s cubic-bezier(.25,.8,.25,1);
-    border: solid 2px #bfbfbf;
 }
 
 .thumbnail-image:hover {

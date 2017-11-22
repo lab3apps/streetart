@@ -91,11 +91,11 @@ class Artwork(models.Model):
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='artwork/', max_length=500)
     watermarked_image = models.ImageField(null=True, upload_to='API_artwork/', max_length=500)
-    cropping = ImageRatioField('image', '250x250')
+    cropping = ImageRatioField('image', '404x250')
     cropped_image = models.ImageField(upload_to='artwork/', blank=True, null=True, max_length=500)
     def image_thumbnail(self):
         thumbnailer = get_thumbnailer(self.image)
-        thumbnail_options = {'size': (250, 250)}
+        thumbnail_options = {'size': (404, 250)}
         thumbnailer.get_thumbnail(thumbnail_options)
         return '<img src="%s" />' % thumbnailer.get_thumbnail(thumbnail_options).url
     image_thumbnail.short_description = 'Uploaded Image'

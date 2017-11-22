@@ -219,7 +219,7 @@
 
     $(function() {
 
-        getLocation();
+        //getLocation();
 
         $('#lazy-container .lazy').lazy({
             appendScroll: $('#lazy-container'),
@@ -227,7 +227,7 @@
             effect: 'fadeIn',
             beforeLoad: function(element) {
                 // called before an elements gets handled
-                //console.log('begining loading ' + element.data('src'));
+                console.log('begining loading ' + element.data('src'));
             },
             afterLoad: function(element) {
                 // called after an element was successfully handled
@@ -367,14 +367,14 @@
                     </div>
                     <div class="gallery-section">
                         {% for art in artworks|shuffle %}
-                                <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-3 col-md-3">
+                                <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-6">
                                     <div class="dummy"></div>
                                     <a class="img-link artwork-gal" data-artid="{{ art.id }}">
                                         {% if art.cropped_image %}
-                                            {% thumbnail art.cropped_image "250x250" as im %}
+                                            {% thumbnail art.cropped_image "420x250" as im %}
                                               <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
                                         {% else %}
-                                            {% thumbnail art.image "250x250" crop="center" as im %}
+                                            {% thumbnail art.image "420x250" crop="center" as im %}
                                                 <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
 
                                         {% endif %}
