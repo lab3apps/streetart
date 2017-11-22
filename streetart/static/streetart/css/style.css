@@ -241,18 +241,48 @@ a {
 
 .left-panel-toggle {
     position: absolute;
-    top: 50%;
+    top: 30%;
     z-index: 1030;
     cursor: pointer;
-    -webkit-transition: transform 0.5s ease;
-    -moz-transition: transform 0.5s ease;
-    -o-transition: transform 0.5s ease;
-    transition: transform 0.5s ease;
-    left: -48px;
+    left: -57px;
+    transform-origin: left top;
+    -webkit-transform-origin: left top;
+    -ms-transform: rotate(-90deg) translateX(-100%);
+    -webkit-transform: rotate(-90deg) translateX(-100%);
+    transform: rotate(-90deg) translateX(-100%);
     background-color: yellow;
-    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
     border-top-left-radius: 10px;
+    font-size: 20px;
+    line-height: 48px;
+    padding: 0 10px;
+    text-transform: uppercase;
 }
+
+.left-panel-toggle:before,
+.left-panel-toggle:after {
+  position: absolute;
+  bottom: 1px;
+  width: 20px;
+  height: 20px;
+  content: " ";
+}
+.left-panel-toggle:after, .left-panel-toggle:before {
+    border: 1px solid transparent;
+  }
+.left-panel-toggle:before {
+  left: -20px;
+  border-bottom-right-radius: 10px;
+  border-width: 0 1px 1px 0;
+  box-shadow: 6px 2px 0 yellow;
+}
+.left-panel-toggle:after {
+  right: -20px;
+  border-bottom-left-radius: 10px;
+  border-width: 0 0 1px 1px;
+  box-shadow: -6px 2px 0 yellow;
+}
+
 
 @media screen and (max-width: 991px) {
     .left-panel-toggle {
@@ -260,10 +290,10 @@ a {
     }
 }
 
-.rotate-180 {
-    -ms-transform: rotate(180deg); /* IE 9 */
-    -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
-    transform: rotate(180deg);
+.rotate-90 {
+    -ms-transform: rotate(-90deg); /* IE 9 */
+    -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
+    transform: rotate(-90deg);
 }
 
 .full-width {
@@ -287,9 +317,18 @@ a {
     border-left-width: 10px;
     border-left-color: yellow;
     border-left-style: solid;
-    border-radius: 5px;
+    border-radius: 10px;
     position: relative;
 }
+.right-content::after {
+    display: block;
+    position: absolute;
+    background-image: linear-gradient(to top, transparent 0%, black 100%);
+    height: 100px;
+    width: 100%;
+    content: '';
+    top: 0;
+  }
 
 .map-container {
     width: 100%;
@@ -317,7 +356,6 @@ a {
     display: flex;
     min-height: 100%;
     flex-direction: column;
-    border-right: solid 3px transparent;
 }
 
 
