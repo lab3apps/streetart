@@ -5,40 +5,6 @@
  */
 var viewState = 0;
 
-/* Loads the comment section into html using ajax request with the index on clicked artwork */
-function loadCommentSection(index) {
-    if (arrayHasOwnIndex(artworks, index)) {
-        $.ajax({
-            url: '/imageselected/' + index + '/',
-            type: 'GET',
-            success: function(data) {
-                $('#comment-card').empty().append(data);
-            },
-            failure: function() {
-                console.log('Ajax failure: unable to GET "/imageselected/' + index + '/"');
-            }
-        });
-    }
-}
-
-/* Places any alternative images into the card holder for the clicked artwork. Empties if no alt images */
-function loadAltImages(index) {
-    if (arrayHasOwnIndex(artworks, index)) {
-        var art = artworks[index];
-        if(art.altImages.length >= 1) {
-            $('#images-card-holder').empty();
-            $('#images-card-holder').append('<div id="alt-images-card" class="card"></div>');
-            for(var key in art.altImages) {
-                    $('#alt-images-card').append('<a id="alt-image" href="' +  art.altImages[key] + '" data-lightbox="lightbox" class="col-xs-3"><img class="img-responsive" src="' + art.altImages[key] + '"></a>');
-            }
-        } else {
-            $('#images-card-holder').empty();
-        }
-    }
-}
-
-
-
 function markerClicked() {
     if(viewState === 0 || viewState === 1) {
         expandMap();
@@ -52,9 +18,12 @@ function markerClicked() {
 }
 
 function backClicked() {
+    collapseCard();
+    collapseMap();
+    history.replaceState({}, null, '/');
+    return;
     if(viewState === 1){
         collapseMap();
-        history.replaceState({}, null, '/');
     } else if (viewState === 2) {
         collapseCard();
     }
@@ -67,7 +36,7 @@ function focusRight() {
     $('.right-panel').addClass('col-md-8');
     setTimeout(function() {
         google.maps.event.trigger(map, "resize");
-    }, 300);
+    }, 100);
 }
 
 function focusLeft() {
@@ -75,9 +44,9 @@ function focusLeft() {
     $('.left-panel').addClass('col-md-7');
     $('.right-panel').removeClass('col-md-8');
     $('.right-panel').addClass('col-md-5');
-    setTimeout(function() {
+    
         google.maps.event.trigger(map, "resize");
-    }, 300);
+    
 }
 
 function expandMap() {
@@ -85,11 +54,8 @@ function expandMap() {
     $('#marker-card-holder').show();
     $('.title-block').hide();
     $('.back-block').show();
-    $('.tab-block').hide();
     $('.gallery-item').removeClass('col-md-3');
-    $('.getinvolved-item').removeClass('col-md-3');
     $('.gallery-item').addClass('col-md-6');
-    $('.getinvolved-item').addClass('col-md-6');
     // Important for mobile
     $('.left-panel').removeClass('mobile-hide');
     $('.right-panel').addClass('mobile-hide');
@@ -101,17 +67,15 @@ function collapseMap() {
     $('#marker-card-holder').hide();
     $('.title-block').show();
     $('.back-block').hide();
-    $('.tab-block').show();
     $('.gallery-item').removeClass('col-md-6');
-    $('.getinvolved-item').removeClass('col-md-6');
     $('.gallery-item').addClass('col-md-3');
-    $('.getinvolved-item').addClass('col-md-3');
     // Important for mobile
-    $('.left-panel').removeClass('mobile-hide');
-    $('.right-panel').addClass('mobile-hide');
-    $('#nearest-artworks-holder').hide();
+    $('.left-panel').addClass('mobile-hide');
+    $('.right-panel').removeClass('mobile-hide');
+
     viewState = 0;
 }
+
 
 function expandCard() {
     focusLeft();
@@ -119,15 +83,9 @@ function expandCard() {
     $('#images-card-holder').show();
     $('.scroll-gallery').hide();
     $('.left-panel').css('overflow-y', 'scroll');
-    $('.main-image').addClass('expanded');
+    $('.main-image').css('height', '25%');
     $(".card-details").slideDown();
-    $('.overlay-title').fadeOut();
-    $('.overlay-like').fadeOut();
-    $('.overlay-checkin').fadeOut();
-    $('.overlay-expand').addClass('rotate-180');
-    $('.overlay-expand').attr('onclick', 'collapseCard()');
-    $('.card-image-link').attr('onclick', 'collapseCard()');
-    $('#nearest-artworks-holder').hide();
+    $(".overlay").fadeOut();
     viewState = 2;
 }
 
@@ -137,43 +95,52 @@ function collapseCard() {
     $('#images-card-holder').hide();
     $('.scroll-gallery').show();
     $('.left-panel').css('overflow-y', 'hidden');
-    $('.main-image').removeClass('expanded');
+    $('.main-image').css('height', '30%');
     $(".card-details").slideUp();
-    $('.overlay-title').fadeIn();
-    $('.overlay-like').fadeIn();
-    $('.overlay-checkin').fadeIn();
-    $('.overlay-expand').removeClass('rotate-180');
-    $('.overlay-expand').attr('onclick', 'expandCard()');
-    $('.card-image-link').attr('onclick', 'expandCard()');
-    $('#nearest-artworks-holder').show();
+    $(".overlay").fadeIn();
     viewState = 1;
 }
 
 function hideLeftPanel() {
-    //$('.left-panel').addClass('no-width');
+    $('.left-panel').addClass('no-width');
     $('.right-panel').addClass('full-width');
-    $('.left-panel').blindLeftOut('slow');
     $('#left-panel-toggle').addClass('rotate-180');
     $('.left-panel').css('border-right', 'none');
 }
 
 function showLeftPanel() {
-    //$('.left-panel').removeClass('no-width');
+    $('.left-panel').removeClass('no-width');
     $('.right-panel').removeClass('full-width');
-    $('.left-panel').blindLeftIn('slow');
     $('#left-panel-toggle').removeClass('rotate-180');
     $('.left-panel').css('border-right', 'solid 3px black');
-    
 }
 
 function resizeMap() {
     setTimeout(function() {
         google.maps.event.trigger(map, "resize");
-    }, 300);
+    }, 100);
 }
 
+$('.navbar-map').click(function(e) {
+    e.preventDefault();
+    // Important for mobile
+    setTimeout(function() {
+        google.maps.event.trigger(map, "resize");
+    }, 300);
+    $('.left-panel').addClass('mobile-hide');
+    $('.right-panel').removeClass('mobile-hide');
+});
+
+$('.navbar-gallery').click(function(e) {
+    e.preventDefault();
+    // Important for mobile
+    $('.left-panel').removeClass('mobile-hide');
+    $('.right-panel').addClass('mobile-hide');
+
+});
+
 $('#left-panel-toggle').click(function(e) {
-    if ($('.right-panel').hasClass('full-width')) {
+    if ($('.left-panel').hasClass('no-width')) {
         showLeftPanel();
     } else {
         hideLeftPanel();
@@ -186,46 +153,5 @@ function activateSnackbar(snackbarDiv) {
     setTimeout(function() {
         $(snackbarDiv).removeClass('show');
     }, 3000);
-}
-
-$('#gallery-tab').click(function() {
-    showGalleryTab();
-});
-
-
-$('#getinvolved-tab').click(function() {
-    showGetInvolvedTab();
-});
-
-
-$('#whatsnew-tab').click(function() {
-    showWhatsNewTab();
-});
-
-function showGalleryTab() {
-    $('.getinvolved-section').hide();
-    $('.whatsnew-section').hide();
-    $('.gallery-section').show();
-    $('#gallery-tab').addClass('active');
-    $('#getinvolved-tab').removeClass('active');
-    $('#whatsnew-tab').removeClass('active');
-}
-
-function showGetInvolvedTab() {
-    $('.getinvolved-section').show();
-    $('.gallery-section').hide();
-    $('.whatsnew-section').hide();
-    $('#getinvolved-tab').addClass('active');
-    $('#gallery-tab').removeClass('active');
-    $('#whatsnew-tab').removeClass('active');
-}
-
-function showWhatsNewTab() {
-    $('.whatsnew-section').show();
-    $('.gallery-section').hide();
-    $('.getinvolved-section').hide();
-    $('#whatsnew-tab').addClass('active');
-    $('#gallery-tab').removeClass('active');
-    $('#getinvolved-tab').removeClass('active');
 }
 

@@ -21,7 +21,10 @@
     <script type="text/javascript" src="{% static 'multiselect/bootstrap-multiselect.js' %}"></script>
     <script type="text/javascript" src="{% static 'lightbox/js/lightbox.js' %}"></script>
     <script type="text/javascript" src="{% static 'lazy/jquery.lazy.min.js' %}"></script>
+
     <script type="text/javascript">
+
+    var loadedart = '{{ loadedart }}';
     var csrftoken = '{{ csrf_token }}';
     var artworks = [];
     var markers = [];
@@ -45,7 +48,7 @@
 
             var view ='<div id="artbox-'+obj.pk+'" class="gallery-item col-xs-6 col-sm-3 col-md-3">'+
                         '<div class="dummy"></div>'+
-                        '<a class="img-link" onclick="focusOnMarker('+obj.pk+'), markerClicked()">'+ imagetag+
+                        '<a class="img-link" onclick="focusOnMarker('+obj.pk+'), expandCard()">'+ imagetag+
                         '</a>'+
                     '</div>';
             $(".gallery-section").append(view);
@@ -53,218 +56,205 @@
 
 
     }
-</script>
-
-<script type="text/javascript">
-
-        function getLocation()
-        {
-            //debugger;
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                $("#message").html("failed gps fetching");
-            }
+    function getLocation()
+    {
+        //debugger;
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            $("#message").html("failed gps fetching");
         }
+    }
 
-        function permissionDenied()
-        {
-            console.log('GPS Failed/ Denied ');
-            $.ajax({
-            async:'true',
-            url: '/allartworks/',
-            type: 'GET',
-            success: function(response) {
-                console.log("No Gps Permission");
-                RenderArtworksFromJson(response);
-            },
-            failure: function(error) {
-            console.log(" Permission denied");
-                console.error(error);
-            }
-            });
+    function permissionDenied()
+    {
+        console.log('GPS Failed/ Denied ');
+        $.ajax({
+        async:'true',
+        url: '/allartworks/',
+        type: 'GET',
+        success: function(response) {
+            console.log("No Gps Permission");
+            RenderArtworksFromJson(response);
+        },
+        failure: function(error) {
+        console.log(" Permission denied");
+            console.error(error);
         }
-
-        function showPosition(position)
-        {
-            console.log('GPS Available');
-            $.ajax({
-            async:'true',
-            url: '/nearby/' +  position.coords.latitude + '/' +  position.coords.longitude ,
-            data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
-            type: 'GET',
-            success: function(response) {
-                console.log("Have Gps Permission");
-                RenderArtworksFromJson(response);
-            },
-            failure: function(error) {
-            console.log(" in showPosition");
-                console.error(error);
-            }
-            });
-        }
-
-        // start looping artworks
-        {% for art in artworks %}
-            artworks[{{ art.id }}] = {
-                title: '{{ art.title }}',
-                description: '{% filter escapejs %}{{ art.description }}{% endfilter %}',
-                commission_date: '{{ art.commission_date }}',
-                decommission_date: '{{ art.decommission_date }}',
-                status: '{{ art.status.id }}',
-                photo_credit: '{{ art.photo_credit }}',
-                link: '{{ art.link }}',
-                artists: [
-                    {% for artist in art.artists.all %}
-                        {
-                            'name':'{{ artist.name }}',
-                            'website':'{{ artist.website }}',
-                            'facebook':'{{ artist.facebook }}',
-                            'instagram':'{{ artist.instagram }}',
-                            'twitter':'{{ artist.twitter }}',
-                            'biography':'{% filter escapejs %}{{ artist.biography }}{% endfilter %}',
-                        },
-                    {% endfor %}
-                ],
-                imageUrl: '{{ art.image.url }}',
-                lat: '{{ art.location.y }}',
-                lng: '{{ art.location.x }}',
-                hasLiked: '{{ art.has_liked }}',
-                likes_count: '{{ art.total_likes }}',
-                hasCheckedin: '{{ art.has_checkedin }}',
-                checkins_count: '{{ art.total_checkins }}',
-                altImages : [
-                    {% for altimage in art.other_images.all %}
-                      '{{ altimage.image.url }}',
-                    {% endfor %}
-                ]
-            };
-        {% endfor %}
-
-
-
-        {% if loadedart %}
-        $( document ).ready(function() {
-            focusOnMarker({{loadedart}});
-            markerClicked();
-            expandCard();
         });
-        {% endif %}
+    }
 
-
-        function like() {
-            if(!is_authenticated) {
-                activateSnackbar('#loginSnackbar');
-                return;
-            }
-            var index = $('#main-card').data('index');
-            if (arrayHasOwnIndex(artworks, index)) {
-                var art = artworks[index];
-                $.ajax({
-                    type: "POST",
-                    url: '/like/' + index + '/',
-                    data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
-                    dataType: "json",
-                    success: function (response) {
-                        art.likes_count = response.likes_count;
-                        $('#likeCount').html(art.likes_count);
-                        if(response.message === 'liked') {
-                            art.hasLiked = 'True';
-                            activateSnackbar('#likeSnackbar');
-                            $('.like i').html('favorite');
-                        } else {
-                            art.hasLiked = 'False';
-                            activateSnackbar('#unlikeSnackbar');
-                            $('.like i').html('favorite_border');
-                        }
-                    },
-                    error: function (rs, e) {
-                        alert('Error: Unable to like artwork.');
-                    }
-                })
-            }
+    function showPosition(position)
+    {
+        console.log('GPS Available');
+        $.ajax({
+        async:'true',
+        url: '/nearby/' +  position.coords.latitude + '/' +  position.coords.longitude ,
+        data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        type: 'GET',
+        success: function(response) {
+            console.log("Have Gps Permission");
+            RenderArtworksFromJson(response);
+        },
+        failure: function(error) {
+        console.log(" in showPosition");
+            console.error(error);
         }
-
-        function checkin() {
-            if(!is_authenticated) {
-                activateSnackbar('#loginSnackbar');
-                return;
-            }
-            var index = $('#main-card').data('index');
-            if (arrayHasOwnIndex(artworks, index)) {
-                var art = artworks[index];
-                $.ajax({
-                    type: "POST",
-                    url: '/checkin/' + index + '/',
-                    data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
-                    dataType: "json",
-                    success: function (response) {
-                        art.checkins_count = response.checkins_count;
-                        $('#checkinCount').html(art.checkins_count);
-                        if(response.message === 'checkedin') {
-                            art.hasCheckedin = 'True';
-                            $('.checkin-icon-unfilled').hide();
-                            $('.checkin-icon-filled').show();
-
-                            activateSnackbar('#checkinSnackbar');
-                        } else {
-                            art.hasCheckedin = 'False';
-                            $('.checkin-icon-filled').hide();
-                            $('.checkin-icon-unfilled').show();
-                            activateSnackbar('#checkoutSnackbar');
-                        }
-                    },
-                    error: function (rs, e) {
-                        alert('Error: Unable to check in.');
-                    }
-                })
-            }
-        }
-
-        lightbox.option({
-            'disableScrolling': true,
-            'fitImagesInViewport': true,
-            'resizeDuration': 500,
-            'wrapAround': true
         });
+    }
 
-        $(function() {
+    // start looping artworks
+    {% for art in artworks %}
+        artworks[{{ art.id }}] = {
+            title: '{{ art.title }}',
+            description: '{% filter escapejs %}{{ art.description }}{% endfilter %}',
+            commission_date: '{{ art.commission_date }}',
+            decommission_date: '{{ art.decommission_date }}',
+            status: '{{ art.status.id }}',
+            photo_credit: '{{ art.photo_credit }}',
+            link: '{{ art.link }}',
+            artists: [
+                {% for artist in art.artists.all %}
+                    {
+                        'name':'{{ artist.name }}',
+                        'website':'{{ artist.website }}',
+                        'facebook':'{{ artist.facebook }}',
+                        'instagram':'{{ artist.instagram }}',
+                        'twitter':'{{ artist.twitter }}',
+                        'biography':'{% filter escapejs %}{{ artist.biography }}{% endfilter %}',
+                    },
+                {% endfor %}
+            ],
+            imageUrl: '{{ art.image.url }}',
+            lat: '{{ art.location.y }}',
+            lng: '{{ art.location.x }}',
+            hasLiked: '{{ art.has_liked }}',
+            likes_count: '{{ art.total_likes }}',
+            hasCheckedin: '{{ art.has_checkedin }}',
+            checkins_count: '{{ art.total_checkins }}',
+            altImages : [
+                {% for altimage in art.other_images.all %}
+                  '{{ altimage.image.url }}',
+                {% endfor %}
+            ]
+        };
+    {% endfor %}
 
-            getLocation();
 
-            $('#lazy-container .lazy').lazy({
-                appendScroll: $('#lazy-container'),
-                scrollDirection: 'vertical',
-                effect: 'fadeIn',
-                beforeLoad: function(element) {
-                    // called before an elements gets handled
-                    //console.log('begining loading ' + element.data('src'));
+    function like() {
+        if(!is_authenticated) {
+            activateSnackbar('#loginSnackbar');
+            return;
+        }
+        var index = $('#main-card').data('index');
+        if (arrayHasOwnIndex(artworks, index)) {
+            var art = artworks[index];
+            $.ajax({
+                type: "POST",
+                url: '/like/' + index + '/',
+                data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: "json",
+                success: function (response) {
+                    art.likes_count = response.likes_count;
+                    $('#likeCount').html(art.likes_count);
+                    if(response.message === 'liked') {
+                        art.hasLiked = 'True';
+                        activateSnackbar('#likeSnackbar');
+                        $('.like i').html('favorite');
+                    } else {
+                        art.hasLiked = 'False';
+                        activateSnackbar('#unlikeSnackbar');
+                        $('.like i').html('favorite_border');
+                    }
                 },
-                afterLoad: function(element) {
-                    // called after an element was successfully handled
-                    //console.log('after loading ' + element.data('src'));
-                },
-                onError: function(element) {
-                    console.log('error loading ' + element.data('src'));
-                },
-                onFinishedAll: function() {
-                    // called once all elements was handled
-                    console.log('Loaded All Thumbs');
+                error: function (rs, e) {
+                    alert('Error: Unable to like artwork.');
                 }
-            });
+            })
+        }
+    }
 
+    function checkin() {
+        if(!is_authenticated) {
+            activateSnackbar('#loginSnackbar');
+            return;
+        }
+        var index = $('#main-card').data('index');
+        if (arrayHasOwnIndex(artworks, index)) {
+            var art = artworks[index];
+            $.ajax({
+                type: "POST",
+                url: '/checkin/' + index + '/',
+                data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: "json",
+                success: function (response) {
+                    art.checkins_count = response.checkins_count;
+                    $('#checkinCount').html(art.checkins_count);
+                    if(response.message === 'checkedin') {
+                        art.hasCheckedin = 'True';
+                        $('.checkin-icon-unfilled').hide();
+                        $('.checkin-icon-filled').show();
+
+                        activateSnackbar('#checkinSnackbar');
+                    } else {
+                        art.hasCheckedin = 'False';
+                        $('.checkin-icon-filled').hide();
+                        $('.checkin-icon-unfilled').show();
+                        activateSnackbar('#checkoutSnackbar');
+                    }
+                },
+                error: function (rs, e) {
+                    alert('Error: Unable to check in.');
+                }
+            })
+        }
+    }
+
+    lightbox.option({
+        'disableScrolling': true,
+        'fitImagesInViewport': true,
+        'resizeDuration': 500,
+        'wrapAround': true
+    });
+
+    $(function() {
+
+        getLocation();
+
+        $('#lazy-container .lazy').lazy({
+            appendScroll: $('#lazy-container'),
+            scrollDirection: 'vertical',
+            effect: 'fadeIn',
+            beforeLoad: function(element) {
+                // called before an elements gets handled
+                //console.log('begining loading ' + element.data('src'));
+            },
+            afterLoad: function(element) {
+                // called after an element was successfully handled
+                //console.log('after loading ' + element.data('src'));
+            },
+            onError: function(element) {
+                console.log('error loading ' + element.data('src'));
+            },
+            onFinishedAll: function() {
+                // called once all elements was handled
+                console.log('Loaded All Thumbs');
+            }
         });
 
+    });
 
-        $(document).ready(function(){
-            setTimeout(function() {
-            $('.alert-warning').fadeOut('fast');
-            }, 3000);
-        })
+
+    $(document).ready(function(){
+        setTimeout(function() {
+        $('.alert-warning').fadeOut('fast');
+        }, 3000);
+    })
            
     </script>
     <script src="{% static 'streetart/js/map.js' %}"></script>
     <script src="{% static 'streetart/js/animations.js' %}"></script>
+    <script src="{% static 'streetart/js/gallery.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -378,7 +368,7 @@
                         {% for art in artworks|shuffle %}
                                 <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-3 col-md-3">
                                     <div class="dummy"></div>
-                                    <a class="img-link" onclick="focusOnMarker({{ art.id }}), markerClicked()">
+                                    <a class="img-link artwork-gal" data-artid="{{ art.id }}">
                                         {% if art.cropped_image %}
                                             {% thumbnail art.cropped_image "250x250" as im %}
                                               <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
