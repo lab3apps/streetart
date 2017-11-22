@@ -136,10 +136,12 @@ function image_selected(index, init=false) {
         loadCommentSection(index);
         loadAltImages(index);
         history.replaceState({}, null, '/artwork/'+index);
+        full_card_view();
     }
 }
 
 function focusOnMarker(index) {
+    image_selected(index);
     return;
 
     if (arrayHasOwnIndex(artworks, index)) {
@@ -371,7 +373,7 @@ function RenderNearestArtworks(response,_index){
 
             var view ='<div id="artbox-'+obj.pk+'" class="gallery-item col-xs-6 col-sm-3 col-md-3">'+
                         '<div class="dummy"></div>'+
-                        '<a class="img-link" onclick="focusOnMarker('+obj.pk+'), markerClicked()">'+ imagetag+
+                        '<a class="img-link" onclick="focusOnMarker('+obj.pk+')">'+ imagetag+
                         '</a>'+
                     '</div>';
             $("#nearest-artworks-holder").append(view);
@@ -420,14 +422,10 @@ $( document ).ready(function() {
         console.log($(this));
         //onclick="focusOnMarker({{ art.id }}), markerClicked(), expandCard()"
         image_selected($(this).data('artid'));
-        markerClicked();
-        expandCard();
         $('.main-image').css('height', '50%');
     });
     if (loadedart > 0) {
         image_selected(loadedart, true);
-        markerClicked();
-        expandCard();
         $('.main-image').css('height', '50%');
     }
 });
