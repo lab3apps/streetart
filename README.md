@@ -73,6 +73,9 @@ This is structured as `ssh -N -L LOCAL_PORT:LOCAL_ADDRESS:REMOTE_PORT USER@REMOT
 
 Change `LOCAL_PORT` to any free port but make sure to change the `PORT` in the `DATABASES` section of `settings_secret.py` to match the port you choose.
 
+Generate the root static folder
+`python3 manage.py collectstatic`
+
 Run the server locally
 `python3 manage.py runserver`
 Or to customise ip and port (default is http://127.0.0.1:8000/)
