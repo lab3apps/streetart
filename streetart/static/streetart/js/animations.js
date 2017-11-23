@@ -62,8 +62,6 @@ function gallery_view() {
     $('#marker-card-holder').hide();
     $('.title-block').show();
     $('.back-block').hide();
-    $('.gallery-item').removeClass('col-md-6');
-    $('.gallery-item').addClass('col-md-3');
     // Important for mobile
     $('.left-panel').addClass('mobile-hide');
     $('.right-panel').removeClass('mobile-hide');
@@ -79,8 +77,6 @@ function full_card_view() {
     $('#marker-card-holder').show();
     $('.title-block').hide();
     $('.back-block').show();
-    $('.gallery-item').removeClass('col-md-3');
-    $('.gallery-item').addClass('col-md-6');
     // Important for mobile
     $('.left-panel').removeClass('mobile-hide');
     $('.right-panel').addClass('mobile-hide');

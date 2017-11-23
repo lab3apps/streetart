@@ -19,7 +19,7 @@ function initialize() {
             streetViewControlOptions: {
               position: google.maps.ControlPosition.LEFT_TOP
             },
-            fullscreenControl: true,
+            fullscreenControl: false,
             styles: [
                 {
                     "featureType": "all",

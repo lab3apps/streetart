@@ -420,6 +420,10 @@ color: white;
     height: 100%;
 }
 
+.map-container button{
+    background-color: yellow !important;
+}
+
 .map-add {
     bottom: 20px;
     position: absolute;
