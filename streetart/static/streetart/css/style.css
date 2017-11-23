@@ -556,8 +556,7 @@ color: white;
 }
 
 .card {
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-    background-color: white;
+    background-color: transparent;
     margin: 10px;
     border-radius: 2px;
 }
@@ -645,6 +644,9 @@ color: white;
 
 .card .card-details {
     display: none;
+    background-color: transparent;
+    text-align: center;
+    color: white;
 }
 
 .card span.artwork-title {
