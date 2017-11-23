@@ -126,12 +126,45 @@ a {
 .navbar {
     margin-bottom: 0;
     min-height: 80px;
+    border-width: 0px;
+    border: none;
+    border-image-width: 0;
+    background-color: transparent;
 }
 
-.navbar-inverse {
-    background-color: transparent;
-    background-image: none;
-    border-bottom: 3px solid transparent;
+.navbar-dropdown {
+    position: absolute;
+    width: 200px;
+    height: auto;
+    top: 75px;
+    color: white;
+    background-color: rgb(55, 55, 55);
+    display: none;
+}
+
+.navbar-dropdown ul {
+    padding: 0px;
+}
+
+.navbar-dropdown li {
+    list-style: none;
+    line-height: 50px;
+    height: 50px;
+    width: 200px;
+}
+
+.navbar-dropdown li:hover {
+    background-color: yellow;
+}
+
+.navbar-dropdown a {
+    text-decoration: none;
+    color: white;
+}
+
+.navbar-dropdown a:focus, .navbar-dropdown a:hover {
+    text-decoration: none;
+    color: black;
 }
 
 .central-navbar {
@@ -140,11 +173,17 @@ a {
     border-bottom-right-radius: 10px;
 }
 
+.navbar-item>a {
+font-size: 24pt;
+font-family: Roboto, Helvetica, Arial, sans-serif;
+font-weight: 300;
+color: white;
+}
+
 @media screen and (min-width: 992px) {
 
   .navbar-item>a {
     font-size: 24pt;
-    font-style: italic;
     font-family: Roboto, Helvetica, Arial, sans-serif;
     font-weight: 300;
     color: white;
@@ -162,16 +201,13 @@ a {
 .navbar-nav>li {
     float: none;
     display: table-cell;
-    margin-left: auto ;
-    margin-right: auto ;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.navbar-nav>li>a {
-    text-align: center;
-}
-
-.navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-nav>li>a:hover {
+.navbar-nav>li>a:focus, .navbar-nav>li>a:hover {
     color: yellow;
+    background-color: unset;
 }
 
 .navbar-nav>li>a>p {
@@ -186,34 +222,11 @@ a {
   margin-right: auto;
 }
 
-#navbar-facebook {
-  padding-top: 25px;
-  padding-bottom: 35px;
-}
-
-#navbar-insta {
-  padding-top: 25px;
-  padding-bottom: 35px;
-}
-
-@media screen and (max-width: 991px) {
-  #navbar-facebook {
-    padding-top: 33px;
-    padding-bottom: 33px;
-  }
-
-  #navbar-insta {
-    padding-top: 33px;
-    padding-bottom: 33px;
-  }
-}
-
 #button-facebook {
   padding-top: 0px;
   padding-bottom: 0px;
   color: white;
   line-height: 46px;
-  margin-top: 23px;
 }
 
 /*** Colours ***/
@@ -900,12 +913,12 @@ a {
     text-decoration: none;
 }
 
-.button-facebook {
+.navbar-nav .button-facebook {
     background-color: #4b70ab;
     border: 1px solid #3b5988;
 }
 
-.button-facebook:hover {
+.navbar-nav .button-facebook:hover {
     color: white;
     background-color: #3b5988;
 }
