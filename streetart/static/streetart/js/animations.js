@@ -154,11 +154,32 @@ function collapseCard() {
 function hideLeftPanel() {
     $('.left-panel').addClass('no-width');
     $('.right-panel').addClass('full-width');
+    $('.right-panel-toggle').hide();
+    $('.left-panel-toggle').removeClass('material-icons');
+    $('.left-panel-toggle').text('SHOW GALLERY');
 }
 
 function showLeftPanel() {
     $('.left-panel').removeClass('no-width');
     $('.right-panel').removeClass('full-width');
+    $('.right-panel-toggle').show();
+    $('.left-panel-toggle').addClass('material-icons');
+    $('.left-panel-toggle').text('arrow_upward');
+}
+function hideRightPanel() {
+    $('.right-panel').addClass('no-width');
+    $('.left-panel').addClass('full-width-minus-buttons');
+    $('.left-panel-toggle').hide();
+    $('.right-panel-toggle').removeClass('material-icons');
+    $('.right-panel-toggle').text('SHOW MAP');
+}
+
+function showRightPanel() {
+    $('.right-panel').removeClass('no-width');
+    $('.left-panel').removeClass('full-width-minus-buttons');
+    $('.left-panel-toggle').show();
+    $('.right-panel-toggle').addClass('material-icons');
+    $('.right-panel-toggle').text('arrow_downward');
 }
 
 function resizeMap() {
@@ -190,6 +211,15 @@ $('#left-panel-toggle').click(function(e) {
         showLeftPanel();
     } else {
         hideLeftPanel();
+    }
+    resizeMap();
+});
+
+$('#right-panel-toggle').click(function(e) {
+    if ($('.right-panel').hasClass('no-width')) {
+        showRightPanel();
+    } else {
+        hideRightPanel();
     }
     resizeMap();
 });
