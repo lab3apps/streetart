@@ -132,11 +132,16 @@ a {
     background-color: transparent;
 }
 
+.central-navbar {
+    text-transform: uppercase;
+}
+
 .navbar-dropdown {
     position: absolute;
     width: 200px;
     height: auto;
     top: 75px;
+    left: -50px;
     color: white;
     background-color: rgb(55, 55, 55);
     display: none;
@@ -151,15 +156,16 @@ a {
     line-height: 50px;
     height: 50px;
     width: 200px;
+    color: white;
 }
 
 .navbar-dropdown li:hover {
     background-color: yellow;
+    color: black;
 }
 
 .navbar-dropdown a {
     text-decoration: none;
-    color: white;
 }
 
 .navbar-dropdown a:focus, .navbar-dropdown a:hover {
