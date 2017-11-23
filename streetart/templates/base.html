@@ -75,9 +75,24 @@
                             </li>
                             <li class="navbar-item">
                                 <a id="navbar-map" class="navbar-map" href="{% url 'streetart:home' %}"><i class="icon fa fa-map"></i><p>Map</p></a>
+                                <div class="navbar-dropdown">
+                                    <ul>
+                                        <li>Add to Map</li>
+                                        <li>Commission Mural</li>
+                                        <li>Share Your Wall</li>
+                                        <li>Bike Tours</li>
+                                    </ul>
+                                </div>
                             </li>
                             <li class="navbar-item">
                                 <a id="navbar-about" class="navbar-about" href="{% url 'streetart:about' %}"><i class="icon fa fa-info-circle"></i><p>About</p></a>
+                                <div class="navbar-dropdown">
+                                    <ul>
+                                        <li>I'm an artist!</li>
+                                        <li>Bike Tours</li>
+                                        <li>FAQs</li>
+                                    </ul>
+                                </div>
                             </li>
                             <li class="navbar-item">
                                 <a id="navbar-donate" class="navbar-donate" href="{% url 'streetart:donate' %}"><i class="icon fa fa-heart"></i><p>Donate</p></a>
