@@ -168,6 +168,11 @@ function hideRightPanel() {
     $('.left-panel-toggle').hide();
     $('.right-panel-toggle').removeClass('material-icons');
     $('.right-panel-toggle').text('SHOW MAP');
+    $('.gallery-item').removeClass('col-lg-4')
+    $('.gallery-item').removeClass('col-sm-6')
+    $('.gallery-item').addClass('col-sm-4')
+    $('.gallery-item').addClass('col-lg-3')
+    $('.gallery-item').addClass('col-xl-2')
 }
 
 function showRightPanel() {
@@ -176,6 +181,11 @@ function showRightPanel() {
     $('.left-panel-toggle').show();
     $('.right-panel-toggle').addClass('material-icons');
     $('.right-panel-toggle').text('arrow_downward');
+    $('.gallery-item').addClass('col-lg-4')
+    $('.gallery-item').addClass('col-sm-6')
+    $('.gallery-item').removeClass('col-sm-4')
+    $('.gallery-item').removeClass('col-lg-3')
+    $('.gallery-item').removeClass('col-xl-2')
 }
 
 function resizeMap() {

@@ -363,7 +363,7 @@
                     </div>
                     <div class="gallery-section">
                         {% for art in artworks|shuffle %}
-                                <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-6">
+                                <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-6 col-lg-4">
                                     <div class="dummy"></div>
                                     <a class="img-link artwork-gal" data-artid="{{ art.id }}">
                                         {% if art.cropped_image %}
