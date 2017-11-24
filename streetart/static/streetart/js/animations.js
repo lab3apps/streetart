@@ -63,8 +63,8 @@ function gallery_view() {
     $('.title-block').show();
     $('.back-block').hide();
     // Important for mobile
-    $('.left-panel').addClass('mobile-hide');
-    $('.right-panel').removeClass('mobile-hide');
+    $('.right-panel').addClass('mobile-hide');
+    $('.left-panel').removeClass('mobile-hide');
 
     viewState = 0;
 }
