@@ -27,20 +27,17 @@
     var markers = [];
     var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
 
-    function RenderArtworksFromJson(response)
+    /*function RenderArtworksFromJson(response)
     {
-        res =  jQuery.parseJSON( response );
-        $(".gallery-section").html("");
-         $.each(res, function (index,obj)
+        //res =  jQuery.parseJSON( response );
+        //console.log(res);
+        //$(".gallery-section").html("");
+         $.each(response, function (index,obj)
          {
-            //artworks[obj.pk]=obj;
             var imagetag ;
-            if(obj.fields.cropped_image=="")
+            if(obj.imageUrl)
             {
-            imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.image+'" >';
-            }else
-            {
-            imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.cropped_image+'" >';
+            imagetag = '<img class="lazy thumbnail-image" data-src="'+obj.imageUrl+'" >';
             }
 
             var view ='<div id="artbox-'+obj.pk+'" class="gallery-item col-xs-6 col-sm-3 col-md-3">'+
@@ -50,9 +47,9 @@
                     '</div>';
             $(".gallery-section").append(view);
         });
-
-
-    }
+        addMarkers();
+        //LazyLoad();
+    }*/
 </script>
 
 <script type="text/javascript">
@@ -61,7 +58,7 @@
         {
             //debugger;
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
+                navigator.geolocation.getCurrentPosition(showPosition,permissionDenied);
             } else {
                 $("#message").html("failed gps fetching");
             }
@@ -72,7 +69,8 @@
             console.log('GPS Failed/ Denied ');
             $.ajax({
             async:'true',
-            url: '/allartworks/',
+            url: '/allartworks/?format=json',
+            data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
             type: 'GET',
             success: function(response) {
                 console.log("No Gps Permission");
@@ -90,7 +88,7 @@
             console.log('GPS Available');
             $.ajax({
             async:'true',
-            url: '/nearby/' +  position.coords.latitude + '/' +  position.coords.longitude ,
+            url: '/nearby/' +  position.coords.latitude + '/' +  position.coords.longitude +'?format=json',
             data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
             type: 'GET',
             success: function(response) {
@@ -105,43 +103,7 @@
         }
 
         // start looping artworks
-        {% for art in artworks %}
-            artworks[{{ art.id }}] = {
-                title: '{{ art.title }}',
-                description: '{% filter escapejs %}{{ art.description }}{% endfilter %}',
-                commission_date: '{{ art.commission_date }}',
-                decommission_date: '{{ art.decommission_date }}',
-                status: '{{ art.status.id }}',
-                photo_credit: '{{ art.photo_credit }}',
-                link: '{{ art.link }}',
-                artists: [
-                    {% for artist in art.artists.all %}
-                        {
-                            'name':'{{ artist.name }}',
-                            'website':'{{ artist.website }}',
-                            'facebook':'{{ artist.facebook }}',
-                            'instagram':'{{ artist.instagram }}',
-                            'twitter':'{{ artist.twitter }}',
-                            'biography':'{% filter escapejs %}{{ artist.biography }}{% endfilter %}',
-                        },
-                    {% endfor %}
-                ],
-                imageUrl: '{{ art.image.url }}',
-                lat: '{{ art.location.y }}',
-                lng: '{{ art.location.x }}',
-                hasLiked: '{{ art.has_liked }}',
-                likes_count: '{{ art.total_likes }}',
-                hasCheckedin: '{{ art.has_checkedin }}',
-                checkins_count: '{{ art.total_checkins }}',
-                altImages : [
-                    {% for altimage in art.other_images.all %}
-                      '{{ altimage.image.url }}',
-                    {% endfor %}
-                ]
-            };
-        {% endfor %}
-
-
+        xxx = {{jsondata|safe}};
 
         {% if loadedart %}
         $( document ).ready(function() {
@@ -228,21 +190,30 @@
             'wrapAround': true
         });
 
-        $(function() {
+        $(function()
+        {
+            LazyLoad();
+           // getLocation();
+           $.each(xxx, function(i,obj){
+            artworks[obj.pk] = obj
+            });
+            addMarkers();
 
-            getLocation();
 
-            $('#lazy-container .lazy').lazy({
-                appendScroll: $('#lazy-container'),
+        });
+
+        function LazyLoad()
+        {
+             $('.lazy').lazy({
                 scrollDirection: 'vertical',
                 effect: 'fadeIn',
                 beforeLoad: function(element) {
                     // called before an elements gets handled
-                    //console.log('begining loading ' + element.data('src'));
+                    console.log('begining loading ' + element.data('src'));
                 },
                 afterLoad: function(element) {
                     // called after an element was successfully handled
-                    //console.log('after loading ' + element.data('src'));
+                    console.log('after loading ' + element.data('src'));
                 },
                 onError: function(element) {
                     console.log('error loading ' + element.data('src'));
@@ -252,9 +223,7 @@
                     console.log('Loaded All Thumbs');
                 }
             });
-
-        });
-
+        }
 
         $(document).ready(function(){
             setTimeout(function() {
@@ -376,6 +345,7 @@
                     </div>
                     <div class="gallery-section">
                         {% for art in artworks|shuffle %}
+
                                 <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-3 col-md-3">
                                     <div class="dummy"></div>
                                     <a class="img-link" onclick="focusOnMarker({{ art.id }}), markerClicked()">

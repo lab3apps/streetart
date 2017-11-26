@@ -358,10 +358,8 @@ function getNearestArtworks(index) {
     $.ajax({
         async:'true',
         url: '/nearby/' + index + '/',
-        data: {'csrfmiddlewaretoken': csrftoken},
         type: 'GET',
         success: function(response) {
-            console.log(response);
             RenderNearestArtworks(response,index);
         },
         failure: function(error) {
@@ -373,9 +371,9 @@ function getNearestArtworks(index) {
 function RenderNearestArtworks(response,_index){
     if(viewState===1 || viewState===2)
     {
-        res =  jQuery.parseJSON( response );
+        //res =  jQuery.parseJSON( response );
         $("#nearest-artworks-holder").html("");
-        var no_of_nearest = res.length-1;
+        var no_of_nearest = response.length-1;
         var elements_in_row = 4;
         var height_of_row =109;    //px
         var no_of_rows = Math.floor(no_of_nearest/elements_in_row);
@@ -386,18 +384,14 @@ function RenderNearestArtworks(response,_index){
 
         console.log(no_of_rows);
         //$("#nearest-artworks-holder").height( no_of_rows * height_of_row);
-        $.each(res, function (index,obj)
+        $.each(response, function (index,obj)
         {
          if(_index!=obj.pk)
          {
-            console.log(obj);
-            var imagetag ;
-            if(obj.fields.cropped_image=="")
+           var imagetag ;
+            if(obj.imageUrl)
             {
-            imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.image+'" >';
-            }else
-            {
-            imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.cropped_image+'" >';
+            imagetag = '<img class="lazy thumbnail-image" src="'+obj.imageUrl+'" >';
             }
 
             var view ='<div id="artbox-'+obj.pk+'" class="gallery-item col-xs-6 col-sm-3 col-md-3">'+

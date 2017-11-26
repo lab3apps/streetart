@@ -1,4 +1,3 @@
-from django.core import serializers
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -17,6 +16,7 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
 from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm
 from .serializers import ArtworkSerializer, ArtistSerializer, RouteSerializer
 from .models import Artwork, Artist, Status, Route, GetInvolved, WhatsNew, Logo
@@ -24,7 +24,8 @@ from django.db import transaction
 from django.core.mail import send_mail
 from django.conf import settings as site_settings
 from django.db.models import Q
-
+from .customserializer import *
+from django.core import serializers
 
 try:
     from django.utils import simplejson as json
@@ -34,6 +35,7 @@ from django.views.decorators.http import require_POST
 
 def home(request, **kwargs):
     artwork = Artwork.objects.filter(validated=True, map_enabled=True).order_by('pk')
+    artwork2 = Artwork.objects.filter(validated=True, map_enabled=True).order_by('pk')
     getinvolved = GetInvolved.objects.order_by('order')
     whatsnew = WhatsNew.objects.order_by('order')
     if request.user.is_authenticated():
@@ -45,6 +47,8 @@ def home(request, **kwargs):
             art.has_liked = False
             art.has_checkedin = False
 
+    serialz = ArtworksSerializer(artwork2, many=True, context={'request': request})
+
     if ('pk' in kwargs):
         try:
             Artwork.objects.get(pk=kwargs.get('pk'))
@@ -52,15 +56,15 @@ def home(request, **kwargs):
             ##return Response(status=status.HTTP_404_NOT_FOUND)
             messages.error(request, 'This artwork does not exist.')
             return redirect('/')
-        return render(request, 'streetart/home.html', {'artworks': artwork, 'getinvolved': getinvolved, 'whatsnew': whatsnew, 'loadedart': kwargs.get('pk')})
+        return render(request, 'streetart/home.html', {'artworks': artwork, 'getinvolved': getinvolved, 'whatsnew': whatsnew, 'loadedart': kwargs.get('pk'), 'jsondata': JSONRenderer().render(serialz.data)})
     else:
-        return render(request, 'streetart/home.html', {'artworks': artwork, 'getinvolved': getinvolved, 'whatsnew': whatsnew})
+        return render(request, 'streetart/home.html', {'artworks': artwork, 'getinvolved': getinvolved, 'whatsnew': whatsnew, 'jsondata': JSONRenderer().render(serialz.data)})
 
-
+@api_view(['GET'])
 def get_artworks_as_json(request):
     artwork = Artwork.objects.filter(validated=True, map_enabled=True).order_by('pk')
-    response = serializers.serialize("json", artwork)
-    return HttpResponse(response)
+    serializer = ArtworksSerializer(artwork, many=True, context={'request': request})
+    return Response(serializer.data)
 
 
 @login_required
@@ -286,16 +290,19 @@ def route_detail(request, pk):
         serializer = RouteSerializer(route)
         return Response(serializer.data)
 
+@api_view(['GET'])
 def closest_artwork(request, index):
     artworkObject = Artwork.objects.get(pk=index)
     artwork = get_closest_artworks(artworkObject.location.y, artworkObject.location.x, 0.2)
-    response = serializers.serialize("json", artwork)
-    return HttpResponse(response)
+    serializer = ArtworksSerializer(artwork, many=True, context={'request': request})
+    return Response(serializer.data)
 
+@api_view(['GET'])
 def closest_artworks_from_user(request,lat,lng):
     artwork = get_closest_artworks(lat, lng, 1000)
-    response = serializers.serialize("json", artwork)
-    return HttpResponse(response)
+    serializer = ArtworksSerializer(artwork, many=True, context={'request': request})
+    return Response(serializer.data)
+
 
 
 def get_closest_artworks(lat, long, distance):

@@ -25,11 +25,12 @@ function loadCommentSection(index) {
 function loadAltImages(index) {
     if (arrayHasOwnIndex(artworks, index)) {
         var art = artworks[index];
-        if(art.altImages.length >= 1) {
+        var imageArray = art.altImages.split(",")
+        if(imageArray.length >= 1) {
             $('#images-card-holder').empty();
             $('#images-card-holder').append('<div id="alt-images-card" class="card"></div>');
-            for(var key in art.altImages) {
-                    $('#alt-images-card').append('<a id="alt-image" href="' +  art.altImages[key] + '" data-lightbox="lightbox" class="col-xs-3"><img class="img-responsive" src="' + art.altImages[key] + '"></a>');
+            for(var key in imageArray) {
+                    $('#alt-images-card').append('<a id="alt-image" href="' +  imageArray[key] + '" data-lightbox="lightbox" class="col-xs-3"><img class="img-responsive" src="' + art.altImages[key] + '"></a>');
             }
         } else {
             $('#images-card-holder').empty();
