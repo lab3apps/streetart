@@ -29,26 +29,6 @@ function backClicked() {
         collapseCard();
     }
 }
-/*
-function focusRight() {
-    $('.left-panel').removeClass('col-md-7');
-    $('.left-panel').addClass('col-md-4');
-    $('.right-panel').removeClass('col-md-5');
-    $('.right-panel').addClass('col-md-8');
-    setTimeout(function() {
-        google.maps.event.trigger(map, "resize");
-    }, 100);
-}
-
-function focusLeft() {
-    $('.left-panel').removeClass('col-md-4');
-    $('.left-panel').addClass('col-md-7');
-    $('.right-panel').removeClass('col-md-8');
-    $('.right-panel').addClass('col-md-5');
-    
-        google.maps.event.trigger(map, "resize");
-    
-}*/
 
 function gallery_view() {
     $('#comment-card-holder').hide();
@@ -191,7 +171,7 @@ function showRightPanel() {
 function resizeMap() {
     setTimeout(function() {
         google.maps.event.trigger(map, "resize");
-    }, 300);
+    }, 200);
 }
 
 $('.navbar-map').click(function(e) {
@@ -213,21 +193,106 @@ $('.navbar-gallery').click(function(e) {
 });
 
 $('#left-panel-toggle').click(function(e) {
+
+    var elem = document.querySelector(".right-panel");
+
+    //Get inital size. Animating map (right-panel)
+    var collapsed = elem.getBoundingClientRect();
+
+    elem.classList.add('expanding');
+
     if ($('.left-panel').hasClass('no-width')) {
         showLeftPanel();
     } else {
         hideLeftPanel();
     }
-    resizeMap();
+    
+
+    var expanded = elem.getBoundingClientRect();
+
+    //Invert
+    var invertedTop = collapsed.top - expanded.top;
+    var invertedLeft = collapsed.left - expanded.left;
+    // Use divisions when manipulating sizes to apply in scale
+    var invertedWidth = collapsed.width / expanded.width;
+    var invertedHeight = collapsed.height / expanded.height;
+
+    elem.style.transformOrigin = 'top left';
+
+    elem.style.transform = 'translate(' + invertedLeft + 'px, ' + invertedTop + 'px) scale(' + invertedWidth + ', ' + invertedHeight + ')';
+
+    requestAnimationFrame(function(){
+        // Add the class to run the transition
+        elem.classList.add('transition'); 
+        // Clear styles
+        elem.style.transform = '';
+        // On transitionEnd remove the classes used control transitions
+        elem.addEventListener('transitionend', function(){
+            elem.style.transformOrigin = '';
+            elem.classList.remove('transition');
+            elem.classList.remove('expanding');
+            //trigger map resize on animation complete
+            google.maps.event.trigger(map, "resize");
+            // Remove the eventListener
+            elem.removeEventListener('transitionend', false);
+        });
+    }); 
+
 });
 
 $('#right-panel-toggle').click(function(e) {
+    var elem = document.querySelector(".left-panel");
+
+    //Get inital size. Animating map (right-panel)
+    var collapsed = elem.getBoundingClientRect();
+
+    elem.classList.add('expanding');
+
     if ($('.right-panel').hasClass('no-width')) {
         showRightPanel();
     } else {
         hideRightPanel();
     }
-    resizeMap();
+
+    var expanded = elem.getBoundingClientRect();
+
+    //Invert
+    var invertedTop = collapsed.top - expanded.top;
+    var invertedLeft = collapsed.left - expanded.left;
+    // Use divisions when manipulating sizes to apply in scale
+    var invertedWidth = collapsed.width / expanded.width;
+    var invertedHeight = collapsed.height / expanded.height;
+
+    elem.style.transformOrigin = 'top left';
+
+    elem.style.transform = 'translate(' + invertedLeft + 'px, ' + invertedTop + 'px) scale(' + invertedWidth + ', ' + invertedHeight + ')';
+
+    requestAnimationFrame(function(){
+        // Add the class to run the transition
+        elem.classList.add('transition'); 
+        // Clear styles
+        elem.style.transform = '';
+        // On transitionEnd remove the classes used control transitions
+        elem.addEventListener('transitionend', function(){
+            elem.style.transformOrigin = '';
+            elem.classList.remove('transition');
+            elem.classList.remove('expanding');
+            //trigger map resize on animation complete
+            google.maps.event.trigger(map, "resize");
+            // Remove the eventListener
+            elem.removeEventListener('transitionend', false);
+        });
+    }); 
+    /*$('.left-panel').on('transitionend', function() {
+        $('.left-panel').removeClass('animate-left-min');
+    });
+    $('.right-panel').addClass('animate-left-min');
+    if ($('.right-panel').hasClass('no-width')) {
+        showRightPanel();
+    } else {
+        hideRightPanel();
+    }
+    resizeMap();*/
 });
 
 function activateSnackbar(snackbarDiv) {
