@@ -15,7 +15,7 @@ class ArtworkForm(ImageCroppingMixin, admin.ModelAdmin):
     formfield_overrides = {
         models.PointField: {"widget": GooglePointFieldWidget}
     }
-    exclude = ('likes', 'checkins', 'cropped_image')
+    exclude = ('likes', 'checkins', 'cropped_image', 'watermarked_image')
     filter_horizontal = ('artists', 'crews')
     list_display = ('pk', 'image_thumbnail', 'title', 'get_artists', 'validated', 'status')
     inlines = [ ImageAdmin ]

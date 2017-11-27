@@ -58,7 +58,7 @@ class ArtworksSerializer(serializers.ModelSerializer):
     def AlterImages(self, obj):
         list = []
         for img in obj.other_images.all():
-            list.append("\'"+img.image.url+"\'")
+            list.append(img.image.url)
 
         ret = ",".join(list)
         return ret

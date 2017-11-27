@@ -82,3 +82,9 @@ function closeNav() {
     $('#mySidenav').css('width', '0');
 }
 
+$('.navbar-item').hover(function () {
+    $(this).find('.navbar-dropdown').css('display', 'block');
+}, function () {
+    $(this).find('.navbar-dropdown').css('display', 'none');
+});
+
