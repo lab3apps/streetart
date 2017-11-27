@@ -281,17 +281,13 @@
                 <div id="main-card" class="card">
                     <div class="card-image">
                         <div class="loader none"></div>
-                        <a class="card-image-link" onclick="expandCard()">
+                        <div class="card-image-link">
                             <span class="overlay overlay-title"></span>
                             <img class="main-image img-responsive" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D">
-                        </a>
-                        <a class="overlay-fullscreen" href="" data-lightbox="lightbox"><i class="material-icons md-light md-36">fullscreen</i></a>
-                        <a class="overlay overlay-expand" onclick="expandCard()"><i class="material-icons md-light md-36">expand_more</i></a>
-                        <a class="overlay-like like" onclick="like()"><i class="material-icons palette-Red text md-36">favorite_border</i></a>
-                        <a class="overlay-checkin checkin" onclick="checkin()">
-                            <img class="checkin-icon checkin-icon-unfilled" src="{% static 'material-design-icons/ic_place_check_border_36px.svg'%}"></img>
-                            <img class="checkin-icon checkin-icon-filled" src="{% static 'material-design-icons/ic_place_check_border_filled_36px.svg'%}" style="display: none;"></img>
-                        </a>
+                            <a class="overlay-fullscreen" href="" data-lightbox="lightbox"><i class="material-icons md-light md-36">fullscreen</i></a>
+                            <a class="overlay overlay-expand" onclick="expandCard()"><i class="material-icons md-light md-36">expand_more</i></a>
+                        </div>
+                        
                     </div>
                     <div class="card-details">
                         <div class="card-content" id="card-content">
