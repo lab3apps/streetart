@@ -74,9 +74,12 @@
                                 <a id="navbar-gallery" class="navbar-gallery" href="{% url 'streetart:home' %}"><i class="icon fa fa-picture-o"></i><p>Gallery</p></a>
                             </li>
                             <li class="navbar-item">
-                                <a id="navbar-map" class="navbar-map" href="{% url 'streetart:home' %}"><i class="icon fa fa-map"></i><p>Map</p></a>
+                                <a id="navbar-map" class="navbar-map" href="{% url 'streetart:home' %}"><i class="icon fa fa-map"></i><p>Map</p>
+                                    <i class="down-arrow fa fa-angle-down"></i>
+                                </a>
                                 <div class="navbar-dropdown">
                                     <ul>
+                                        <a><li>Show Map</li></a>
                                         <a><li>Add to Map</li></a>
                                         <a><li>Commission Mural</li></a>
                                         <a><li>Share Your Wall</li></a>
@@ -85,17 +88,20 @@
                                 </div>
                             </li>
                             <li class="navbar-item">
-                                <a id="navbar-about" class="navbar-about" href="{% url 'streetart:about' %}"><i class="icon fa fa-info-circle"></i><p>About</p></a>
+                                <a id="navbar-blog" class="navbar-blog" href="#blog"><i class="icon fa fa-rss"></i><p>Blog</p></a>
+                            </li>
+                            <li class="navbar-item">
+                                <a id="navbar-about" class="navbar-about" href="{% url 'streetart:about' %}"><i class="icon fa fa-info-circle"></i><p>About</p>
+                                    <i class="down-arrow fa fa-angle-down"></i>
+                                </a>
                                 <div class="navbar-dropdown">
                                     <ul>
                                         <a><li>I'm an artist!</li></a>
                                         <a><li>Bike Tours</li></a>
+                                        <a href="{% url 'streetart:donate' %}" target="_blank"><li>Donate</li></a>
                                         <a><li>FAQs</li></a>
                                     </ul>
                                 </div>
-                            </li>
-                            <li class="navbar-item">
-                                <a id="navbar-donate" class="navbar-donate" href="{% url 'streetart:donate' %}"><i class="icon fa fa-heart"></i><p>Donate</p></a>
                             </li>
                             <li class="visible-xs-block">
                                 <a href="/settings">Settings</a>
@@ -135,10 +141,9 @@
                                 </li>
                             {% else %}
                                 <li>
-                                    <a class="button-social button-facebook hidden-xs hidden-sm" id="button-facebook" href="{% url 'social:begin' 'facebook' %}"><i class="icon fa fa-facebook"></i>Login with Facebook</a>
+                                    <a class="button-social button-facebook hidden-xs hidden-sm" id="button-facebook" href="{% url 'social:begin' 'facebook' %}"><i class="icon fa fa-facebook"></i>Login</a>
                                     <a class="visible-xs-block visible-sm-block" href="{% url 'social:begin' 'facebook' %}">Login</a>
                                 </li>
-
                                 <li class="navbar-item">
                                     <a id="navbar-facebook" class="navbar-social navbar-facebook" target="_blank" href="https://www.facebook.com/watchthisspacechch/"><i class="icon fa fa-facebook-official"></i></a>
                                 </li>

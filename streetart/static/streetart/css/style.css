@@ -72,6 +72,7 @@ body {
 
 a {
     cursor: pointer;
+    color: yellow;
 }
 
 .main {
@@ -138,13 +139,15 @@ a {
 
 .navbar-dropdown {
     position: absolute;
-    width: 200px;
+    width: 180px;
     height: auto;
-    top: 75px;
+    top: 85px;
     left: -50px;
     color: white;
     background-color: rgb(55, 55, 55);
     display: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .navbar-dropdown ul {
@@ -155,7 +158,7 @@ a {
     list-style: none;
     line-height: 50px;
     height: 50px;
-    width: 200px;
+    width: auto;
     color: white;
 }
 
@@ -235,6 +238,13 @@ color: white;
   line-height: 46px;
 }
 
+.down-arrow {
+    font-size: 20pt;
+    line-height: 8px;
+    color: rgb(166, 166, 166);
+    z-index: 10000000;
+}
+
 /*** Colours ***/
 
 .white {
@@ -258,12 +268,24 @@ color: white;
     overflow: scroll;
 }
 
+.expanding.transition {
+   /* -webkit-transform: translateX(0%);
+    -moz-transition: translateX(0%);
+    -o-transition: translateX(0%);
+    transform: translateX(0%);*/
+
+    transition: transform 180ms ease-in;
+
+}
+
 
 .left-panel, .right-panel {
-    -webkit-transition: width 0.5s ease;
+    /*will-change: transform;*/
+
+    /*-webkit-transition: width 0.5s ease;
     -moz-transition: width 0.5s ease;
     -o-transition: width 0.5s ease;
-    transition: width 0.5s ease;
+    transition: width 0.5s ease;*/
 }
 
 .left-panel-toggle {
@@ -778,6 +800,8 @@ color: white;
     width: 100%;
     flex: 1;
     overflow-y: scroll;
+    /*transform: translateZ(0);*/
+    will-change: transform;
 }
 
 .gallery-item {
