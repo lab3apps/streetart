@@ -139,13 +139,15 @@ a {
 
 .navbar-dropdown {
     position: absolute;
-    width: 200px;
+    width: 180px;
     height: auto;
-    top: 75px;
+    top: 85px;
     left: -50px;
     color: white;
     background-color: rgb(55, 55, 55);
     display: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .navbar-dropdown ul {
@@ -156,7 +158,7 @@ a {
     list-style: none;
     line-height: 50px;
     height: 50px;
-    width: 200px;
+    width: auto;
     color: white;
 }
 
@@ -234,6 +236,13 @@ color: white;
   padding-bottom: 0px;
   color: white;
   line-height: 46px;
+}
+
+.down-arrow {
+    font-size: 20pt;
+    line-height: 8px;
+    color: rgb(166, 166, 166);
+    z-index: 10000000;
 }
 
 /*** Colours ***/
