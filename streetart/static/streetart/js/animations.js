@@ -283,16 +283,6 @@ $('#right-panel-toggle').click(function(e) {
             elem.removeEventListener('transitionend', false);
         });
     }); 
-    /*$('.left-panel').on('transitionend', function() {
-        $('.left-panel').removeClass('animate-left-min');
-    });
-    $('.right-panel').addClass('animate-left-min');
-    if ($('.right-panel').hasClass('no-width')) {
-        showRightPanel();
-    } else {
-        hideRightPanel();
-    }
-    resizeMap();*/
 });
 
 function activateSnackbar(snackbarDiv) {
