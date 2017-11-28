@@ -49,10 +49,6 @@ function gallery_view() {
     viewState = 0;
 }
 
-function full_map_view() {
-
-}
-
 function full_card_view() {
     var elem = document.querySelector(".card .card-image img");
 

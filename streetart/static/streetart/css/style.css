@@ -561,6 +561,10 @@ color: white;
     margin: auto;
 }
 
+#lightboxOverlay {
+    will-change: opacity;
+}
+
 
 @media screen and (max-width: 991px) {
     .mobile-hide {
