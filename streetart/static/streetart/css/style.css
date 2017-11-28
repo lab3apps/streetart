@@ -948,7 +948,8 @@ color: white;
     overflow: auto;
     height: 100%;
     padding-bottom: 100px;
-    color: white;    
+    color: white;   
+    will-change: transform;
 }
 
 .formFooter {
