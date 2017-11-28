@@ -426,5 +426,12 @@ $( document ).ready(function() {
     if (loadedart > 0) {
         image_selected(loadedart, true);
         $('.main-image').css('height', '50%');
+    } else {
+        var hash = location.hash.replace('#', '');
+        if (hash === 'gallery') {
+            perform_right_toggle();
+        } else if (hash === 'map') {
+            perform_left_toggle();
+        }
     }
 });
