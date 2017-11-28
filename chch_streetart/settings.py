@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'multiselectfield',
     'image_cropping',
+    'tinymce',
 ]
 
 THUMBNAIL_PROCESSORS = (
@@ -227,3 +228,12 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details'
 )
+
+TINYMCE_DEFAULT_CONFIG = {
+    'plugins': "table,spellchecker,paste,searchreplace",
+    'theme': "advanced",
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 10,
+}
+TINYMCE_SPELLCHECKER = True
+TINYMCE_COMPRESSOR = True

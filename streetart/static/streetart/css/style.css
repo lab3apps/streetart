@@ -1190,4 +1190,5 @@ form{
 .thanks-page {
     height: calc(100% - 80px);
     overflow: scroll;
+    color: white;
 }
