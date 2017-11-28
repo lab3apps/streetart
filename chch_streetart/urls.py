@@ -39,4 +39,5 @@ urlpatterns = [
     url(r'^settings/password/$', streetart_views.password, name='password'),
     url(r'^comments/', include('django_comments_xtd.urls')),
     url(r'^blog/', include('cms.urls')),
+    url(r'^tinymce/', include('tinymce.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
