@@ -117,6 +117,7 @@ function load_artwork_main_image(art) {
             });
         }
     }
+    $('.overlay-fullscreen').attr('href', art.imageUrl);
 }
 
 function image_selected(index, init=false) {
@@ -419,8 +420,6 @@ function loadAltImages(index) {
 $( document ).ready(function() {
 
     $('body').on('click', 'a.artwork-gal', function() {
-        console.log($(this));
-        //onclick="focusOnMarker({{ art.id }}), markerClicked(), expandCard()"
         image_selected($(this).data('artid'));
         $('.main-image').css('height', '50%');
     });

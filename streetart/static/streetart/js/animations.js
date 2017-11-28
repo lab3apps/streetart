@@ -54,6 +54,13 @@ function full_map_view() {
 }
 
 function full_card_view() {
+    var elem = document.querySelector(".card .card-image img");
+
+    //Get inital size. Animating map (right-panel)
+    var collapsed = elem.getBoundingClientRect();
+
+    elem.classList.add('expanding-img');
+
     $('#marker-card-holder').show();
     $('.title-block').hide();
     $('.back-block').show();
@@ -73,6 +80,34 @@ function full_card_view() {
     $('.left-panel').removeClass('mobile-hide');
     $('.right-panel').addClass('mobile-hide');
     showLeftPanel();
+
+    var expanded = elem.getBoundingClientRect();
+
+    //Invert
+    var invertedTop = collapsed.top - expanded.top;
+    var invertedLeft = collapsed.left - expanded.left;
+    // Use divisions when manipulating sizes to apply in scale
+    var invertedWidth = collapsed.width / expanded.width;
+    var invertedHeight = collapsed.height / expanded.height;
+
+    elem.style.transformOrigin = 'center';
+
+    elem.style.transform = 'translate(' + invertedLeft + 'px, ' + invertedTop + 'px) scale(' + invertedWidth + ', ' + invertedHeight + ')';
+
+    requestAnimationFrame(function(){
+        // Add the class to run the transition
+        elem.classList.add('transition-img'); 
+        // Clear styles
+        elem.style.transform = '';
+        // On transitionEnd remove the classes used control transitions
+        elem.addEventListener('transitionend', function(){
+            elem.style.transformOrigin = '';
+            elem.classList.remove('transition-img');
+            elem.classList.remove('expanding-img');
+            // Remove the eventListener
+            elem.removeEventListener('transitionend', false);
+        });
+    }); 
 }
 
 function expandMap() {
@@ -283,16 +318,6 @@ $('#right-panel-toggle').click(function(e) {
             elem.removeEventListener('transitionend', false);
         });
     }); 
-    /*$('.left-panel').on('transitionend', function() {
-        $('.left-panel').removeClass('animate-left-min');
-    });
-    $('.right-panel').addClass('animate-left-min');
-    if ($('.right-panel').hasClass('no-width')) {
-        showRightPanel();
-    } else {
-        hideRightPanel();
-    }
-    resizeMap();*/
 });
 
 function activateSnackbar(snackbarDiv) {
