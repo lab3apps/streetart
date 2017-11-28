@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+	<div>
+		<a href="/#gallery" style="color: #333"><span class="left-panel-link md-dark" id="left-panel-link">GALLERY</span></a>
+	</div>
+	<div>
+		{% block sub-content %}
+		{% endblock %}
+	</div></div></div>
+	<div>
+		<a href="/#map" style="color: #333"><span class="right-panel-link" id="right-panel-link">LOAD MAP</span></a>
+	</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -336,6 +336,55 @@ a {
   box-shadow: -6px 2px 0 yellow;
 }
 
+.left-panel-cont {
+    padding-left: 48px;
+}
+.right-panel-cont {
+    /*padding-left: 100px;*/
+}
+
+.left-panel-link {
+    top: 30%;
+    position: absolute;
+    width: 150px;
+    z-index: 1030;
+    cursor: pointer;
+    text-align: center;
+    left: -102px;
+    transform-origin: right top;
+    -webkit-transform-origin: right top;
+    -ms-transform: rotate(90deg) translateX(100%);
+    -webkit-transform: rotate(90deg) translateX(100%);
+    transform: rotate(90deg) translateX(100%);
+    background-color: yellow;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    font-size: 20px;
+    line-height: 48px;
+    padding: 0 10px;
+}
+
+.right-panel-link {
+    top: 30%;
+    position: absolute;
+    right: -102;
+    width: 150px;
+    text-align: center;
+    z-index: 1030;
+    cursor: pointer;
+    transform-origin: left top;
+    -webkit-transform-origin: left top;
+    -ms-transform: rotate(-90deg) translateX(-100%);
+    -webkit-transform: rotate(-90deg) translateX(-100%);
+    transform: rotate(-90deg) translateX(-100%);
+    background-color: yellow;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    font-size: 20px;
+    line-height: 48px;
+    padding: 0 10px;
+}
+
 .right-panel-toggle {
     position: absolute;
     top: calc(30% + 80px);
@@ -566,6 +615,10 @@ a {
     height: 15%;
     display: block;
     margin: auto;
+}
+
+#lightboxOverlay {
+    will-change: opacity;
 }
 
 
@@ -886,7 +939,7 @@ a {
 
 /*** Add New Form ***/
 .get-involved-title-block{
-  background-color: lightgrey;
+  background-color: transparent;
 }
 .get-involved-banner{
   width: 100%;
@@ -902,6 +955,8 @@ a {
     overflow: auto;
     height: 100%;
     padding-bottom: 100px;
+    color: white;   
+    will-change: transform;
 }
 
 .formFooter {
@@ -1192,4 +1247,5 @@ form{
 .thanks-page {
     height: calc(100% - 80px);
     overflow: scroll;
+    color: white;
 }
