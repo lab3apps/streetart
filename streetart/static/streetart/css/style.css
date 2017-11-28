@@ -881,7 +881,7 @@ color: white;
 
 /*** Add New Form ***/
 .get-involved-title-block{
-  background-color: lightgrey;
+  background-color: transparent;
 }
 .get-involved-banner{
   width: 100%;
@@ -897,6 +897,7 @@ color: white;
     overflow: auto;
     height: 100%;
     padding-bottom: 100px;
+    color: white;    
 }
 
 .formFooter {
