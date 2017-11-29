@@ -4,8 +4,10 @@
 {% load widget_tweaks %}
 
 {% block sub-content %}
-<div class="container">
-{{ page.page_content|safe }}  
+<div class="scroll-container">
+        <div class="container custom-page-content">
+            {{ sourcePage.page_content|safe }}  
+        </div>
 </div>
 {% endblock %}
 

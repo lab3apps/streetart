@@ -1249,3 +1249,7 @@ form{
     overflow: scroll;
     color: white;
 }
+
+.custom-page-content{
+    color: white;
+}

@@ -213,4 +213,5 @@ SUMMERNOTE_CONFIG = {
     'iframe': True,
     'width': '100%',
     'height': '480',
+    'styleWithTags': True,
 }

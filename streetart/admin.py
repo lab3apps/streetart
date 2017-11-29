@@ -50,7 +50,7 @@ class PageAdminForm(forms.ModelForm):
     class Meta:
         model = Page
         widgets = {
-            'content': SummernoteWidget(),
+            'page_content': SummernoteWidget(),
         }
         exclude = ('slug',) 
 
