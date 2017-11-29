@@ -1,17 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div >
-	<div>
-		<span class="left-panel-link material-icons" id="left-panel-link">GALLERY</span>
+<div>
+	<div class="mobile-hide">
+		<a href="/#gallery" style="color: #333"><span class="left-panel-link md-dark" id="left-panel-link">GALLERY</span></a>
 	</div>
 	<div>
 		{% block sub-content %}
 		{% endblock %}
 	</div></div></div>
-	<div>
-		<span class="right-panel-link material-icons" id="right-panel-link">LOAD MAP</span>
-	</div>
+	<div class="mobile-hide">
+		<a href="/#map" style="color: #333"><span class="right-panel-link" id="right-panel-link">LOAD MAP</span></a>
 	</div>
 </div>
 

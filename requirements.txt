@@ -11,6 +11,7 @@ django-comments-xtd==2.0.6
 django-contrib-comments==1.8.0
 django-crispy-forms==1.6.1
 django-filer==1.2.8
+django-fluent-comments==1.4.3
 django-formtools==2.0
 django-geoposition==0.3.0
 django-image-cropping==1.1.0
@@ -24,6 +25,7 @@ django-sekizai==0.10.0
 Django-Select2==5.11.1
 django-summernote==0.8.8.4
 django-tag-parser==3.1
+django-tinymce==2.6.0
 django-treebeard==4.1.2
 django-widget-tweaks==1.4.1
 djangocms-admin-style==1.2.7

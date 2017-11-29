@@ -223,8 +223,7 @@ $('.navbar-gallery').click(function(e) {
 
 });
 
-$('#left-panel-toggle').click(function(e) {
-
+function perform_left_toggle() {
     var elem = document.querySelector(".right-panel");
 
     //Get inital size. Animating map (right-panel)
@@ -267,11 +266,14 @@ $('#left-panel-toggle').click(function(e) {
             // Remove the eventListener
             elem.removeEventListener('transitionend', false);
         });
-    }); 
+    });
+}
 
+$('#left-panel-toggle').click(function(e) {
+    perform_left_toggle();
 });
 
-$('#right-panel-toggle').click(function(e) {
+function perform_right_toggle() {
     var elem = document.querySelector(".left-panel");
 
     //Get inital size. Animating map (right-panel)
@@ -314,6 +316,10 @@ $('#right-panel-toggle').click(function(e) {
             elem.removeEventListener('transitionend', false);
         });
     }); 
+}
+
+$('#right-panel-toggle').click(function(e) {
+    perform_right_toggle();
 });
 
 function activateSnackbar(snackbarDiv) {
