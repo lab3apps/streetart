@@ -18,7 +18,6 @@ from streetart.badwords import badwords
 from streetart.processors import convert_rgba, add_watermark
 from django.contrib.staticfiles.storage import staticfiles_storage
 from chch_streetart.settings import STATIC_ROOT
-from tinymce.models import HTMLField
 
 # Create your models here.
 
@@ -327,9 +326,16 @@ class Logo(models.Model):
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Page(models.Model):
     name = models.CharField(max_length=200)
-    content = HTMLField()
+    page_content = models.TextField()
+    slug = models.SlugField(max_length=255, blank=True, null=True)
     def __str__(self):
         return self.name
+    def save(self, *args, **kwargs):
+        if self.name != None and self.name != '':
+            self.slug = slugify(self.name)
+        else:
+            self.slug = slugify(self.pk)
+        super(Page, self).save(*args, **kwargs)
 
 class PostCommentModerator(SpamModerator):
     removal_suggestion_notification = True

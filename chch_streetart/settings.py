@@ -34,7 +34,6 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'streetart.apps.StreetartConfig',
-    'djangocms_admin_style',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,22 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'cms',
     'menus',
     'treebeard',
     'sekizai',
     'filer',
     'easy_thumbnails',
     'mptt',
-    'djangocms_text_ckeditor',
-    'djangocms_link',
-    'djangocms_file',
-    'djangocms_picture',
-    'djangocms_video',
-    'djangocms_googlemap',
-    'djangocms_snippet',
-    'djangocms_style',
-    'djangocms_column',
     'social_django',
     'rest_framework',
     'rest_framework_gis',
@@ -70,7 +59,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'multiselectfield',
     'image_cropping',
-    'tinymce',
+    'django_summernote',
 ]
 
 THUMBNAIL_PROCESSORS = (
@@ -95,7 +84,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'sekizai.context_processors.sekizai',
-                'cms.context_processors.cms_settings',
                 "django.template.context_processors.i18n",
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
@@ -148,17 +136,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Django CMS settings
 SITE_ID = 1
 
 LANGUAGES = [
     ('en', 'English'),
-]
-
-CMS_TEMPLATES = [
-    ('cms_base.html', 'Base template'),
-    ('cms_content.html', 'Content Template'),
 ]
 
 MEDIA_URL = "/media/"
@@ -228,12 +209,8 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details'
 )
-
-TINYMCE_DEFAULT_CONFIG = {
-    'plugins': "table,spellchecker,paste,searchreplace",
-    'theme': "advanced",
-    'cleanup_on_startup': True,
-    'custom_undo_redo_levels': 10,
+SUMMERNOTE_CONFIG = {
+    'iframe': True,
+    'width': '100%',
+    'height': '480',
 }
-TINYMCE_SPELLCHECKER = True
-TINYMCE_COMPRESSOR = True

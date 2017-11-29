@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^artworks/(?P<pk>[0-9]+)$', views.artwork_detail, name='artwork_detail'),
     url(r'^artists/$', views.artist_list, name='artist_list'),
     url(r'^artists/(?P<pk>[0-9]+)$', views.artist_detail, name='artist_detail'),
+	url(r'^page/(?P<slug>[\w-]+)/$', views.page, name='page'),
     url(r'^routes/$', views.route_list, name='route_list'),
     url(r'^routes/(?P<pk>[0-9]+)$', views.route_detail, name='route_detail'),
     url(r'^like/([0-9]+)/$', views.like, name='like'),

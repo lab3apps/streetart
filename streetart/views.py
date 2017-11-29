@@ -19,7 +19,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm
 from .serializers import ArtworkSerializer, ArtistSerializer, RouteSerializer
-from .models import Artwork, Artist, Status, Route, GetInvolved, WhatsNew, Logo
+from .models import Artwork, Artist, Status, Route, GetInvolved, WhatsNew, Logo, Page
 from django.db import transaction
 from django.core.mail import send_mail
 from django.conf import settings as site_settings
@@ -374,3 +374,7 @@ def post_comment(request):
     else:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
+
+def page(request, slug):
+    page = get_object_or_404(Page, slug = slug)
+    return render(request, 'streetart/page.html', {'sourcePage': page})
