@@ -653,6 +653,10 @@ a {
     text-align: center;
 }
 
+.main-image{
+    max-height: 400px;
+}
+
 .card .card-image {
   position: relative;
   overflow: hidden;
@@ -676,25 +680,6 @@ a {
     -o-transition: height 0.5s ease;
     transition: height 0.5s ease;*/
     display: inline-block;
-}
-
-.main-image {
-  height: 50%;
-  background-color: black;
-}
-
-.main-image.expanded {
-  height: 60%;
-}
-
-@media screen and (min-width: 992px) {
-    .main-image {
-      height: 50%;
-    }
-
-    .main-image.expanded {
-      height: 50%;
-    }
 }
 
 .card .overlay-title {
