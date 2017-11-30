@@ -167,7 +167,7 @@ function showLeftPanel() {
     $('.right-panel').removeClass('full-width');
     $('.right-panel-toggle').show();
     $('.left-panel-toggle').addClass('material-icons');
-    $('.left-panel-toggle').text('arrow_upward');
+    $('.left-panel-toggle').text('arrow_drop_up');
 }
 function hideRightPanel() {
     $('.right-panel').addClass('no-width');
@@ -187,7 +187,7 @@ function showRightPanel() {
     $('.left-panel').removeClass('full-width-minus-buttons');
     $('.left-panel-toggle').show();
     $('.right-panel-toggle').addClass('material-icons');
-    $('.right-panel-toggle').text('arrow_downward');
+    $('.right-panel-toggle').text('arrow_drop_down');
     $('.gallery-item').addClass('col-lg-4')
     $('.gallery-item').addClass('col-sm-6')
     $('.gallery-item').removeClass('col-sm-4')
