@@ -773,7 +773,7 @@ a {
 }
 
 .card .card-action {
-  border-top: 1px solid rgba(160, 160, 160, 0.2);
+  border-bottom: 1px solid rgba(160, 160, 160, 0.2);
   padding: 16px;
   white-space: nowrap;
   height: 68px;
@@ -782,7 +782,22 @@ a {
 .card .card-action a {
   float: left;
   height: 36px;
-  width: 36px;
+}
+
+.card-action-button{
+    display: inline-block;
+    padding: 5px 30px;
+}
+
+
+.card-action-button>a>p{
+    font-size: 17px;
+    color: white;
+}
+
+.card-action-button>a>p>i{
+    padding: 3px 8px;
+    font-size: 22px;
 }
 
 .card .like-checkin-count {
@@ -791,15 +806,6 @@ a {
   padding-left: 16px;
 }
 
-#show_on_map {
-  float: right;
-}
-
-#show_on_map i {
-  height: 36px;
-  width: 36px;
-  font-size: 32px;
-}
 
 /*** Logo Page ***/
 
