@@ -165,7 +165,7 @@ a {
     position: absolute;
     width: 180px;
     height: auto;
-    top: 85px;
+    top: 84px;
     left: -50px;
     color: white;
     background-color: rgb(55, 55, 55);
@@ -274,7 +274,7 @@ a {
 
 .minimised-login {
     text-align: center;
-    padding-top: 15px;
+    padding-top: 10px;
 }
 
 @media screen and (max-width: 991px) {
