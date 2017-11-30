@@ -120,7 +120,7 @@ function load_artwork_main_image(art) {
     $('.overlay-fullscreen').attr('href', art.imageUrl);
 }
 
-function image_selected(index, init=false) {
+function image_selected(index) {
     if (arrayHasOwnIndex(artworks, index)) {
         var art = artworks[index];
         var marker = markers[index];
@@ -128,10 +128,6 @@ function image_selected(index, init=false) {
         // Image Loading
         load_artwork_main_image(art);
         var artist_text, bio_html = get_artist_bio(art);
-        if (map && !init) {
-            map.panTo(point);
-            map.setZoom(17);
-        }
         
         toggleBounce(marker);
         loadCommentSection(index);
@@ -143,7 +139,6 @@ function image_selected(index, init=false) {
 
 function focusOnMarker(index) {
     image_selected(index);
-    return;
 
     if (arrayHasOwnIndex(artworks, index)) {
         var art = artworks[index];
@@ -423,7 +418,7 @@ $( document ).ready(function() {
         image_selected($(this).data('artid'));
     });
     if (loadedart > 0) {
-        image_selected(loadedart, true);
+        focusOnMarker(loadedart);
     } else {
         var hash = location.hash.replace('#', '');
         if (hash === 'gallery') {
