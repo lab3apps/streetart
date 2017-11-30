@@ -62,7 +62,7 @@ body {
     height: 100%;
     overflow:hidden;
     background-color: black;
-    background-image: radial-gradient(rgb(158,158,158) 0%, black 70%);
+    background-image: radial-gradient(rgb(64, 64, 64) 0%, black 70%);
 }
 
 ::-webkit-scrollbar {
