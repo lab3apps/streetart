@@ -688,6 +688,11 @@ a {
     max-height: 400px;
 }
 
+.alt-images-holder{
+    margin-top: 0px;
+    opacity: 0.7;
+}
+
 .card .card-image {
   position: relative;
   overflow: hidden;
@@ -756,6 +761,13 @@ a {
     line-height: 1em;
     bottom: 0;
     right: 0;
+}
+
+.card-image.main-card-image {
+    margin-left: 10px;
+    margin-right: 10px;
+    box-shadow: 0px 5px 20px black;
+    border-radius: 3px;
 }
 
 .card .card-details {
@@ -886,11 +898,13 @@ a {
 }
 
 #alt-image {
-    padding: 10px;
+    padding: 3px;
+    padding-top: 0px;
     display: inline-block;
     float: none;
-    height: 180px;
+    height: 120px;
     width: auto;
+    border-radius: 3px;
 }
 
 #alt-image > .img-responsive{

@@ -280,7 +280,7 @@
             <!-- This is what holds the main view card -->
             <div id="marker-card-holder" class="card-holder">
                 <div id="main-card" class="card">
-                    <div class="card-image">
+                    <div class="card-image main-card-image">
                         <div class="loader none"></div>
                         <div class="card-image-link">
                             <span class="overlay overlay-title"></span>
@@ -290,6 +290,12 @@
                         </div>
                         
                     </div>
+                    <!-- This div holds the alternative images card if any are available -->
+                    <div id="images-card-holder" class="card-holder alt-images-holder">
+                        <div id="alt-images-card" class="card">
+                        </div>
+                    </div>
+
                     <div class="card-details">
                         <div class="card-action">
                             <div class="card-action-button">
@@ -329,12 +335,6 @@
                         </div>
                         <div class="like-checkin-count"><span id="likeCount"></span> like<span id="like-plural">s</span> and <span id="checkinCount"></span> checkin<span id="checkin-plural">s</span></div>
                     </div>
-                </div>
-            </div>
-
-            <!-- This div holds the alternative images card if any are available -->
-            <div id="images-card-holder" class="card-holder">
-                <div id="alt-images-card" class="card">
                 </div>
             </div>
 
