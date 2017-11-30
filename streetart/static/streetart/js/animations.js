@@ -180,11 +180,12 @@ function hideRightPanel() {
     $('.left-panel-toggle').hide();
     $('.right-panel-toggle').removeClass('material-icons');
     $('.right-panel-toggle').text('SHOW MAP');
-    $('.gallery-item').removeClass('col-lg-6')
-    $('.gallery-item').removeClass('col-sm-6')
-    $('.gallery-item').addClass('col-sm-4')
-    $('.gallery-item').addClass('col-lg-3')
-    $('.gallery-item').addClass('col-xl-2')
+    $('.gallery-item').removeClass('col-lg-6');
+    $('.gallery-item').removeClass('col-sm-6');
+    $('.gallery-item').addClass('col-sm-4');
+    $('.gallery-item').addClass('col-lg-3');
+    $('.gallery-item').addClass('col-xl-2');
+    $('.right-panel-toggle').css("top","40%");
 }
 
 function showRightPanel() {
@@ -193,11 +194,12 @@ function showRightPanel() {
     $('.left-panel-toggle').show();
     $('.right-panel-toggle').addClass('material-icons');
     $('.right-panel-toggle').text('arrow_drop_down');
-    $('.gallery-item').addClass('col-lg-6')
-    $('.gallery-item').addClass('col-sm-6')
-    $('.gallery-item').removeClass('col-sm-4')
-    $('.gallery-item').removeClass('col-lg-3')
-    $('.gallery-item').removeClass('col-xl-2')
+    $('.gallery-item').addClass('col-lg-6');
+    $('.gallery-item').addClass('col-sm-6');
+    $('.gallery-item').removeClass('col-sm-4');
+    $('.gallery-item').removeClass('col-lg-3');
+    $('.gallery-item').removeClass('col-xl-2');
+    $('.right-panel-toggle').css("top", "calc(40% + 80px)");
 }
 
 function resizeMap() {
@@ -268,6 +270,7 @@ function perform_right_toggle() {
         showRightPanel();
     } else {
         hideRightPanel();
+        
     }
 
     var expanded = elem.getBoundingClientRect();
