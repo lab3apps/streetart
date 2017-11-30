@@ -120,15 +120,48 @@ function load_artwork_main_image(art) {
     $('.overlay-fullscreen').attr('href', art.imageUrl);
 }
 
+function load_child_tools(art, index) {
+    if(art.hasLiked === 'True') {
+        $('.like i').html('favorite');
+    } else {
+        $('.like i').html('favorite_border');
+    }
+    if(art.hasCheckedin === 'True') {
+        $('.checkin-icon-unfilled').hide();
+        $('.checkin-icon-filled').show();
+    } else {
+        $('.checkin-icon-filled').hide();
+        $('.checkin-icon-unfilled').show();
+    }
+    $('#likeCount').html(art.likes_count);
+    if (art.likes_count != 1) {
+        $('#like-plural').show();
+    } else {
+        $('#like-plural').hide();
+    }
+    $('#checkinCount').html(art.checkins_count);
+    if (art.checkins_count != 1) {
+        $('#checkin-plural').show();
+    } else {
+        $('#checkin-plural').hide();
+    }
+    $('#show_on_map').data('index', index);
+}
+
 function image_selected(index) {
     if (arrayHasOwnIndex(artworks, index)) {
         var art = artworks[index];
         var marker = markers[index];
         var point = new google.maps.LatLng(art.lat, art.lng);
+
+        getNearestArtworks(index);
         // Image Loading
         load_artwork_main_image(art);
-        var artist_text, bio_html = get_artist_bio(art);
+        get_artist_bio(art);
+        load_child_tools(art, index);
         
+        map.panTo(point);
+        map.setZoom(17);
         toggleBounce(marker);
         loadCommentSection(index);
         loadAltImages(index);
@@ -138,9 +171,11 @@ function image_selected(index) {
 }
 
 function focusOnMarker(index) {
-    image_selected(index);
+    //image_selected(index);
 
     if (arrayHasOwnIndex(artworks, index)) {
+        full_card_view();
+
         var art = artworks[index];
         var marker = markers[index];
         getNearestArtworks(index)
@@ -300,7 +335,6 @@ function focusOnMarker(index) {
         history.replaceState({}, null, '/artwork/'+index);
 
         //setTimeout(function(){ expandCard(); }, 10);
-
         
     }
 }
