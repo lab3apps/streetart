@@ -272,6 +272,11 @@ a {
     z-index: 10000000;
 }
 
+.minimised-login {
+    text-align: center;
+    padding-top: 15px;
+}
+
 @media screen and (max-width: 991px) {
     .central-navbar {
         background-color: unset;
@@ -620,6 +625,7 @@ a {
     width: 100%;
     display: none;
     position: fixed;
+    z-index: 1001;
 }
 
 .back-button-block {
