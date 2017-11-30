@@ -421,11 +421,9 @@ $( document ).ready(function() {
 
     $('body').on('click', 'a.artwork-gal', function() {
         image_selected($(this).data('artid'));
-        $('.main-image').css('height', '50%');
     });
     if (loadedart > 0) {
         image_selected(loadedart, true);
-        $('.main-image').css('height', '50%');
     } else {
         var hash = location.hash.replace('#', '');
         if (hash === 'gallery') {

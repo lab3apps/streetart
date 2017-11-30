@@ -35,7 +35,6 @@ function gallery_view() {
     $('#images-card-holder').hide();
     $('.scroll-gallery').show();
     $('.left-panel').css('overflow-y', 'hidden');
-    $('.main-image').css('height', '30%');
     $(".card-details").slideUp();
     $(".overlay").fadeIn();
 
@@ -68,7 +67,6 @@ function full_card_view() {
     $('#images-card-holder').show();
     $('.scroll-gallery').hide();
     $('.left-panel').css('overflow-y', 'scroll');
-    $('.main-image').css('height', '25%');
     $(".card-details").slideDown();
     $(".overlay").fadeOut();
     viewState = 2;
@@ -140,7 +138,6 @@ function expandCard() {
     $('#images-card-holder').show();
     $('.scroll-gallery').hide();
     $('.left-panel').css('overflow-y', 'scroll');
-    $('.main-image').css('height', '25%');
     $(".card-details").slideDown();
     $(".overlay").fadeOut();
     viewState = 2;
@@ -152,7 +149,6 @@ function collapseCard() {
     $('#images-card-holder').hide();
     $('.scroll-gallery').show();
     $('.left-panel').css('overflow-y', 'hidden');
-    $('.main-image').css('height', '30%');
     $(".card-details").slideUp();
     $(".overlay").fadeIn();
     viewState = 1;
@@ -171,7 +167,7 @@ function showLeftPanel() {
     $('.right-panel').removeClass('full-width');
     $('.right-panel-toggle').show();
     $('.left-panel-toggle').addClass('material-icons');
-    $('.left-panel-toggle').text('arrow_upward');
+    $('.left-panel-toggle').text('arrow_drop_up');
 }
 function hideRightPanel() {
     $('.right-panel').addClass('no-width');
@@ -191,7 +187,7 @@ function showRightPanel() {
     $('.left-panel').removeClass('full-width-minus-buttons');
     $('.left-panel-toggle').show();
     $('.right-panel-toggle').addClass('material-icons');
-    $('.right-panel-toggle').text('arrow_downward');
+    $('.right-panel-toggle').text('arrow_drop_down');
     $('.gallery-item').addClass('col-lg-4')
     $('.gallery-item').addClass('col-sm-6')
     $('.gallery-item').removeClass('col-sm-4')
