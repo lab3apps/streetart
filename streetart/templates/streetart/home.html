@@ -341,15 +341,16 @@
                 <div id="comment-card" class="card">
                 </div>
             </div>
+
+            <div id="nearest-artworks-holder" class="col-xs-12">
+                    
+            </div>
             <div class="scroll-gallery" id="lazy-container-top">
             <!-- This is Set Of Artworkes neared to Selected Artwork -->
 
                 <!-- This is the main scrolling gallery which shows images relating to those on the map
                      Image div boxes added using django tempting. -->
                 <div id="lazy-container" >
-                    <div id="nearest-artworks-holder" class="col-xs-12">
-
-                    </div>
                     <div class="gallery-section">
                         {% for art in artworks|shuffle %}
                                 <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-6">

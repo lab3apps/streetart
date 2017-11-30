@@ -145,8 +145,6 @@ function focusOnMarker(index) {
         var marker = markers[index];
         getNearestArtworks(index)
 
-        //if hidden
-        $('#nearest-artworks-holder').show();
         //closeMarkers();
         //marker['infowindow'].open(map, marker);
         var point = new google.maps.LatLng(art.lat, art.lng);
@@ -415,7 +413,7 @@ function loadAltImages(index) {
 $( document ).ready(function() {
 
     $('body').on('click', 'a.artwork-gal', function() {
-        image_selected($(this).data('artid'));
+        focusOnMarker($(this).data('artid'));
     });
     if (loadedart > 0) {
         focusOnMarker(loadedart);

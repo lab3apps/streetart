@@ -33,6 +33,7 @@ function backClicked() {
 function gallery_view() {
     $('#comment-card-holder').hide();
     $('#images-card-holder').hide();
+    $('#nearest-artworks-holder').hide();
     $('.scroll-gallery').show();
     $('.left-panel').css('overflow-y', 'hidden');
     $(".card-details").slideUp();
@@ -65,6 +66,7 @@ function full_card_view() {
 
     $('#comment-card-holder').show();
     $('#images-card-holder').show();
+    $('#nearest-artworks-holder').show();
     $('.scroll-gallery').hide();
     $('.left-panel').css('overflow-y', 'scroll');
     $(".card-details").slideDown();
@@ -136,6 +138,7 @@ function expandCard() {
     //focusLeft();
     $('#comment-card-holder').show();
     $('#images-card-holder').show();
+    $('#nearest-artworks-holder').show();
     $('.scroll-gallery').hide();
     $('.left-panel').css('overflow-y', 'scroll');
     $(".card-details").slideDown();
@@ -147,6 +150,8 @@ function collapseCard() {
     //focusRight();
     $('#comment-card-holder').hide();
     $('#images-card-holder').hide();
+    $('#nearest-artworks-holder').hide();
+    $('#nearest-artworks-holder').hide();
     $('.scroll-gallery').show();
     $('.left-panel').css('overflow-y', 'hidden');
     $(".card-details").slideUp();
