@@ -332,7 +332,7 @@ a {
 
 .left-panel-toggle {
     position: absolute;
-    top: 30%;
+    top: 40%;
     z-index: 1030;
     cursor: pointer;
     left: -57px;
@@ -381,7 +381,7 @@ a {
 }
 
 .left-panel-link {
-    top: 30%;
+    top: 40%;
     position: absolute;
     width: 150px;
     z-index: 1030;
@@ -402,7 +402,7 @@ a {
 }
 
 .right-panel-link {
-    top: 30%;
+    top: 40%;
     position: absolute;
     right: -102;
     width: 150px;
@@ -424,7 +424,7 @@ a {
 
 .right-panel-toggle {
     position: absolute;
-    top: calc(30% + 80px);
+    top: calc(40% + 80px);
     z-index: 1030;
     cursor: pointer;
     left: -57px;

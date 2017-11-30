@@ -361,7 +361,6 @@ function getNearestArtworks(index) {
             data: {'csrfmiddlewaretoken': csrftoken},
             type: 'GET',
             success: function(response) {
-                console.log(response);
                 RenderNearestArtworks(response,index);
             },
             failure: function(error) {
@@ -388,13 +387,11 @@ function RenderNearestArtworks(response,_index){
         no_of_rows++;
         }
 
-        console.log(no_of_rows);
         //$("#nearest-artworks-holder").height( no_of_rows * height_of_row);
         $.each(res, function (index,obj)
         {
          if(_index!=obj.pk)
          {
-            console.log(obj);
             var imagetag ;
             if(obj.fields.cropped_image=="")
             {
@@ -458,10 +455,18 @@ $( document ).ready(function() {
         focusOnMarker(loadedart);
     } else {
         var hash = location.hash.replace('#', '');
-        if (hash === 'gallery') {
-            perform_right_toggle();
-        } else if (hash === 'map') {
-            perform_left_toggle();
+        if ($(window).width() <= 991) {
+            if (hash === 'gallery') {
+                showGalleryMobile();
+            } else if (hash === 'map') {
+                showMapMobile();
+            }
+        } else {
+            if (hash === 'gallery') {
+                perform_right_toggle();
+            } else if (hash === 'map') {
+                perform_left_toggle();
+            }
         }
     }
 });
