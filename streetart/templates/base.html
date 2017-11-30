@@ -120,7 +120,7 @@
                     <div class="menu-dropdown hidden-xs col-sm-4" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
                             {% if user.is_authenticated %}
-                                <li class="dropdown">
+                                <div class="user-dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                             {{ user.first_name }} {{ user.last_name }}
                                             <span class="caret"></span>
@@ -138,19 +138,19 @@
                                                 {% endif %}
                                             </li>
                                         </ul>
-                                </li>
+                                </div>
                             {% else %}
-                                <li>
+                                <div>
                                     <a class="button-social button-facebook hidden-xs hidden-sm" id="button-facebook" href="{% url 'social:begin' 'facebook' %}"><i class="icon fa fa-facebook"></i>Login</a>
                                     <a class="visible-xs-block visible-sm-block" href="{% url 'social:begin' 'facebook' %}">Login</a>
-                                </li>
-                                <li class="navbar-item">
-                                    <a id="navbar-facebook" class="navbar-social navbar-facebook" target="_blank" href="https://www.facebook.com/watchthisspacechch/"><i class="icon fa fa-facebook-official"></i></a>
-                                </li>
-                                <li class="navbar-item">
-                                    <a id="navbar-insta" class="navbar-social navbar-insta" target="_blank" href="https://www.instagram.com/watchthisspacechch/"><i class="icon fa fa-instagram"></i></a>
-                                </li>
+                                </div>
                             {% endif %}
+                            <li class="navbar-item">
+                                <a id="navbar-facebook" class="navbar-social navbar-facebook" target="_blank" href="https://www.facebook.com/watchthisspacechch/"><i class="icon fa fa-facebook-official"></i></a>
+                            </li>
+                            <li class="navbar-item">
+                                <a id="navbar-insta" class="navbar-social navbar-insta" target="_blank" href="https://www.instagram.com/watchthisspacechch/"><i class="icon fa fa-instagram"></i></a>
+                            </li>
                         </ul>
                     </div>
                 </nav>

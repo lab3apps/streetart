@@ -179,11 +179,20 @@ a {
     color: black;
 }
 
+.user-dropdown{
+    padding: 10px;
+}
+
 .navbar-item>a {
     font-size: 24pt;
     font-family: Roboto, Helvetica, Arial, sans-serif;
     font-weight: 300;
     color: white;
+}
+
+.navbar-wrapper .navbar-item>a {
+    padding-bottom: 0;
+    padding-top: 5px;
 }
 
 .central-navbar .navbar-nav {
@@ -229,6 +238,8 @@ a {
 #button-facebook {
   padding-top: 0px;
   padding-bottom: 0px;
+  margin-top: 10px;
+  margin-bottom: 0;
   color: white;
   line-height: 46px;
 }
