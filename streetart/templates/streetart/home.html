@@ -355,9 +355,11 @@
                                 <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-6">
                                     <div class="dummy"></div>
                                     <a class="img-link artwork-gal" data-artid="{{ art.id }}">
-                                        <div class="archived-overlay none">
-                                            <p class="archived-text">Archived</p>
+                                        {% if art.status.id == 3 %}
+                                        <div class="archived-overlay">
+                                            <p class="archived-text">Not Viewable</p>
                                         </div>
+                                        {% endif %}
                                         <div class="new-overlay none">
                                             <div class="status-new"></div>
                                             <p class="new-text">New</p>
