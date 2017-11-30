@@ -596,6 +596,7 @@ a {
 .back-block {
     width: 100%;
     display: none;
+    position: fixed;
 }
 
 .back-button-block {
@@ -644,6 +645,7 @@ a {
 .card-holder {
     display: none;
     width: 100%;
+    margin-top: 48px;
 }
 
 .card {
