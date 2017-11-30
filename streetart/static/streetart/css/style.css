@@ -165,7 +165,7 @@ a {
     position: absolute;
     width: 180px;
     height: auto;
-    top: 85px;
+    top: 84px;
     left: -50px;
     color: white;
     background-color: rgb(55, 55, 55);
@@ -270,6 +270,11 @@ a {
     line-height: 8px;
     color: rgb(166, 166, 166);
     z-index: 10000000;
+}
+
+.minimised-login {
+    text-align: center;
+    padding-top: 10px;
 }
 
 @media screen and (max-width: 991px) {
@@ -620,6 +625,7 @@ a {
     width: 100%;
     display: none;
     position: fixed;
+    z-index: 1001;
 }
 
 .back-button-block {

@@ -15,6 +15,14 @@
         <meta property="og:title" content="Watch This Space" />
         <meta property="og:type" content="website" />
         <meta property="fb:app_id" content="106299540095089" />
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+        <link rel="manifest" href="{% static 'favicon/manifest.json' %}">
+        <link rel="mask-icon" href="{% static 'favicon/safari-pinned-tab.svg' %}" color="#c40f0f">
+        <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}">
+        <meta name="msapplication-config" content="{% static 'favicon/browserconfig.xml' %}">
+        <meta name="theme-color" content="#ffffff">
         {% endblock %}
 
     <!--The Block CSS is an example of what could go in your base.html file. If you already have these added into your static files then
@@ -55,7 +63,7 @@
                     <div class="visible-xs-block col-xs-3 menu-toggle">
                         <a onclick="openNav()"><i class="material-icons md-light md-48">menu</i></a>
                     </div>
-                    <div class="col-xs-6 col-sm-4">
+                    <div class="col-xs-6 col-sm-3">
                          <div class = "navbar-header">
                             <!--Below is the top-left hand side of the screen where you usually see a company/project name and a logo-->
                             <!--The next line sends the user back to the home page-->
@@ -65,7 +73,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-sm-4 central-navbar hidden-xs">
+                    <div class="col-sm-6 central-navbar hidden-xs">
                         <ul class="nav navbar-nav">
                             <!--Below is where you put the rest of the links to the pages you've created. Please reference your own models
                             in Django.-->
@@ -114,7 +122,7 @@
                         </ul>
                     </div>
                     <div class="visible-xs-block col-xs-3"></div>
-                    <div class="menu-dropdown hidden-xs col-sm-4" id="bs-example-navbar-collapse-1">
+                    <div class="menu-dropdown hidden-xs col-sm-3" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
                             {% if user.is_authenticated %}
                                 <div class="user-dropdown">
@@ -135,7 +143,7 @@
                             {% else %}
                                 <div>
                                     <a class="button-social button-facebook hidden-xs hidden-sm" id="button-facebook" href="{% url 'social:begin' 'facebook' %}"><i class="icon fa fa-facebook"></i>Login</a>
-                                    <a class="visible-xs-block visible-sm-block" href="{% url 'social:begin' 'facebook' %}">Login</a>
+                                    <a class="visible-xs-block visible-sm-block minimised-login" href="{% url 'social:begin' 'facebook' %}">Login</a>
                                 </div>
                             {% endif %}
                             <li class="navbar-item">
