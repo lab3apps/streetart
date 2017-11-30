@@ -453,10 +453,18 @@ $( document ).ready(function() {
         focusOnMarker(loadedart);
     } else {
         var hash = location.hash.replace('#', '');
-        if (hash === 'gallery') {
-            perform_right_toggle();
-        } else if (hash === 'map') {
-            perform_left_toggle();
+        if ($(window).width() <= 991) {
+            if (hash === 'gallery') {
+                showGalleryMobile();
+            } else if (hash === 'map') {
+                showMapMobile();
+            }
+        } else {
+            if (hash === 'gallery') {
+                perform_right_toggle();
+            } else if (hash === 'map') {
+                perform_left_toggle();
+            }
         }
     }
 });

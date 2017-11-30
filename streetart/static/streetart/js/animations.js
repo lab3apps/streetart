@@ -206,24 +206,6 @@ function resizeMap() {
     }, 200);
 }
 
-$('.navbar-map').click(function(e) {
-    e.preventDefault();
-    // Important for mobile
-    setTimeout(function() {
-        google.maps.event.trigger(map, "resize");
-    }, 300);
-    $('.left-panel').addClass('mobile-hide');
-    $('.right-panel').removeClass('mobile-hide');
-});
-
-$('.navbar-gallery').click(function(e) {
-    e.preventDefault();
-    // Important for mobile
-    $('.left-panel').removeClass('mobile-hide');
-    $('.right-panel').addClass('mobile-hide');
-
-});
-
 function perform_left_toggle() {
     var elem = document.querySelector(".right-panel");
 
