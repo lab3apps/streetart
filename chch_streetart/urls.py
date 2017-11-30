@@ -35,7 +35,6 @@ urlpatterns = [
     url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'^admin/', admin.site.urls),
-    url(r'^settings/$', streetart_views.settings, name='settings'),
     url(r'^settings/password/$', streetart_views.password, name='password'),
     url(r'^comments/', include('django_comments_xtd.urls')),
     url(r'^blog/', include('cms.urls')),

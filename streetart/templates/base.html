@@ -46,7 +46,6 @@
                         <a href="" onclick="closeNav()" class="navbar-whatsnew">What's New</a>
                         <a href="{% url 'streetart:about' %}">About</a>
                         <a href="{% url 'streetart:donate' %}">Donate</a>
-                        <a href="/settings">Settings</a>
                         {% if user.is_authenticated %}
                             <a href="/logout">Logout</a>
                         {% else %}
@@ -103,9 +102,6 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li class="visible-xs-block">
-                                <a href="/settings">Settings</a>
-                            </li>
                             <li class="divider visible-xs-block"></li>
                             <li class="visible-xs-block">
                                 {% if user.is_authenticated %}
@@ -126,10 +122,6 @@
                                             <span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu" role="menu">
-                                            <li>
-                                                <a href="/settings">Settings</a>
-                                            </li>
-                                            <li class="divider"></li>
                                             <li>
                                                 {% if user.is_authenticated %}
                                                     <a href="/logout">Logout</a>
