@@ -836,6 +836,19 @@ a {
 }
 
 
+.nearest-artworks-header {
+    display: inline-block;
+    border-bottom: 1px solid rgba(160, 160, 160, 0.2);
+    text-align: center;
+    margin: 10px;
+    color: white;
+}
+
+.nearest-artworks-header>p {
+    font-size: 20px;
+}
+
+
 /*** Logo Page ***/
 
 .logo-container {

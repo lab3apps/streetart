@@ -163,11 +163,15 @@
                     if(response.message === 'liked') {
                         art.hasLiked = 'True';
                         activateSnackbar('#likeSnackbar');
-                        $('.like i').html('favorite');
+                        $('#like-icon-unfilled').hide();
+                        $('#like-icon-filled').show();
+                        //$('.like i').html('favorite');
                     } else {
                         art.hasLiked = 'False';
                         activateSnackbar('#unlikeSnackbar');
-                        $('.like i').html('favorite_border');
+                        $('#like-icon-unfilled').show();
+                        $('#like-icon-filled').hide();
+                        //$('.like i').html('favorite_border');
                     }
                 },
                 error: function (rs, e) {
@@ -293,7 +297,8 @@
                         <div class="card-action">
                             <div class="card-action-button">
                                 <a id="like" onclick="like()">
-                                    <p><i class="icon fa fa-thumbs-o-up"></i>LIKE</p>
+                                    <p id="like-icon-unfilled"><i class="icon fa fa-thumbs-o-up"></i>LIKE</p>
+                                    <p id="like-icon-filled" style="display: none;"><i class="icon fa fa-thumbs-up"></i>UNLIKE</p>
                                 </a>
                             </div>
                             <div class="card-action-button">
@@ -340,6 +345,10 @@
             <div id="comment-card-holder" class="card-holder">
                 <div id="comment-card" class="card">
                 </div>
+            </div>
+
+            <div id="nearest-artworks-header" class="nearest-artworks-header"> 
+                <p>Nearby</p>
             </div>
 
             <div id="nearest-artworks-holder" class="col-xs-12">
