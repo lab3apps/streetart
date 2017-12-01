@@ -30,7 +30,9 @@ urlpatterns = [
 	url(r'^checkin/([0-9]+)/$', views.checkIn, name='checkIn'),
 	url(r'^thanks/$', views.thanks, name='thanks'),
 	url(r'^logos/$', views.logos, name='thanks'),
-	url(r'^donate/$', TemplateView.as_view(template_name='streetart/donate.html'), name='donate'),
+	url(r'^donate/$', RedirectView.as_view(url='/page/donate', permanent=True), name='donate'),
+	url(r'^faq/$', RedirectView.as_view(url='/page/faqs', permanent=True), name='FAQs'),
+	url(r'^tours/$', RedirectView.as_view(url='/page/tours', permanent=True), name='tours'),
 	url(r'^get-involved/$', views.home, name='getinvolved'),
 	url(r'^post-comment/$', views.post_comment, name='post_comment'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

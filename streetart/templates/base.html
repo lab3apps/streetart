@@ -50,10 +50,10 @@
                         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                         <a href="/#gallery" onclick="closeNav()" class="navbar-gallery-mobile">Gallery</a>
                         <a href="/#map" onclick="closeNav()" class="navbar-map-mobile">Map</a>
-                        <a href="" onclick="closeNav()" class="navbar-getinvolved">Get Involved</a>
-                        <a href="" onclick="closeNav()" class="navbar-whatsnew">What's New</a>
+                        <a href="{% url 'streetart:tours' %}">Tours</a>
                         <a href="{% url 'streetart:about' %}">About</a>
                         <a href="{% url 'streetart:donate' %}">Donate</a>
+                        <a href="{% url 'streetart:FAQs' %}">FAQs</a>
                         {% if user.is_authenticated %}
                             <a href="/logout">Logout</a>
                         {% else %}
@@ -97,7 +97,7 @@
                                 <a id="navbar-blog" class="navbar-blog" href="#blog"><i class="icon fa fa-rss"></i><p>Blog</p></a>
                             </li>
                             <li class="navbar-item">
-                                <a id="navbar-tour" class="navbar-tour" href="#tour"><i class="icon fa fa-compass"></i><p>Tours</p></a>
+                                <a id="navbar-tour" class="navbar-tour" href="{% url 'streetart:tours' %}" target="_blank"><i class="icon fa fa-compass"></i><p>Tours</p></a>
                             </li>
                             <li class="navbar-item">
                                 <a id="navbar-about" class="navbar-about" href="{% url 'streetart:about' %}"><i class="icon fa fa-info-circle"></i><p>About</p>
@@ -107,7 +107,7 @@
                                     <ul>
                                         <a><li>I'm an artist!</li></a>
                                         <a href="{% url 'streetart:donate' %}" target="_blank"><li>Donate</li></a>
-                                        <a><li>FAQs</li></a>
+                                        <a href="{% url 'streetart:FAQs' %}" target="_blank"><li>FAQs</li></a>
                                     </ul>
                                 </div>
                             </li>
