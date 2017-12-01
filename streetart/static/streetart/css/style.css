@@ -104,6 +104,17 @@ a {
     display: none;
 }
 
+.preamble {
+    color: white;
+    text-align: center;
+    padding: 10px 0px;
+}
+
+.preamble p {
+    width: 70%;
+    margin: auto;
+}
+
 /* loader animation */
 .loader {
     position: absolute;
@@ -165,7 +176,7 @@ a {
     position: absolute;
     width: 180px;
     height: auto;
-    top: 84px;
+    top: 83px;
     left: -50px;
     color: white;
     background-color: rgb(55, 55, 55);
@@ -266,7 +277,7 @@ a {
   margin-top: 10px;
   margin-bottom: 0;
   color: white;
-  line-height: 46px;
+  line-height: 33px;
 }
 
 .down-arrow {
@@ -307,13 +318,23 @@ a {
 
 .split-page {
     width: 100%;
-    height: calc(100% - 84px);
+    height: calc(100% - 80px);
     background-color: transparent;
 }
 
 .scroll-container {
     height: calc(100% - 80px);
-    overflow: scroll;
+    overflow-x: scroll;
+}
+
+@media screen and (min-width: 992px) {
+    .split-page {
+        height: calc(100% - 224px);
+    }
+    
+    .scroll-container {
+        height: calc(100% - 224px);
+    }
 }
 
 .expanding.transition {
@@ -576,6 +597,7 @@ a {
     width: 100%;
     font-size: 12px;
     font-stretch: condensed;
+    text-shadow: none;
     line-height: 22px;
     font-weight: normal;
     white-space: nowrap;
@@ -589,7 +611,7 @@ a {
 .selector-input button:hover, .selector-input button:focus, 
 .selector-input button:active, .selector-input button:active:hover, 
 .selector-input .open>.dropdown-toggle.btn-default{
-    background-color: #FDD835;
+    background-color: #d6d10b;
     text-transform: uppercase;
 }
 
@@ -626,7 +648,6 @@ a {
 }
 
 .back-block {
-    width: 100%;
     display: none;
     position: fixed;
     z-index: 1001;
@@ -636,7 +657,6 @@ a {
     font-size: 3em;
     text-align: center;
     display: inline-block;
-    width: 100%;
 }
 .back-span {
     display: inline-block;
@@ -1089,7 +1109,7 @@ a {
     margin-bottom: 12px;
     margin-right: 12px;
     color: white;
-    height: 50px;
+    height: 33px;
     line-height: 46px;
     position: relative;
     text-align: left;
