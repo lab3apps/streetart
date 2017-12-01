@@ -329,11 +329,11 @@ a {
 
 @media screen and (min-width: 992px) {
     .split-page {
-        height: calc(100% - 224px);
+        height: calc(100% - 84px);
     }
     
     .scroll-container {
-        height: calc(100% - 224px);
+        height: calc(100% - 84px);
     }
 }
 
