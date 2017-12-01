@@ -204,6 +204,10 @@ a {
     padding: 10px;
 }
 
+.user-dropdown>ul{
+    top: 50%;
+}
+
 .navbar-item>a {
     font-size: 24pt;
     font-family: Raleway, Roboto, Helvetica, Arial, sans-serif;
@@ -688,6 +692,11 @@ a {
     max-height: 400px;
 }
 
+.alt-images-holder{
+    margin-top: 0px;
+    opacity: 0.7;
+}
+
 .card .card-image {
   position: relative;
   overflow: hidden;
@@ -756,6 +765,13 @@ a {
     line-height: 1em;
     bottom: 0;
     right: 0;
+}
+
+.card-image.main-card-image {
+    margin-left: 10px;
+    margin-right: 10px;
+    box-shadow: 0px 5px 20px black;
+    border-radius: 3px;
 }
 
 .card .card-details {
@@ -836,6 +852,19 @@ a {
 }
 
 
+.nearest-artworks-header {
+    display: inline-block;
+    border-bottom: 1px solid rgba(160, 160, 160, 0.2);
+    text-align: center;
+    margin: 10px;
+    color: white;
+}
+
+.nearest-artworks-header>p {
+    font-size: 20px;
+}
+
+
 /*** Logo Page ***/
 
 .logo-container {
@@ -873,11 +902,13 @@ a {
 }
 
 #alt-image {
-    padding: 10px;
+    padding: 3px;
+    padding-top: 0px;
     display: inline-block;
     float: none;
-    height: 180px;
+    height: 120px;
     width: auto;
+    border-radius: 3px;
 }
 
 #alt-image > .img-responsive{

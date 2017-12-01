@@ -303,9 +303,11 @@ function focusOnMarker(index) {
         $("#card-content").append(artists_bio_html);
         $('.overlay-fullscreen').attr('href', art.imageUrl);
         if(art.hasLiked === 'True') {
-            $('.like i').html('favorite');
+            $('#like-icon-unfilled').hide();
+            $('#like-icon-filled').show();
         } else {
-            $('.like i').html('favorite_border');
+            $('#like-icon-unfilled').show();
+            $('#like-icon-filled').hide();
         }
         if(art.hasCheckedin === 'True') {
             $('.checkin-icon-unfilled').hide();
@@ -374,6 +376,9 @@ function RenderNearestArtworks(response,_index){
         res =  jQuery.parseJSON( response );
         $("#nearest-artworks-holder").html("");
         var no_of_nearest = res.length-1;
+        if(no_of_nearest < 1){
+            $("#nearest-artworks-header").hide();
+        }
         var elements_in_row = 4;
         var height_of_row =109;    //px
         var no_of_rows = Math.floor(no_of_nearest/elements_in_row);
@@ -450,10 +455,18 @@ $( document ).ready(function() {
         focusOnMarker(loadedart);
     } else {
         var hash = location.hash.replace('#', '');
-        if (hash === 'gallery') {
-            perform_right_toggle();
-        } else if (hash === 'map') {
-            perform_left_toggle();
+        if ($(window).width() <= 991) {
+            if (hash === 'gallery') {
+                showGalleryMobile();
+            } else if (hash === 'map') {
+                showMapMobile();
+            }
+        } else {
+            if (hash === 'gallery') {
+                perform_right_toggle();
+            } else if (hash === 'map') {
+                perform_left_toggle();
+            }
         }
     }
 });

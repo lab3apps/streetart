@@ -34,6 +34,7 @@ function gallery_view() {
     $('#comment-card-holder').hide();
     $('#images-card-holder').hide();
     $('#nearest-artworks-holder').hide();
+    $('#nearest-artworks-header').hide();
     $('.scroll-gallery').show();
     $('.left-panel').css('overflow-y', 'hidden');
     $(".card-details").slideUp();
@@ -67,6 +68,7 @@ function full_card_view() {
     $('#comment-card-holder').show();
     $('#images-card-holder').show();
     $('#nearest-artworks-holder').show();
+    $('#nearest-artworks-header').show();
     $('.scroll-gallery').hide();
     $('.left-panel').css('overflow-y', 'scroll');
     $(".card-details").slideDown();
@@ -139,6 +141,7 @@ function expandCard() {
     $('#comment-card-holder').show();
     $('#images-card-holder').show();
     $('#nearest-artworks-holder').show();
+    $('#nearest-artworks-header').show();
     $('.scroll-gallery').hide();
     $('.left-panel').css('overflow-y', 'scroll');
     $(".card-details").slideDown();
@@ -151,7 +154,7 @@ function collapseCard() {
     $('#comment-card-holder').hide();
     $('#images-card-holder').hide();
     $('#nearest-artworks-holder').hide();
-    $('#nearest-artworks-holder').hide();
+    $('#nearest-artworks-header').hide();
     $('.scroll-gallery').show();
     $('.left-panel').css('overflow-y', 'hidden');
     $(".card-details").slideUp();
@@ -207,24 +210,6 @@ function resizeMap() {
         google.maps.event.trigger(map, "resize");
     }, 200);
 }
-
-$('.navbar-map').click(function(e) {
-    e.preventDefault();
-    // Important for mobile
-    setTimeout(function() {
-        google.maps.event.trigger(map, "resize");
-    }, 300);
-    $('.left-panel').addClass('mobile-hide');
-    $('.right-panel').removeClass('mobile-hide');
-});
-
-$('.navbar-gallery').click(function(e) {
-    e.preventDefault();
-    // Important for mobile
-    $('.left-panel').removeClass('mobile-hide');
-    $('.right-panel').addClass('mobile-hide');
-
-});
 
 function perform_left_toggle() {
     var elem = document.querySelector(".right-panel");
