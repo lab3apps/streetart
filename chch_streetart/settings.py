@@ -214,4 +214,6 @@ SUMMERNOTE_CONFIG = {
     'width': '100%',
     'height': '480',
     'styleWithTags': True,
+    'fontNames': ['Raleway', 'Arial', 'Helvetica', 'Courier New'],
+    'fontNamesIgnoreCheck': ['Raleway'],
 }
