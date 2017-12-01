@@ -1374,3 +1374,28 @@ form{
 .custom-page-content{
     color: white;
 }
+
+.yellow-donate-btn {
+    background-color: yellow;
+    width: 80px;
+    padding: 10px 25px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 0;
+    color: black;
+    border-color: transparent;
+    margin-right: 10px;
+}
+.yellow-donate-btn:hover, .yellow-donate-btn:active {
+    background-color: rgb(199, 199, 0);
+}
+
+.custom-page-content form {
+    margin: 0;
+    padding: 4px;
+}
+.custom-page-content .fa-heart {
+    float: left;
+    font-size: 85px;
+    margin: 20px 30px;
+}
