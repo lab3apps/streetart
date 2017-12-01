@@ -2,6 +2,14 @@
 {% load comments_xtd %}
 {% get_comment_count for art as comment_count %}
 <div class="card-content">
+
+{% if comment_count %}
+<hr/>
+<ul class="media-list">
+  {% render_xtdcomment_tree for art allow_flagging allow_feedback show_feedback %}
+</ul>
+{% endif %}
+
 <div class="comment">
 {% if user.is_authenticated %}
 	{% if user.email and user.email != "" %}
@@ -9,18 +17,13 @@
 		{% render_comment_form for art %}
 		</div>
 	{% else %}
-		To comment, please <a href="/settings">update your settings</a> to include your email address.
+		<div class="cannot-comment-warning">To comment, please <a href="/settings">update your settings</a> to include your email address.</div>
 	{% endif %}
 {% else %}
-	To comment, please log in.
+	<div class="cannot-comment-warning">To comment, please log in.</div>
 {% endif %}
 </div>
-{% if comment_count %}
-<hr/>
-<ul class="media-list">
-  {% render_xtdcomment_tree for art allow_flagging allow_feedback show_feedback %}
-</ul>
-{% endif %}
+
 </div>
 
 <script type="text/javascript">

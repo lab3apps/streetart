@@ -263,7 +263,11 @@
 
 {% block content %}
 <div class="container split-page">
-    <div class="preamble row"></div>
+    <div class="preamble row hidden-xs hidden-sm none">
+        <p>Graffiti, big wall murals and street art grew organically out of the earthquakes. The attention George Shaw and Oi! YOU, the YMCA, the Canterbury Museum and the Spectrum street art festival brought to Christchurchs street art scene even got Christchurch its very own chapter in Lonely Planet's first ever street art dedicated guidebook: Street Art. Watch This Space maps out street art across Christchurch's ever-changing landscape as a free resource for both locals and tourists to Christchurch.
+            Our long term goal is to provide a legacy item for the people of Christchurch which maps out street art past and present, something we can look back on once the city is fully rebuilt.
+        </p>
+    </div>
     <div class="main row">
 
         <!-- This panel relates to the left half of the screen -->
@@ -300,40 +304,26 @@
                         <div class="card-action">
                             <div class="card-action-button">
                                 <a id="like" onclick="like()">
-                                    <p id="like-icon-unfilled"><i class="icon fa fa-thumbs-o-up"></i>LIKE</p>
-                                    <p id="like-icon-filled" style="display: none;"><i class="icon fa fa-thumbs-up"></i>UNLIKE</p>
+                                    <span id="likeCount"></span>
+                                    <span id="like-icon-unfilled"><i class="icon fa fa-thumbs-o-up"></i>LIKE</span>
+                                    <span id="like-icon-filled" style="display: none;"><i class="icon fa fa-thumbs-up"></i>UNLIKE</span>
                                 </a>
                             </div>
                             <div class="card-action-button">
                                 <a id="checkin" onclick="checkin()">
-                                    <p><i class="icon fa fa-square-o checkin-icon-unfilled"></i>
-                                       <i class="icon fa fa-check-square-o checkin-icon-filled" style="display: none;"></i>CHECK IN</p>
+                                    <span id="checkinCount"></span>
+                                    <span><i class="icon fa fa-square-o checkin-icon-unfilled"></i>
+                                       <i class="icon fa fa-check-square-o checkin-icon-filled" style="display: none;"></i>CHECK IN</span>
                                 </a>
                             </div>
                             <div class="card-action-button">
                                 <a id="show_on_map" >
-                                    <p><i class="fa fa-map-pin"></i>SHOW ON MAP</p>
+                                    <span><i class="fa fa-map-pin"></i>SHOW ON MAP</span>
                                 </a>
                             </div>
-                            <!--
-                            <a class="like" id="like" onclick="like()">
-                                <i class="material-icons palette-Red text md-36">favorite_border</i>
-                                Like
-                            </a>
-                            <a class="checkin" id="checkin" onclick="checkin()">
-                                <img class="checkin-icon checkin-icon-unfilled" src="{% static 'material-design-icons/ic_place_check_border_36px.svg'%}"></img>
-                                <img class="checkin-icon checkin-icon-filled"   src="{% static 'material-design-icons/ic_place_check_border_filled_36px.svg'%}" style="display: none;"></img>
-                                Check in
-                            </a>
-                            <a id="show_on_map">
-                                Show on map
-                                <i class="fa fa-map-pin"></i>
-                            </a>
-                            -->
                         </div>
                         <div class="card-content" id="card-content">
                         </div>
-                        <div class="like-checkin-count"><span id="likeCount"></span> like<span id="like-plural">s</span> and <span id="checkinCount"></span> checkin<span id="checkin-plural">s</span></div>
                     </div>
                 </div>
             </div>
