@@ -697,6 +697,10 @@ a {
     opacity: 0.7;
 }
 
+#comment-card-holder.card-holder {
+    margin-top: 0px;
+}
+
 .card .card-image {
   position: relative;
   overflow: hidden;
@@ -817,6 +821,10 @@ a {
     text-transform: capitalize;
 }
 
+.card-content hr {
+    border-top: 1px solid rgba(160, 160, 160, 0.2);
+}
+
 .card .card-action {
   border-bottom: 1px solid rgba(160, 160, 160, 0.2);
   padding: 16px;
@@ -827,20 +835,21 @@ a {
 .card .card-action a {
   float: left;
   height: 36px;
+  min-width: 110px;
 }
 
 .card-action-button{
     display: inline-block;
-    padding: 5px 30px;
+    padding: 5px 15px;
 }
 
 
-.card-action-button>a>p{
+.card-action-button > a > span{
     font-size: 17px;
     color: white;
 }
 
-.card-action-button>a>p>i{
+.card-action-button > a > span > i{
     padding: 3px 8px;
     font-size: 22px;
 }
@@ -1223,6 +1232,7 @@ a {
 
 /*** Comments ***/
 
+
 .comment h4 {
     display: none;
 }
@@ -1232,6 +1242,9 @@ a {
     border: none;
 }
 
+.cannot-comment-warning {
+    color: white;
+}
 
 form{
     padding: 1em;
@@ -1256,6 +1269,11 @@ form{
     border-color: rgba(3, 161, 241, 1) !important;
 }
 
+.comment {
+    text-align: left;
+    color: white;
+}
+
 .well{
     padding: 0;
     margin: 0;
@@ -1269,10 +1287,14 @@ form{
     color: white;
 }
 
+.media-list {
+    display: inline-block;
+}
+
 .media-list > .media {
-    background-color: white;
+    border-bottom: 1px solid rgba(160, 160, 160, 0.2);
     padding: 10px;
-    border-radius: 10px;
+    max-width: 700px;
 }
 
 /*** Side Navigation Menu ***/
