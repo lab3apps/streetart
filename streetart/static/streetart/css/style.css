@@ -204,6 +204,10 @@ a {
     padding: 10px;
 }
 
+.user-dropdown>ul{
+    top: 50%;
+}
+
 .navbar-item>a {
     font-size: 24pt;
     font-family: Raleway, Roboto, Helvetica, Arial, sans-serif;
