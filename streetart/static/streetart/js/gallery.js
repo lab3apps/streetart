@@ -175,14 +175,12 @@ function focusOnMarker(index) {
 
     if (arrayHasOwnIndex(artworks, index)) {
         full_card_view();
-
         var art = artworks[index];
         var marker = markers[index];
         getNearestArtworks(index)
 
         //closeMarkers();
         //marker['infowindow'].open(map, marker);
-        var point = new google.maps.LatLng(art.lat, art.lng);
         // Image Loading
         $('.loader').removeClass('none');
         if (art.image) {
@@ -208,7 +206,6 @@ function focusOnMarker(index) {
                 });
             }
         }
-        
         
         //Used to get focused artworks id for liking and checking in.
         $('#main-card').data('index', index);
@@ -258,7 +255,6 @@ function focusOnMarker(index) {
         }
 
         $("#card-content").html('');
-
         var overlay_title = '';
         if (artists_text !== "") {
             overlay_title = artists_text;
@@ -329,8 +325,6 @@ function focusOnMarker(index) {
             $('#checkin-plural').hide();
         }
         $('#show_on_map').data('index', index);
-        map.panTo(point);
-        map.setZoom(17);
         toggleBounce(marker);
         loadCommentSection(index);
         loadAltImages(index);
@@ -338,6 +332,14 @@ function focusOnMarker(index) {
 
         //setTimeout(function(){ expandCard(); }, 10);
         
+    }
+}
+function panToPointIfNeeded(index) {
+    if (arrayHasOwnIndex(artworks, index)) {
+        var art = artworks[index];
+        var point = new google.maps.LatLng(art.lat, art.lng);
+        map.panTo(point);
+        map.setZoom(17);
     }
 }
 
@@ -445,11 +447,11 @@ function loadAltImages(index) {
     }
 }
 
-
-$( document ).ready(function() {
+$( document ).ready(function() { //TODO: make a document ready as well - just need this for the map stuff.
 
     $('body').on('click', 'a.artwork-gal', function() {
         focusOnMarker($(this).data('artid'));
+        panToPointIfNeeded($(this).data('artid'));
     });
     if (loadedart > 0) {
         focusOnMarker(loadedart);
@@ -470,3 +472,8 @@ $( document ).ready(function() {
         }
     }
 });
+window.onload = function() { //TODO: make a document ready as well - just need this for the map stuff.
+    if (loadedart > 0) {
+        panToPointIfNeeded(loadedart);
+    } 
+};
