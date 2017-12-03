@@ -615,6 +615,24 @@ a {
     text-transform: uppercase;
 }
 
+/*** Form buttons ***/
+.form-group .btn{
+    width: 100%;
+    max-width: 150px;
+}
+
+.form-group .btn-primary{
+    background-color: #d6d10b;
+    border-color: rgb(179, 176, 4);
+    color: black;
+}
+
+.form-group .btn-primary:hover{
+    background-color: #fff90d;
+}
+
+
+
 .filter-block {
     position: absolute;
     top: 6px;
@@ -1273,16 +1291,15 @@ form{
 .comment .form-control {
     display: block;
     width: 100% ;
-    padding: 0.375rem 0.1rem !important;
     font-size: 14px !important;
     font-weight: 400 !important;
     line-height: 1.5 !important;
-    color: #55595c !important;
-    background-color: white !important;
+    background-color: rgba(0, 0, 0, 0);
     background-image: none !important;
     border: none !important;
-    border-radius: 0 !important;
-    border-bottom: 1px solid #ccc !important;
+    min-height: 80px;
+    color: white !important;
+    box-shadow: black 0px 0px 8px inset;
 }
 
 .comment .form-control:focus{
@@ -1292,6 +1309,9 @@ form{
 .comment {
     text-align: left;
     color: white;
+    display: inline-block;
+    width: 100%;
+    max-width: 700px;
 }
 
 .well{
@@ -1315,6 +1335,10 @@ form{
     border-bottom: 1px solid rgba(160, 160, 160, 0.2);
     padding: 10px;
     max-width: 700px;
+}
+
+.media-left > img {
+    border-radius: 5px;
 }
 
 /*** Side Navigation Menu ***/
