@@ -282,6 +282,7 @@ function addMarkers() {
             });
             google.maps.event.addListener(marker, 'click', function () {
                 focusOnMarker(this.id);
+                panToPointIfNeeded(this.id);
                 //markerClicked();
                 //getNearestArtworks(this.id)
             });
@@ -366,12 +367,14 @@ function filterMarkers() {
 
 var currentBounceMarker;
 function toggleBounce(marker) {
+    console.log('togglebounce');
     if (currentBounceMarker) {
-        if (currentBounceMarker.getAnimation() !== null) {
-          currentBounceMarker.setAnimation(null);
-        } 
+        if(currentBounceMarker != marker){
+            currentBounceMarker.setAnimation(null);
+        }
         currentBounceMarker = marker;
         currentBounceMarker.setAnimation(google.maps.Animation.BOUNCE);
+        
     }else{
         currentBounceMarker = marker;
         currentBounceMarker.setAnimation(google.maps.Animation.BOUNCE);

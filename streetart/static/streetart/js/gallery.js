@@ -175,14 +175,12 @@ function focusOnMarker(index) {
 
     if (arrayHasOwnIndex(artworks, index)) {
         full_card_view();
-
         var art = artworks[index];
         var marker = markers[index];
         getNearestArtworks(index)
 
         //closeMarkers();
         //marker['infowindow'].open(map, marker);
-        var point = new google.maps.LatLng(art.lat, art.lng);
         // Image Loading
         $('.loader').removeClass('none');
         if (art.image) {
@@ -208,7 +206,6 @@ function focusOnMarker(index) {
                 });
             }
         }
-        
         
         //Used to get focused artworks id for liking and checking in.
         $('#main-card').data('index', index);
@@ -258,7 +255,6 @@ function focusOnMarker(index) {
         }
 
         $("#card-content").html('');
-
         var overlay_title = '';
         if (artists_text !== "") {
             overlay_title = artists_text;
@@ -329,8 +325,6 @@ function focusOnMarker(index) {
             $('#checkin-plural').hide();
         }
         $('#show_on_map').data('index', index);
-        map.panTo(point);
-        map.setZoom(17);
         toggleBounce(marker);
         loadCommentSection(index);
         loadAltImages(index);
@@ -340,10 +334,19 @@ function focusOnMarker(index) {
         
     }
 }
+function panToPointIfNeeded(index) {
+    if (arrayHasOwnIndex(artworks, index)) {
+        var art = artworks[index];
+        var point = new google.maps.LatLng(art.lat, art.lng);
+        map.panTo(point);
+        map.setZoom(17);
+    }
+}
 
 $('#show_on_map').click(function(e) {
     $('.left-panel').addClass('mobile-hide');
     $('.right-panel').removeClass('mobile-hide');
+    showRightPanel();
     google.maps.event.trigger(map, "resize");
     var marker_index = $(this).data('index');
     if (arrayHasOwnIndex(artworks, marker_index)) {
@@ -371,45 +374,42 @@ function getNearestArtworks(index) {
 }
 
 function RenderNearestArtworks(response,_index){
-    if(viewState===1 || viewState===2)
-    {
-        res =  jQuery.parseJSON( response );
-        $("#nearest-artworks-holder").html("");
-        var no_of_nearest = res.length-1;
-        if(no_of_nearest < 1){
-            $("#nearest-artworks-header").hide();
-        }
-        var elements_in_row = 4;
-        var height_of_row =109;    //px
-        var no_of_rows = Math.floor(no_of_nearest/elements_in_row);
-        if(no_of_nearest%elements_in_row>0)
-        {
-        no_of_rows++;
-        }
-
-        //$("#nearest-artworks-holder").height( no_of_rows * height_of_row);
-        $.each(res, function (index,obj)
-        {
-         if(_index!=obj.pk)
-         {
-            var imagetag ;
-            if(obj.fields.cropped_image=="")
-            {
-            imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.image+'" >';
-            }else
-            {
-            imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.cropped_image+'" >';
-            }
-
-            var view ='<div id="artbox-'+obj.pk+'" class="gallery-item col-xs-6 col-sm-3 col-md-3">'+
-                        '<div class="dummy"></div>'+
-                        '<a class="img-link" onclick="focusOnMarker('+obj.pk+')">'+ imagetag+
-                        '</a>'+
-                    '</div>';
-            $("#nearest-artworks-holder").append(view);
-         }
-        });
+    res =  jQuery.parseJSON( response );
+    $("#nearest-artworks-holder").html("");
+    var no_of_nearest = res.length-1;
+    if(no_of_nearest < 1){
+        $("#nearest-artworks-header").hide();
     }
+    var elements_in_row = 4;
+    var height_of_row =109;    //px
+    var no_of_rows = Math.floor(no_of_nearest/elements_in_row);
+    if(no_of_nearest%elements_in_row>0)
+    {
+    no_of_rows++;
+    }
+
+    //$("#nearest-artworks-holder").height( no_of_rows * height_of_row);
+    $.each(res, function (index,obj)
+    {
+        if(_index!=obj.pk)
+        {
+        var imagetag ;
+        if(obj.fields.cropped_image=="")
+        {
+        imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.image+'" >';
+        }else
+        {
+        imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.cropped_image+'" >';
+        }
+
+        var view ='<div id="artbox-'+obj.pk+'" class="gallery-item col-xs-6 col-sm-3 col-md-3">'+
+                    '<div class="dummy"></div>'+
+                    '<a class="img-link" onclick="focusOnMarker('+obj.pk+')">'+ imagetag+
+                    '</a>'+
+                '</div>';
+        $("#nearest-artworks-holder").append(view);
+        }
+    });
 }
 
 
@@ -445,11 +445,11 @@ function loadAltImages(index) {
     }
 }
 
-
-$( document ).ready(function() {
+$( document ).ready(function() { //TODO: make a document ready as well - just need this for the map stuff.
 
     $('body').on('click', 'a.artwork-gal', function() {
         focusOnMarker($(this).data('artid'));
+        panToPointIfNeeded($(this).data('artid'));
     });
     if (loadedart > 0) {
         focusOnMarker(loadedart);
@@ -470,3 +470,8 @@ $( document ).ready(function() {
         }
     }
 });
+window.onload = function() { //TODO: make a document ready as well - just need this for the map stuff.
+    if (loadedart > 0) {
+        panToPointIfNeeded(loadedart);
+    } 
+};
