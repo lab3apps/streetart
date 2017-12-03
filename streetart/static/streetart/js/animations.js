@@ -89,24 +89,23 @@ function full_card_view() {
 }
 
 function hideLeftPanel() {
-    console.log("hideLeftPanel");
     $('.left-panel').addClass('no-width');
     $('.right-panel').addClass('full-width');
     $('.right-panel-toggle').hide();
     $('.left-panel-toggle').removeClass('material-icons');
     $('.left-panel-toggle').text('SHOW GALLERY');
+    $('.back-block').hide();
 }
 
 function showLeftPanel() {
-    console.log("showLeftPanel");
     $('.left-panel').removeClass('no-width');
     $('.right-panel').removeClass('full-width');
     $('.right-panel-toggle').show();
     $('.left-panel-toggle').addClass('material-icons');
     $('.left-panel-toggle').text('arrow_drop_up');
+    $('.back-block').show();
 }
 function hideRightPanel() {
-    console.log("hideRightPanel");
     $('.right-panel').addClass('no-width');
     $('.left-panel').addClass('full-width-minus-buttons');
     $('.left-panel-toggle').hide();
@@ -121,7 +120,6 @@ function hideRightPanel() {
 }
 
 function showRightPanel() {
-    console.log("showRightPanel");
     $('.right-panel').removeClass('no-width');
     $('.left-panel').removeClass('full-width-minus-buttons');
     $('.left-panel-toggle').show();
