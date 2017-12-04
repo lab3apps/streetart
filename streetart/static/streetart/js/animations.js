@@ -103,7 +103,9 @@ function showLeftPanel() {
     $('.right-panel-toggle').show();
     $('.left-panel-toggle').addClass('material-icons');
     $('.left-panel-toggle').text('arrow_drop_up');
-    $('.back-block').show();
+    if ($('.scroll-gallery').css('display') == 'none') {
+        $('.back-block').show();
+    }
 }
 function hideRightPanel() {
     $('.right-panel').addClass('no-width');
