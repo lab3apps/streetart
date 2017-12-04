@@ -324,7 +324,10 @@ function preloadImages() {
 
 function filterMarkers() {
     var searchText = $('#search-input').val();
-    var catArray = $('.multiselect').val();
+    var catArray = $("input[name='status']:checked").map(function(){
+        return $(this).val();
+      }).get();
+    console.log(catArray);
     markerCluster.clearMarkers();
     for(var key in artworks) {
         if (arrayHasOwnIndex(artworks, key)) {
@@ -379,29 +382,17 @@ function toggleBounce(marker) {
         currentBounceMarker = marker;
         currentBounceMarker.setAnimation(google.maps.Animation.BOUNCE);
     }
- }       
-
-function initializeMultiSelect() {
-    $('.multiselect').multiselect({
-        buttonText: function(options, select) {
-                return 'Show artworks that are';
-            },
-        buttonWidth: "100%",
-        onInitialized: function() {
-            filterMarkers();
-        },
-        onChange: function() {
-            filterMarkers();
-        }
-    });
-}
+ }
 
 
 
 $( document ).ready(function() {
     initialize();
-    initializeMultiSelect();
     $('#search-input').keyup(function() {
+        filterMarkers();
+    });
+
+    $('.checkbox-form input').click(function() {
         filterMarkers();
     });
 

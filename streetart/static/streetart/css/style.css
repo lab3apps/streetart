@@ -540,6 +540,7 @@ a {
 @media screen and (max-width: 991px) {
     .right-content{
         border: none;
+        width: 100%;
         margin: 0;
     }
 }
@@ -589,30 +590,26 @@ a {
     font-size: 15px;
 }
 
-.selector-input button{
-    background-color: yellow;
-    text-transform: uppercase;
-    border: none;
-    color: black;
+.selector-input {
+    position: absolute;
+    width: auto;
+    height: auto;
+    bottom: 20px;
+    z-index: 10;
+    left: 20px;
+}
+
+.checkbox-form {
+    position: relative;
     width: 100%;
-    font-size: 12px;
-    font-stretch: condensed;
-    text-shadow: none;
-    line-height: 22px;
-    font-weight: normal;
-    white-space: nowrap;
+    height: 100%;
+    line-height: 30px;
 }
 
-.selector-input button > span {
-    margin-right: 9px;
-}
-
-
-.selector-input button:hover, .selector-input button:focus, 
-.selector-input button:active, .selector-input button:active:hover, 
-.selector-input .open>.dropdown-toggle.btn-default{
-    background-color: #d6d10b;
-    text-transform: uppercase;
+.selector-input input {
+    display: inline-block;
+    margin: 0;
+    margin-right: 10px;
 }
 
 /*** Form buttons ***/

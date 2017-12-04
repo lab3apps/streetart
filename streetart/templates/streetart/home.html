@@ -56,7 +56,7 @@
 
 
     }
-    
+
     function getLocation()
     {
         //debugger;
@@ -66,7 +66,7 @@
             $("#message").html("failed gps fetching");
         }
     }
-    
+
 
     function permissionDenied()
     {
@@ -254,7 +254,7 @@
         $('.alert-warning').fadeOut('fast');
         }, 3000);
     })
-           
+
     </script>
     <script src="{% static 'streetart/js/map.js' %}"></script>
     <script src="{% static 'streetart/js/animations.js' %}"></script>
@@ -289,7 +289,7 @@
                             <a class="overlay-fullscreen" href="" data-lightbox="lightbox"><i class="material-icons md-light md-36">fullscreen</i></a>
                             <a class="overlay overlay-expand" onclick="expandCard()"><i class="material-icons md-light md-36">expand_more</i></a>
                         </div>
-                        
+
                     </div>
                     <!-- This div holds the alternative images card if any are available -->
                     <div id="images-card-holder" class="card-holder alt-images-holder">
@@ -331,12 +331,12 @@
                 </div>
             </div>
 
-            <div id="nearest-artworks-header" class="nearest-artworks-header" style="display: none;"> 
+            <div id="nearest-artworks-header" class="nearest-artworks-header" style="display: none;">
                 <p>Nearby</p>
             </div>
 
             <div id="nearest-artworks-holder" class="col-xs-12">
-                    
+
             </div>
             <div class="scroll-gallery" id="lazy-container-top">
             <!-- This is Set Of Artworkes neared to Selected Artwork -->
@@ -387,16 +387,22 @@
 
                 <!-- This block shows the category selector and search bar -->
                 <div class="filter-block col-xs-10 col-xs-offset-1">
-                    <div class="col-xs-6 selector-input">
-                        <select class="multiselect hidden" multiple="multiple">
-                            <option value="1" selected="selected">Viewable</option>
-                            <option value="2" selected="selected">Partially-Viewable</option>
-                            <option value="3">Not Viewable</option>
-                        </select>
-                    </div>
-                    <div class="col-xs-6 search">
+                    <div class="col-xs-6 col-xs-offset-6 search">
                         <input id="search-input" type="text" class="form-control search-input" placeholder="Search">
                         <span class="fa fa-search"></span>
+                    </div>
+                </div>
+
+                <div class="selector-input">
+                    <!--select class="multiselect hidden" multiple="multiple">
+                        <option value="1" selected="selected">Viewable</option>
+                        <option value="2" selected="selected">Partially-Viewable</option>
+                        <option value="3">Not Viewable</option>
+                    </select-->
+                    <div class="checkbox-form">
+                        <input type="checkbox" name="status" value="1" checked>Viewable<br>
+                        <input type="checkbox" name="status" value="2" checked>Partially-Viewable<br>
+                        <input type="checkbox" name="status" value="3">Not Viewable<br>
                     </div>
                 </div>
 
@@ -412,7 +418,7 @@
                 <i class="material-icons">add_location</i>
                 </a>
             </div>
-            
+
         </div>
     </div>
     <div id="likeSnackbar" class="snackbar">Liked</div>
