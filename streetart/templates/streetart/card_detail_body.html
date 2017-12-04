@@ -4,11 +4,13 @@
 <div class="card-content">
 
 {% if comment_count %}
-<hr/>
+<hr>
 <ul class="media-list">
   {% render_xtdcomment_tree for art allow_flagging allow_feedback show_feedback %}
 </ul>
 {% endif %}
+
+<br>
 
 <div class="comment">
 {% if user.is_authenticated %}
