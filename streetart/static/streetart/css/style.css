@@ -329,11 +329,11 @@ a {
 
 @media screen and (min-width: 992px) {
     .split-page {
-        height: calc(100% - 84px);
+        height: calc(100% - 152px);
     }
     
     .scroll-container {
-        height: calc(100% - 84px);
+        height: calc(100% - 152px);
     }
 }
 
@@ -529,7 +529,7 @@ a {
 .right-content {
     margin-left: 48px;
     height: 100%;
-    width: 100%;
+    width: calc(100% - 48px);
     border-left-width: 10px;
     border-left-color: yellow;
     border-left-style: solid;
