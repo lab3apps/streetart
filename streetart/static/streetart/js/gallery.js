@@ -335,6 +335,7 @@ function focusOnMarker(index) {
         
     }
 }
+
 function panToPointIfNeeded(index) {
     if (arrayHasOwnIndex(artworks, index)) {
         var art = artworks[index];
