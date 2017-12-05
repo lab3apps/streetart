@@ -936,6 +936,16 @@ a {
   padding-left: 16px;
 }
 
+.comments-header {
+    display: inline-block;
+    text-align: center;
+    color: white;
+}
+
+.comments-header > p {
+    font-size: 20px;
+}
+
 
 .nearest-artworks-header {
     display: inline-block;
@@ -945,7 +955,7 @@ a {
     color: white;
 }
 
-.nearest-artworks-header>p {
+.nearest-artworks-header > p {
     font-size: 20px;
 }
 
