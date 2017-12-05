@@ -718,10 +718,16 @@ a {
     background-color: #ffe000;
     border-color: rgb(179, 176, 4);
     color: black;
+    margin-left: 50%;
+    transform: translateX(-50%);
 }
 
 .form-group .btn-primary:hover{
     background-color: #d6d10b;
+}
+
+.form-group input[name="preview"]{
+    display: none;
 }
 
 
