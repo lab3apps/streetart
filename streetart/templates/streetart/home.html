@@ -432,19 +432,27 @@
 
                 <!-- This block shows the category selector and search bar -->
                 <div class="filter-block col-xs-10 col-xs-offset-1">
-                    <div class="col-xs-6 selector-input">
-                        <select class="multiselect hidden" multiple="multiple">
-                            <option value="1" selected="selected">Viewable</option>
-                            <option value="2" selected="selected">Partially-Viewable</option>
-                            <option value="3">Not Viewable</option>
-                        </select>
-                    </div>
-                    <div class="col-xs-6 search">
+                    <div class="col-xs-6 col-xs-offset-6 search">
                         <input id="search-input" type="text" class="form-control search-input" placeholder="Search">
                         <span class="fa fa-search"></span>
                     </div>
                 </div>
 
+                <div class="selector-input">
+                    <!--select class="multiselect hidden" multiple="multiple">
+                        <option value="1" selected="selected">Viewable</option>
+                        <option value="2" selected="selected">Partially-Viewable</option>
+                        <option value="3">Not Viewable</option>
+                    </select-->
+                    <div class="checkbox-form">
+                        <input id="status-1" type="checkbox" name="status" value="1" checked>
+                        <label for="status-1">Viewable</label><br>
+                        <input id="status-2" type="checkbox" name="status" value="2" checked>
+                        <label for="status-2">Partially Viewable</label><br>
+                        <input id="status-3" type="checkbox" name="status" value="3">
+                        <label for="status-3" onclick="">Not Viewable</label><br>
+                    </div>
+                </div>
                 <!-- This div is where the map will be displayed -->
                 <div id="map" class="map-container"></div>
 

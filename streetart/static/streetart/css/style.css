@@ -558,6 +558,7 @@ a {
 @media screen and (max-width: 991px) {
     .right-content{
         border: none;
+        width: 100%;
         margin: 0;
     }
 }
@@ -607,30 +608,42 @@ a {
     font-size: 15px;
 }
 
-.selector-input button{
-    background-color: yellow;
-    text-transform: uppercase;
-    border: none;
-    color: black;
+.selector-input {
+    position: absolute;
+    width: auto;
+    height: auto;
+    bottom: 20px;
+    z-index: 10;
+    left: 20px;
+}
+
+.checkbox-form {
+    position: relative;
     width: 100%;
-    font-size: 12px;
-    font-stretch: condensed;
-    text-shadow: none;
-    line-height: 22px;
-    font-weight: normal;
-    white-space: nowrap;
+    height: 100%;
+    line-height: 30px;
 }
 
-.selector-input button > span {
-    margin-right: 9px;
+.selector-input input {
+    display: inline-block;
+    margin: 0;
+    margin-right: 10px;
+    display: none;
+}
+
+input + label {
+    background: url(../../img/visible.png) 0px 5px no-repeat;
+    background-size: 11px 16px;
+    height: 16px;
+    padding: 0 0 0 18px;
 }
 
 
-.selector-input button:hover, .selector-input button:focus, 
-.selector-input button:active, .selector-input button:active:hover, 
-.selector-input .open>.dropdown-toggle.btn-default{
-    background-color: #d6d10b;
-    text-transform: uppercase;
+@media screen and (max-width: 991px) {
+    .checkbox-form {
+        line-height: 60px;
+        font-size: 20pt;
+    }
 }
 
 /*** Form buttons ***/
@@ -1428,6 +1441,8 @@ form{
     color: white;
 }
 
+/*** Custom Pages ***/
+
 .custom-page-content{
     color: white;
 }
@@ -1457,7 +1472,7 @@ form{
     margin: 20px 30px;
 }
 
-.custom-page-content img {
+.custom-page-content .border-img {
     border: 1px solid grey;
     padding: 10px;
     border-radius: 5px;
@@ -1536,4 +1551,33 @@ form{
         margin-left: 50%;
         transform: translateX(-50%);
     }
+}
+
+/*** Media Page ***/
+
+.media-video-link{
+    border: 1px solid grey;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+.media-thumbnail{
+    width: 100%;
+    position: relative;
+}
+.media-thumbnail::before {
+        position:absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        content: "\f01d";
+        font-family: FontAwesome;
+        font-size: 100px;
+        color: #fff;
+        opacity: .8;
+        text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+}
+.media-thumbnail:hover::before {
+        color: #eee;
 }
