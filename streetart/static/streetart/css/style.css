@@ -111,7 +111,7 @@ body {
 
 a {
     cursor: pointer;
-    color: yellow;
+    color: #ffe000;
 }
 
 .main {
@@ -119,7 +119,7 @@ a {
 }
 
 .yellow-submit-btn {
-    background-color: yellow;
+    background-color: #ffe000;
     padding: 10px 25px;
     border-radius: 10px;
     text-align: center;
@@ -231,7 +231,7 @@ a {
 }
 
 .navbar-dropdown li:hover {
-    background-color: yellow;
+    background-color: #ffe000;
     color: black;
 }
 
@@ -288,7 +288,7 @@ a {
 }
 
 .navbar-nav>li>a:focus, .navbar-nav>li>a:hover {
-    color: yellow;
+    color: #ffe000;
     background-color: unset;
 }
 
@@ -399,7 +399,7 @@ a {
     -ms-transform: rotate(-90deg) translateX(-100%);
     -webkit-transform: rotate(-90deg) translateX(-100%);
     transform: rotate(-90deg) translateX(-100%);
-    background-color: yellow;
+    background-color: #ffe000;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     font-size: 20px;
@@ -422,13 +422,13 @@ a {
   left: -20px;
   border-bottom-right-radius: 10px;
   border-width: 0 1px 1px 0;
-  box-shadow: 6px 2px 0 yellow;
+  box-shadow: 6px 2px 0 #ffe000;
 }
 .left-panel-toggle:after {
   right: -20px;
   border-bottom-left-radius: 10px;
   border-width: 0 0 1px 1px;
-  box-shadow: -6px 2px 0 yellow;
+  box-shadow: -6px 2px 0 #ffe000;
 }
 
 .left-panel-cont {
@@ -451,7 +451,7 @@ a {
     -ms-transform: rotate(90deg) translateX(100%);
     -webkit-transform: rotate(90deg) translateX(100%);
     transform: rotate(90deg) translateX(100%);
-    background-color: yellow;
+    background-color: #ffe000;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     font-size: 20px;
@@ -472,7 +472,7 @@ a {
     -ms-transform: rotate(-90deg) translateX(-100%);
     -webkit-transform: rotate(-90deg) translateX(-100%);
     transform: rotate(-90deg) translateX(-100%);
-    background-color: yellow;
+    background-color: #ffe000;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     font-size: 20px;
@@ -491,7 +491,7 @@ a {
     -ms-transform: rotate(-90deg) translateX(-100%);
     -webkit-transform: rotate(-90deg) translateX(-100%);
     transform: rotate(-90deg) translateX(-100%);
-    background-color: yellow;
+    background-color: #ffe000;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     font-size: 20px;
@@ -515,13 +515,13 @@ a {
   left: -20px;
   border-bottom-right-radius: 10px;
   border-width: 0 1px 1px 0;
-  box-shadow: 6px 2px 0 yellow;
+  box-shadow: 6px 2px 0 #ffe000;
 }
 .right-panel-toggle:after {
   right: -20px;
   border-bottom-left-radius: 10px;
   border-width: 0 0 1px 1px;
-  box-shadow: -6px 2px 0 yellow;
+  box-shadow: -6px 2px 0 #ffe000;
 }
 
 
@@ -564,7 +564,7 @@ a {
     height: 100%;
     width: calc(100% - 48px);
     border-left-width: 10px;
-    border-left-color: yellow;
+    border-left-color: #ffe000;
     border-left-style: solid;
     border-radius: 10px;
     position: relative;
@@ -609,7 +609,7 @@ a {
 }
 
 .search-input{
-    background-color: yellow;
+    background-color: #ffe000;
     border: none;
     color: black;
 }
@@ -728,7 +728,7 @@ a {
     display: none;
     position: fixed;
     z-index: 1001;
-    background-color: yellow;
+    background-color: #ffe000;
     color: black;
     border-radius: 10px;
     padding-left: 20px;
@@ -816,18 +816,6 @@ a {
     -o-transition: height 0.5s ease;
     transition: height 0.5s ease;*/
     display: inline-block;
-}
-
-.card .overlay-title {
-    position: absolute;
-    padding: 5px;
-    color: #fff;
-    font-size: 24px;
-    font-weight: 300;
-    margin-right: 40px;
-    z-index: 1;
-    background: rgb(0, 0, 0); /* fallback color */
-    background: rgba(0, 0, 0, 0.3);
 }
 
 .card-image .overlay-fullscreen {
@@ -1098,7 +1086,7 @@ a {
     width: 0;
     height: 0;
     border-left: 60px solid transparent;
-    border-top: 60px solid yellow;
+    border-top: 60px solid #ffe000;
 }
 
 .new-text {
@@ -1512,8 +1500,8 @@ form{
     color: white;
 }
 
-.yellow-donate-btn {
-    background-color: yellow;
+.#ffe000-donate-btn {
+    background-color: #ffe000;
     width: 80px;
     padding: 10px 25px;
     border-radius: 10px;
