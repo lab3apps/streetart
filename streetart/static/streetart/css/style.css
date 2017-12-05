@@ -631,11 +631,25 @@ a {
     display: none;
 }
 
-input + label {
+#status-1 + label {
     background: url(../../img/visible.png) 0px 5px no-repeat;
-    background-size: 11px 16px;
-    height: 16px;
-    padding: 0 0 0 18px;
+    background-size: 15px 22px;
+    height: 27px;
+    padding: 0 0 0 20px;
+}
+
+#status-2 + label {
+    background: url(../../img/part_visible.png) 0px 5px no-repeat;
+    background-size: 15px 22px;
+    height: 27px;
+    padding: 0 0 0 20px;
+}
+
+#status-3 + label {
+    background: url(../../img/not_visible.png) 0px 5px no-repeat;
+    background-size: 15px 22px;
+    height: 27px;
+    padding: 0 0 0 20px;
 }
 
 
