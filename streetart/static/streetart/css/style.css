@@ -643,7 +643,6 @@ a {
     display: inline-block;
     margin: 0;
     margin-right: 10px;
-    display: none;
 }
 
 #status-1 + label {
@@ -1192,6 +1191,44 @@ a {
   padding-top: 50px;
 }
 
+.contribute-div .mw-wrap .mw-btn-add-marker {
+    padding: 6px 12px;
+}
+@media screen and (max-width: 590px) {
+    .contribute-div .mw-header {
+        height: 70px;
+    }
+
+    .contribute-div .mw-header .mw-adress-input-wrap {
+        float: left !important;
+        margin-top: 5px;
+    }
+    .contribute-div .mw-wrap{
+        min-width: unset;
+    }
+}
+@media screen and (max-width: 590px) {
+
+    .contribute-div .mw-header .mw-btn-add-marker{
+        margin-top: 5px;
+        margin-left: 4px;
+    }
+    .get-involved-title {
+        font-size: 60px;
+    }
+    .contribute-div h1{
+        font-size: 40px;
+    }
+}
+@media screen and (max-width: 318px) {
+    .contribute-div .mw-header {
+        height: 110px;
+    }
+    .contribute-div .mw-header .mw-btn-add-marker{
+        margin-top: 0px;
+        margin-left: 0px;
+    }
+}
 /*** Settings Page ***/
 
 .settings-page {
