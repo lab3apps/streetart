@@ -643,7 +643,6 @@ a {
     display: inline-block;
     margin: 0;
     margin-right: 10px;
-    display: none;
 }
 
 #status-1 + label {

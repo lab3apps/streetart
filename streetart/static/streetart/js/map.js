@@ -221,6 +221,8 @@ function initialize() {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
+    refreshCheckboxes();
+    filterMarkers();
 
 
 }
@@ -329,7 +331,7 @@ function filterMarkers() {
     var catArray = $("input[name='status']:checked").map(function(){
         return $(this).val();
       }).get();
-    console.log(catArray);
+    
     markerCluster.clearMarkers();
     for(var key in artworks) {
         if (arrayHasOwnIndex(artworks, key)) {
@@ -386,69 +388,69 @@ function toggleBounce(marker) {
     }
  }
 
-
+function refreshCheckboxes() {
+    if ($('#status-1').prop('checked')) {
+        $('#status-1 + label').css({
+            'filter' : '',
+            '-webkit-filter' : '',
+            '-moz-filter' : '',
+            '-o-filter' : '',
+            '-ms-filter' : '',
+        });
+    } else {
+        $('#status-1 + label').css({
+            'filter' : 'grayscale(100%) brightness(200%)',
+            '-webkit-filter' : 'grayscale(100%) brightness(200%)',
+            '-moz-filter' : 'grayscale(100%) brightness(200%)',
+            '-o-filter' : 'grayscale(100%) brightness(200%)',
+            '-ms-filter' : 'grayscale(100%) brightness(200%)',
+        });
+    }
+    if ($('#status-2').prop('checked')) {
+        $('#status-2 + label').css({
+            'filter' : '',
+            '-webkit-filter' : '',
+            '-moz-filter' : '',
+            '-o-filter' : '',
+            '-ms-filter' : '',
+        });
+    } else {
+        $('#status-2 + label').css({
+            'filter' : 'grayscale(100%) brightness(200%)',
+            '-webkit-filter' : 'grayscale(100%) brightness(200%)',
+            '-moz-filter' : 'grayscale(100%) brightness(200%)',
+            '-o-filter' : 'grayscale(100%) brightness(200%)',
+            '-ms-filter' : 'grayscale(100%) brightness(200%)',
+        });
+    }
+    if ($('#status-3').prop('checked')) {
+        $('#status-3 + label').css({
+            'filter' : '',
+            '-webkit-filter' : '',
+            '-moz-filter' : '',
+            '-o-filter' : '',
+            '-ms-filter' : '',
+        });
+    } else {
+        $('#status-3 + label').css({
+            'filter' : 'grayscale(100%) brightness(200%)',
+            '-webkit-filter' : 'grayscale(100%) brightness(200%)',
+            '-moz-filter' : 'grayscale(100%) brightness(200%)',
+            '-o-filter' : 'grayscale(100%) brightness(200%)',
+            '-ms-filter' : 'grayscale(100%) brightness(200%)',
+        });
+    }
+}
 
 $( document ).ready(function() {
     initialize();
     $('#search-input').keyup(function() {
         filterMarkers();
     });
-
+    
     $('.checkbox-form input').click(function() {
+        refreshCheckboxes();
         filterMarkers();
-        if (!$(this).prop( "checked" )) {
-            if ($(this).val() == 1) {
-                $('#status-1 + label').css({
-                    'filter' : 'grayscale(100%) brightness(200%)',
-                    '-webkit-filter' : 'grayscale(100%) brightness(200%)',
-                    '-moz-filter' : 'grayscale(100%) brightness(200%)',
-                    '-o-filter' : 'grayscale(100%) brightness(200%)',
-                    '-ms-filter' : 'grayscale(100%) brightness(200%)',
-                });
-            } else if ($(this).val() == 2) {
-                $('#status-2 + label').css({
-                    'filter' : 'grayscale(100%) brightness(200%)',
-                    '-webkit-filter' : 'grayscale(100%) brightness(200%)',
-                    '-moz-filter' : 'grayscale(100%) brightness(200%)',
-                    '-o-filter' : 'grayscale(100%) brightness(200%)',
-                    '-ms-filter' : 'grayscale(100%) brightness(200%)',
-                });
-            } else if ($(this).val() == 3) {
-                $('#status-3 + label').css({
-                    'filter' : 'brightness(200%)',
-                    '-webkit-filter' : 'brightness(200%)',
-                    '-moz-filter' : 'brightness(200%)',
-                    '-o-filter' : 'brightness(200%)',
-                    '-ms-filter' : 'brightness(200%)',
-                });
-            }
-        } else {
-            if ($(this).val() == 1) {
-                $('#status-1 + label').css({
-                    'filter' : '',
-                    '-webkit-filter' : '',
-                    '-moz-filter' : '',
-                    '-o-filter' : '',
-                    '-ms-filter' : '',
-                });
-            } else if ($(this).val() == 2) {
-                $('#status-2 + label').css({
-                    'filter' : '',
-                    '-webkit-filter' : '',
-                    '-moz-filter' : '',
-                    '-o-filter' : '',
-                    '-ms-filter' : '',
-                });
-            } else if ($(this).val() == 3) {
-                $('#status-3 + label').css({
-                    'filter' : '',
-                    '-webkit-filter' : '',
-                    '-moz-filter' : '',
-                    '-o-filter' : '',
-                    '-ms-filter' : '',
-                });
-            }
-        }
     });
 
 });
