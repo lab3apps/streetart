@@ -324,6 +324,7 @@ function focusOnMarker(index) {
         } else {
             $('#checkin-plural').hide();
         }
+
         $('#show_on_map').data('index', index);
         toggleBounce(marker);
         loadCommentSection(index);

@@ -14,7 +14,7 @@
         <meta property="og:url" content="http://watchthisspace.org.nz/" />
         <meta property="og:title" content="Watch This Space" />
         <meta property="og:type" content="website" />
-        <meta property="fb:app_id" content="106299540095089" />
+        <meta property="fb:app_id" content=" {{ SOCIAL_AUTH_FACEBOOK_KEY }} "/>
         <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
         <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
         <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
@@ -203,8 +203,26 @@
 
           ga('create', 'UA-84316316-3', 'auto');
           ga('send', 'pageview');
-
         </script>
+        <!-- Facebook SDK --> 
+        <script>  
+            window.fbAsyncInit = function() {
+                FB.init({
+                appId            : '{{ SOCIAL_AUTH_FACEBOOK_KEY }}', // App id
+                autoLogAppEvents : true,
+                xfbml            : true,
+                version          : 'v2.11' // Facebook SDK version, v2.11 - may need to eventually update
+                });
+            };
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+
     {% endblock %}
 
 </html>

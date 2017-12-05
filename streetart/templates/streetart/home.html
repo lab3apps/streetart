@@ -216,6 +216,30 @@
         }
     }
 
+    function facebook_share(){
+        var index = $('#main-card').data('index');
+        if (arrayHasOwnIndex(artworks, index)){
+            var path = window.location.protocol + "//" + window.location.host + "/artwork/" + index;
+            var art = artworks[index];
+            console.log(art.image.src);
+            FB.ui({
+                method: 'share_open_graph',
+                action_type: 'og.shares',
+                display: 'popup',
+                action_properties: JSON.stringify({
+                    object: {
+                    'og:url': path,
+                    'og:title': art.title,
+                    'og:description': art.description,
+                    'og:image': art.image.src,
+                    }
+                })
+                }, function(response) {
+                // Action after response
+            });
+        }
+    }
+
     lightbox.option({
         'disableScrolling': true,
         'fitImagesInViewport': true,
@@ -317,6 +341,14 @@
                             <div class="card-action-button">
                                 <a id="show_on_map" >
                                     <span><i class="fa fa-map-pin"></i>SHOW ON MAP</span>
+                                </a>
+                            </div>
+                            <div class="card-action-button">
+                                <span id="fb_share_holder"></span>
+                                  
+
+                                <a id="facebook_share" onclick="facebook_share()">
+                                    <span>SHARE</span>
                                 </a>
                             </div>
                         </div>
