@@ -9,7 +9,7 @@ from django.views.generic.base import RedirectView
 app_name = 'streetart'
 urlpatterns = [
 	url(r'^$', views.home, name='home'),
-	url(r'^about/$', RedirectView.as_view(url='/blog/about', permanent=True), name='about'),
+	url(r'^about/$', RedirectView.as_view(url='/page/about', permanent=True), name='about'),
 	url(r'^artwork/(?P<pk>[0-9]+)$', views.home, name='image_selected'),
 	url(r'^artwork/new/$', views.add_new, name='new_artwork'),
 	url(r'^muralcommision/new/$', views.add_new, name='new_muralcommission'),
@@ -33,6 +33,7 @@ urlpatterns = [
 	url(r'^donate/$', RedirectView.as_view(url='/page/donate', permanent=True), name='donate'),
 	url(r'^faq/$', RedirectView.as_view(url='/page/faqs', permanent=True), name='FAQs'),
 	url(r'^tours/$', RedirectView.as_view(url='/page/tours', permanent=True), name='tours'),
+	url(r'^supporters-and-friends/$', RedirectView.as_view(url='/page/supporters-and-friends', permanent=True), name='supporters'),
 	url(r'^get-involved/$', views.home, name='getinvolved'),
 	url(r'^post-comment/$', views.post_comment, name='post_comment'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
