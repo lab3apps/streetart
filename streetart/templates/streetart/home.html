@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base.html' %}
 {% load easy_thumbnail %}
 {% load cropping %}
@@ -431,3 +432,482 @@
     <div id="checkoutSnackbar" class="snackbar">Removed Checkin</div>
 </div>
 {% endblock %}
+=======
+{% extends 'base.html' %}
+{% load easy_thumbnail %}
+{% load cropping %}
+{% load static %}
+{% load comments static %}
+{% load shuffle %}
+
+{% block title %}Home{% endblock title %}
+
+{% block head-css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'multiselect/bootstrap-multiselect.css' %}" type="text/css"/>
+    <link href="{% static 'lightbox/css/lightbox.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block head-javascript %}
+    {{ block.super }}
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}" type="text/javascript"></script>
+    <script type="text/javascript" src="https://stamen-maps.a.ssl.fastly.net/js/tile.stamen.js?v1.3.0"></script>
+    <script type="text/javascript" src="{% static 'streetart/js/markerclusterer.js' %}"></script>
+    <script type="text/javascript" src="{% static 'multiselect/bootstrap-multiselect.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lightbox/js/lightbox.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lazy/jquery.lazy.min.js' %}"></script>
+
+    <script type="text/javascript">
+
+    var loadedart = '{{ loadedart }}';
+    var csrftoken = '{{ csrf_token }}';
+    var artworks = [];
+    var markers = [];
+    var is_authenticated = {{ request.user.is_authenticated|yesno:"true,false" }};
+    /*
+    function RenderArtworksFromJson(response)
+    {
+        res =  jQuery.parseJSON( response );
+        $(".gallery-section").html("");
+         $.each(res, function (index,obj)
+         {
+            //artworks[obj.pk]=obj;
+            var imagetag ;
+            if(obj.fields.cropped_image=="")
+            {
+            imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.image+'" >';
+            }else
+            {
+            imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.cropped_image+'" >';
+            }
+
+            var view ='<div id="artbox-'+obj.pk+'" class="gallery-item col-xs-6 col-sm-3 col-md-3">'+
+                        '<div class="dummy"></div>'+
+                        '<a class="img-link" onclick="focusOnMarker('+obj.pk+')">'+ imagetag+
+                        '</a>'+
+                    '</div>';
+            $(".gallery-section").append(view);
+        });
+
+
+    }
+    
+    function getLocation()
+    {
+        //debugger;
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            $("#message").html("failed gps fetching");
+        }
+    }
+    
+
+    function permissionDenied()
+    {
+        console.log('GPS Failed/ Denied ');
+        $.ajax({
+        async:'true',
+        url: '/allartworks/',
+        type: 'GET',
+        success: function(response) {
+            console.log("No Gps Permission");
+            RenderArtworksFromJson(response);
+        },
+        failure: function(error) {
+        console.log(" Permission denied");
+            console.error(error);
+        }
+        });
+    }
+    */
+
+    function showPosition(position)
+    {
+        console.log('GPS Available');
+        $.ajax({
+        async:'true',
+        url: '/nearby/' +  position.coords.latitude + '/' +  position.coords.longitude ,
+        data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        type: 'GET',
+        success: function(response) {
+            console.log("Have Gps Permission");
+            RenderArtworksFromJson(response);
+        },
+        failure: function(error) {
+            console.error(error);
+        }
+        });
+    }
+
+    // start looping artworks
+    {% for art in artworks %}
+        artworks[{{ art.id }}] = {
+            title: '{{ art.title }}',
+            description: '{% filter escapejs %}{{ art.description }}{% endfilter %}',
+            commission_date: '{{ art.commission_date }}',
+            decommission_date: '{{ art.decommission_date }}',
+            status: '{{ art.status.id }}',
+            photo_credit: '{{ art.photo_credit }}',
+            link: '{{ art.link }}',
+            artists: [
+                {% for artist in art.artists.all %}
+                    {
+                        'name':'{{ artist.name }}',
+                        'website':'{{ artist.website }}',
+                        'facebook':'{{ artist.facebook }}',
+                        'instagram':'{{ artist.instagram }}',
+                        'twitter':'{{ artist.twitter }}',
+                        'biography':'{% filter escapejs %}{{ artist.biography }}{% endfilter %}',
+                    },
+                {% endfor %}
+            ],
+            imageUrl: '{{ art.image.url }}',
+            lat: '{{ art.location.y }}',
+            lng: '{{ art.location.x }}',
+            hasLiked: '{{ art.has_liked }}',
+            likes_count: '{{ art.total_likes }}',
+            hasCheckedin: '{{ art.has_checkedin }}',
+            checkins_count: '{{ art.total_checkins }}',
+            altImages : [
+                {% for altimage in art.other_images.all %}
+                  '{{ altimage.image.url }}',
+                {% endfor %}
+            ]
+        };
+    {% endfor %}
+
+
+    function like() {
+        if(!is_authenticated) {
+            activateSnackbar('#loginSnackbar');
+            return;
+        }
+        var index = $('#main-card').data('index');
+        if (arrayHasOwnIndex(artworks, index)) {
+            var art = artworks[index];
+            $.ajax({
+                type: "POST",
+                url: '/like/' + index + '/',
+                data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: "json",
+                success: function (response) {
+                    art.likes_count = response.likes_count;
+                    $('#likeCount').html(art.likes_count);
+                    if(response.message === 'liked') {
+                        art.hasLiked = 'True';
+                        activateSnackbar('#likeSnackbar');
+                        $('#like-icon-unfilled').hide();
+                        $('#like-icon-filled').show();
+                        //$('.like i').html('favorite');
+                    } else {
+                        art.hasLiked = 'False';
+                        activateSnackbar('#unlikeSnackbar');
+                        $('#like-icon-unfilled').show();
+                        $('#like-icon-filled').hide();
+                        //$('.like i').html('favorite_border');
+                    }
+                },
+                error: function (rs, e) {
+                    alert('Error: Unable to like artwork.');
+                }
+            })
+        }
+    }
+
+    function checkin() {
+        if(!is_authenticated) {
+            activateSnackbar('#loginSnackbar');
+            return;
+        }
+        var index = $('#main-card').data('index');
+        if (arrayHasOwnIndex(artworks, index)) {
+            var art = artworks[index];
+            $.ajax({
+                type: "POST",
+                url: '/checkin/' + index + '/',
+                data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: "json",
+                success: function (response) {
+                    art.checkins_count = response.checkins_count;
+                    $('#checkinCount').html(art.checkins_count);
+                    if(response.message === 'checkedin') {
+                        art.hasCheckedin = 'True';
+                        $('.checkin-icon-unfilled').hide();
+                        $('.checkin-icon-filled').show();
+
+                        activateSnackbar('#checkinSnackbar');
+                    } else {
+                        art.hasCheckedin = 'False';
+                        $('.checkin-icon-filled').hide();
+                        $('.checkin-icon-unfilled').show();
+                        activateSnackbar('#checkoutSnackbar');
+                    }
+                },
+                error: function (rs, e) {
+                    alert('Error: Unable to check in.');
+                }
+            })
+        }
+    }
+
+    function facebook_share(){
+        var index = $('#main-card').data('index');
+        if (arrayHasOwnIndex(artworks, index)){
+            var art = artworks[index];
+            var path = window.location.protocol + "//" + window.location.host + "/artwork/" + index;
+            var img_src = art.image.src;
+            var title = art.title;
+            if(title == ""){
+                title = "Artwork";
+            }
+            if(art.artists.length > 0){
+                var artists = [];
+                for(var key in art.artists) {
+                    if (arrayHasOwnIndex(art.artists, key)) {
+                        if(art.artists[key]['name'] != "")
+                            artists.push(art.artists[key]['name']);
+                    }
+                }
+                if(artists.length > 0)
+                    title = title + " - " + artists.join(", ");
+            }
+
+            FB.ui({
+                method: 'share_open_graph',
+                action_type: 'og.shares',
+                display: 'popup',
+                action_properties: JSON.stringify({
+                    object: {
+                    'og:url': path,
+                    'og:title': title,
+                    'og:description': art.description,
+                    'og:image': img_src
+                    }
+                })
+                }, function(response) {
+                // Action after response
+            });
+        }
+    }
+
+    lightbox.option({
+        'disableScrolling': true,
+        'fitImagesInViewport': true,
+        'resizeDuration': 500,
+        'wrapAround': true
+    });
+
+    $(function() {
+
+        //getLocation();
+
+        $('#lazy-container .lazy').lazy({
+            appendScroll: $('#lazy-container-top'),
+            scrollDirection: 'vertical',
+            effect: 'fadeIn',
+            beforeLoad: function(element) {
+                // called before an elements gets handled
+            },
+            afterLoad: function(element) {
+                // called after an element was successfully handled
+                //console.log('after loading ' + element.data('src'));
+            },
+            onError: function(element) {
+                console.log('error loading ' + element.data('src'));
+            },
+            onFinishedAll: function() {
+                // called once all elements was handled
+            }
+        });
+
+    });
+
+
+    $(document).ready(function(){
+        setTimeout(function() {
+        $('.alert-warning').fadeOut('fast');
+        }, 3000);
+    })
+           
+    </script>
+    <script src="{% static 'streetart/js/map.js' %}"></script>
+    <script src="{% static 'streetart/js/animations.js' %}"></script>
+    <script src="{% static 'streetart/js/gallery.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container split-page">
+    <div class="preamble row hidden-xs hidden-sm">
+        <p>Inspired by Oi! YOU, the YMCA, Canterbury Museum and Spectrum, we maintain a crowdsourced map of street art locations past and present and keep it fresh on our blog where you can contribute your thoughts, too.</p>
+    </div>
+    <div class="main row">
+
+        <!-- This panel relates to the left half of the screen -->
+        <div class="left-panel panel-animatable col-md-6 col-sm-12">
+
+             <!-- This is where the back button will appear -->
+            <div class="back-block">
+                <a class="back-button-block" onclick="backClicked()">
+                    <i class="material-icons md-dark md-48 back-icon">chevron_left</i>
+                </a>
+            </div>
+
+            <!-- This is what holds the main view card -->
+            <div id="marker-card-holder" class="card-holder">
+                <div id="main-card" class="card">
+                    <div class="card-image main-card-image">
+                        <div class="loader none"></div>
+                        <div class="card-image-link">
+                            <span class="overlay overlay-title"></span>
+                            <img class="main-image img-responsive" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D">
+                            <a class="overlay-fullscreen" href="" data-lightbox="lightbox"><i class="material-icons md-light md-36">fullscreen</i></a>
+                            <a class="overlay overlay-expand" onclick="expandCard()"><i class="material-icons md-light md-36">expand_more</i></a>
+                        </div>
+                        
+                    </div>
+                    <!-- This div holds the alternative images card if any are available -->
+                    <div id="images-card-holder" class="card-holder alt-images-holder">
+                        <div id="alt-images-card" class="card">
+                        </div>
+                    </div>
+
+                    <div class="card-details">
+                        <div class="card-action">
+                            <div class="card-action-button">
+                                <a id="like" onclick="like()">
+                                    <span id="likeCount"></span>
+                                    <span id="like-icon-unfilled"><i class="icon fa fa-thumbs-o-up"></i>LIKE</span>
+                                    <span id="like-icon-filled" style="display: none;"><i class="icon fa fa-thumbs-up"></i>UNLIKE</span>
+                                </a>
+                            </div>
+                            <div class="card-action-button">
+                                <a id="checkin" onclick="checkin()">
+                                    <span id="checkinCount"></span>
+                                    <span><i class="icon fa fa-square-o checkin-icon-unfilled"></i>
+                                       <i class="icon fa fa-check-square-o checkin-icon-filled" style="display: none;"></i>CHECK IN</span>
+                                </a>
+                            </div>
+                            <div class="card-action-button">
+                                <a id="show_on_map" >
+                                    <span><i class="fa fa-map-pin"></i>SHOW ON MAP</span>
+                                </a>
+                            </div>
+                            <div class="card-action-button">
+                                <a id="facebook_share" onclick="facebook_share()">
+                                    <span><i class="icon fa fa-facebook-official"></i>SHARE</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-content" id="card-content">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- This card holder will display The comments section -->
+            <div id="comment-card-holder" class="card-holder">
+                <div id="comment-card" class="card">
+                </div>
+            </div>
+
+            <div id="nearest-artworks-header" class="nearest-artworks-header" style="display: none;"> 
+                <p>Nearby</p>
+            </div>
+
+            <div id="nearest-artworks-holder" class="col-xs-12">
+                    
+            </div>
+            <div class="scroll-gallery" id="lazy-container-top">
+            <!-- This is Set Of Artworkes neared to Selected Artwork -->
+
+                <!-- This is the main scrolling gallery which shows images relating to those on the map
+                     Image div boxes added using django tempting. -->
+                <div id="lazy-container" >
+                    <div class="gallery-section">
+                        {% for art in artworks|shuffle %}
+                                <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-6">
+                                    <div class="dummy"></div>
+                                    <a class="img-link artwork-gal" data-artid="{{ art.id }}">
+                                        {% if art.status.id == 3 %}
+                                        <div class="archived-overlay">
+                                            <p class="archived-text">Not Viewable</p>
+                                        </div>
+                                        {% endif %}
+                                        <div class="new-overlay none">
+                                            <div class="status-new"></div>
+                                            <p class="new-text">New</p>
+                                        </div>
+                                        {% if art.cropped_image %}
+                                            {% thumbnail art.cropped_image "420x250" as im %}
+                                              <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
+                                        {% else %}
+                                            {% thumbnail art.image "420x250" crop="center" as im %}
+                                                <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
+
+                                        {% endif %}
+                                    </a>
+                                </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+            <!-- Colored FAB button with ripple -->
+            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored visible-xs-block visible-sm-block fab navbar-map-mobile">
+              <i class="material-icons">map</i>
+            </button>
+        </div>
+
+        <!-- This panel relates to the right side of the screen and holds the map -->
+        <div class="right-panel panel-animatable col-md-6 col-sm-12 mobile-hide">
+            <div class="right-content">
+                <span class="left-panel-toggle material-icons md-dark md-48" id="left-panel-toggle">arrow_drop_up</span>
+                <span class="right-panel-toggle material-icons md-dark md-48" id="right-panel-toggle">arrow_drop_down</span>
+
+                <!-- This block shows the category selector and search bar -->
+                <div class="filter-block col-xs-10 col-xs-offset-1">
+                    <div class="col-xs-6 col-xs-offset-6 search">
+                        <input id="search-input" type="text" class="form-control search-input" placeholder="Search">
+                        <span class="fa fa-search"></span>
+                    </div>
+                </div>
+
+                <div class="selector-input">
+                    <!--select class="multiselect hidden" multiple="multiple">
+                        <option value="1" selected="selected">Viewable</option>
+                        <option value="2" selected="selected">Partially-Viewable</option>
+                        <option value="3">Not Viewable</option>
+                    </select-->
+                    <div class="checkbox-form">
+                        <input id="status-1" type="checkbox" name="status" value="1" checked>
+                        <label for="status-1">Viewable</label><br>
+                        <input id="status-2" type="checkbox" name="status" value="2" checked>
+                        <label for="status-2">Partially Viewable</label><br>
+                        <input id="status-3" type="checkbox" name="status" value="3">
+                        <label for="status-3" onclick="">Not Viewable</label><br>
+                    </div>
+                </div>
+                <!-- This div is where the map will be displayed -->
+                <div id="map" class="map-container"></div>
+
+
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored visible-xs-block visible-sm-block fab navbar-gallery-mobile">
+                <i class="material-icons">collections</i>
+                </button>
+                <!-- Colored FAB button with ripple -->
+                <a href="{% url 'streetart:new_artwork' %}" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored fab">
+                <i class="material-icons">add_location</i>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="likeSnackbar" class="snackbar">Liked</div>
+    <div id="unlikeSnackbar" class="snackbar">Unliked</div>
+    <div id="loginSnackbar" class="snackbar">Please login before liking or checking in.</div>
+    <div id="checkinSnackbar" class="snackbar">Checked In</div>
+    <div id="checkoutSnackbar" class="snackbar">Removed Checkin</div>
+</div>
+{% endblock %}
+>>>>>>> a042de9b7aa3f9ad4a58343beb4b9dcd136daf73

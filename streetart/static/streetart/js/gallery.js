@@ -146,6 +146,7 @@ function load_child_tools(art, index) {
         $('#checkin-plural').hide();
     }
     $('#show_on_map').data('index', index);
+
 }
 
 function image_selected(index) {
@@ -324,12 +325,13 @@ function focusOnMarker(index) {
         } else {
             $('#checkin-plural').hide();
         }
+        
+
         $('#show_on_map').data('index', index);
         toggleBounce(marker);
         loadCommentSection(index);
         loadAltImages(index);
         history.replaceState({}, null, '/artwork/'+index);
-
         //setTimeout(function(){ expandCard(); }, 10);
         
     }

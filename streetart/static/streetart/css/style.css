@@ -667,13 +667,13 @@ a {
 }
 
 .form-group .btn-primary{
-    background-color: #d6d10b;
+    background-color: #fff90d;
     border-color: rgb(179, 176, 4);
     color: black;
 }
 
 .form-group .btn-primary:hover{
-    background-color: #fff90d;
+    background-color: #d6d10b;
 }
 
 
@@ -906,8 +906,6 @@ a {
 .card .card-action {
   border-bottom: 1px solid rgba(160, 160, 160, 0.2);
   padding: 16px;
-  white-space: nowrap;
-  height: 68px;
 }
 
 .card .card-action a {
@@ -1457,6 +1455,8 @@ form{
     color: white;
 }
 
+/*** Custom Pages ***/
+
 .custom-page-content{
     color: white;
 }
@@ -1565,4 +1565,33 @@ form{
         margin-left: 50%;
         transform: translateX(-50%);
     }
+}
+
+/*** Media Page ***/
+
+.media-video-link{
+    border: 1px solid grey;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+.media-thumbnail{
+    width: 100%;
+    position: relative;
+}
+.media-thumbnail::before {
+        position:absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        content: "\f01d";
+        font-family: FontAwesome;
+        font-size: 100px;
+        color: #fff;
+        opacity: .8;
+        text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+}
+.media-thumbnail:hover::before {
+        color: #eee;
 }

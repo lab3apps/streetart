@@ -14,7 +14,7 @@
         <meta property="og:url" content="http://watchthisspace.org.nz/" />
         <meta property="og:title" content="Watch This Space" />
         <meta property="og:type" content="website" />
-        <meta property="fb:app_id" content="106299540095089" />
+        <meta property="fb:app_id" content=" {{ SOCIAL_AUTH_FACEBOOK_KEY }} "/>
         <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
         <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
         <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
@@ -50,10 +50,12 @@
                         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                         <a href="/#gallery" onclick="closeNav()" class="navbar-gallery-mobile">Gallery</a>
                         <a href="/#map" onclick="closeNav()" class="navbar-map-mobile">Map</a>
+                        <a href="https://blog.watchthisspace.org.nz">Blog</a>
                         <a href="{% url 'streetart:tours' %}">Tours</a>
                         <a href="{% url 'streetart:about' %}">About</a>
-                        <a href="{% url 'streetart:donate' %}">Donate</a>
+                        <a href="{% url 'streetart:media' %}">Media</a>
                         <a href="{% url 'streetart:FAQs' %}">FAQs</a>
+                        <a href="{% url 'streetart:donate' %}">Donate</a>
                         <a href="{% url 'streetart:supporters' %}">Supporters and Friends</a>
                         {% if user.is_authenticated %}
                             <a href="/logout">Logout</a>
@@ -87,15 +89,16 @@
                                 </a>
                                 <div class="navbar-dropdown">
                                     <ul>
+                                        <a href="{% url 'streetart:media' %}" target="_blank"><li>Media</li></a>
                                         <a><li>Show Map</li></a>
-                                        <a><li>Add to Map</li></a>
-                                        <a><li>Commission Mural</li></a>
-                                        <a><li>Share Your Wall</li></a>
+                                        <a href="{% url 'streetart:new_artwork' %}" target="_blank"><li>Add to Map</li></a>
+                                        <a href="{% url 'streetart:new_muralcommission' %}" target="_blank"><li>Commission Mural</li></a>
+                                        <a href="{% url 'streetart:new_wallspace' %}" target="_blank"><li>Share Your Wall</li></a>
                                     </ul>
                                 </div>
                             </li>
                             <li class="navbar-item">
-                                <a id="navbar-blog" class="navbar-blog" href="#blog"><i class="icon fa fa-rss"></i><p>Blog</p></a>
+                                <a id="navbar-blog" class="navbar-blog" href="https://blog.watchthisspace.org.nz"><i class="icon fa fa-rss"></i><p>Blog</p></a>
                             </li>
                             <li class="navbar-item">
                                 <a id="navbar-tour" class="navbar-tour" href="{% url 'streetart:tours' %}" target="_blank"><i class="icon fa fa-compass"></i><p>Tours</p></a>
@@ -106,7 +109,7 @@
                                 </a>
                                 <div class="navbar-dropdown">
                                     <ul>
-                                        <a><li>I'm an artist!</li></a>
+                                        <a href="{% url 'streetart:new_artistexpressionofinterest' %}" target="_blank"><li>I'm an artist!</li></a>
                                         <a href="{% url 'streetart:donate' %}" target="_blank"><li>Donate</li></a>
                                         <a href="{% url 'streetart:FAQs' %}" target="_blank"><li>FAQs</li></a>
                                         <a href="{% url 'streetart:supporters' %}" target="_blank"><li>Supporters</li></a>
@@ -205,8 +208,26 @@
 
           ga('create', 'UA-84316316-3', 'auto');
           ga('send', 'pageview');
-
         </script>
+        <!-- Facebook SDK --> 
+        <script>  
+            window.fbAsyncInit = function() {
+                FB.init({
+                appId            : '{{ SOCIAL_AUTH_FACEBOOK_KEY }}', // App id
+                autoLogAppEvents : true,
+                xfbml            : true,
+                version          : 'v2.11' // Facebook SDK version, v2.11 - may need to eventually update
+                });
+            };
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+
     {% endblock %}
 
 </html>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Artwork, Artist, Crew, Artwork_Category, Profile, Status, AlternativeImage, ArtistExpressionOfInterest, WallSpace, MuralCommission, Route, RoutePoint, GetInvolved, WhatsNew, Logo, Page
+from .models import Artwork, Artist, Crew, Artwork_Category, Profile, Status, AlternativeImage, ArtistExpressionOfInterest, WallSpace, MuralCommission, Route, RoutePoint, GetInvolved, WhatsNew, Logo, Page, Media
 from mapwidgets.widgets import GooglePointFieldWidget
 from django import forms
 from django.contrib.gis.db import models
@@ -71,6 +71,7 @@ admin.site.register(Route, RouteForm)
 admin.site.register(RoutePoint)
 admin.site.register(GetInvolved)
 admin.site.register(WhatsNew)
+admin.site.register(Media)
 admin.site.register(Logo, LogoForm)
 admin.site.register(Page, PageAdmin)
 # Register your models here.
