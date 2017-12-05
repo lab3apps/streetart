@@ -610,6 +610,22 @@ a {
     display: inline-block;
     margin: 0;
     margin-right: 10px;
+    display: none;
+}
+
+input + label {
+    background: url(../../img/visible.png) 0px 5px no-repeat;
+    background-size: 11px 16px;
+    height: 16px;
+    padding: 0 0 0 18px;
+}
+
+
+@media screen and (max-width: 991px) {
+    .checkbox-form {
+        line-height: 60px;
+        font-size: 20pt;
+    }
 }
 
 /*** Form buttons ***/
