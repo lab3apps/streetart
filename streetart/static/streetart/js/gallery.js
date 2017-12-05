@@ -45,17 +45,6 @@ function get_artist_bio(art) {
         }
     }
     var bio_html = '';
-    $('.overlay-title').addClass('none');
-   /* var overlay_title = '';
-    if (artists_text !== "") {
-        overlay_title = artists_text;
-    }
-    if (overlay_title === ''){
-        
-    } else {
-        $('.overlay-title').removeClass('none');
-        $('.overlay-title').html(overlay_title);
-    }*/
     if (art.title != "") {
         bio_html += '<p class="card-title">\
             <span class="artwork-title">'+art.title+'</span>\
@@ -259,12 +248,6 @@ function focusOnMarker(index) {
         var overlay_title = '';
         if (artists_text !== "") {
             overlay_title = artists_text;
-        }
-        if (overlay_title === ''){
-            $('.overlay-title').addClass('none');
-        } else {
-            $('.overlay-title').removeClass('none');
-            $('.overlay-title').html(overlay_title);
         }
         if (art.title != "") {
             $("#card-content").append('<p class="card-title">\
