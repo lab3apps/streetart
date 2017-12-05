@@ -1,15 +1,5 @@
-/* View States:
- * 0: Default large left panel with gallery.
- * 1: Large map panel with small card and gallery.
- * 2: Large left panel with expanded Card.
- */
-var viewState = 0;
-
-
 function markerClicked() {
-    if(viewState === 0 || viewState === 1) {
-        expandMap();
-    }
+    
     // Hide image while other loads. This will break linking.
     //$('.main-image').attr('src', '');
     // Important for mobile
@@ -22,12 +12,6 @@ function backClicked() {
     gallery_view();
    
     history.replaceState({}, null, '/');
-    return;
-    if(viewState === 1){
-        collapseMap();
-    } else if (viewState === 2) {
-        collapseCard();
-    }
 }
 
 function gallery_view() {
@@ -46,8 +30,6 @@ function gallery_view() {
     // Important for mobile
     $('.right-panel').addClass('mobile-hide');
     $('.left-panel').removeClass('mobile-hide');
-
-    viewState = 0;
 }
 
 function full_card_view() {
@@ -73,8 +55,6 @@ function full_card_view() {
     $('.left-panel').css('overflow-y', 'scroll');
     $(".card-details").slideDown();
     $(".overlay").fadeOut();
-    viewState = 2;
-
     $('.left-panel').removeClass('mobile-hide');
     $('.right-panel').addClass('mobile-hide');
     showLeftPanel();
@@ -108,66 +88,13 @@ function full_card_view() {
     }); 
 }
 
-function expandMap() {
-    //focusRight();
-    $('#marker-card-holder').show();
-    $('.title-block').hide();
-    $('.back-block').show();
-    $('.gallery-item').removeClass('col-md-3');
-    $('.gallery-item').addClass('col-md-6');
-    // Important for mobile
-    $('.left-panel').removeClass('mobile-hide');
-    $('.right-panel').addClass('mobile-hide');
-    viewState = 1;
-}
-
-function collapseMap() {
-    //focusLeft();
-    $('#marker-card-holder').hide();
-    $('.title-block').show();
-    $('.back-block').hide();
-    $('.gallery-item').removeClass('col-md-6');
-    $('.gallery-item').addClass('col-md-3');
-    // Important for mobile
-    $('.left-panel').addClass('mobile-hide');
-    $('.right-panel').removeClass('mobile-hide');
-
-    viewState = 0;
-}
-
-
-function expandCard() {
-    //focusLeft();
-    $('#comment-card-holder').show();
-    $('#images-card-holder').show();
-    $('#nearest-artworks-holder').show();
-    $('#nearest-artworks-header').show();
-    $('.scroll-gallery').hide();
-    $('.left-panel').css('overflow-y', 'scroll');
-    $(".card-details").slideDown();
-    $(".overlay").fadeOut();
-    viewState = 2;
-}
-
-function collapseCard() {
-    //focusRight();
-    $('#comment-card-holder').hide();
-    $('#images-card-holder').hide();
-    $('#nearest-artworks-holder').hide();
-    $('#nearest-artworks-header').hide();
-    $('.scroll-gallery').show();
-    $('.left-panel').css('overflow-y', 'hidden');
-    $(".card-details").slideUp();
-    $(".overlay").fadeIn();
-    viewState = 1;
-}
-
 function hideLeftPanel() {
     $('.left-panel').addClass('no-width');
     $('.right-panel').addClass('full-width');
     $('.right-panel-toggle').hide();
     $('.left-panel-toggle').removeClass('material-icons');
     $('.left-panel-toggle').text('SHOW GALLERY');
+    $('.back-block').hide();
 }
 
 function showLeftPanel() {
@@ -176,6 +103,9 @@ function showLeftPanel() {
     $('.right-panel-toggle').show();
     $('.left-panel-toggle').addClass('material-icons');
     $('.left-panel-toggle').text('arrow_drop_up');
+    if ($('.scroll-gallery').css('display') == 'none') {
+        $('.back-block').show();
+    }
 }
 function hideRightPanel() {
     $('.right-panel').addClass('no-width');
