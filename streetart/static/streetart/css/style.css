@@ -1459,7 +1459,7 @@ form{
     margin: 20px 30px;
 }
 
-.custom-page-content img {
+.custom-page-content .border-img {
     border: 1px solid grey;
     padding: 10px;
     border-radius: 5px;
