@@ -104,6 +104,7 @@
 
         {% if loadedart %}
             $(document).ready(function () {
+
                 focusOnMarker({{loadedart}});
                 markerClicked();
                 expandCard();
@@ -299,9 +300,10 @@
 
                 <!-- This div holds the alternative images card if any are available -->
                 <div id="images-card-holder" class="card-holder">
-                    <h6 id="alt-images-card-title"> Alternative Images</h6>
-                    <div id="alt-images-card" class="card">
 
+                    <div  class="card">
+                        <h6 id="alt-images-card-title" style="margin-left: 20px;color:#a3a3a3"> Alternative Images</h6>
+                        <div id="alt-images-card"></div>
                     </div>
                 </div>
 

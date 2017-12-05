@@ -150,6 +150,8 @@ function focusOnMarker(index) {
 
         //if hidden
         $('#nearest-artworks-holder').show();
+
+
         //closeMarkers();
         //marker['infowindow'].open(map, marker);
         var point = new google.maps.LatLng(art.lat, art.lng);
@@ -396,17 +398,53 @@ function loadCommentSection(index) {
 function loadAltImages(index) {
     if (arrayHasOwnIndex(artworks, index)) {
         var art = artworks[index];
-        if (art.altImages.length >= 1) {
-            $('#images-card-holder').empty();
-            $('#images-card-holder').append('<div id="alt-images-card" class="card"></div>');
-            for (var key in art.altImages) {
-                $('#alt-images-card').append('<a id="alt-image" href="' + art.altImages[key] + '" data-lightbox="lightbox" class="col-xs-3"><img class="img-responsive" src="' + art.altImages[key] + '"></a>');
-            }
-        } else {
-            $('#images-card-holder').empty();
+
+         var images = artworks[index].altImages.split(",");
+        $('#alt-images-card').empty();
+        $.each(images, function(index,obj) {
+            var imgtag = '<img class="lazy thumbnail-image" data-src="' + obj + '"/>';
+
+            var view = '<div id="artbox-' + art.pk + '" class="gallery-item col-xs-6 col-sm-3 col-md-3">' +
+                '<div class="dummy"></div>' +
+                '<a class="img-link">' + imgtag +
+                '</a>' +
+                '</div>';
+
+            $('#alt-images-card').append(view);
+
+        });
+        if(images.length >=1)
+        {
+            $('#images-card-holder').show();
+        }else
+        {
+            $('#images-card-holder').hide();
         }
     }
+    LazyLoad();
 }
+
+function LazyLoad() {
+            $('.lazy').lazy({
+                scrollDirection: 'vertical',
+                effect: 'fadeIn',
+                beforeLoad: function (element) {
+                    // called before an elements gets handled
+                    //console.log('begining loading ' + element.data('src'));
+                },
+                afterLoad: function (element) {
+                    // called after an element was successfully handled
+                    //console.log('after loading ' + element.data('src'));
+                },
+                onError: function (element) {
+                    console.log('error loading ' + element.data('src'));
+                },
+                onFinishedAll: function () {
+                    // called once all elements was handled
+                    console.log('Loaded All Thumbs');
+                }
+            });
+        }
 
 
 $(document).ready(function () {

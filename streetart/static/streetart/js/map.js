@@ -328,25 +328,21 @@ function preloadImages() {
 }
 
 function focusOnMarker(index) {
-    if (arrayHasOwnIndex(artworks, index)) {
+
         var art = artworks[index];
         var marker = markers[index];
         getNearestArtworks(index)
         $('#nearest-artworks-holder').show();
 
-        var images = art.altImages.split(',');
+        var images = artworks[index].altImages.split(",");
+
+        $.each(images, function(index,obj) {
+            var imgtag = '<img class="thumbnail-image" src="' + obj + '"/>';
+            $('#alt-images-card').append(imgtag);
+        });
         if(images.length >=1)
         {
-            var x;
-            $('#images-card-holder').hide();
-            $('#alt-images-card-title').show();
-            for(var i =0;i<images.length;i++)
-            {
-                x += x+ ' , '+ images[i];
-                var imgtag='<img class="thumbnail-image" src="'+images[i]+'"/>';
-                $('#alt-images-card').append(imgtag);
-            }
-            console.log(x);
+            $('#images-card-holder').show();
         }else
         {
             $('#images-card-holder').hide();
@@ -514,7 +510,7 @@ function focusOnMarker(index) {
         loadCommentSection(index);
         loadAltImages(index);
         history.replaceState({}, null, '/artwork/'+index);
-    }
+
 }
 
 $('#show_on_map').click(function(e) {

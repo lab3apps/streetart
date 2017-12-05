@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.gis.db import models
+from django.conf import settings
 from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.models import ContentType
 from multiselectfield import MultiSelectField
@@ -75,7 +76,14 @@ class Artwork_Category(models.Model):
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class Status(models.Model):
-    name = models.CharField(max_length=200)
+    STATUS_CHOICES = (
+        ('Viewable', 'Viewable'),
+        ('Partially-Viewable', 'Partially-Viewable'),
+        ('Not Viewable', 'Not Viewable'),
+        ('', 'No Data'),
+    )
+    name = models.CharField(max_length=200, choices=STATUS_CHOICES,default=STATUS_CHOICES[3])
+
     def __str__(self):
         return self.name
 
@@ -86,7 +94,7 @@ class Artwork(models.Model):
     category = models.ForeignKey(Artwork_Category, on_delete=models.SET_NULL, blank=True, null=True)
     title = models.CharField(max_length=200, blank=True, null=True)
     commission_date = models.CharField(max_length=200, blank=True, null=True, verbose_name='date commissioned')
-    status = models.ForeignKey(Status, on_delete=models.SET_NULL, blank=True, null=True)
+    status = models.ForeignKey(Status,on_delete=models.SET_NULL, blank=True, default='No Data',null=True)
     decommission_date = models.CharField(max_length=200, blank=True, null=True, verbose_name='date decommissioned')
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='artwork/', max_length=500)
@@ -97,7 +105,7 @@ class Artwork(models.Model):
         thumbnailer = get_thumbnailer(self.image)
         thumbnail_options = {'size': (404, 250)}
         thumbnailer.get_thumbnail(thumbnail_options)
-        return '<img src="%s" />' % thumbnailer.get_thumbnail(thumbnail_options).url
+        return '<img style="max-width:260px !important;max-height:160px !important" src="%s" />' % thumbnailer.get_thumbnail(thumbnail_options).url
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
 
@@ -106,7 +114,7 @@ class Artwork(models.Model):
     link = models.URLField(blank=True, null=True)
     location = models.PointField(srid=4326)
     objects = models.GeoManager()
-    validated = models.BooleanField(default=False)
+    validated = models.BooleanField(default=False,verbose_name="Valid")
     street = models.CharField(max_length=200, blank=True, null=True, verbose_name="What street is the artwork on (to help in identifying)")
     admin_notes = models.TextField(blank=True, null=True, verbose_name="Write any notes about the artwork here (will not be shown on map)")
     map_enabled = models.BooleanField(default=True, verbose_name="Show this artwork on the map")
@@ -123,6 +131,8 @@ class Artwork(models.Model):
 
     def get_artists(self):
         return "\n".join([p.name for p in self.artists.all()])
+
+    get_artists.short_description = "Artists"
 
     @property
     def total_likes(self):
@@ -272,8 +282,16 @@ class RoutePoint(models.Model):
     def location(self):
         return self.artwork.location
 
+    def imagetag(self):
+        loc = str(self.artwork.location.y) + "," + str(self.artwork.location.x)
+        apikey = getattr(settings, "GOOGLE_STATIC_MAPS_API_KEY", None)
+        imagepath = "https://maps.googleapis.com/maps/api/staticmap?center=%s&zoom=13&size=160x160&maptype=terrain&markers=color:red|%s&key=%s" %(loc, loc, apikey)
+        return '<img src="%s" />' %(imagepath)
+    imagetag.allow_tags = True
+    imagetag.short_description = "Map"
+    
     def __str__(self):
-        return "" ##This is needed for the use of drag and drop sorting plugin in admin.
+        return self.route.title
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class GetInvolved(models.Model):
