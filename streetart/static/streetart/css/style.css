@@ -677,7 +677,7 @@ a {
 @media screen and (max-width: 991px) {
 
     .selector-input {
-        bottom: 75px;
+        bottom: 100px;
         left: 17px;
         
     }
