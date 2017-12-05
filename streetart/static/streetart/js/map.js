@@ -221,6 +221,8 @@ function initialize() {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
+
+
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -394,6 +396,59 @@ $( document ).ready(function() {
 
     $('.checkbox-form input').click(function() {
         filterMarkers();
+        if (!$(this).prop( "checked" )) {
+            if ($(this).val() == 1) {
+                $('#status-1 + label').css({
+                    'filter' : 'grayscale(100%) brightness(200%)',
+                    '-webkit-filter' : 'grayscale(100%) brightness(200%)',
+                    '-moz-filter' : 'grayscale(100%) brightness(200%)',
+                    '-o-filter' : 'grayscale(100%) brightness(200%)',
+                    '-ms-filter' : 'grayscale(100%) brightness(200%)',
+                });
+            } else if ($(this).val() == 2) {
+                $('#status-2 + label').css({
+                    'filter' : 'grayscale(100%) brightness(200%)',
+                    '-webkit-filter' : 'grayscale(100%) brightness(200%)',
+                    '-moz-filter' : 'grayscale(100%) brightness(200%)',
+                    '-o-filter' : 'grayscale(100%) brightness(200%)',
+                    '-ms-filter' : 'grayscale(100%) brightness(200%)',
+                });
+            } else if ($(this).val() == 3) {
+                $('#status-3 + label').css({
+                    'filter' : 'brightness(200%)',
+                    '-webkit-filter' : 'brightness(200%)',
+                    '-moz-filter' : 'brightness(200%)',
+                    '-o-filter' : 'brightness(200%)',
+                    '-ms-filter' : 'brightness(200%)',
+                });
+            }
+        } else {
+            if ($(this).val() == 1) {
+                $('#status-1 + label').css({
+                    'filter' : '',
+                    '-webkit-filter' : '',
+                    '-moz-filter' : '',
+                    '-o-filter' : '',
+                    '-ms-filter' : '',
+                });
+            } else if ($(this).val() == 2) {
+                $('#status-2 + label').css({
+                    'filter' : '',
+                    '-webkit-filter' : '',
+                    '-moz-filter' : '',
+                    '-o-filter' : '',
+                    '-ms-filter' : '',
+                });
+            } else if ($(this).val() == 3) {
+                $('#status-3 + label').css({
+                    'filter' : '',
+                    '-webkit-filter' : '',
+                    '-moz-filter' : '',
+                    '-o-filter' : '',
+                    '-ms-filter' : '',
+                });
+            }
+        }
     });
 
 });
