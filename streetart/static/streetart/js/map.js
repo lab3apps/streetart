@@ -399,11 +399,11 @@ function refreshCheckboxes() {
         });
     } else {
         $('#status-1 + label').css({
-            'filter' : 'grayscale(100%) brightness(200%)',
-            '-webkit-filter' : 'grayscale(100%) brightness(200%)',
-            '-moz-filter' : 'grayscale(100%) brightness(200%)',
-            '-o-filter' : 'grayscale(100%) brightness(200%)',
-            '-ms-filter' : 'grayscale(100%) brightness(200%)',
+            'filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-webkit-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-moz-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-o-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-ms-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
         });
     }
     if ($('#status-2').prop('checked')) {
@@ -416,11 +416,11 @@ function refreshCheckboxes() {
         });
     } else {
         $('#status-2 + label').css({
-            'filter' : 'grayscale(100%) brightness(200%)',
-            '-webkit-filter' : 'grayscale(100%) brightness(200%)',
-            '-moz-filter' : 'grayscale(100%) brightness(200%)',
-            '-o-filter' : 'grayscale(100%) brightness(200%)',
-            '-ms-filter' : 'grayscale(100%) brightness(200%)',
+            'filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-webkit-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-moz-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-o-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-ms-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
         });
     }
     if ($('#status-3').prop('checked')) {
@@ -433,11 +433,11 @@ function refreshCheckboxes() {
         });
     } else {
         $('#status-3 + label').css({
-            'filter' : 'grayscale(100%) brightness(200%)',
-            '-webkit-filter' : 'grayscale(100%) brightness(200%)',
-            '-moz-filter' : 'grayscale(100%) brightness(200%)',
-            '-o-filter' : 'grayscale(100%) brightness(200%)',
-            '-ms-filter' : 'grayscale(100%) brightness(200%)',
+            'filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-webkit-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-moz-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-o-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-ms-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
         });
     }
 }
