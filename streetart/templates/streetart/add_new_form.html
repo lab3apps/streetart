@@ -10,7 +10,7 @@
 
 	<div class="get-involved-title-block" >
 		<div class="container">	
-			<h1 class="get-involved-title">Get Involved</h1>
+			<h1 class="get-involved-title">GET INVOLVED</h1>
 			<div class="form-group">
 			  <label for="comment">I want to...</label>
 			  <select class="form-control" id="form_select">
@@ -26,7 +26,7 @@
 	<div class="container">	
 
 		<div class="contribute-div" id="newArtworkDiv" {% if url_name != "new_artwork" %}style="display: none;"{% endif %}>
-			<h1>Contribute to the map</h1>
+			<h1>CONTRIBUTE TO THE MAP</h1>
 			<p>In order to keep this the up-to-date map of Christchurch street art, we need your help.
 				<br><br>
 			If you discover a new art work or noticed one's no longer viewable, please share this information with us. Everyone else who comes to this website will benefit from it too!
@@ -88,14 +88,14 @@
 		        </p>
 		        <p class="bs-component">
 		            <center>
-		                <input class="btn btn-success btn-sm" type="submit" value="Submit" name="new_artwork"/>
+		                <input class="yellow-submit-btn" type="submit" value="Submit" name="new_artwork"/>
 		            </center>
 		        </p>
 		    </form>
 		</div>
 
 		<div class="contribute-div" id="newMuralDiv" {% if url_name != "new_muralcommission" %}style="display: none;"{% endif %}>
-			<h1>Commission a New Mural</h1>
+			<h1>COMMISSION A NEW MURAL</h1>
 			<p>Has your business recently relocated back to the CBD? Do you want a mural in your home? Do you want to give back to Christchurch street art, but don't know how?  Consider commissioning a mural. We're here to help.
  <br><br>
 Please complete the form below, and we’ll get back to you with artist recommendations for your project.</p>
@@ -112,13 +112,13 @@ Please complete the form below, and we’ll get back to you with artist recommen
 		        </p>
 		        <p class="bs-component">
 		            <center>
-		                <input class="btn btn-success btn-sm" type="submit" value="Submit" name="new_muralcommission"/>
+		                <input class="yellow-submit-btn" type="submit" value="Submit" name="new_muralcommission"/>
 		            </center>
 		        </p>
 		    </form>
 		</div>
 		<div class="contribute-div" id="newWallSpace" {% if url_name != "new_wallspace" %}style="display: none;"{% endif %}>
-			<h1>Offer Your Wall Space</h1>
+			<h1>OFFER YOUR WALL SPACE</h1>
 			<p>Are you located in Christchurch? Do you have a building or wall space you're not using? Local muralists, graffiti artists, and creators of street art are always looking for legal spaces and free walls to create their art work on. And it's not just local artists, but international, traveling artists who contact us too, looking for wall space when they pass through Christchurch. Help us to provide blank canvases and legal walls so we can continue to keep Christchurch looking vibrant and lively.</p>
 		    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
 		    	{{ wallSpaceForm.media }}
@@ -133,13 +133,13 @@ Please complete the form below, and we’ll get back to you with artist recommen
 		        </p>
 		        <p class="bs-component">
 		            <center>
-		                <input class="btn btn-success btn-sm" type="submit" value="Submit" name="new_wallspace"/>
+		                <input class="yellow-submit-btn" type="submit" value="Submit" name="new_wallspace"/>
 		            </center>
 		        </p>
 		    </form>
 		</div>
 		<div class="contribute-div" id="newArtistEOIDiv" {% if url_name != "new_artistexpressionofinterest" %}style="display: none;"{% endif %}>
-			<h1>Express Your Interest as an Artist</h1>
+			<h1>EXPRESS YOUR INTEREST AS AN ARTIST</h1>
 			<p>Do you want to make a mural here in Christchurch? 
 <br><br>
 It's important to Watch This Space that the street art scene grows organically and learns to sustain itself. We want to do what we can to create opportunities for local and visiting artists to Christchurch and keep our city a vibrant, lively city.  
@@ -166,7 +166,7 @@ Through our website, locals and business owners can contact us to commission a m
 		        </p>
 		        <p class="bs-component">
 		            <center>
-		                <input class="btn btn-success btn-sm" type="submit" value="Submit" name="new_artistexpressionofinterest"/>
+		                <input class="yellow-submit-btn" type="submit" value="Submit" name="new_artistexpressionofinterest"/>
 		            </center>
 		        </p>
 		    </form>

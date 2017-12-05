@@ -118,6 +118,21 @@ a {
     height: 100%;
 }
 
+.yellow-submit-btn {
+    background-color: yellow;
+    padding: 10px 25px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 0;
+    color: black;
+    border-color: transparent;
+    margin-right: 10px;
+    text-transform: uppercase;
+}
+.yellow-submit-btn:hover, .yellow-submit-btn:active {
+    background-color: rgb(199, 199, 0);
+}
+
 .none {
     display: none;
 }
@@ -1133,7 +1148,6 @@ a {
 }
 .get-involved-title{
     text-align: center;
-    font-weight: 700;
     font-size: 80px;
 }
 
