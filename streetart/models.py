@@ -18,6 +18,7 @@ from streetart.badwords import badwords
 from streetart.processors import convert_rgba, add_watermark
 from django.contrib.staticfiles.storage import staticfiles_storage
 from chch_streetart.settings import STATIC_ROOT
+from embed_video.fields import EmbedVideoField
 
 # Create your models here.
 
@@ -292,6 +293,15 @@ class WhatsNew(models.Model):
     link = models.URLField(blank=True, null=True)
     order = models.IntegerField(blank=True, null=True)
 
+    def __str__(self):
+        return self.title
+
+@python_2_unicode_compatible  # only if you need to support Python 2
+class Media(models.Model):
+    title = models.CharField(max_length=200)
+    video = EmbedVideoField(blank=True, null=True, verbose_name="YouTube and Vimeo URL's supported")
+    link = models.URLField(blank=True, null=True, verbose_name="If the video is not YouTube or Vimeo")
+    image = models.ImageField(upload_to='media_thumbs/', blank=True, null=True, verbose_name="Thumbnail")
     def __str__(self):
         return self.title
 
