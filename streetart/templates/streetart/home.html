@@ -327,6 +327,10 @@
                             <img class="main-image img-responsive" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D">
                             <a class="overlay-fullscreen" href="" data-lightbox="lightbox"><i class="material-icons md-light md-36">fullscreen</i></a>
                             <a class="overlay overlay-expand" onclick="expandCard()"><i class="material-icons md-light md-36">expand_more</i></a>
+                            <div class="overlay-action">
+                                <span id="likeCount"></span><span><i class="icon fa fa-thumbs-up"></i></span>
+                                <span id="checkinCount"></span><span><i class="icon fa fa-check-square-o"></i></span>
+                            </div>
                         </div>
                         
                     </div>
@@ -340,14 +344,12 @@
                         <div class="card-action">
                             <div class="card-action-button">
                                 <a id="like" onclick="like()">
-                                    <span id="likeCount"></span>
                                     <span id="like-icon-unfilled"><i class="icon fa fa-thumbs-o-up"></i>LIKE</span>
                                     <span id="like-icon-filled" style="display: none;"><i class="icon fa fa-thumbs-up"></i>UNLIKE</span>
                                 </a>
                             </div>
                             <div class="card-action-button">
                                 <a id="checkin" onclick="checkin()">
-                                    <span id="checkinCount"></span>
                                     <span><i class="icon fa fa-square-o checkin-icon-unfilled"></i>
                                        <i class="icon fa fa-check-square-o checkin-icon-filled" style="display: none;"></i>CHECK IN</span>
                                 </a>
