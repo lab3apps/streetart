@@ -584,7 +584,7 @@ a {
     height: 100px;
     width: 100%;
     content: '';
-    top: -1px;
+    top: -2px;
     z-index: 4;
   }
 
