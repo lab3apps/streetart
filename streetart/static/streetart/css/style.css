@@ -746,10 +746,16 @@ a:hover {
     background-color: #ffe000;
     border-color: rgb(179, 176, 4);
     color: black;
+    margin-left: 50%;
+    transform: translateX(-50%);
 }
 
 .form-group .btn-primary:hover{
     background-color: #d6d10b;
+}
+
+.form-group input[name="preview"]{
+    display: none;
 }
 
 
@@ -1463,7 +1469,7 @@ form{
     font-size: 14px !important;
     font-weight: 400 !important;
     line-height: 1.5 !important;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(200, 200, 200, 0.1);
     background-image: none !important;
     border: none !important;
     min-height: 80px;
