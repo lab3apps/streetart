@@ -864,6 +864,21 @@ a {
     right: 0;
 }
 
+.card-image .overlay-action{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.63);
+    border-radius: 3px;
+    margin: 2px;
+    padding: 2px 5px;
+}
+
+.card-image .overlay-action > span{
+    padding: 2px;
+    color: white;
+}
+
 .card-image.main-card-image {
     margin-left: 10px;
     margin-right: 10px;
