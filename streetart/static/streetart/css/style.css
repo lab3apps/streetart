@@ -590,7 +590,7 @@ a {
 
 .map-container .gm-svpc {
     z-index: 10;
-    background-color: yellow !important;
+    background-color: #ffe000 !important;
 }
 
 .map-container {
@@ -599,7 +599,7 @@ a {
 }
 
 .map-container button{
-    background-color: yellow !important;
+    background-color: #ffe000 !important;
 }
 
 .map-add {
@@ -681,7 +681,7 @@ a {
 }
 
 .form-group .btn-primary{
-    background-color: #fff90d;
+    background-color: #ffe000;
     border-color: rgb(179, 176, 4);
     color: black;
 }
@@ -1525,7 +1525,7 @@ form{
     color: white;
 }
 
-.#ffe000-donate-btn {
+.yellow-donate-btn {
     background-color: #ffe000;
     width: 80px;
     padding: 10px 25px;
