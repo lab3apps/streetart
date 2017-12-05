@@ -879,8 +879,6 @@ a {
 .card .card-action {
   border-bottom: 1px solid rgba(160, 160, 160, 0.2);
   padding: 16px;
-  white-space: nowrap;
-  height: 68px;
 }
 
 .card .card-action a {

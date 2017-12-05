@@ -219,9 +219,25 @@
     function facebook_share(){
         var index = $('#main-card').data('index');
         if (arrayHasOwnIndex(artworks, index)){
-            var path = window.location.protocol + "//" + window.location.host + "/artwork/" + index;
             var art = artworks[index];
-            console.log(art.image.src);
+            var path = window.location.protocol + "//" + window.location.host + "/artwork/" + index;
+            var img_src = art.image.src;
+            var title = art.title;
+            if(title == ""){
+                title = "Artwork";
+            }
+            if(art.artists.length > 0){
+                var artists = [];
+                for(var key in art.artists) {
+                    if (arrayHasOwnIndex(art.artists, key)) {
+                        if(art.artists[key]['name'] != "")
+                            artists.push(art.artists[key]['name']);
+                    }
+                }
+                if(artists.length > 0)
+                    title = title + " - " + artists.join(", ");
+            }
+
             FB.ui({
                 method: 'share_open_graph',
                 action_type: 'og.shares',
@@ -229,9 +245,9 @@
                 action_properties: JSON.stringify({
                     object: {
                     'og:url': path,
-                    'og:title': art.title,
+                    'og:title': title,
                     'og:description': art.description,
-                    'og:image': art.image.src,
+                    'og:image': img_src
                     }
                 })
                 }, function(response) {
@@ -343,11 +359,8 @@
                                 </a>
                             </div>
                             <div class="card-action-button">
-                                <span id="fb_share_holder"></span>
-                                  
-
                                 <a id="facebook_share" onclick="facebook_share()">
-                                    <span>SHARE</span>
+                                    <span><i class="icon fa fa-facebook-official"></i>SHARE</span>
                                 </a>
                             </div>
                         </div>
