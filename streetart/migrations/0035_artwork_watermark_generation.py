@@ -19,7 +19,7 @@ def migrate_watermarked_image(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('streetart', '0030_artwork_watermarked_image'),
+        ('streetart', '0034_auto_20171205_1439'),
     ]
 
     operations = [
