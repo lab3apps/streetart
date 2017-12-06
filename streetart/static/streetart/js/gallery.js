@@ -167,7 +167,8 @@ function focusOnMarker(index) {
         full_card_view();
         var art = artworks[index];
         var marker = markers[index];
-        getNearestArtworks(index)
+        getNearestArtworks(index);
+        $("#left-panel").scrollTop(0);
 
         //closeMarkers();
         //marker['infowindow'].open(map, marker);
