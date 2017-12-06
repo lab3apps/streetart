@@ -1116,6 +1116,7 @@ a:hover {
     width: 100%;
     flex: 1;
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     /*transform: translateZ(0);*/
     will-change: transform;
 }
