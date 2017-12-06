@@ -789,6 +789,7 @@ a:hover {
     display: flex;
     min-height: 100%;
     flex-direction: column;
+    -webkit-overflow-scrolling: touch;
 }
 
 
