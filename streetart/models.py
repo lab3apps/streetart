@@ -150,7 +150,7 @@ class Artwork(models.Model):
     def save(self, *args, **kwargs):
         if self.image != self.__original_image:
             self.image = convert_rgba(self.image)
-            self.watermarked_image = add_watermark(self.image, Image.open(os.path.join(STATIC_ROOT, 'img/wts-logo-white.png')))
+            self.watermarked_image = add_watermark(self.image, Image.open(os.path.join(STATIC_ROOT, 'img/wts-watermark-logo-white.png')))
         if self.pk and self.image == self.__original_image:
             self.cropped_image = get_thumbnailer(self.image).get_thumbnail(
                 {
