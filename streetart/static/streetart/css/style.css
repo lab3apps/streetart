@@ -682,24 +682,24 @@ a:hover {
 }
 
 #status-1 + label {
-    background: url(../../img/visible.png) 0px 5px no-repeat;
-    background-size: 15px 22px;
+    background: url(../../img/check_visible.png) 0px 1px no-repeat;
+    background-size: 27px 27px;
     height: 27px;
-    padding: 0 0 0 20px;
+    padding: 0 0 0 30px;
 }
 
 #status-2 + label {
-    background: url(../../img/part_visible.png) 0px 5px no-repeat;
-    background-size: 15px 22px;
+    background: url(../../img/check_part_visible.png) 0px 1px no-repeat;
+    background-size: 27px 27px;
     height: 27px;
-    padding: 0 0 0 20px;
+    padding: 0 0 0 30px;
 }
 
 #status-3 + label {
-    background: url(../../img/not_visible.png) 0px 5px no-repeat;
-    background-size: 15px 22px;
+    background: url(../../img/check_not_visible.png) 0px 1px no-repeat;
+    background-size: 27px 27px;
     height: 27px;
-    padding: 0 0 0 20px;
+    padding: 0 0 0 30px;
 }
 
 @media screen and (max-width: 991px) {
@@ -715,24 +715,24 @@ a:hover {
     }
 
     #status-1 + label {
-        background: url(../../img/visible.png) 0px 5px no-repeat;
-        background-size: 21px 30px;
+        background: url(../../img/check_visible.png) -4px 5px no-repeat;
+        background-size: 30px 30px;
         height: 40px;
-        padding: 0 0 0 20px;
+        padding: 0 0 0 23px;
     }
     
     #status-2 + label {
-        background: url(../../img/part_visible.png) 0px 5px no-repeat;
-        background-size: 21px 30px;
+        background: url(../../img/check_part_visible.png) -4px 5px no-repeat;
+        background-size: 30px 30px;
         height: 40px;
-        padding: 0 0 0 20px;
+        padding: 0 0 0 23px;
     }
     
     #status-3 + label {
-        background: url(../../img/not_visible.png) 0px 5px no-repeat;
-        background-size: 21px 30px;
+        background: url(../../img/check_not_visible.png) -4px 5px no-repeat;
+        background-size: 30px 30px;
         height: 40px;
-        padding: 0 0 0 20px;
+        padding: 0 0 0 23px;
     }
 }
 
