@@ -9,7 +9,7 @@ import image_cropping.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('streetart', '0030_artwork_watermark_generation'),
+        ('streetart', '0030_artwork_watermarked_image'),
     ]
 
     operations = [
