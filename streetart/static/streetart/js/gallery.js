@@ -106,7 +106,7 @@ function load_artwork_main_image(art) {
             });
         }
     }
-    $('.overlay-fullscreen').attr('href', art.imageUrl);
+    $('.fullscreen-link').attr('href', art.imageUrl);
 }
 
 function load_child_tools(art, index) {
@@ -281,7 +281,7 @@ function focusOnMarker(index) {
             }
         }
         $("#card-content").append(artists_bio_html);
-        $('.overlay-fullscreen').attr('href', art.imageUrl);
+        $('.fullscreen-link').attr('href', art.imageUrl);
         if(art.hasLiked === 'True') {
             $('#like-icon-unfilled').hide();
             $('#like-icon-filled').show();

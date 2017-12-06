@@ -324,13 +324,14 @@
                     <div class="card-image main-card-image">
                         <div class="loader none"></div>
                         <div class="card-image-link">
-                            <img class="main-image img-responsive" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D">
-                            <a class="overlay-fullscreen" href="" data-lightbox="lightbox"><i class="material-icons md-light md-36">fullscreen</i></a>
-                            <a class="overlay overlay-expand" onclick="expandCard()"><i class="material-icons md-light md-36">expand_more</i></a>
-                            <div class="overlay-action">
-                                <span id="likeCount"></span><span><i class="icon fa fa-thumbs-up"></i></span>
-                                <span id="checkinCount"></span><span><i class="icon fa fa-check-square-o"></i></span>
-                            </div>
+                            <a class="fullscreen-link" href="" data-lightbox="lightbox">
+                                <img class="main-image img-responsive" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D">
+                                <i class="material-icons md-light md-36 overlay-fullscreen">fullscreen</i>
+                                <div class="overlay-action">
+                                    <span id="likeCount"></span><span><i class="icon fa fa-thumbs-up"></i></span>
+                                    <span id="checkinCount"></span><span><i class="icon fa fa-check-square-o"></i></span>
+                                </div>
+                            </a>
                         </div>
                         
                     </div>
@@ -433,7 +434,7 @@
 
                 <!-- This block shows the category selector and search bar -->
                 <div class="filter-block col-xs-10 col-xs-offset-1">
-                    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-12 col-md-offset-0 search">
+                    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-12 col-md-offset-0 col-lg-6 col-lg-offset-6 search">
                         <input id="search-input" type="text" class="form-control search-input" placeholder="Search">
                         <span class="fa fa-search"></span>
                     </div>

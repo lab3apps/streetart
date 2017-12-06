@@ -114,6 +114,10 @@ a {
     color: #ffe000;
 }
 
+a:hover {
+    color: #ffe000;
+}
+
 .main {
     height: 100%;
 }
@@ -250,6 +254,30 @@ a {
 
 .user-dropdown>ul{
     top: 50%;
+}
+
+.nav .user-dropdown>a:hover, .nav .user-dropdown>a:focus {
+    background-color: unset;
+    color: #ffe000;
+}
+
+.dropdown-menu {
+    background-color: rgb(55, 55, 55);
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    border: unset;
+    border: unset;
+    border-radius: 0px;
+    -webkit-box-shadow: unset;
+    box-shadow: unset;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: white;
+}
+
+.dropdown-menu>li>a {
+    color: white;
+    line-height: 24px;
 }
 
 .navbar-item>a {
