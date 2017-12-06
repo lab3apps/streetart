@@ -324,7 +324,6 @@ a:hover {
     margin: 0px;
 }
 
-
 .header-image > img {
   max-height: 80px;
   padding: 5px;
@@ -385,7 +384,8 @@ a:hover {
 
 .scroll-container {
     height: calc(100% - 80px);
-    overflow-x: scroll;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 
 @media screen and (min-width: 992px) {
@@ -395,6 +395,20 @@ a:hover {
     
     .scroll-container {
         height: calc(100% - 152px);
+    }
+}
+
+@media screen and (max-height: 380px) {
+    #navbar_whole {
+        display: none;
+    }
+
+    .split-page {
+        height: 100%;
+    }
+    
+    .scroll-container {
+        height: 100%;
     }
 }
 
@@ -705,7 +719,7 @@ a:hover {
 @media screen and (max-width: 991px) {
 
     .selector-input {
-        bottom: 100px;
+        bottom: 85px;
         left: 17px;
         
     }
@@ -775,6 +789,7 @@ a:hover {
     display: flex;
     min-height: 100%;
     flex-direction: column;
+    -webkit-overflow-scrolling: touch;
 }
 
 
@@ -1102,6 +1117,7 @@ a:hover {
     width: 100%;
     flex: 1;
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     /*transform: translateZ(0);*/
     will-change: transform;
 }
