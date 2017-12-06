@@ -138,6 +138,11 @@
                 {% for altimage in art.other_images.all %}
                   '{{ altimage.image.url }}',
                 {% endfor %}
+            ],
+            altImagesCredit : [
+                {% for altimage in art.other_images.all %}
+                '{{ altimage.photo_credit }}',
+                {% endfor %}
             ]
         };
     {% endfor %}
