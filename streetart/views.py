@@ -19,10 +19,12 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm
 from .serializers import ArtworkSerializer, ArtistSerializer, RouteSerializer
-from .models import Artwork, Artist, Status, Route, GetInvolved, WhatsNew, Logo
+from .models import Artwork, Artist, Status, Route, GetInvolved, WhatsNew, Logo, Page, Media
 from django.db import transaction
 from django.core.mail import send_mail
 from django.conf import settings as site_settings
+from django.db.models import Q
+
 
 try:
     from django.utils import simplejson as json
@@ -54,44 +56,11 @@ def home(request, **kwargs):
     else:
         return render(request, 'streetart/home.html', {'artworks': artwork, 'getinvolved': getinvolved, 'whatsnew': whatsnew})
 
-@login_required
-@transaction.atomic
-def settings(request):
-    user = request.user
 
-    try:
-        twitter_login = user.social_auth.get(provider='twitter')
-    except UserSocialAuth.DoesNotExist:
-        twitter_login = None
-
-    try:
-        facebook_login = user.social_auth.get(provider='facebook')
-    except UserSocialAuth.DoesNotExist:
-        facebook_login = None
-
-    can_disconnect = (user.social_auth.count() > 1 or user.has_usable_password())
-
-    if request.method == 'POST':
-        userForm = UserSettingsForm(request.POST, instance=request.user)
-        profileForm = ProfileSettingsForm(request.POST, instance=request.user.profile)
-        if userForm.is_valid() and profileForm.is_valid():
-            userForm.save()
-            profileForm.save()
-            messages.success(request, 'Your profile was successfully updated')
-            return redirect('/settings')
-        else:
-            messages.error(request, 'Please correct the error below')
-    else:
-        userForm = UserSettingsForm(instance=request.user)
-        profileForm = ProfileSettingsForm(instance=request.user.profile)
-
-    return render(request, 'registration/settings.html', {
-        'settingsForm': userForm,
-        'profileForm': profileForm,
-        'twitter_login': twitter_login,
-        'facebook_login': facebook_login,
-        'can_disconnect': can_disconnect
-    })
+def get_artworks_as_json(request):
+    artwork = Artwork.objects.filter(validated=True, map_enabled=True).order_by('pk')
+    response = serializers.serialize("json", artwork)
+    return HttpResponse(response)
 
 @login_required
 def password(request):
@@ -279,14 +248,21 @@ def route_detail(request, pk):
 
 def closest_artwork(request, index):
     artworkObject = Artwork.objects.get(pk=index)
-    artwork = get_closest_artworks(artworkObject.location.y, artworkObject.location.x)
+    artwork = get_closest_artworks(artworkObject.location.y, artworkObject.location.x, 0.2)
     response = serializers.serialize("json", artwork)
-    return render(request, 'streetart/ordered_artwork_list.html', {'artworks': artwork})
+    return HttpResponse(response)
 
-def get_closest_artworks(lat, long):
+def closest_artworks_from_user(request,lat,lng):
+    artwork = get_closest_artworks(lat, lng, 1000)
+    response = serializers.serialize("json", artwork)
+    return HttpResponse(response)
+
+
+def get_closest_artworks(lat, long, distance):
     point = geos.fromstr("POINT(%s %s)" % (long, lat))
-    artworks = Artwork.objects.filter(location__distance_lte=(point, D(km=10))).distance(point).order_by('distance')
+    artworks = Artwork.objects.filter(location__distance_lte=(point, D(km=distance))).exclude(status=3).exclude(validated=False).exclude(map_enabled=False).exclude(status__isnull=True).distance(point).order_by('distance')
     return artworks
+
 
 def image_selected(request, index):
     return render(request, 'streetart/card_detail_body.html', {'art': Artwork.objects.get(pk=index)})
@@ -358,3 +334,11 @@ def post_comment(request):
     else:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
+
+def page(request, slug):
+    page = get_object_or_404(Page, slug=slug)
+    return render(request, 'streetart/page.html', {'sourcePage': page})
+
+def media(request):
+    all_media = Media.objects.order_by('pk')
+    return render(request, 'streetart/media.html', {'all_media': all_media})

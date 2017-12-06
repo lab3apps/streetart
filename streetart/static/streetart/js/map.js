@@ -2,28 +2,12 @@ var map;
 var markerCluster
 function initialize() {
     var mapDiv = document.getElementById("map");
-    var TILE_URL = "https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png";
-    var layerID = 'https_toner';
-    var layer = new google.maps.ImageMapType({
-      name: layerID,
-      getTileUrl: function(coord, zoom) {
-        var url = TILE_URL
-          .replace('{x}', coord.x)
-          .replace('{y}', coord.y)
-          .replace('{z}', zoom);
-        return url;
-      },
-      tileSize: new google.maps.Size(256, 256),
-      minZoom: 1,
-      maxZoom: 20
-    });
     map = new google.maps.Map(
         mapDiv, {
             center: new google.maps.LatLng(-43.5314, 172.6365),
             zoom: 14,
-            maxZoom: 17,
+            maxZoom: 20,
             minZoom: 12,
-            mapTypeId: layerID,
             mapTypeControl: false,
             streetViewControl: true,
             zoomControl: true,
@@ -35,12 +19,209 @@ function initialize() {
             streetViewControlOptions: {
               position: google.maps.ControlPosition.LEFT_TOP
             },
-            fullscreenControl: true
+            fullscreenControl: false,
+            styles: [
+                {
+                    "featureType": "all",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "weight": "2.00"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "all",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "color": "#9c9c9c"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "all",
+                    "elementType": "labels.text",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "color": "#f2f2f2"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#ffffff"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape.man_made",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#ffffff"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "saturation": -100
+                        },
+                        {
+                            "lightness": 45
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#eeeeee"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "color": "#7b7b7b"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "labels.text.stroke",
+                    "stylers": [
+                        {
+                            "color": "#ffffff"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "simplified"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.arterial",
+                    "elementType": "labels.icon",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "transit",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "color": "#46bcec"
+                        },
+                        {
+                            "visibility": "on"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#c8d7d4"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "color": "#070707"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "labels.text.stroke",
+                    "stylers": [
+                        {
+                            "color": "#ffffff"
+                        }
+                    ]
+                }
+            ]
         });
-    map.mapTypes.set(layerID, layer);
-    markerCluster = new MarkerClusterer(map, markers,
-            {imagePath: '/static/img/cluster'});
-    markerCluster.setMaxZoom(16);
+    //map.mapTypes.set(layerID, layer);
+    var clusterStyles = [
+        {
+            url: '/static/img/clusterSml.png',
+            height: 80,
+            width: 70,
+            textSize: 13,
+            backgroundPosition: '0 11px'
+        },
+        {   
+            url: '/static/img/clusterMed.png',
+            height: 90,
+            width: 80,
+            textSize: 13,
+            backgroundPosition: '0 12px'
+        },
+        {
+            url: '/static/img/clusterLrg.png',
+            height: 100,
+            width: 90,
+            textSize: 13,
+            backgroundPosition: '0 13px'
+        }
+    ];
+
+    var clusterOptions = {
+        gridSize: 100,
+        styles: clusterStyles,
+        maxZoom: 17
+    };
+    markerCluster = new MarkerClusterer(map, markers, clusterOptions);
     addMarkers();
     //preloadImages();
     //google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
@@ -67,6 +248,10 @@ function initialize() {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
+    refreshCheckboxes();
+    filterMarkers();
+
+
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -128,7 +313,8 @@ function addMarkers() {
             });
             google.maps.event.addListener(marker, 'click', function () {
                 focusOnMarker(this.id);
-                markerClicked();
+                panToPointIfNeeded(this.id);
+                //markerClicked();
                 //getNearestArtworks(this.id)
             });
             google.maps.event.addListener(marker, 'mouseout', function () {
@@ -167,209 +353,12 @@ function preloadImages() {
     }
 }
 
-function focusOnMarker(index) {
-    if (arrayHasOwnIndex(artworks, index)) {
-        var art = artworks[index];
-        var marker = markers[index];
-        //closeMarkers();
-        //marker['infowindow'].open(map, marker);
-        var point = new google.maps.LatLng(art.lat, art.lng);
-        // Image Loading
-        $('.loader').removeClass('none');
-        if (art.image) {
-            $('.loader').addClass('none');
-            $('.main-image').attr('src', art.image.src);
-        } else {
-            var imgPreload = new Image();
-            imgPreload.src = art.imageUrl;
-            art.image = imgPreload;
-            if (imgPreload.complete || imgPreload.readyState === 4) {
-                $('.loader').addClass('none');
-                $('.main-image').attr('src', imgPreload.src);
-            } else {
-                //$('.loader').removeClass('none');
-                $(imgPreload).on('load', function(response, status, xhr) {
-                    if (status == 'error') {
-                        $('.loader').addClass('none');
-                        console.log('Failed to load image');
-                    } else {
-                        $('.loader').addClass('none');
-                        $('.main-image').attr('src', imgPreload.src);
-                    }
-                });
-            }
-        }
-        
-        
-        //Used to get focused artworks id for liking and checking in.
-        $('#main-card').data('index', index);
-        var artists_text = '';
-        var artists_bio_html = '';
-        for(var key in art.artists) {
-            if (arrayHasOwnIndex(art.artists, key)) {
-                if (artists_text != '') {
-                    artists_text += ', ';
-                }
-                artists_text += art.artists[key]['name'];
-                artists_bio_html += '<br><div>';
-                if (art.artists[key]['name'] && art.artists[key]['name'] != '' && art.artists[key]['name'] != 'None'){
-                    artists_bio_html += '<span>'+art.artists[key]['name']+'</span><br>';
-                }
-                if (art.artists[key]['biography'] && art.artists[key]['biography'] != '' && art.artists[key]['biography'] != 'None'){
-                    artists_bio_html += '<span>'+art.artists[key]['biography']+'</a> </span><br>';
-                }
-                if (art.artists[key]['website'] && art.artists[key]['website'] != '' && art.artists[key]['website'] != 'None'){
-                    artists_bio_html += '<span><a href="'+art.artists[key]['website']+'">'+art.artists[key]['website']+'</a> </span><br>';
-                }
-                if (art.artists[key]['facebook'] && art.artists[key]['facebook'] != '' &&  art.artists[key]['facebook'] != 'None'){
-                    if (art.artists[key]['facebook'].indexOf('facebook.com') !== -1) {
-                        artists_bio_html += '<span><a href="'+art.artists[key]['facebook']+'">'+'<i class="icon fa fa-facebook-official"></i>'+'  '+art.artists[key]['name']+'</a> </span><br>';
-                    } else {
-                        artists_bio_html += '<span><a href="https://www.facebook.com/'+art.artists[key]['facebook']+'">'+'<i class="icon fa fa-facebook-official"></i>'+'  '+art.artists[key]['name']+'</a> </span><br>';
-                    }
-                }
-                if (art.artists[key]['instagram'] && art.artists[key]['instagram'] != '' && art.artists[key]['instagram'] != 'None'){
-                    var insta_index = art.artists[key]['instagram'].indexOf('instagram.com/');
-                    if (insta_index !== -1) {
-                        artists_bio_html += '<a href="'+art.artists[key]['instagram']+'"><i class="icon fa fa-instagram"></i>'+'  @'+art.artists[key]['instagram'].split('instagram.com/')[1].replace('/', '')+'</a> </span><br>';
-                    } else {
-                        artists_bio_html += '<a href="https://www.instagram.com/'+art.artists[key]['instagram']+'"><i class="icon fa fa-instagram"></i>'+'  @'+art.artists[key]['instagram']+'</a> </span><br>';
-                    }
-                }
-                if (art.artists[key]['twitter'] && art.artists[key]['twitter'] != '' && art.artists[key]['twitter'] != 'None'){
-                    var twitter_index = art.artists[key]['twitter'].indexOf('twitter.com/');
-                    if (twitter_index !== -1) {
-                        artists_bio_html += '<span><a href="'+art.artists[key]['twitter']+'">'+'<i class="icon fa fa-twitter"></i>'+'  @'+art.artists[key]['twitter'].split('twitter.com/')[1].replace('/', '')+'</a> </span><br>';
-                    } else {
-                        artists_bio_html += '<span><a href="https://www.twitter.com/'+art.artists[key]['twitter']+'">'+'<i class="icon fa fa-twitter"></i>'+'  @'+art.artists[key]['twitter']+'</a> </span><br>';
-                    }
-                }
-                artists_bio_html += '</div>';
-            }
-        }
-        console.dir(art);
-
-        /*for(var key in art.crews) {
-            if (arrayHasOwnIndex(art.artists, key)) {
-                if (artists_text != '') {
-                    artists_text += ', ';
-                }
-                artists_text += art.artists[key]['name'];
-                artists_bio_html += '<br><div>';
-            }
-        }*/
-
-        $("#card-content").html('');
-
-        var overlay_title = '';
-        if (artists_text !== "") {
-            overlay_title = artists_text;
-        }
-        if (overlay_title === ''){
-            $('.overlay-title').addClass('none');
-        } else {
-            $('.overlay-title').removeClass('none');
-            $('.overlay-title').html(overlay_title);
-        }
-        if (art.title != "") {
-            $("#card-content").append('<p class="card-title">\
-                <span class="artwork-title">'+art.title+'</span>\
-            </p>');
-        }
-        if (artists_text != "") {
-            $("#card-content").append('<p class="card-artists">\
-                <span class="artwork-artists">'+artists_text+'</span>\
-            </p>');
-        }
-        if (art.description != "") {
-            $("#card-content").append('<p class="card-description">\
-                <span class="artwork-description">'+art.description+'</span>\
-            </p>');
-        }
-
-        for(var key in art) {
-            if (art[key] != 'None' && art[key] != '') {
-                if (key == 'commission_date' || key == 'decommission_date') {
-                    $("#card-content").append('<p class="card-generated">\
-                        <span class="value-title">'+key.replace('_', ' ')+': </span>\
-                        <span class="artwork-'+key+'">'+art[key]+'</span>\
-                    </p>');
-                } else if (key == 'link') {
-                    $("#card-content").append('<p class="card-generated">\
-                        <span class="value-title">'+key.replace('_', ' ')+': </span>\
-                        <span class="artwork-'+key+'"><a href="'+art[key]+'">'+art[key]+'</a></span>\
-                    </p>');
-                }
-            }
-        }
-        $("#card-content").append(artists_bio_html);
-        $('.overlay-fullscreen').attr('href', art.imageUrl);
-        if(art.hasLiked === 'True') {
-            $('.like i').html('favorite');
-        } else {
-            $('.like i').html('favorite_border');
-        }
-        if(art.hasCheckedin === 'True') {
-            $('.checkin-icon-unfilled').hide();
-            $('.checkin-icon-filled').show();
-        } else {
-            $('.checkin-icon-filled').hide();
-            $('.checkin-icon-unfilled').show();
-        }
-        $('#likeCount').html(art.likes_count);
-        if (art.likes_count != 1) {
-            $('#like-plural').show();
-        } else {
-            $('#like-plural').hide();
-        }
-        $('#checkinCount').html(art.checkins_count);
-        if (art.checkins_count != 1) {
-            $('#checkin-plural').show();
-        } else {
-            $('#checkin-plural').hide();
-        }
-        $('#show_on_map').data('index', index);
-        map.panTo(point);
-        map.setZoom(17);
-        toggleBounce(marker);
-        loadCommentSection(index);
-        loadAltImages(index);
-        history.replaceState({}, null, '/artwork/'+index);
-    }
-}
-
-$('#show_on_map').click(function(e) {
-    $('.left-panel').addClass('mobile-hide');
-    $('.right-panel').removeClass('mobile-hide');
-    google.maps.event.trigger(map, "resize");
-    var marker_index = $(this).data('index');
-    if (arrayHasOwnIndex(artworks, marker_index)) {
-        var art = artworks[marker_index];
-        var point = new google.maps.LatLng(art.lat, art.lng);
-        map.panTo(point);
-    }
-});
-
-function getNearestArtworks(index) {
-    $.ajax({
-        url: '/nearby/' + index + '/',
-        type: 'GET',
-        success: function(response) {
-            $('.gallery-section').html(response);
-        },
-        failure: function(error) {
-            console.error(error);
-        }
-    });
-}
-
-$('#search-input').keyup(function() {
-    filterMarkers();
-});
-
 function filterMarkers() {
     var searchText = $('#search-input').val();
-    var catArray = $('.multiselect').val();
+    var catArray = $("input[name='status']:checked").map(function(){
+        return $(this).val();
+      }).get();
+    
     markerCluster.clearMarkers();
     for(var key in artworks) {
         if (arrayHasOwnIndex(artworks, key)) {
@@ -412,32 +401,85 @@ function filterMarkers() {
 
 var currentBounceMarker;
 function toggleBounce(marker) {
+    console.log('togglebounce');
     if (currentBounceMarker) {
-        if (currentBounceMarker.getAnimation() !== null) {
-          currentBounceMarker.setAnimation(null);
-        } 
+        if(currentBounceMarker != marker){
+            currentBounceMarker.setAnimation(null);
+        }
         currentBounceMarker = marker;
         currentBounceMarker.setAnimation(google.maps.Animation.BOUNCE);
+        
     }else{
         currentBounceMarker = marker;
         currentBounceMarker.setAnimation(google.maps.Animation.BOUNCE);
     }
- }       
+ }
 
-function initializeMultiSelect() {
-    $('.multiselect').multiselect({
-        buttonText: function(options, select) {
-                return 'Show artworks that are:';
-            },
-        buttonWidth: "100%",
-        onInitialized: function() {
-            filterMarkers();
-        },
-        onChange: function() {
-            filterMarkers();
-        }
-    });
+function refreshCheckboxes() {
+    if ($('#status-1').prop('checked')) {
+        $('#status-1 + label').css({
+            'filter' : '',
+            '-webkit-filter' : '',
+            '-moz-filter' : '',
+            '-o-filter' : '',
+            '-ms-filter' : '',
+        });
+    } else {
+        $('#status-1 + label').css({
+            'filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-webkit-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-moz-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-o-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-ms-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+        });
+    }
+    if ($('#status-2').prop('checked')) {
+        $('#status-2 + label').css({
+            'filter' : '',
+            '-webkit-filter' : '',
+            '-moz-filter' : '',
+            '-o-filter' : '',
+            '-ms-filter' : '',
+        });
+    } else {
+        $('#status-2 + label').css({
+            'filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-webkit-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-moz-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-o-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-ms-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+        });
+    }
+    if ($('#status-3').prop('checked')) {
+        $('#status-3 + label').css({
+            'filter' : '',
+            '-webkit-filter' : '',
+            '-moz-filter' : '',
+            '-o-filter' : '',
+            '-ms-filter' : '',
+        });
+    } else {
+        $('#status-3 + label').css({
+            'filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-webkit-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-moz-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-o-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-ms-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+        });
+    }
 }
 
-initialize();
-initializeMultiSelect();
+$( document ).ready(function() {
+    initialize();
+    $('#search-input').keyup(function() {
+        filterMarkers();
+    });
+    
+    $('.checkbox-form input').click(function() {
+        refreshCheckboxes();
+        filterMarkers();
+    });
+
+});
+
+

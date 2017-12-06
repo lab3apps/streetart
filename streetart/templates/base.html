@@ -14,7 +14,15 @@
         <meta property="og:url" content="http://watchthisspace.org.nz/" />
         <meta property="og:title" content="Watch This Space" />
         <meta property="og:type" content="website" />
-        <meta property="fb:app_id" content="106299540095089" />
+        <meta property="fb:app_id" content=" {{ SOCIAL_AUTH_FACEBOOK_KEY }} "/>
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+        <link rel="manifest" href="{% static 'favicon/manifest.json' %}">
+        <link rel="mask-icon" href="{% static 'favicon/safari-pinned-tab.svg' %}" color="#c40f0f">
+        <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}">
+        <meta name="msapplication-config" content="{% static 'favicon/browserconfig.xml' %}">
+        <meta name="theme-color" content="#ffffff">
         {% endblock %}
 
     <!--The Block CSS is an example of what could go in your base.html file. If you already have these added into your static files then
@@ -26,7 +34,7 @@
         <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
         <link href="{% static 'streetart/css/palette.css' %}" rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'material/css/material.grey-blue.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'material/css/material.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'streetart/css/style.css' %}" />
         {% endblock %}
 
@@ -37,16 +45,18 @@
     <header class="nav-header">
         <div class="clearfix">   
             <div class= "navbar-wrapper">
-                <nav class = "navbar navbar-inverse navbar-fixed-top" id="navbar_whole">
+                <nav class = "navbar navbar-fixed-top" id="navbar_whole">
                     <div id="mySidenav" class="sidenav">
                         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                        <a href="" onclick="closeNav()" class="navbar-gallery">Gallery</a>
-                        <a href="" onclick="closeNav()" class="navbar-map">Map</a>
-                        <a href="" onclick="closeNav()" class="navbar-getinvolved">Get Involved</a>
-                        <a href="" onclick="closeNav()" class="navbar-whatsnew">What's New</a>
+                        <a href="/#gallery" onclick="closeNav()" class="navbar-gallery-mobile">Gallery</a>
+                        <a href="/#map" onclick="closeNav()" class="navbar-map-mobile">Map</a>
+                        <a href="https://blog.watchthisspace.org.nz">Blog</a>
+                        <a href="{% url 'streetart:tours' %}">Tours</a>
                         <a href="{% url 'streetart:about' %}">About</a>
+                        <a href="{% url 'streetart:media' %}">Media</a>
+                        <a href="{% url 'streetart:FAQs' %}">FAQs</a>
                         <a href="{% url 'streetart:donate' %}">Donate</a>
-                        <a href="/settings">Settings</a>
+                        <a href="{% url 'streetart:supporters' %}">Supporters and Friends</a>
                         {% if user.is_authenticated %}
                             <a href="/logout">Logout</a>
                         {% else %}
@@ -56,7 +66,7 @@
                     <div class="visible-xs-block col-xs-3 menu-toggle">
                         <a onclick="openNav()"><i class="material-icons md-light md-48">menu</i></a>
                     </div>
-                    <div class="col-xs-6 col-sm-8">
+                    <div class="col-xs-6 col-sm-3">
                          <div class = "navbar-header">
                             <!--Below is the top-left hand side of the screen where you usually see a company/project name and a logo-->
                             <!--The next line sends the user back to the home page-->
@@ -65,56 +75,67 @@
                                  <img class="img-responsive" src="{% static 'img/wts-logo-white.png' %}"> 
                             </a>
                         </div>
-                        <div id= "navbar" class="hidden-xs">
-                            <ul class="nav navbar-nav navbar-left">
-                              <!--Below is where you put the rest of the links to the pages you've created. Please reference your own models
-                               in Django.-->
-                                <li class="navbar-item visible-xs-block visible-sm-block">
-                                    <a id="navbar-gallery" class="navbar-gallery" href="{% url 'streetart:home' %}">Gallery</a>
-                                </li>
-                                <li class="navbar-item visible-xs-block visible-sm-block">
-                                    <a id="navbar-map" class="navbar-map" href="{% url 'streetart:home' %}">Map</a>
-                                </li>
-                                <li class="navbar-item hidden-sm">
-                                    <a id="navbar-about" class="navbar-about" href="{% url 'streetart:about' %}">About</a>
-                                </li>
-                                <li class="navbar-item">
-                                    <a id="navbar-donate" class="navbar-donate" href="{% url 'streetart:donate' %}">Donate</a>
-                                </li>
-                                <li class="navbar-item">
-                                    <a id="navbar-facebook" class="navbar-social navbar-facebook" target="_blank" href="https://www.facebook.com/watchthisspacechch/"><i class="icon fa fa-facebook-official"></i></a>
-                                </li>
-                                <li class="navbar-item">
-                                    <a id="navbar-insta" class="navbar-social navbar-insta" target="_blank" href="https://www.instagram.com/watchthisspacechch/"><i class="icon fa fa-instagram"></i></a>
-                                </li>
-                                <li class="visible-xs-block">
-                                    <a href="/settings">Settings</a>
-                                </li>
-                                <li class="divider visible-xs-block"></li>
-                                <li class="visible-xs-block">
-                                    {% if user.is_authenticated %}
-                                        <a href="/logout">Logout</a>
-                                    {% else %}
-                                        <a href="{% url 'social:begin' 'facebook' %}">Login</a>
-                                    {% endif %}
-                                </li>
-                            </ul>
-                        </div>
+                    </div>
+                    <div class="col-sm-6 central-navbar hidden-xs">
+                        <ul class="nav navbar-nav">
+                            <!--Below is where you put the rest of the links to the pages you've created. Please reference your own models
+                            in Django.-->
+                            <li class="navbar-item">
+                                <a id="navbar-gallery" class="navbar-gallery" href="/#gallery"><i class="icon fa fa-picture-o"></i><p>Gallery</p></a>
+                            </li>
+                            <li class="navbar-item">
+                                <a id="navbar-map" class="navbar-map" href="/#map"><i class="icon fa fa-map"></i><p>Map</p>
+                                    <i class="down-arrow fa fa-angle-down"></i>
+                                </a>
+                                <div class="navbar-dropdown">
+                                    <ul>
+                                        <a href="{% url 'streetart:media' %}" target="_blank"><li>Media</li></a>
+                                        <a><li>Show Map</li></a>
+                                        <a href="{% url 'streetart:new_artwork' %}" target="_blank"><li>Add to Map</li></a>
+                                        <a href="{% url 'streetart:new_muralcommission' %}" target="_blank"><li>Commission Mural</li></a>
+                                        <a href="{% url 'streetart:new_wallspace' %}" target="_blank"><li>Share Your Wall</li></a>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="navbar-item">
+                                <a id="navbar-blog" class="navbar-blog" href="https://blog.watchthisspace.org.nz"><i class="icon fa fa-rss"></i><p>Blog</p></a>
+                            </li>
+                            <li class="navbar-item">
+                                <a id="navbar-tour" class="navbar-tour" href="{% url 'streetart:tours' %}" target="_blank"><i class="icon fa fa-compass"></i><p>Tours</p></a>
+                            </li>
+                            <li class="navbar-item">
+                                <a id="navbar-about" class="navbar-about" href="{% url 'streetart:about' %}"><i class="icon fa fa-info-circle"></i><p>About</p>
+                                    <i class="down-arrow fa fa-angle-down"></i>
+                                </a>
+                                <div class="navbar-dropdown">
+                                    <ul>
+                                        <a href="{% url 'streetart:new_artistexpressionofinterest' %}" target="_blank"><li>I'm an artist!</li></a>
+                                        <a href="{% url 'streetart:donate' %}" target="_blank"><li>Donate</li></a>
+                                        <a href="{% url 'streetart:FAQs' %}" target="_blank"><li>FAQs</li></a>
+                                        <a href="{% url 'streetart:supporters' %}" target="_blank"><li>Supporters</li></a>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="divider visible-xs-block"></li>
+                            <li class="visible-xs-block">
+                                {% if user.is_authenticated %}
+                                    <a href="/logout">Logout</a>
+                                {% else %}
+                                    <a href="{% url 'social:begin' 'facebook' %}">Login</a>
+                                {% endif %}
+                            </li>
+                        </ul>
                     </div>
                     <div class="visible-xs-block col-xs-3"></div>
-                    <div class="menu-dropdown hidden-xs col-sm-4" id="bs-example-navbar-collapse-1">
+                    <div class="menu-dropdown hidden-xs col-sm-3" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
                             {% if user.is_authenticated %}
-                                <li class="dropdown">
+                                <div class="user-dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                             {{ user.first_name }} {{ user.last_name }}
                                             <span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu" role="menu">
-                                            <li>
-                                                <a href="/settings">Settings</a>
-                                            </li>
-                                            <li class="divider"></li>
                                             <li>
                                                 {% if user.is_authenticated %}
                                                     <a href="/logout">Logout</a>
@@ -123,13 +144,19 @@
                                                 {% endif %}
                                             </li>
                                         </ul>
-                                </li>
+                                </div>
                             {% else %}
-                                <li>
-                                    <a class="button-social button-facebook hidden-xs hidden-sm" id="button-facebook" href="{% url 'social:begin' 'facebook' %}"><i class="icon fa fa-facebook"></i>Login with Facebook</a>
-                                    <a class="visible-xs-block visible-sm-block" href="{% url 'social:begin' 'facebook' %}">Login</a>
-                                </li>
+                                <div>
+                                    <a class="button-social button-facebook hidden-xs hidden-sm" id="button-facebook" href="{% url 'social:begin' 'facebook' %}"><i class="icon fa fa-facebook"></i>Login</a>
+                                    <a class="visible-xs-block visible-sm-block minimised-login" href="{% url 'social:begin' 'facebook' %}">Login</a>
+                                </div>
                             {% endif %}
+                            <li class="navbar-item">
+                                <a id="navbar-facebook" class="navbar-social navbar-facebook" target="_blank" href="https://www.facebook.com/watchthisspacechch/"><i class="icon fa fa-facebook-official"></i></a>
+                            </li>
+                            <li class="navbar-item">
+                                <a id="navbar-insta" class="navbar-social navbar-insta" target="_blank" href="https://www.instagram.com/watchthisspacechch/"><i class="icon fa fa-instagram"></i></a>
+                            </li>
                         </ul>
                     </div>
                 </nav>
@@ -181,8 +208,26 @@
 
           ga('create', 'UA-84316316-3', 'auto');
           ga('send', 'pageview');
-
         </script>
+        <!-- Facebook SDK --> 
+        <script>  
+            window.fbAsyncInit = function() {
+                FB.init({
+                appId            : '{{ SOCIAL_AUTH_FACEBOOK_KEY }}', // App id
+                autoLogAppEvents : true,
+                xfbml            : true,
+                version          : 'v2.11' // Facebook SDK version, v2.11 - may need to eventually update
+                });
+            };
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+
     {% endblock %}
 
 </html>

@@ -8,7 +8,7 @@
     {% render_comment_form for art %}
   </div>
 {% else %}
-	To comment, please log in.
+  <p class="cannot-comment-warning">To comment, please log in.</p>
 {% endif %}
 </div>
 {% if comment_count %}

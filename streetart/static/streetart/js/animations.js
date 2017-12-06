@@ -1,46 +1,5 @@
-/* View States:
- * 0: Default large left panel with gallery.
- * 1: Large map panel with small card and gallery.
- * 2: Large left panel with expanded Card.
- */
-var viewState = 0;
-
-/* Loads the comment section into html using ajax request with the index on clicked artwork */
-function loadCommentSection(index) {
-    if (arrayHasOwnIndex(artworks, index)) {
-        $.ajax({
-            url: '/imageselected/' + index + '/',
-            type: 'GET',
-            success: function(data) {
-                $('#comment-card').empty().append(data);
-            },
-            failure: function() {
-                console.log('Ajax failure: unable to GET "/imageselected/' + index + '/"');
-            }
-        });
-    }
-}
-
-/* Places any alternative images into the card holder for the clicked artwork. Empties if no alt images */
-function loadAltImages(index) {
-    if (arrayHasOwnIndex(artworks, index)) {
-        var art = artworks[index];
-        if(art.altImages.length >= 1) {
-            $('#images-card-holder').empty();
-            $('#images-card-holder').append('<div id="alt-images-card" class="card"></div>');
-            for(var key in art.altImages) {
-                    $('#alt-images-card').append('<a id="alt-image" href="' +  art.altImages[key] + '" data-lightbox="lightbox" class="col-xs-3"><img class="img-responsive" src="' + art.altImages[key] + '"></a>');
-            }
-        } else {
-            $('#images-card-holder').empty();
-        }
-    }
-}
-
 function markerClicked() {
-    if(viewState === 0 || viewState === 1) {
-        expandMap();
-    }
+    
     // Hide image while other loads. This will break linking.
     //$('.main-image').attr('src', '');
     // Important for mobile
@@ -50,130 +9,236 @@ function markerClicked() {
 }
 
 function backClicked() {
-    if(viewState === 1){
-        collapseMap();
-        history.replaceState({}, null, '/');
-    } else if (viewState === 2) {
-        collapseCard();
-    }
+    gallery_view();
+   
+    history.replaceState({}, null, '/');
 }
 
-function focusRight() {
-    $('.left-panel').removeClass('col-md-7');
-    $('.left-panel').addClass('col-md-4');
-    $('.right-panel').removeClass('col-md-5');
-    $('.right-panel').addClass('col-md-8');
-    setTimeout(function() {
-        google.maps.event.trigger(map, "resize");
-    }, 300);
-}
+function gallery_view() {
+    $('#comment-card-holder').hide();
+    $('#images-card-holder').hide();
+    $('#nearest-artworks-holder').hide();
+    $('#nearest-artworks-header').hide();
+    $('.scroll-gallery').show();
+    $('.left-panel').css('overflow-y', 'hidden');
+    $(".card-details").slideUp();
+    $(".overlay").fadeIn();
 
-function focusLeft() {
-    $('.left-panel').removeClass('col-md-4');
-    $('.left-panel').addClass('col-md-7');
-    $('.right-panel').removeClass('col-md-8');
-    $('.right-panel').addClass('col-md-5');
-    setTimeout(function() {
-        google.maps.event.trigger(map, "resize");
-    }, 300);
-}
-
-function expandMap() {
-    focusRight();
-    $('#marker-card-holder').show();
-    $('.title-block').hide();
-    $('.back-block').show();
-    $('.tab-block').hide();
-    $('.gallery-item').removeClass('col-md-3');
-    $('.getinvolved-item').removeClass('col-md-3');
-    $('.gallery-item').addClass('col-md-6');
-    $('.getinvolved-item').addClass('col-md-6');
-    // Important for mobile
-    $('.left-panel').removeClass('mobile-hide');
-    $('.right-panel').addClass('mobile-hide');
-    viewState = 1;
-}
-
-function collapseMap() {
-    focusLeft();
     $('#marker-card-holder').hide();
     $('.title-block').show();
     $('.back-block').hide();
-    $('.tab-block').show();
-    $('.gallery-item').removeClass('col-md-6');
-    $('.getinvolved-item').removeClass('col-md-6');
-    $('.gallery-item').addClass('col-md-3');
-    $('.getinvolved-item').addClass('col-md-3');
+    // Important for mobile
+    $('.right-panel').addClass('mobile-hide');
+    $('.left-panel').removeClass('mobile-hide');
+}
+
+function full_card_view() {
+    var elem = document.querySelector(".card .card-image img");
+
+    //Get inital size. Animating map (right-panel)
+    var collapsed = elem.getBoundingClientRect();
+
+    elem.classList.add('expanding-img');
+
+    $('#marker-card-holder').show();
+    $('.title-block').hide();
+    $('.back-block').show();
     // Important for mobile
     $('.left-panel').removeClass('mobile-hide');
     $('.right-panel').addClass('mobile-hide');
 
-    viewState = 0;
-}
-
-function expandCard() {
-    focusLeft();
     $('#comment-card-holder').show();
     $('#images-card-holder').show();
+    $('#nearest-artworks-holder').show();
+    $('#nearest-artworks-header').show();
     $('.scroll-gallery').hide();
     $('.left-panel').css('overflow-y', 'scroll');
-    $('.main-image').addClass('expanded');
     $(".card-details").slideDown();
-    $('.overlay-title').fadeOut();
-    $('.overlay-like').fadeOut();
-    $('.overlay-checkin').fadeOut();
-    $('.overlay-expand').addClass('rotate-180');
-    $('.overlay-expand').attr('onclick', 'collapseCard()');
-    $('.card-image-link').attr('onclick', 'collapseCard()');
-    viewState = 2;
-}
+    $(".overlay").fadeOut();
+    $('.left-panel').removeClass('mobile-hide');
+    $('.right-panel').addClass('mobile-hide');
+    showLeftPanel();
 
-function collapseCard() {
-    focusRight();
-    $('#comment-card-holder').hide();
-    $('#images-card-holder').hide();
-    $('.scroll-gallery').show();
-    $('.left-panel').css('overflow-y', 'hidden');
-    $('.main-image').removeClass('expanded');
-    $(".card-details").slideUp();
-    $('.overlay-title').fadeIn();
-    $('.overlay-like').fadeIn();
-    $('.overlay-checkin').fadeIn();
-    $('.overlay-expand').removeClass('rotate-180');
-    $('.overlay-expand').attr('onclick', 'expandCard()');
-    $('.card-image-link').attr('onclick', 'expandCard()');
-    viewState = 1;
+    var expanded = elem.getBoundingClientRect();
+
+    //Invert
+    var invertedTop = collapsed.top - expanded.top;
+    var invertedLeft = collapsed.left - expanded.left;
+    // Use divisions when manipulating sizes to apply in scale
+    var invertedWidth = collapsed.width / expanded.width;
+    var invertedHeight = collapsed.height / expanded.height;
+
+    elem.style.transformOrigin = 'center';
+
+    elem.style.transform = 'translate(' + invertedLeft + 'px, ' + invertedTop + 'px) scale(' + invertedWidth + ', ' + invertedHeight + ')';
+
+    requestAnimationFrame(function(){
+        // Add the class to run the transition
+        elem.classList.add('transition-img'); 
+        // Clear styles
+        elem.style.transform = '';
+        // On transitionEnd remove the classes used control transitions
+        elem.addEventListener('transitionend', function(){
+            elem.style.transformOrigin = '';
+            elem.classList.remove('transition-img');
+            elem.classList.remove('expanding-img');
+            // Remove the eventListener
+            elem.removeEventListener('transitionend', false);
+        });
+    }); 
 }
 
 function hideLeftPanel() {
-    //$('.left-panel').addClass('no-width');
+    $('.left-panel').addClass('no-width');
     $('.right-panel').addClass('full-width');
-    $('.left-panel').blindLeftOut('slow');
-    $('#left-panel-toggle').addClass('rotate-180');
-    $('.left-panel').css('border-right', 'none');
+    $('.right-panel-toggle').hide();
+    $('.left-panel-toggle').removeClass('material-icons');
+    $('.left-panel-toggle').text('SHOW GALLERY');
+    $('.back-block').hide();
 }
 
 function showLeftPanel() {
-    //$('.left-panel').removeClass('no-width');
+    $('.left-panel').removeClass('no-width');
     $('.right-panel').removeClass('full-width');
-    $('.left-panel').blindLeftIn('slow');
-    $('#left-panel-toggle').removeClass('rotate-180');
-    $('.left-panel').css('border-right', 'solid 3px black');
+    $('.right-panel-toggle').show();
+    $('.left-panel-toggle').addClass('material-icons');
+    $('.left-panel-toggle').text('arrow_drop_up');
+    if ($('.scroll-gallery').css('display') == 'none') {
+        $('.back-block').show();
+    }
+}
+function hideRightPanel() {
+    $('.right-panel').addClass('no-width');
+    $('.left-panel').addClass('full-width-minus-buttons');
+    $('.left-panel-toggle').hide();
+    $('.right-panel-toggle').removeClass('material-icons');
+    $('.right-panel-toggle').text('SHOW MAP');
+    $('.gallery-item').removeClass('col-lg-6');
+    $('.gallery-item').removeClass('col-sm-6');
+    $('.gallery-item').addClass('col-sm-4');
+    $('.gallery-item').addClass('col-lg-3');
+    $('.gallery-item').addClass('col-xl-2');
+    $('.right-panel-toggle').css("top","40%");
+}
+
+function showRightPanel() {
+    $('.right-panel').removeClass('no-width');
+    $('.left-panel').removeClass('full-width-minus-buttons');
+    $('.left-panel-toggle').show();
+    $('.right-panel-toggle').addClass('material-icons');
+    $('.right-panel-toggle').text('arrow_drop_down');
+    $('.gallery-item').addClass('col-lg-6');
+    $('.gallery-item').addClass('col-sm-6');
+    $('.gallery-item').removeClass('col-sm-4');
+    $('.gallery-item').removeClass('col-lg-3');
+    $('.gallery-item').removeClass('col-xl-2');
+    $('.right-panel-toggle').css("top", "calc(40% + 80px)");
 }
 
 function resizeMap() {
     setTimeout(function() {
         google.maps.event.trigger(map, "resize");
-    }, 300);
+    }, 200);
 }
 
-$('#left-panel-toggle').click(function(e) {
-    if ($('.right-panel').hasClass('full-width')) {
+function perform_left_toggle() {
+    var elem = document.querySelector(".right-panel");
+
+    //Get inital size. Animating map (right-panel)
+    var collapsed = elem.getBoundingClientRect();
+
+    elem.classList.add('expanding');
+
+    if ($('.left-panel').hasClass('no-width')) {
         showLeftPanel();
     } else {
         hideLeftPanel();
     }
-    resizeMap();
+    
+
+    var expanded = elem.getBoundingClientRect();
+
+    //Invert
+    var invertedTop = collapsed.top - expanded.top;
+    var invertedLeft = collapsed.left - expanded.left;
+    // Use divisions when manipulating sizes to apply in scale
+    var invertedWidth = collapsed.width / expanded.width;
+    var invertedHeight = collapsed.height / expanded.height;
+
+    elem.style.transformOrigin = 'top left';
+
+    elem.style.transform = 'translate(' + invertedLeft + 'px, ' + invertedTop + 'px) scale(' + invertedWidth + ', ' + invertedHeight + ')';
+
+    requestAnimationFrame(function(){
+        // Add the class to run the transition
+        elem.classList.add('transition'); 
+        // Clear styles
+        elem.style.transform = '';
+        // On transitionEnd remove the classes used control transitions
+        elem.addEventListener('transitionend', function(){
+            elem.style.transformOrigin = '';
+            elem.classList.remove('transition');
+            elem.classList.remove('expanding');
+            //trigger map resize on animation complete
+            google.maps.event.trigger(map, "resize");
+            // Remove the eventListener
+            elem.removeEventListener('transitionend', false);
+        });
+    });
+}
+
+$('#left-panel-toggle').click(function(e) {
+    perform_left_toggle();
+});
+
+function perform_right_toggle() {
+    var elem = document.querySelector(".left-panel");
+
+    //Get inital size. Animating map (right-panel)
+    var collapsed = elem.getBoundingClientRect();
+
+    elem.classList.add('expanding');
+
+    if ($('.right-panel').hasClass('no-width')) {
+        showRightPanel();
+    } else {
+        hideRightPanel();
+        
+    }
+
+    var expanded = elem.getBoundingClientRect();
+
+    //Invert
+    var invertedTop = collapsed.top - expanded.top;
+    var invertedLeft = collapsed.left - expanded.left;
+    // Use divisions when manipulating sizes to apply in scale
+    var invertedWidth = collapsed.width / expanded.width;
+    var invertedHeight = collapsed.height / expanded.height;
+
+    elem.style.transformOrigin = 'top left';
+
+    elem.style.transform = 'translate(' + invertedLeft + 'px, ' + invertedTop + 'px) scale(' + invertedWidth + ', ' + invertedHeight + ')';
+
+    requestAnimationFrame(function(){
+        // Add the class to run the transition
+        elem.classList.add('transition'); 
+        // Clear styles
+        elem.style.transform = '';
+        // On transitionEnd remove the classes used control transitions
+        elem.addEventListener('transitionend', function(){
+            elem.style.transformOrigin = '';
+            elem.classList.remove('transition');
+            elem.classList.remove('expanding');
+            //trigger map resize on animation complete
+            google.maps.event.trigger(map, "resize");
+            // Remove the eventListener
+            elem.removeEventListener('transitionend', false);
+        });
+    }); 
+}
+
+$('#right-panel-toggle').click(function(e) {
+    perform_right_toggle();
 });
 
 function activateSnackbar(snackbarDiv) {
@@ -181,46 +246,5 @@ function activateSnackbar(snackbarDiv) {
     setTimeout(function() {
         $(snackbarDiv).removeClass('show');
     }, 3000);
-}
-
-$('#gallery-tab').click(function() {
-    showGalleryTab();
-});
-
-
-$('#getinvolved-tab').click(function() {
-    showGetInvolvedTab();
-});
-
-
-$('#whatsnew-tab').click(function() {
-    showWhatsNewTab();
-});
-
-function showGalleryTab() {
-    $('.getinvolved-section').hide();
-    $('.whatsnew-section').hide();
-    $('.gallery-section').show();
-    $('#gallery-tab').addClass('active');
-    $('#getinvolved-tab').removeClass('active');
-    $('#whatsnew-tab').removeClass('active');
-}
-
-function showGetInvolvedTab() {
-    $('.getinvolved-section').show();
-    $('.gallery-section').hide();
-    $('.whatsnew-section').hide();
-    $('#getinvolved-tab').addClass('active');
-    $('#gallery-tab').removeClass('active');
-    $('#whatsnew-tab').removeClass('active');
-}
-
-function showWhatsNewTab() {
-    $('.whatsnew-section').show();
-    $('.gallery-section').hide();
-    $('.getinvolved-section').hide();
-    $('#whatsnew-tab').addClass('active');
-    $('#gallery-tab').removeClass('active');
-    $('#getinvolved-tab').removeClass('active');
 }
 

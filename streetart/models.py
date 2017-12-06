@@ -1,3 +1,4 @@
+import os
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
 import datetime
@@ -14,7 +15,10 @@ from image_cropping.utils import get_backend
 from PIL import Image
 from django_comments_xtd.moderation import moderator, XtdCommentModerator, SpamModerator
 from streetart.badwords import badwords
-from streetart.processors import convert_rgba
+from streetart.processors import convert_rgba, add_watermark
+from django.contrib.staticfiles.storage import staticfiles_storage
+from chch_streetart.settings import STATIC_ROOT
+from embed_video.fields import EmbedVideoField
 
 # Create your models here.
 
@@ -87,11 +91,12 @@ class Artwork(models.Model):
     decommission_date = models.CharField(max_length=200, blank=True, null=True, verbose_name='date decommissioned')
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='artwork/', max_length=500)
-    cropping = ImageRatioField('image', '250x250')
+    watermarked_image = models.ImageField(null=True, upload_to='API_artwork/', max_length=500)
+    cropping = ImageRatioField('image', '404x250')
     cropped_image = models.ImageField(upload_to='artwork/', blank=True, null=True, max_length=500)
     def image_thumbnail(self):
         thumbnailer = get_thumbnailer(self.image)
-        thumbnail_options = {'size': (250, 250)}
+        thumbnail_options = {'size': (404, 250)}
         thumbnailer.get_thumbnail(thumbnail_options)
         return '<img src="%s" />' % thumbnailer.get_thumbnail(thumbnail_options).url
     image_thumbnail.short_description = 'Uploaded Image'
@@ -145,6 +150,7 @@ class Artwork(models.Model):
     def save(self, *args, **kwargs):
         if self.image != self.__original_image:
             self.image = convert_rgba(self.image)
+            self.watermarked_image = add_watermark(self.image, Image.open(os.path.join(STATIC_ROOT, 'img/wts-watermark-logo-white.png')))
         if self.pk and self.image == self.__original_image:
             self.cropped_image = get_thumbnailer(self.image).get_thumbnail(
                 {
@@ -291,6 +297,15 @@ class WhatsNew(models.Model):
         return self.title
 
 @python_2_unicode_compatible  # only if you need to support Python 2
+class Media(models.Model):
+    title = models.CharField(max_length=200)
+    video = EmbedVideoField(blank=True, null=True, verbose_name="YouTube and Vimeo URL's supported")
+    link = models.URLField(blank=True, null=True, verbose_name="If the video is not YouTube or Vimeo")
+    image = models.ImageField(upload_to='media_thumbs/', blank=True, null=True, verbose_name="Thumbnail")
+    def __str__(self):
+        return self.title
+
+@python_2_unicode_compatible  # only if you need to support Python 2
 class Logo(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='logos/', blank=True, null=True, max_length=500)
@@ -317,6 +332,20 @@ class Logo(models.Model):
     def __init__(self, *args, **kwargs):
         super(Logo, self).__init__(*args, **kwargs)
         self.__original_image = self.image
+
+@python_2_unicode_compatible  # only if you need to support Python 2
+class Page(models.Model):
+    name = models.CharField(max_length=200)
+    page_content = models.TextField()
+    slug = models.SlugField(max_length=255, blank=True, null=True)
+    def __str__(self):
+        return self.name
+    def save(self, *args, **kwargs):
+        if self.name != None and self.name != '':
+            self.slug = slugify(self.name)
+        else:
+            self.slug = slugify(self.pk)
+        super(Page, self).save(*args, **kwargs)
 
 class PostCommentModerator(SpamModerator):
     removal_suggestion_notification = True

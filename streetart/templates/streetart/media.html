@@ -1,0 +1,51 @@
+{% extends 'nonhome.html' %}
+
+{% load static %}
+{% load widget_tweaks %}
+{% load embed_video_tags %}
+
+{% block head-css %}
+{{ block.super }}
+<link href="{% static 'fancybox/css/jquery.fancybox.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block head-javascript %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'fancybox/js/jquery.fancybox.min.js' %}"></script>
+<script type="text/javascript">
+</script>
+{% endblock %}
+
+{% block sub-content %}
+<div class="scroll-container">
+        <div class="container custom-page-content">
+            <h2 style="text-align: left;"><br></h2>
+            <h2 style="text-align: left;"><font face="Raleway">MEDIA</font></h2>
+            <br>
+            <br>
+            {%for item in all_media%}
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <h5>{{item.title}}</h4>
+                    {% if item.video %}
+                        {% video item.video as my_video %}
+                            <a class="" data-fancybox="lightbox" href="{{ my_video.url }}">
+                                <div class="media-thumbnail">
+                                    <img class="media-video-link" src="{{ my_video.thumbnail }}">
+                                </div>
+                            </a>
+                        {% endvideo %}
+                    {% else %}
+                        {% if item.link %}
+                            <a href="{{ item.link }}">
+                                <div class="media-thumbnail">
+                                        <img class="media-video-link" src="{{ item.image }}">
+                                </div>
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {%endfor%}
+        </div>
+</div>
+{% endblock %}
+

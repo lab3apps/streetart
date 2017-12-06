@@ -9,6 +9,7 @@ media/artwork/
 media/cache/
 media/logos/
 media/
+static/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -111,3 +112,6 @@ ENV/
 # mypy
 .mypy_cache/
 
+.vscode/settings.json
+
+.idea/
