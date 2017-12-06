@@ -325,7 +325,7 @@ function panToPointIfNeeded(index) {
         var art = artworks[index];
         var point = new google.maps.LatLng(art.lat, art.lng);
         map.panTo(point);
-        map.setZoom(17);
+        map.setZoom(18);
     }
 }
 
@@ -338,6 +338,9 @@ $('#show_on_map').click(function(e) {
     if (arrayHasOwnIndex(artworks, marker_index)) {
         var art = artworks[marker_index];
         var point = new google.maps.LatLng(art.lat, art.lng);
+        var thisMarker = markers[marker_index];
+        toggleBounce(thisMarker);
+        map.setZoom(18);
         map.panTo(point);
     }
 });
