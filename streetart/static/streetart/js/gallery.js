@@ -106,7 +106,7 @@ function load_artwork_main_image(art) {
             });
         }
     }
-    $('.overlay-fullscreen').attr('href', art.imageUrl);
+    $('.fullscreen-link').attr('href', art.imageUrl);
 }
 
 function load_child_tools(art, index) {
@@ -281,7 +281,7 @@ function focusOnMarker(index) {
             }
         }
         $("#card-content").append(artists_bio_html);
-        $('.overlay-fullscreen').attr('href', art.imageUrl);
+        $('.fullscreen-link').attr('href', art.imageUrl);
         if(art.hasLiked === 'True') {
             $('#like-icon-unfilled').hide();
             $('#like-icon-filled').show();
@@ -325,7 +325,7 @@ function panToPointIfNeeded(index) {
         var art = artworks[index];
         var point = new google.maps.LatLng(art.lat, art.lng);
         map.panTo(point);
-        map.setZoom(17);
+        map.setZoom(18);
     }
 }
 
@@ -338,6 +338,9 @@ $('#show_on_map').click(function(e) {
     if (arrayHasOwnIndex(artworks, marker_index)) {
         var art = artworks[marker_index];
         var point = new google.maps.LatLng(art.lat, art.lng);
+        var thisMarker = markers[marker_index];
+        toggleBounce(thisMarker);
+        map.setZoom(18);
         map.panTo(point);
     }
 });

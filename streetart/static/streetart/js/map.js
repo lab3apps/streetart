@@ -192,9 +192,36 @@ function initialize() {
             ]
         });
     //map.mapTypes.set(layerID, layer);
-    markerCluster = new MarkerClusterer(map, markers,
-            {imagePath: '/static/img/cluster'});
-    markerCluster.setMaxZoom(16);
+    var clusterStyles = [
+        {
+            url: '/static/img/clusterSml.png',
+            height: 80,
+            width: 70,
+            textSize: 13,
+            backgroundPosition: '0 11px'
+        },
+        {   
+            url: '/static/img/clusterMed.png',
+            height: 90,
+            width: 80,
+            textSize: 13,
+            backgroundPosition: '0 12px'
+        },
+        {
+            url: '/static/img/clusterLrg.png',
+            height: 100,
+            width: 90,
+            textSize: 13,
+            backgroundPosition: '0 13px'
+        }
+    ];
+
+    var clusterOptions = {
+        gridSize: 100,
+        styles: clusterStyles,
+        maxZoom: 17
+    };
+    markerCluster = new MarkerClusterer(map, markers, clusterOptions);
     addMarkers();
     //preloadImages();
     //google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
