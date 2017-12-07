@@ -3,8 +3,13 @@ from streetart.models import Artwork, Artist, Artwork_Category, Route, RoutePoin
 from streetart.processors import add_watermark
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from django.core.serializers import serialize
+from easy_thumbnails.templatetags.thumbnail import thumbnail_url
 import socket
 
+
+#class ThumbnailSerializer(serializers.ImageField):
+ #   def to_representation(self, instance):
+ #       return thumbnail_url(instance, '420x250')
 
 
 class ImageField(serializers.RelatedField):
@@ -75,11 +80,12 @@ class ArtworkSerializer(serializers.ModelSerializer):
     ##comments = CommentSerializer(many=True, read_only=True)
     likes = serializers.SerializerMethodField()
     checkins = serializers.SerializerMethodField()
+    thumbnail = serializers.SerializerMethodField()
 
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
         model = Artwork
-        fields = ('id', 'image', 'photo_credit', 'artists', 'category', 'status', 'likes', 'checkins', 'title', 'commission_date', 'decommission_date', 'description', 'location', 'street', 'crews')
+        fields = ('id', 'image', 'thumbnail', 'photo_credit', 'artists', 'category', 'status', 'likes', 'checkins', 'title', 'commission_date', 'decommission_date', 'description', 'location', 'street', 'crews')
 
     def get_likes(self, obj):
         return obj.likes.count()
@@ -87,6 +93,14 @@ class ArtworkSerializer(serializers.ModelSerializer):
     def get_checkins(self, obj):
         return obj.checkins.count()
 
+    def get_thumbnail(self, obj):
+
+        if obj.cropped_image:
+            #return obj.cropped_image.url
+            return thumbnail_url(obj.cropped_image, 'cropped')
+        else:
+            #return obj.image.url
+            return thumbnail_url(obj.image, 'uncropped')
 class RouteArtworkSerializer(GeoFeatureModelSerializer):
     """Serializer to map the Model instance into JSON format."""
 
