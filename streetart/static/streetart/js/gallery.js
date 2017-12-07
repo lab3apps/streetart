@@ -167,7 +167,8 @@ function focusOnMarker(index) {
         full_card_view();
         var art = artworks[index];
         var marker = markers[index];
-        getNearestArtworks(index)
+        getNearestArtworks(index);
+        $("#left-panel").scrollTop(0);
 
         //closeMarkers();
         //marker['infowindow'].open(map, marker);
@@ -426,7 +427,12 @@ function loadAltImages(index) {
             $('#images-card-holder').empty();
             $('#images-card-holder').append('<div id="alt-images-card" class="card"></div>');
             for(var key in art.altImages) {
+                if(art.altImagesCredit[key] != 'None' && art.altImagesCredit[key]!=''){
+                    $('#alt-images-card').append('<a id="alt-image" href="' +  art.altImages[key] + '" data-lightbox="lightbox" class="col-xs-3"  data-title="Photo Credit: '+ art.altImagesCredit[key] +'"><img class="img-responsive" src="' + art.altImages[key] + '"></a>');
+                }
+                else{
                     $('#alt-images-card').append('<a id="alt-image" href="' +  art.altImages[key] + '" data-lightbox="lightbox" class="col-xs-3"><img class="img-responsive" src="' + art.altImages[key] + '"></a>');
+                }
             }
         } else {
             $('#images-card-holder').empty();

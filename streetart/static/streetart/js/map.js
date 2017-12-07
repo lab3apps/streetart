@@ -476,6 +476,10 @@ $( document ).ready(function() {
     });
     
     $('.checkbox-form input').click(function() {
+        var clickedLabel = $("#" + this.id);
+        var isChecked = clickedLabel.prop("checked") ? 0 : 1;
+        activateSnackbar("#viewableSnackbar" + this.value + isChecked);
+
         refreshCheckboxes();
         filterMarkers();
     });

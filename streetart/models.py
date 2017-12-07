@@ -19,7 +19,12 @@ from streetart.processors import convert_rgba, add_watermark
 from django.contrib.staticfiles.storage import staticfiles_storage
 from chch_streetart.settings import STATIC_ROOT
 from embed_video.fields import EmbedVideoField
+from easy_thumbnails.alias import aliases
 
+if not aliases.get('uncropped'):
+    aliases.set('uncropped', {'size': (420, 250), 'crop': 'center'})
+if not aliases.get('cropped'):
+    aliases.set('cropped', {'size': (420, 250)})
 # Create your models here.
 
 class Profile(models.Model):
@@ -188,6 +193,7 @@ class Artwork(models.Model):
 @python_2_unicode_compatible  # only if you need to support Python 2
 class AlternativeImage(models.Model):
     image = models.ImageField(upload_to='artwork/alternate/', max_length=500)
+    photo_credit = models.CharField(max_length=200, blank=True, null=True)
     def image_thumbnail(self):
         thumbnailer = get_thumbnailer(self.image)
         thumbnail_options = {'size': (250, 250)}
