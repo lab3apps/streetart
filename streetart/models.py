@@ -289,7 +289,7 @@ class RoutePoint(models.Model):
         return '<img src="%s" />' %(imagepath)
     imagetag.allow_tags = True
     imagetag.short_description = "Map"
-    
+
     def __str__(self):
         return self.route.title
 
