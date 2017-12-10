@@ -192,9 +192,36 @@ function initialize() {
             ]
         });
     //map.mapTypes.set(layerID, layer);
-    markerCluster = new MarkerClusterer(map, markers,
-            {imagePath: '/static/img/cluster'});
-    markerCluster.setMaxZoom(16);
+    var clusterStyles = [
+        {
+            url: '/static/img/clusterSml.png',
+            height: 80,
+            width: 70,
+            textSize: 13,
+            backgroundPosition: '0 11px'
+        },
+        {   
+            url: '/static/img/clusterMed.png',
+            height: 90,
+            width: 80,
+            textSize: 13,
+            backgroundPosition: '0 12px'
+        },
+        {
+            url: '/static/img/clusterLrg.png',
+            height: 100,
+            width: 90,
+            textSize: 13,
+            backgroundPosition: '0 13px'
+        }
+    ];
+
+    var clusterOptions = {
+        gridSize: 100,
+        styles: clusterStyles,
+        maxZoom: 17
+    };
+    markerCluster = new MarkerClusterer(map, markers, clusterOptions);
     addMarkers();
     //preloadImages();
     //google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
@@ -221,6 +248,10 @@ function initialize() {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
+    refreshCheckboxes();
+    filterMarkers();
+
+
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -282,6 +313,7 @@ function addMarkers() {
             });
             google.maps.event.addListener(marker, 'click', function () {
                 focusOnMarker(this.id);
+                panToPointIfNeeded(this.id);
                 //markerClicked();
                 //getNearestArtworks(this.id)
             });
@@ -323,7 +355,10 @@ function preloadImages() {
 
 function filterMarkers() {
     var searchText = $('#search-input').val();
-    var catArray = $('.multiselect').val();
+    var catArray = $("input[name='status']:checked").map(function(){
+        return $(this).val();
+      }).get();
+    
     markerCluster.clearMarkers();
     for(var key in artworks) {
         if (arrayHasOwnIndex(artworks, key)) {
@@ -366,39 +401,86 @@ function filterMarkers() {
 
 var currentBounceMarker;
 function toggleBounce(marker) {
+    console.log('togglebounce');
     if (currentBounceMarker) {
-        if (currentBounceMarker.getAnimation() !== null) {
-          currentBounceMarker.setAnimation(null);
-        } 
+        if(currentBounceMarker != marker){
+            currentBounceMarker.setAnimation(null);
+        }
         currentBounceMarker = marker;
         currentBounceMarker.setAnimation(google.maps.Animation.BOUNCE);
+        
     }else{
         currentBounceMarker = marker;
         currentBounceMarker.setAnimation(google.maps.Animation.BOUNCE);
     }
- }       
+ }
 
-function initializeMultiSelect() {
-    $('.multiselect').multiselect({
-        buttonText: function(options, select) {
-                return 'Show artworks that are';
-            },
-        buttonWidth: "100%",
-        onInitialized: function() {
-            filterMarkers();
-        },
-        onChange: function() {
-            filterMarkers();
-        }
-    });
+function refreshCheckboxes() {
+    if ($('#status-1').prop('checked')) {
+        $('#status-1 + label').css({
+            'filter' : '',
+            '-webkit-filter' : '',
+            '-moz-filter' : '',
+            '-o-filter' : '',
+            '-ms-filter' : '',
+        });
+    } else {
+        $('#status-1 + label').css({
+            'filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-webkit-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-moz-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-o-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-ms-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+        });
+    }
+    if ($('#status-2').prop('checked')) {
+        $('#status-2 + label').css({
+            'filter' : '',
+            '-webkit-filter' : '',
+            '-moz-filter' : '',
+            '-o-filter' : '',
+            '-ms-filter' : '',
+        });
+    } else {
+        $('#status-2 + label').css({
+            'filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-webkit-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-moz-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-o-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-ms-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+        });
+    }
+    if ($('#status-3').prop('checked')) {
+        $('#status-3 + label').css({
+            'filter' : '',
+            '-webkit-filter' : '',
+            '-moz-filter' : '',
+            '-o-filter' : '',
+            '-ms-filter' : '',
+        });
+    } else {
+        $('#status-3 + label').css({
+            'filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-webkit-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-moz-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-o-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+            '-ms-filter' : 'grayscale(100%) brightness(200%) contrast(25%)',
+        });
+    }
 }
-
-
 
 $( document ).ready(function() {
     initialize();
-    initializeMultiSelect();
     $('#search-input').keyup(function() {
+        filterMarkers();
+    });
+    
+    $('.checkbox-form input').click(function() {
+        var clickedLabel = $("#" + this.id);
+        var isChecked = clickedLabel.prop("checked") ? 0 : 1;
+        activateSnackbar("#viewableSnackbar" + this.value + isChecked);
+
+        refreshCheckboxes();
         filterMarkers();
     });
 

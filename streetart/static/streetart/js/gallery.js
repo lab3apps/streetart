@@ -45,17 +45,6 @@ function get_artist_bio(art) {
         }
     }
     var bio_html = '';
-    $('.overlay-title').addClass('none');
-   /* var overlay_title = '';
-    if (artists_text !== "") {
-        overlay_title = artists_text;
-    }
-    if (overlay_title === ''){
-        
-    } else {
-        $('.overlay-title').removeClass('none');
-        $('.overlay-title').html(overlay_title);
-    }*/
     if (art.title != "") {
         bio_html += '<p class="card-title">\
             <span class="artwork-title">'+art.title+'</span>\
@@ -117,21 +106,52 @@ function load_artwork_main_image(art) {
             });
         }
     }
+    $('.fullscreen-link').attr('href', art.imageUrl);
 }
 
-function image_selected(index, init=false) {
+function load_child_tools(art, index) {
+    if(art.hasLiked === 'True') {
+        $('.like i').html('favorite');
+    } else {
+        $('.like i').html('favorite_border');
+    }
+    if(art.hasCheckedin === 'True') {
+        $('.checkin-icon-unfilled').hide();
+        $('.checkin-icon-filled').show();
+    } else {
+        $('.checkin-icon-filled').hide();
+        $('.checkin-icon-unfilled').show();
+    }
+    $('#likeCount').html(art.likes_count);
+    if (art.likes_count != 1) {
+        $('#like-plural').show();
+    } else {
+        $('#like-plural').hide();
+    }
+    $('#checkinCount').html(art.checkins_count);
+    if (art.checkins_count != 1) {
+        $('#checkin-plural').show();
+    } else {
+        $('#checkin-plural').hide();
+    }
+    $('#show_on_map').data('index', index);
+
+}
+
+function image_selected(index) {
     if (arrayHasOwnIndex(artworks, index)) {
         var art = artworks[index];
         var marker = markers[index];
         var point = new google.maps.LatLng(art.lat, art.lng);
+
+        getNearestArtworks(index);
         // Image Loading
         load_artwork_main_image(art);
-        var artist_text, bio_html = get_artist_bio(art);
-        if (map && !init) {
-            map.panTo(point);
-            map.setZoom(17);
-        }
+        get_artist_bio(art);
+        load_child_tools(art, index);
         
+        map.panTo(point);
+        map.setZoom(17);
         toggleBounce(marker);
         loadCommentSection(index);
         loadAltImages(index);
@@ -141,19 +161,17 @@ function image_selected(index, init=false) {
 }
 
 function focusOnMarker(index) {
-    image_selected(index);
-    return;
+    //image_selected(index);
 
     if (arrayHasOwnIndex(artworks, index)) {
+        full_card_view();
         var art = artworks[index];
         var marker = markers[index];
-        getNearestArtworks(index)
+        getNearestArtworks(index);
+        $("#left-panel").scrollTop(0);
 
-        //if hidden
-        $('#nearest-artworks-holder').show();
         //closeMarkers();
         //marker['infowindow'].open(map, marker);
-        var point = new google.maps.LatLng(art.lat, art.lng);
         // Image Loading
         $('.loader').removeClass('none');
         if (art.image) {
@@ -179,7 +197,6 @@ function focusOnMarker(index) {
                 });
             }
         }
-        
         
         //Used to get focused artworks id for liking and checking in.
         $('#main-card').data('index', index);
@@ -229,16 +246,9 @@ function focusOnMarker(index) {
         }
 
         $("#card-content").html('');
-
         var overlay_title = '';
         if (artists_text !== "") {
             overlay_title = artists_text;
-        }
-        if (overlay_title === ''){
-            $('.overlay-title').addClass('none');
-        } else {
-            $('.overlay-title').removeClass('none');
-            $('.overlay-title').html(overlay_title);
         }
         if (art.title != "") {
             $("#card-content").append('<p class="card-title">\
@@ -272,11 +282,13 @@ function focusOnMarker(index) {
             }
         }
         $("#card-content").append(artists_bio_html);
-        $('.overlay-fullscreen').attr('href', art.imageUrl);
+        $('.fullscreen-link').attr('href', art.imageUrl);
         if(art.hasLiked === 'True') {
-            $('.like i').html('favorite');
+            $('#like-icon-unfilled').hide();
+            $('#like-icon-filled').show();
         } else {
-            $('.like i').html('favorite_border');
+            $('#like-icon-unfilled').show();
+            $('#like-icon-filled').hide();
         }
         if(art.hasCheckedin === 'True') {
             $('.checkin-icon-unfilled').hide();
@@ -297,28 +309,39 @@ function focusOnMarker(index) {
         } else {
             $('#checkin-plural').hide();
         }
+        
+
         $('#show_on_map').data('index', index);
-        map.panTo(point);
-        map.setZoom(17);
         toggleBounce(marker);
         loadCommentSection(index);
         loadAltImages(index);
         history.replaceState({}, null, '/artwork/'+index);
-
         //setTimeout(function(){ expandCard(); }, 10);
-
         
+    }
+}
+
+function panToPointIfNeeded(index) {
+    if (arrayHasOwnIndex(artworks, index)) {
+        var art = artworks[index];
+        var point = new google.maps.LatLng(art.lat, art.lng);
+        map.panTo(point);
+        map.setZoom(18);
     }
 }
 
 $('#show_on_map').click(function(e) {
     $('.left-panel').addClass('mobile-hide');
     $('.right-panel').removeClass('mobile-hide');
+    showRightPanel();
     google.maps.event.trigger(map, "resize");
     var marker_index = $(this).data('index');
     if (arrayHasOwnIndex(artworks, marker_index)) {
         var art = artworks[marker_index];
         var point = new google.maps.LatLng(art.lat, art.lng);
+        var thisMarker = markers[marker_index];
+        toggleBounce(thisMarker);
+        map.setZoom(18);
         map.panTo(point);
     }
 });
@@ -331,7 +354,6 @@ function getNearestArtworks(index) {
             data: {'csrfmiddlewaretoken': csrftoken},
             type: 'GET',
             success: function(response) {
-                console.log(response);
                 RenderNearestArtworks(response,index);
             },
             failure: function(error) {
@@ -342,44 +364,42 @@ function getNearestArtworks(index) {
 }
 
 function RenderNearestArtworks(response,_index){
-    if(viewState===1 || viewState===2)
+    res =  jQuery.parseJSON( response );
+    $("#nearest-artworks-holder").html("");
+    var no_of_nearest = res.length-1;
+    if(no_of_nearest < 1){
+        $("#nearest-artworks-header").hide();
+    }
+    var elements_in_row = 4;
+    var height_of_row =109;    //px
+    var no_of_rows = Math.floor(no_of_nearest/elements_in_row);
+    if(no_of_nearest%elements_in_row>0)
     {
-        res =  jQuery.parseJSON( response );
-        $("#nearest-artworks-holder").html("");
-        var no_of_nearest = res.length-1;
-        var elements_in_row = 4;
-        var height_of_row =109;    //px
-        var no_of_rows = Math.floor(no_of_nearest/elements_in_row);
-        if(no_of_nearest%elements_in_row>0)
+    no_of_rows++;
+    }
+
+    //$("#nearest-artworks-holder").height( no_of_rows * height_of_row);
+    $.each(res, function (index,obj)
+    {
+        if(_index!=obj.pk)
         {
-        no_of_rows++;
+        var imagetag ;
+        if(obj.fields.cropped_image=="")
+        {
+        imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.image+'" >';
+        }else
+        {
+        imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.cropped_image+'" >';
         }
 
-        console.log(no_of_rows);
-        //$("#nearest-artworks-holder").height( no_of_rows * height_of_row);
-        $.each(res, function (index,obj)
-        {
-         if(_index!=obj.pk)
-         {
-            console.log(obj);
-            var imagetag ;
-            if(obj.fields.cropped_image=="")
-            {
-            imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.image+'" >';
-            }else
-            {
-            imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.cropped_image+'" >';
-            }
-
-            var view ='<div id="artbox-'+obj.pk+'" class="gallery-item col-xs-6 col-sm-3 col-md-3">'+
-                        '<div class="dummy"></div>'+
-                        '<a class="img-link" onclick="focusOnMarker('+obj.pk+')">'+ imagetag+
-                        '</a>'+
-                    '</div>';
-            $("#nearest-artworks-holder").append(view);
-         }
-        });
-    }
+        var view ='<div id="artbox-'+obj.pk+'" class="gallery-item col-xs-6 col-sm-3 col-md-3">'+
+                    '<div class="dummy"></div>'+
+                    '<a class="img-link" onclick="focusOnMarker('+obj.pk+')">'+ imagetag+
+                    '</a>'+
+                '</div>';
+        $("#nearest-artworks-holder").append(view);
+        }
+    });
 }
 
 
@@ -407,7 +427,12 @@ function loadAltImages(index) {
             $('#images-card-holder').empty();
             $('#images-card-holder').append('<div id="alt-images-card" class="card"></div>');
             for(var key in art.altImages) {
+                if(art.altImagesCredit[key] != 'None' && art.altImagesCredit[key]!=''){
+                    $('#alt-images-card').append('<a id="alt-image" href="' +  art.altImages[key] + '" data-lightbox="lightbox" class="col-xs-3"  data-title="Photo Credit: '+ art.altImagesCredit[key] +'"><img class="img-responsive" src="' + art.altImages[key] + '"></a>');
+                }
+                else{
                     $('#alt-images-card').append('<a id="alt-image" href="' +  art.altImages[key] + '" data-lightbox="lightbox" class="col-xs-3"><img class="img-responsive" src="' + art.altImages[key] + '"></a>');
+                }
             }
         } else {
             $('#images-card-holder').empty();
@@ -415,17 +440,33 @@ function loadAltImages(index) {
     }
 }
 
-
-$( document ).ready(function() {
+$( document ).ready(function() { //TODO: make a document ready as well - just need this for the map stuff.
 
     $('body').on('click', 'a.artwork-gal', function() {
-        console.log($(this));
-        //onclick="focusOnMarker({{ art.id }}), markerClicked(), expandCard()"
-        image_selected($(this).data('artid'));
-        $('.main-image').css('height', '50%');
+        focusOnMarker($(this).data('artid'));
+        panToPointIfNeeded($(this).data('artid'));
     });
     if (loadedart > 0) {
-        image_selected(loadedart, true);
-        $('.main-image').css('height', '50%');
+        focusOnMarker(loadedart);
+    } else {
+        var hash = location.hash.replace('#', '');
+        if ($(window).width() <= 991) {
+            if (hash === 'gallery') {
+                showGalleryMobile();
+            } else if (hash === 'map') {
+                showMapMobile();
+            }
+        } else {
+            if (hash === 'gallery') {
+                perform_right_toggle();
+            } else if (hash === 'map') {
+                perform_left_toggle();
+            }
+        }
     }
 });
+window.onload = function() { //TODO: make a document ready as well - just need this for the map stuff.
+    if (loadedart > 0) {
+        panToPointIfNeeded(loadedart);
+    } 
+};

@@ -19,7 +19,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm
 from .serializers import ArtworkSerializer, ArtistSerializer, RouteSerializer
-from .models import Artwork, Artist, Status, Route, GetInvolved, WhatsNew, Logo
+from .models import Artwork, Artist, Status, Route, GetInvolved, WhatsNew, Logo, Page, Media
 from django.db import transaction
 from django.core.mail import send_mail
 from django.conf import settings as site_settings
@@ -61,46 +61,6 @@ def get_artworks_as_json(request):
     artwork = Artwork.objects.filter(validated=True, map_enabled=True).order_by('pk')
     response = serializers.serialize("json", artwork)
     return HttpResponse(response)
-
-
-@login_required
-@transaction.atomic
-def settings(request):
-    user = request.user
-
-    try:
-        twitter_login = user.social_auth.get(provider='twitter')
-    except UserSocialAuth.DoesNotExist:
-        twitter_login = None
-
-    try:
-        facebook_login = user.social_auth.get(provider='facebook')
-    except UserSocialAuth.DoesNotExist:
-        facebook_login = None
-
-    can_disconnect = (user.social_auth.count() > 1 or user.has_usable_password())
-
-    if request.method == 'POST':
-        userForm = UserSettingsForm(request.POST, instance=request.user)
-        profileForm = ProfileSettingsForm(request.POST, instance=request.user.profile)
-        if userForm.is_valid() and profileForm.is_valid():
-            userForm.save()
-            profileForm.save()
-            messages.success(request, 'Your profile was successfully updated')
-            return redirect('/settings')
-        else:
-            messages.error(request, 'Please correct the error below')
-    else:
-        userForm = UserSettingsForm(instance=request.user)
-        profileForm = ProfileSettingsForm(instance=request.user.profile)
-
-    return render(request, 'registration/settings.html', {
-        'settingsForm': userForm,
-        'profileForm': profileForm,
-        'twitter_login': twitter_login,
-        'facebook_login': facebook_login,
-        'can_disconnect': can_disconnect
-    })
 
 @login_required
 def password(request):
@@ -374,3 +334,11 @@ def post_comment(request):
     else:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
+
+def page(request, slug):
+    page = get_object_or_404(Page, slug=slug)
+    return render(request, 'streetart/page.html', {'sourcePage': page})
+
+def media(request):
+    all_media = Media.objects.order_by('pk')
+    return render(request, 'streetart/media.html', {'all_media': all_media})
