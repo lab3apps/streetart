@@ -25,4 +25,10 @@ class Migration(migrations.Migration):
             name='cropping',
             field=image_cropping.fields.ImageRatioField('image', '404x250', adapt_rotation=False, allow_fullsize=False, free_crop=False, help_text=None, hide_image_field=False, size_warning=True, verbose_name='cropping'),
         ),
+        migrations.AlterField(
+            model_name='status',
+            name='name',
+            field=models.CharField(choices=[('Viewable', 'Viewable'), ('Partially-Viewable', 'Partially-Viewable'),
+                                            ('Not Viewable', 'Not Viewable'), ('No Data', 'No Data')], max_length=200),
+        ),
     ]
