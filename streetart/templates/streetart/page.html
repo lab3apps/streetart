@@ -1,0 +1,13 @@
+{% extends 'nonhome.html' %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block sub-content %}
+<div class="scroll-container">
+        <div class="container custom-page-content">
+            {{ sourcePage.page_content|safe }}  
+        </div>
+</div>
+{% endblock %}
+

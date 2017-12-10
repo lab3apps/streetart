@@ -39,9 +39,7 @@ function loadAltImages(index) {
 }
 
 function markerClicked() {
-    if(viewState === 0 || viewState === 1) {
-        expandMap();
-    }
+    
     // Hide image while other loads. This will break linking.
     //$('.main-image').attr('src', '');
     // Important for mobile
@@ -54,40 +52,15 @@ function backClicked() {
     gallery_view();
    
     history.replaceState({}, null, '/');
-    return;
-    if(viewState === 1){
-        collapseMap();
-    } else if (viewState === 2) {
-        collapseCard();
-    }
 }
-/*
-function focusRight() {
-    $('.left-panel').removeClass('col-md-7');
-    $('.left-panel').addClass('col-md-4');
-    $('.right-panel').removeClass('col-md-5');
-    $('.right-panel').addClass('col-md-8');
-    setTimeout(function() {
-        google.maps.event.trigger(map, "resize");
-    }, 100);
-}
-
-function focusLeft() {
-    $('.left-panel').removeClass('col-md-4');
-    $('.left-panel').addClass('col-md-7');
-    $('.right-panel').removeClass('col-md-8');
-    $('.right-panel').addClass('col-md-5');
-    
-        google.maps.event.trigger(map, "resize");
-    
-}*/
 
 function gallery_view() {
     $('#comment-card-holder').hide();
     $('#images-card-holder').hide();
+    $('#nearest-artworks-holder').hide();
+    $('#nearest-artworks-header').hide();
     $('.scroll-gallery').show();
     $('.left-panel').css('overflow-y', 'hidden');
-    $('.main-image').css('height', '30%');
     $(".card-details").slideUp();
     $(".overlay").fadeIn();
 
@@ -97,15 +70,16 @@ function gallery_view() {
     // Important for mobile
     $('.right-panel').addClass('mobile-hide');
     $('.left-panel').removeClass('mobile-hide');
-
-    viewState = 0;
-}
-
-function full_map_view() {
-
 }
 
 function full_card_view() {
+    var elem = document.querySelector(".card .card-image img");
+
+    //Get inital size. Animating map (right-panel)
+    var collapsed = elem.getBoundingClientRect();
+
+    elem.classList.add('expanding-img');
+
     $('#marker-card-holder').show();
     $('.title-block').hide();
     $('.back-block').show();
@@ -115,68 +89,43 @@ function full_card_view() {
 
     $('#comment-card-holder').show();
     $('#images-card-holder').show();
+    $('#nearest-artworks-holder').show();
+    $('#nearest-artworks-header').show();
     $('.scroll-gallery').hide();
     $('.left-panel').css('overflow-y', 'scroll');
-    $('.main-image').css('height', '25%');
     $(".card-details").slideDown();
     $(".overlay").fadeOut();
-    viewState = 2;
-
     $('.left-panel').removeClass('mobile-hide');
     $('.right-panel').addClass('mobile-hide');
     showLeftPanel();
-}
 
-function expandMap() {
-    //focusRight();
-    $('#marker-card-holder').show();
-    $('.title-block').hide();
-    $('.back-block').show();
-    $('.gallery-item').removeClass('col-md-3');
-    $('.gallery-item').addClass('col-md-6');
-    // Important for mobile
-    $('.left-panel').removeClass('mobile-hide');
-    $('.right-panel').addClass('mobile-hide');
-    viewState = 1;
-}
+    var expanded = elem.getBoundingClientRect();
 
-function collapseMap() {
-    //focusLeft();
-    $('#marker-card-holder').hide();
-    $('.title-block').show();
-    $('.back-block').hide();
-    $('.gallery-item').removeClass('col-md-6');
-    $('.gallery-item').addClass('col-md-3');
-    // Important for mobile
-    $('.left-panel').addClass('mobile-hide');
-    $('.right-panel').removeClass('mobile-hide');
+    //Invert
+    var invertedTop = collapsed.top - expanded.top;
+    var invertedLeft = collapsed.left - expanded.left;
+    // Use divisions when manipulating sizes to apply in scale
+    var invertedWidth = collapsed.width / expanded.width;
+    var invertedHeight = collapsed.height / expanded.height;
 
-    viewState = 0;
-}
+    elem.style.transformOrigin = 'center';
 
+    elem.style.transform = 'translate(' + invertedLeft + 'px, ' + invertedTop + 'px) scale(' + invertedWidth + ', ' + invertedHeight + ')';
 
-function expandCard() {
-    //focusLeft();
-    $('#comment-card-holder').show();
-    $('#images-card-holder').show();
-    $('.scroll-gallery').hide();
-    $('.left-panel').css('overflow-y', 'scroll');
-    $('.main-image').css('height', '25%');
-    $(".card-details").slideDown();
-    $(".overlay").fadeOut();
-    viewState = 2;
-}
-
-function collapseCard() {
-    //focusRight();
-    $('#comment-card-holder').hide();
-    $('#images-card-holder').hide();
-    $('.scroll-gallery').show();
-    $('.left-panel').css('overflow-y', 'hidden');
-    $('.main-image').css('height', '30%');
-    $(".card-details").slideUp();
-    $(".overlay").fadeIn();
-    viewState = 1;
+    requestAnimationFrame(function(){
+        // Add the class to run the transition
+        elem.classList.add('transition-img'); 
+        // Clear styles
+        elem.style.transform = '';
+        // On transitionEnd remove the classes used control transitions
+        elem.addEventListener('transitionend', function(){
+            elem.style.transformOrigin = '';
+            elem.classList.remove('transition-img');
+            elem.classList.remove('expanding-img');
+            // Remove the eventListener
+            elem.removeEventListener('transitionend', false);
+        });
+    }); 
 }
 
 function hideLeftPanel() {
@@ -185,6 +134,7 @@ function hideLeftPanel() {
     $('.right-panel-toggle').hide();
     $('.left-panel-toggle').removeClass('material-icons');
     $('.left-panel-toggle').text('SHOW GALLERY');
+    $('.back-block').hide();
 }
 
 function showLeftPanel() {
@@ -192,7 +142,10 @@ function showLeftPanel() {
     $('.right-panel').removeClass('full-width');
     $('.right-panel-toggle').show();
     $('.left-panel-toggle').addClass('material-icons');
-    $('.left-panel-toggle').text('arrow_upward');
+    $('.left-panel-toggle').text('arrow_drop_up');
+    if ($('.scroll-gallery').css('display') == 'none') {
+        $('.back-block').show();
+    }
 }
 function hideRightPanel() {
     $('.right-panel').addClass('no-width');
@@ -200,11 +153,12 @@ function hideRightPanel() {
     $('.left-panel-toggle').hide();
     $('.right-panel-toggle').removeClass('material-icons');
     $('.right-panel-toggle').text('SHOW MAP');
-    $('.gallery-item').removeClass('col-lg-4')
-    $('.gallery-item').removeClass('col-sm-6')
-    $('.gallery-item').addClass('col-sm-4')
-    $('.gallery-item').addClass('col-lg-3')
-    $('.gallery-item').addClass('col-xl-2')
+    $('.gallery-item').removeClass('col-lg-6');
+    $('.gallery-item').removeClass('col-sm-6');
+    $('.gallery-item').addClass('col-sm-4');
+    $('.gallery-item').addClass('col-lg-3');
+    $('.gallery-item').addClass('col-xl-2');
+    $('.right-panel-toggle').css("top","40%");
 }
 
 function showRightPanel() {
@@ -212,54 +166,119 @@ function showRightPanel() {
     $('.left-panel').removeClass('full-width-minus-buttons');
     $('.left-panel-toggle').show();
     $('.right-panel-toggle').addClass('material-icons');
-    $('.right-panel-toggle').text('arrow_downward');
-    $('.gallery-item').addClass('col-lg-4')
-    $('.gallery-item').addClass('col-sm-6')
-    $('.gallery-item').removeClass('col-sm-4')
-    $('.gallery-item').removeClass('col-lg-3')
-    $('.gallery-item').removeClass('col-xl-2')
+    $('.right-panel-toggle').text('arrow_drop_down');
+    $('.gallery-item').addClass('col-lg-6');
+    $('.gallery-item').addClass('col-sm-6');
+    $('.gallery-item').removeClass('col-sm-4');
+    $('.gallery-item').removeClass('col-lg-3');
+    $('.gallery-item').removeClass('col-xl-2');
+    $('.right-panel-toggle').css("top", "calc(40% + 80px)");
 }
 
 function resizeMap() {
     setTimeout(function() {
         google.maps.event.trigger(map, "resize");
-    }, 300);
+    }, 200);
 }
 
-$('.navbar-map').click(function(e) {
-    e.preventDefault();
-    // Important for mobile
-    setTimeout(function() {
-        google.maps.event.trigger(map, "resize");
-    }, 300);
-    $('.left-panel').addClass('mobile-hide');
-    $('.right-panel').removeClass('mobile-hide');
-});
+function perform_left_toggle() {
+    var elem = document.querySelector(".right-panel");
 
-$('.navbar-gallery').click(function(e) {
-    e.preventDefault();
-    // Important for mobile
-    $('.left-panel').removeClass('mobile-hide');
-    $('.right-panel').addClass('mobile-hide');
+    //Get inital size. Animating map (right-panel)
+    var collapsed = elem.getBoundingClientRect();
 
-});
+    elem.classList.add('expanding');
 
-$('#left-panel-toggle').click(function(e) {
     if ($('.left-panel').hasClass('no-width')) {
         showLeftPanel();
     } else {
         hideLeftPanel();
     }
-    resizeMap();
+    
+
+    var expanded = elem.getBoundingClientRect();
+
+    //Invert
+    var invertedTop = collapsed.top - expanded.top;
+    var invertedLeft = collapsed.left - expanded.left;
+    // Use divisions when manipulating sizes to apply in scale
+    var invertedWidth = collapsed.width / expanded.width;
+    var invertedHeight = collapsed.height / expanded.height;
+
+    elem.style.transformOrigin = 'top left';
+
+    elem.style.transform = 'translate(' + invertedLeft + 'px, ' + invertedTop + 'px) scale(' + invertedWidth + ', ' + invertedHeight + ')';
+
+    requestAnimationFrame(function(){
+        // Add the class to run the transition
+        elem.classList.add('transition'); 
+        // Clear styles
+        elem.style.transform = '';
+        // On transitionEnd remove the classes used control transitions
+        elem.addEventListener('transitionend', function(){
+            elem.style.transformOrigin = '';
+            elem.classList.remove('transition');
+            elem.classList.remove('expanding');
+            //trigger map resize on animation complete
+            google.maps.event.trigger(map, "resize");
+            // Remove the eventListener
+            elem.removeEventListener('transitionend', false);
+        });
+    });
+}
+
+$('#left-panel-toggle').click(function(e) {
+    perform_left_toggle();
 });
 
-$('#right-panel-toggle').click(function(e) {
+function perform_right_toggle() {
+    var elem = document.querySelector(".left-panel");
+
+    //Get inital size. Animating map (right-panel)
+    var collapsed = elem.getBoundingClientRect();
+
+    elem.classList.add('expanding');
+
     if ($('.right-panel').hasClass('no-width')) {
         showRightPanel();
     } else {
         hideRightPanel();
+        
     }
-    resizeMap();
+
+    var expanded = elem.getBoundingClientRect();
+
+    //Invert
+    var invertedTop = collapsed.top - expanded.top;
+    var invertedLeft = collapsed.left - expanded.left;
+    // Use divisions when manipulating sizes to apply in scale
+    var invertedWidth = collapsed.width / expanded.width;
+    var invertedHeight = collapsed.height / expanded.height;
+
+    elem.style.transformOrigin = 'top left';
+
+    elem.style.transform = 'translate(' + invertedLeft + 'px, ' + invertedTop + 'px) scale(' + invertedWidth + ', ' + invertedHeight + ')';
+
+    requestAnimationFrame(function(){
+        // Add the class to run the transition
+        elem.classList.add('transition'); 
+        // Clear styles
+        elem.style.transform = '';
+        // On transitionEnd remove the classes used control transitions
+        elem.addEventListener('transitionend', function(){
+            elem.style.transformOrigin = '';
+            elem.classList.remove('transition');
+            elem.classList.remove('expanding');
+            //trigger map resize on animation complete
+            google.maps.event.trigger(map, "resize");
+            // Remove the eventListener
+            elem.removeEventListener('transitionend', false);
+        });
+    }); 
+}
+
+$('#right-panel-toggle').click(function(e) {
+    perform_right_toggle();
 });
 
 function activateSnackbar(snackbarDiv) {

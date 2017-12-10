@@ -13,13 +13,13 @@ from chch_streetart.settings import STATIC_ROOT
 def migrate_watermarked_image(apps, schema_editor):
     artwork = apps.get_model("streetart", "artwork")
     for i in artwork.objects.all():
-        i.watermarked_image = add_watermark(i.image, Image.open(os.path.join(STATIC_ROOT, 'img/wts-logo-white.png')))
+        i.watermarked_image = add_watermark(i.image, Image.open(os.path.join(STATIC_ROOT, 'img/wts-watermark-logo-white.png')))
         i.save()
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('streetart', '0030_artwork_watermarked_image'),
+        ('streetart', '0034_auto_20171205_1439'),
     ]
 
     operations = [
