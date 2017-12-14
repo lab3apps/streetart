@@ -89,19 +89,17 @@
                                 </a>
                                 <div class="navbar-dropdown">
                                     <ul>
-                                        <a href="{% url 'streetart:media' %}" target="_blank"><li>Media</li></a>
-                                        <a><li>Show Map</li></a>
-                                        <a href="{% url 'streetart:new_artwork' %}" target="_blank"><li>Add to Map</li></a>
-                                        <a href="{% url 'streetart:new_muralcommission' %}" target="_blank"><li>Commission Mural</li></a>
-                                        <a href="{% url 'streetart:new_wallspace' %}" target="_blank"><li>Share Your Wall</li></a>
+                                        <a href="{% url 'streetart:new_artwork' %}" ><li>Add to Map</li></a>
+                                        <a href="{% url 'streetart:new_muralcommission' %}" ><li>Commission Mural</li></a>
+                                        <a href="{% url 'streetart:new_wallspace' %}" ><li>Share Your Wall</li></a>
                                     </ul>
                                 </div>
                             </li>
                             <li class="navbar-item">
-                                <a id="navbar-blog" class="navbar-blog" href="https://blog.watchthisspace.org.nz"><i class="icon fa fa-rss"></i><p>Blog</p></a>
+                                <a id="navbar-blog" class="navbar-blog" href="https://blog.watchthisspace.org.nz" target="_blank"><i class="icon fa fa-rss"></i><p>Blog</p></a>
                             </li>
                             <li class="navbar-item">
-                                <a id="navbar-tour" class="navbar-tour" href="{% url 'streetart:tours' %}" target="_blank"><i class="icon fa fa-compass"></i><p>Tours</p></a>
+                                <a id="navbar-tour" class="navbar-tour" href="{% url 'streetart:tours' %}"><i class="icon fa fa-compass"></i><p>Tours</p></a>
                             </li>
                             <li class="navbar-item">
                                 <a id="navbar-about" class="navbar-about" href="{% url 'streetart:about' %}"><i class="icon fa fa-info-circle"></i><p>About</p>
@@ -109,10 +107,11 @@
                                 </a>
                                 <div class="navbar-dropdown">
                                     <ul>
-                                        <a href="{% url 'streetart:new_artistexpressionofinterest' %}" target="_blank"><li>I'm an artist!</li></a>
-                                        <a href="{% url 'streetart:donate' %}" target="_blank"><li>Donate</li></a>
-                                        <a href="{% url 'streetart:FAQs' %}" target="_blank"><li>FAQs</li></a>
-                                        <a href="{% url 'streetart:supporters' %}" target="_blank"><li>Supporters</li></a>
+                                        <a href="{% url 'streetart:media' %}" ><li>Media</li></a>
+                                        <a href="{% url 'streetart:new_artistexpressionofinterest' %}" ><li>I'm an artist!</li></a>
+                                        <a href="{% url 'streetart:donate' %}" ><li>Donate</li></a>
+                                        <a href="{% url 'streetart:FAQs' %}" ><li>FAQs</li></a>
+                                        <a href="{% url 'streetart:supporters' %}" ><li>Supporters</li></a>
                                     </ul>
                                 </div>
                             </li>
