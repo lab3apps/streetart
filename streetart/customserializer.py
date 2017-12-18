@@ -25,6 +25,7 @@ class ArtworksSerializer(serializers.ModelSerializer):
     artists = cArtistSerializer(many=True, read_only=True)
     ##altImages = cAlterImageSerializer(many=True, read_only=True)
     altImages = serializers.SerializerMethodField('AlterImages')
+    altImagesCredit = serializers.SerializerMethodField('AlterImagesCredits')
 
     def imageurl(self, obj):
         return obj.image.url
@@ -59,12 +60,17 @@ class ArtworksSerializer(serializers.ModelSerializer):
         list = []
         for img in obj.other_images.all():
             list.append(img.image.url)
+        return list
 
-        ret = ",".join(list)
-        return ret
+    def AlterImagesCredits(self, obj):
+        list = []
+        for img in obj.other_images.all():
+            if img.photo_credit is not None:
+                list.append(img.photo_credit)
+        return list
 
     class Meta:
         model = Artwork
         fields = ("pk","title", "description", "commission_date", "decommission_date", "status",
                   "photo_credit", "link", "imageUrl", "artists", "lat", "lng", "hasLiked",
-                  "likes_count", "hasCheckedin", "checkins_count", "altImages")
+                  "likes_count", "hasCheckedin", "checkins_count", "altImages", "altImagesCredit")

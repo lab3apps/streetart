@@ -70,6 +70,9 @@ function gallery_view() {
     // Important for mobile
     $('.right-panel').addClass('mobile-hide');
     $('.left-panel').removeClass('mobile-hide');
+
+    // Show Orderby Artowrks dropdown
+    $('#orderby-container').show();
 }
 
 function full_card_view() {
@@ -98,6 +101,8 @@ function full_card_view() {
     $('.left-panel').removeClass('mobile-hide');
     $('.right-panel').addClass('mobile-hide');
     showLeftPanel();
+    // Hide Orderby Artowrks dropdown
+    $('#orderby-container').hide();
 
     var expanded = elem.getBoundingClientRect();
 
@@ -123,9 +128,9 @@ function full_card_view() {
             elem.classList.remove('transition-img');
             elem.classList.remove('expanding-img');
             // Remove the eventListener
-            elem.removeEventListener('transitionend', false);
+            elem.removeEventListener('transitionend');
         });
-    }); 
+    });
 }
 
 function hideLeftPanel() {

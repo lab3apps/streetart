@@ -253,22 +253,20 @@ def route_detail(request, pk):
 @api_view(['GET'])
 def closest_artwork(request, index):
     artworkObject = Artwork.objects.get(pk=index)
-    artwork = get_closest_artworks(artworkObject.location.y, artworkObject.location.x, 0.2)
-    serializer = ArtworksSerializer(artwork, many=True, context={'request': request})
-    return Response(serializer.data)
+    artworkpks = get_closest_artworks(artworkObject.location.y, artworkObject.location.x, 0.2)
+    return Response(artworkpks)
 
 @api_view(['GET'])
 def closest_artworks_from_user(request,lat,lng):
-    artwork = get_closest_artworks(lat, lng, 1000)
-    serializer = ArtworksSerializer(artwork, many=True, context={'request': request})
-    return Response(serializer.data)
-
+    artworkpks = get_closest_artworks(lat, lng, 1000)
+    return Response(artworkpks)
 
 
 def get_closest_artworks(lat, long, distance):
     point = geos.fromstr("POINT(%s %s)" % (long, lat))
-    artworks = Artwork.objects.filter(location__distance_lte=(point, D(km=distance))).exclude(status=3).exclude(validated=False).exclude(map_enabled=False).exclude(status__isnull=True).distance(point).order_by('distance')
-    return artworks
+    artworks = Artwork.objects.filter(location__distance_lte=(point, D(km=distance))).exclude(validated=False).exclude(map_enabled=False).exclude(status__isnull=True).distance(point).order_by('distance')
+    ret = artworks.values_list("pk", flat=True)
+    return ret
 
 
 def image_selected(request, index):

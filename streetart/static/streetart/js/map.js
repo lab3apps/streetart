@@ -1,7 +1,6 @@
 var map;
 var markerCluster
 function initialize() {
-    PopulateArtworks();
     var mapDiv = document.getElementById("map");
     map = new google.maps.Map(
         mapDiv, {
@@ -732,7 +731,6 @@ function refreshCheckboxes() {
 }
 
 $( document ).ready(function() {
-    initializeMultiSelect();
     initialize();
     $('#search-input').keyup(function() {
         filterMarkers();

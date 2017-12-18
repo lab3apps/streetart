@@ -364,7 +364,7 @@ function getNearestArtworks(index) {
 }
 
 function RenderNearestArtworks(response,_index){
-    res =  jQuery.parseJSON( response );
+    res =  response;
     $("#nearest-artworks-holder").html("");
     var no_of_nearest = res.length-1;
     if(no_of_nearest < 1){
@@ -378,28 +378,28 @@ function RenderNearestArtworks(response,_index){
     no_of_rows++;
     }
 
-    //$("#nearest-artworks-holder").height( no_of_rows * height_of_row);
+    $("#nearest-artworks-holder").height( no_of_rows * height_of_row);
     $.each(res, function (index,obj)
     {
-        if(_index!=obj.pk)
+        console.log(obj);
+        if(_index!=obj)
         {
-        var imagetag ;
-        if(obj.fields.cropped_image=="")
-        {
-        imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.image+'" >';
-        }else
-        {
-        imagetag = '<img class="lazy thumbnail-image" src="/media/'+obj.fields.cropped_image+'" >';
-        }
+            art = artworks[obj];
 
-        var view ='<div id="artbox-'+obj.pk+'" class="gallery-item col-xs-6 col-sm-3 col-md-3">'+
-                    '<div class="dummy"></div>'+
-                    '<a class="img-link" onclick="focusOnMarker('+obj.pk+')">'+ imagetag+
-                    '</a>'+
-                '</div>';
-        $("#nearest-artworks-holder").append(view);
+            tags = '<div id="artbox-'+obj+'" data-id="'+obj+'"' +
+                'class="mix gallery-item col-xs-6 col-sm-6">' +
+                '<div class="dummy"></div>' +
+                '<a class="img-link artwork-gal" data-artid="'+obj+'">' +
+                '<div class="new-overlay none">' +
+                '<div class="status-new"></div>' +
+                '<p class="new-text">New</p>' +
+                '</div>' +
+                '<img class="thumbnail-image" src="'+art.imageUrl+'"/>' +
+                '</a></div>';
+            $("#nearest-artworks-holder").append(tags);
+
         }
-    });
+      });
 }
 
 
