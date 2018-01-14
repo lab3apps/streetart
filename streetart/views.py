@@ -17,15 +17,16 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
-from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm
+from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm, FeedbackForm
 from .serializers import ArtworkSerializer, ArtistSerializer, RouteSerializer
-from .models import Artwork, Artist, Status, Route, GetInvolved, WhatsNew, Logo, Page, Media
+from .models import Artwork, Artist, Status, Route, GetInvolved, WhatsNew, Logo, Page, Media, Feedback
 from django.db import transaction
 from django.core.mail import send_mail
 from django.conf import settings as site_settings
 from django.db.models import Q
 from .customserializer import *
 from django.core import serializers
+from .resources import *
 
 try:
     from django.utils import simplejson as json
@@ -347,3 +348,34 @@ def page(request, slug):
 def media(request):
     all_media = Media.objects.order_by('pk')
     return render(request, 'streetart/media.html', {'all_media': all_media})
+
+def feedback(request):
+    if request.method=="POST":
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            _feed = Feedback(
+                category=form.cleaned_data["category"],
+                name=form.cleaned_data["name"],
+                email=form.cleaned_data["email"],
+                subject=form.cleaned_data["subject"],
+                message=form.cleaned_data["message"],
+            )
+            _feed.save()
+            msg = "Feedback Sent Successfully"
+        else:
+            msg = "Form is Invalid"
+        form = FeedbackForm()
+    else:
+        form = FeedbackForm()
+        msg=""
+
+    return render(request, 'streetart/feedback.html', {'form': form, 'message': msg})
+
+## Exporting Support
+## Extraction one by one
+def export_artist(request):
+    resource = ArtistResource()
+    dataset = resource.export()
+    response = HttpResponse(dataset.csv, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="artists.csv"'
+    return response

@@ -204,14 +204,17 @@ class Artwork(models.Model):
 class AlternativeImage(models.Model):
     image = models.ImageField(upload_to='artwork/alternate/', max_length=500)
     photo_credit = models.CharField(max_length=200, blank=True, null=True)
+    artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='other_images')
+
     def image_thumbnail(self):
         thumbnailer = get_thumbnailer(self.image)
-        thumbnail_options = {'size': (250, 250)}
+        thumbnail_options = {'size': (420, 250)}
         thumbnailer.get_thumbnail(thumbnail_options)
         return '<img src="%s" />' % thumbnailer.get_thumbnail(thumbnail_options).url
+
     image_thumbnail.short_description = 'Uploaded Image'
     image_thumbnail.allow_tags = True
-    artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='other_images')
+
     def save(self, *args, **kwargs):
         if self.image != self.__original_image:
             self.image = convert_rgba(self.image)
@@ -221,6 +224,8 @@ class AlternativeImage(models.Model):
         super(AlternativeImage, self).__init__(*args, **kwargs)
         self.__original_image = self.image
 
+    def __str__(self):
+        return str(self.pk)+" "+self.artwork.title
 
 @python_2_unicode_compatible  # only if you need to support Python 2
 class MuralCommission(models.Model):
@@ -406,9 +411,24 @@ class PostCommentModerator(SpamModerator):
                         break
                 if msg.get(badword[-1]) and msg[badword[-1]] == lastindex:
                     return True
-        return super(PostCommentModerator, self).moderate(comment,
-                                                          content_object,
-                                                          request)
+        return super(PostCommentModerator, self).moderate(comment,content_object,request)
+
+
+class Feedback(models.Model):
+    categories = (
+        ('I found a bug in website', 'I found a bug in website'),
+        ('Report an Artwork', 'Report an Artwork'),
+        ('Others', 'Others'),
+    )
+    name = models.CharField(max_length=30, null=False, blank=False)
+    email = models.EmailField(max_length=50, null=False, blank=False)
+    category = models.CharField(choices=categories, max_length=50)
+    subject = models.CharField(max_length=50, blank=False, null=False)
+    message = models.TextField(max_length=500, blank=False, null=True)
+
+    def __str__(self):
+        return "%s %s %s" %( self.name, self.email, self.subject)
+
 
 moderator.register(Artwork, PostCommentModerator)
 

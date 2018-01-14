@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'image_cropping',
     'django_summernote',
     'embed_video',
+    'import_export',
 ]
 
 THUMBNAIL_PROCESSORS = (
@@ -218,3 +219,5 @@ SUMMERNOTE_CONFIG = {
     'fontNames': ['Raleway', 'Arial', 'Helvetica', 'Courier New'],
     'fontNamesIgnoreCheck': ['Raleway'],
 }
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True

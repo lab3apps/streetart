@@ -1,14 +1,14 @@
 import textwrap
 
 from django.contrib import admin
-from .models import Artwork, Artist, Crew, Artwork_Category, Profile, Status, AlternativeImage, ArtistExpressionOfInterest, WallSpace, MuralCommission, Route, RoutePoint, GetInvolved, WhatsNew, Logo, Page, Media
+from .models import Artwork, Artist, Crew, Artwork_Category, Profile, Status, AlternativeImage, ArtistExpressionOfInterest, WallSpace, MuralCommission, Route, RoutePoint, GetInvolved, WhatsNew, Logo, Page, Media, Feedback
 from mapwidgets.widgets import GooglePointFieldWidget
 from django import forms
 from django.contrib.gis.db import models
 from adminsortable2.admin import SortableInlineAdminMixin
 from image_cropping import ImageCroppingMixin
 from django_summernote.widgets import SummernoteWidget   
-
+from import_export.admin import ImportExportModelAdmin
 
 class ImageAdmin(admin.TabularInline):
     model = AlternativeImage
@@ -26,7 +26,7 @@ def show_for_smart_cities(modeladmin, request , queryset):
 def hide_for_smart_cities(modeladmin, request, queryset):
     queryset.update(smart_cities=False)
 
-class ArtworkForm(ImageCroppingMixin, admin.ModelAdmin):
+class ArtworkForm(ImageCroppingMixin,ImportExportModelAdmin):
     formfield_overrides = {
         models.PointField: {"widget": GooglePointFieldWidget}
     }
@@ -74,7 +74,7 @@ class NewInfoForm(admin.ModelAdmin):
         models.PointField: {"widget": GooglePointFieldWidget}
     }
 
-class ArtistForm(admin.ModelAdmin):
+class ArtistForm(ImportExportModelAdmin):
     search_fields = ('name',)
 
 class RoutePointInline(SortableInlineAdminMixin, admin.TabularInline):
@@ -82,7 +82,7 @@ class RoutePointInline(SortableInlineAdminMixin, admin.TabularInline):
 
 class RouteForm(admin.ModelAdmin):
     inlines = [ RoutePointInline ]
-    class Media: 
+    class Media:
         css = {
              'all': ('streetart/css/admin/route_admin.css',)
         }
@@ -110,13 +110,37 @@ class PageAdminForm(forms.ModelForm):
 class PageAdmin(admin.ModelAdmin):
     form = PageAdminForm
 
+
+class CrewForm(ImportExportModelAdmin):
+    class Meta:
+        model = Crew
+
+
+class ArtworkCategoryForm(ImportExportModelAdmin):
+    class Meta:
+        model = Artwork_Category
+
+class AlternativeImagesForm(ImportExportModelAdmin):
+    list_display = ('pk','artwork', 'image_thumbnail')
+
+    class Meta:
+        model = AlternativeImage
+
+class FeedbackForm(ImportExportModelAdmin):
+    list_display = ('pk', 'email', 'category', 'subject', 'message')
+
+    class Meta:
+        model = Feedback
+
+## Export Module
+
 admin.site.register(Artwork, ArtworkForm)
-admin.site.register(Artist)
-admin.site.register(Crew)
-admin.site.register(Artwork_Category)
+admin.site.register(Artist, ArtistForm)
+admin.site.register(Crew, CrewForm)
+admin.site.register(Artwork_Category, ArtworkCategoryForm)
 admin.site.register(Profile)
 admin.site.register(Status)
-admin.site.register(AlternativeImage)
+admin.site.register(AlternativeImage, AlternativeImagesForm)
 admin.site.register(ArtistExpressionOfInterest, NewInfoForm)
 admin.site.register(WallSpace, NewInfoForm)
 admin.site.register(MuralCommission, NewInfoForm)
@@ -125,6 +149,7 @@ admin.site.register(RoutePoint, RoutePointForm)
 admin.site.register(GetInvolved)
 admin.site.register(WhatsNew)
 admin.site.register(Media)
+admin.site.register(Feedback, FeedbackForm)
 admin.site.register(Logo, LogoForm)
 admin.site.register(Page, PageAdmin)
 # Register your models here.

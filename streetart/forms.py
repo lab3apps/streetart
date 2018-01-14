@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Artwork, Artist, Profile, ArtistExpressionOfInterest, WallSpace, MuralCommission
+from .models import Artwork, Artist, Profile, ArtistExpressionOfInterest, WallSpace, MuralCommission, Feedback
 from mapwidgets.widgets import GooglePointFieldWidget
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.utils.encoding import force_text
@@ -103,3 +103,9 @@ class ProfileSettingsForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ( 'bio', 'birth_date', 'location')
+
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = '__all__'

@@ -37,6 +37,8 @@ urlpatterns = [
 	url(r'^supporters-and-friends/$', RedirectView.as_view(url='/page/supporters-and-friends', permanent=True), name='supporters'),
 	url(r'^get-involved/$', views.home, name='getinvolved'),
 	url(r'^post-comment/$', views.post_comment, name='post_comment'),
+	url(r'^export/artist$', views.export_artist, name='export'), ## to export but not used
+	url(r'^feedback$', views.feedback, name='feedback'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns = format_suffix_patterns(urlpatterns)
