@@ -107,6 +107,7 @@ function load_artwork_main_image(art) {
         }
     }
     $('.fullscreen-link').attr('href', art.imageUrl);
+
 }
 
 function load_child_tools(art, index) {
@@ -241,7 +242,7 @@ function focusOnMarker(index) {
                         artists_bio_html += '<span><a href="https://www.twitter.com/'+art.artists[key]['twitter']+'">'+'<i class="icon fa fa-twitter"></i>'+'  @'+art.artists[key]['twitter']+'</a> </span><br>';
                     }
                 }
-                artists_bio_html += '</div>';
+
             }
         }
 
@@ -261,10 +262,12 @@ function focusOnMarker(index) {
             </p>');
         }
         if (art.description != "") {
+
             $("#card-content").append('<p class="card-description">\
                 <span class="artwork-description">'+art.description+'</span>\
             </p>');
         }
+
 
         for(var key in art) {
             if (art[key] != 'None' && art[key] != '') {
@@ -281,8 +284,22 @@ function focusOnMarker(index) {
                 }
             }
         }
-        $("#card-content").append(artists_bio_html);
+
         $('.fullscreen-link').attr('href', art.imageUrl);
+        /// Adding Photo Credits - Light box Stuff
+        if (art.photo_credit == "") {
+            $('.fullscreen-link').attr("data-title", "");
+        } else {
+            $('.fullscreen-link').attr("data-title", "Photo Credit: " + art.photo_credit);
+            artists_bio_html+= "<span>Photo Credit: "+ art.photo_credit+"</span><br/>"
+            artists_bio_html+= '</div>';
+        }
+        //
+
+        $("#card-content").append(artists_bio_html);
+        
+        $(".artwork-description").html($(".artwork-description").html().replace(/\n/g, "<br />"));
+
         if(art.hasLiked === 'True') {
             $('#like-icon-unfilled').hide();
             $('#like-icon-filled').show();
