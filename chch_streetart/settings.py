@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'image_cropping',
     'django_summernote',
     'embed_video',
+    'cms',
 ]
 
 THUMBNAIL_PROCESSORS = (
