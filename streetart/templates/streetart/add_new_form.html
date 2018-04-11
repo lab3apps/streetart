@@ -18,7 +18,7 @@
 			    <option value="newMuralDiv"  {% if url_name == "new_muralcommission" %}selected{% endif %}>Commission a mural</option>
 			    <option value="newWallSpace"  {% if url_name == "new_wallspace" %}selected{% endif %}>Provide legal wall space</option>
 			    <option value="newArtistEOIDiv"  {% if url_name == "new_artistexpressionofinterest" %}selected{% endif %}>Register my interest as an artist</option>
-			    <option value="newFeedbackDiv"  {% if url_name == "new_feedback" %}selected{% endif %}>Give Feedback</option>
+			    <option value="newFeedbackDiv"  {% if url_name == "new_feedback" %}selected{% endif %}>Contact Us</option>
 			  </select>
 			  </div>
 		</div>
@@ -173,7 +173,7 @@ Through our website, locals and business owners can contact us to commission a m
 		    </form>
 		</div>
 		<div class="contribute-div" id="newFeedbackDiv" {% if url_name != "new_feedback" %}style="display: none;"{% endif %}>
-			<h1>GIVE FEEDBACK</h1>
+			<h1>Contact Us</h1>
 			<p>Send feeback using the form below.</p>
 		    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
 		    	{{ feedbackForm.media }}
