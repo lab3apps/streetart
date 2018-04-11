@@ -16,6 +16,7 @@ urlpatterns = [
 	url(r'^muralcommision/new/$', views.add_new, name='new_muralcommission'),
 	url(r'^wallspace/new/$', views.add_new, name='new_wallspace'),
 	url(r'^artistexpressionofinterest/new/$', views.add_new, name='new_artistexpressionofinterest'),
+	url(r'^feedback/new/$', views.add_new, name='new_feedback'),
 	url(r'^nearby/([0-9]+)/$', views.closest_artwork, name='closest_artwork'),
 	url(r'^nearby/(?P<lat>-?\d+.?\d+)/(?P<lng>-?\d+.?\d+)$', views.closest_artworks_from_user, name='closest_artwork from User'),
 	url(r'^imageselected/([0-9]+)/$', views.image_selected, name='image_selected'),

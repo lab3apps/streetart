@@ -17,7 +17,7 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm
+from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm, FeedbackForm
 from .serializers import ArtworkSerializer, ArtistSerializer, RouteSerializer
 from .models import Artwork, Artist, Status, Route, GetInvolved, WhatsNew, Logo, Page, Media
 from django.db import transaction
@@ -107,6 +107,7 @@ def add_new(request):
     muralCommissionForm = MuralCommissionForm()
     wallSpaceForm = WallSpaceForm()
     artistExpressionOfInterestForm = ArtistExpressionOfInterestForm()
+    feedbackForm = FeedbackForm()
 
     if request.method == "POST":
         if 'new_artwork' in request.POST:
@@ -169,8 +170,19 @@ def add_new(request):
                 artistEOIAdminURL = 'watchthisspace.org.nz/admin/streetart/artistexpressionofinterest/'
                 send_mail('New Artist EOI', 'A new artist expression of interest has been subimitted by a user, find it here: '+artistEOIAdminURL+str(artistExpressionOfInterest.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
                 return redirect('/thanks')
+        elif 'new_feedback' in request.POST:
+            feedbackForm = FeedbackForm(request.POST)
+            if feedbackForm.is_valid():
+                # do something with the form data here
+                feedback = feedbackForm.save(commit=False)
+                feedback.author = request.user
+                feedback.published_date = timezone.now()
+                feedback.save()
+                feedbackAdminURL = 'watchthisspace.org.nz/admin/streetart/feedback/'
+                #send_mail('New Artist EOI', 'A new artist expression of interest has been subimitted by a user, find it here: '+artistEOIAdminURL+str(artistExpressionOfInterest.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
+                return redirect('/thanks')
 
-    return render(request, "streetart/add_new_form.html", {'artworkForm': artworkForm, 'muralCommissionForm': muralCommissionForm, 'wallSpaceForm': wallSpaceForm, 'artistExpressionOfInterestForm': artistExpressionOfInterestForm, 'url_name': request.resolver_match.url_name})
+    return render(request, "streetart/add_new_form.html", {'artworkForm': artworkForm, 'muralCommissionForm': muralCommissionForm, 'wallSpaceForm': wallSpaceForm, 'artistExpressionOfInterestForm': artistExpressionOfInterestForm, 'feedbackForm':feedbackForm, 'url_name': request.resolver_match.url_name})
 
 # API Functions
 

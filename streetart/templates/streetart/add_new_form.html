@@ -18,6 +18,7 @@
 			    <option value="newMuralDiv"  {% if url_name == "new_muralcommission" %}selected{% endif %}>Commission a mural</option>
 			    <option value="newWallSpace"  {% if url_name == "new_wallspace" %}selected{% endif %}>Provide legal wall space</option>
 			    <option value="newArtistEOIDiv"  {% if url_name == "new_artistexpressionofinterest" %}selected{% endif %}>Register my interest as an artist</option>
+			    <option value="newFeedbackDiv"  {% if url_name == "new_feedback" %}selected{% endif %}>Give Feedback</option>
 			  </select>
 			  </div>
 		</div>
@@ -167,6 +168,27 @@ Through our website, locals and business owners can contact us to commission a m
 		        <p class="bs-component">
 		            <center>
 		                <input class="yellow-submit-btn" type="submit" value="Submit" name="new_artistexpressionofinterest"/>
+		            </center>
+		        </p>
+		    </form>
+		</div>
+		<div class="contribute-div" id="newFeedbackDiv" {% if url_name != "new_feedback" %}style="display: none;"{% endif %}>
+			<h1>GIVE FEEDBACK</h1>
+			<p>Send feeback using the form below.</p>
+		    <form method="POST" class="mural-form" enctype="multipart/form-data">{% csrf_token %}
+		    	{{ feedbackForm.media }}
+		    	<p class="bs-component">
+					{% for field in feedbackForm %}
+		            <div class="form-group">
+		            	{{ field.errors }}
+						<label class="control-label" for="id_{{ wallSpaceForm.title.name }}">{{ field.label }}</label>
+						{% render_field field class+="form-control" %}
+					</div>
+					{% endfor %}
+		        </p>
+		        <p class="bs-component">
+		            <center>
+		                <input class="yellow-submit-btn" type="submit" value="Submit" name="new_feedback"/>
 		            </center>
 		        </p>
 		    </form>

@@ -45,17 +45,17 @@ function get_artist_bio(art) {
         }
     }
     var bio_html = '';
-    if (art.title != "") {
+    if (art.title && art.title != "") {
         bio_html += '<p class="card-title">\
             <span class="artwork-title">'+art.title+'</span>\
         </p>';
     }
-    if (artists_text != "") {
+    if (artists_text && artists_text != "") {
         bio_html += '<p class="card-artists">\
             <span class="artwork-artists">'+artists_text+'</span>\
         </p>';
     }
-    if (art.description != "") {
+    if (art.description && art.description != "") {
         bio_html += '<p class="card-description">\
             <span class="artwork-description">'+art.description+'</span>\
         </p>';
@@ -298,7 +298,9 @@ function focusOnMarker(index) {
 
         $("#card-content").append(artists_bio_html);
         
-        $(".artwork-description").html($(".artwork-description").html().replace(/\n/g, "<br />"));
+        if ($(".artwork-description") && $(".artwork-description").html()) {
+            $(".artwork-description").html($(".artwork-description").html().replace(/\n/g, "<br />"));
+        }
 
         if(art.hasLiked === 'True') {
             $('#like-icon-unfilled').hide();

@@ -260,6 +260,14 @@ class ArtistExpressionOfInterest(models.Model):
     def __str__(self):
         return self.name
 
+class Feedback(models.Model):
+    name = models.CharField(max_length=200, verbose_name="Name")
+    email = models.EmailField(verbose_name="Email Address")
+    phone = models.CharField(max_length=15)
+    feedback = models.TextField(blank=True, null=False, verbose_name="Please send us your feedback.")
+    def __str__(self):
+        return self.name
+
 @python_2_unicode_compatible
 class Route(models.Model):
     title = models.CharField(max_length=200)
