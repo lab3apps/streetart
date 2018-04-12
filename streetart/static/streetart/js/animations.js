@@ -83,7 +83,7 @@ function full_card_view() {
             elem.classList.remove('transition-img');
             elem.classList.remove('expanding-img');
             // Remove the eventListener
-            elem.removeEventListener('transitionend', false);
+            elem.removeEventListener('transitionend', this, false);
         });
     }); 
 }
@@ -182,7 +182,7 @@ function perform_left_toggle() {
             //trigger map resize on animation complete
             google.maps.event.trigger(map, "resize");
             // Remove the eventListener
-            elem.removeEventListener('transitionend', false);
+            elem.removeEventListener('transitionend', this, false);
         });
     });
 }
@@ -232,7 +232,7 @@ function perform_right_toggle() {
             //trigger map resize on animation complete
             google.maps.event.trigger(map, "resize");
             // Remove the eventListener
-            elem.removeEventListener('transitionend', false);
+            elem.removeEventListener('transitionend', this, false);
         });
     }); 
 }
