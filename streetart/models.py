@@ -100,6 +100,7 @@ class Artwork(models.Model):
     cropping = ImageRatioField('image', '404x250')
     cropped_image = models.ImageField(upload_to='artwork/', blank=True, null=True, max_length=500)
     def image_thumbnail(self):
+        return '<img src="" />'
         thumbnailer = get_thumbnailer(self.image)
         thumbnail_options = {'size': (404, 250)}
         thumbnailer.get_thumbnail(thumbnail_options)

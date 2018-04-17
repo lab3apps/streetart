@@ -251,7 +251,7 @@ function focusOnMarker(index) {
         if (artists_text !== "") {
             overlay_title = artists_text;
         }
-        if (art.title != "") {
+        if (art.title && art.title != "") {
             $("#card-content").append('<p class="card-title">\
                 <span class="artwork-title">'+art.title+'</span>\
             </p>');
@@ -261,7 +261,7 @@ function focusOnMarker(index) {
                 <span class="artwork-artists">'+artists_text+'</span>\
             </p>');
         }
-        if (art.description != "") {
+        if (art.description && art.description != "") {
 
             $("#card-content").append('<p class="card-description">\
                 <span class="artwork-description">'+art.description+'</span>\
@@ -271,12 +271,17 @@ function focusOnMarker(index) {
 
         for(var key in art) {
             if (art[key] != 'None' && art[key] != '') {
-                if (key == 'commission_date' || key == 'decommission_date') {
+                if (key == 'commission_date') {
                     $("#card-content").append('<p class="card-generated">\
-                        <span class="value-title">'+key.replace('_', ' ')+': </span>\
+                        <span class="value-title">Date Created: </span>\
                         <span class="artwork-'+key+'">'+art[key]+'</span>\
                     </p>');
-                } else if (key == 'link') {
+                } else if (key == 'decommission_date')
+                    $("#card-content").append('<p class="card-generated">\
+                        <span class="value-title">Decommission Date: </span>\
+                        <span class="artwork-'+key+'">'+art[key]+'</span>\
+                    </p>');
+                else if (key == 'link') {
                     $("#card-content").append('<p class="card-generated">\
                         <span class="value-title">'+key.replace('_', ' ')+': </span>\
                         <span class="artwork-'+key+'"><a href="'+art[key]+'">'+art[key]+'</a></span>\

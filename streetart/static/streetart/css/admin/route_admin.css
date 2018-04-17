@@ -6,3 +6,8 @@
 #change-history tbody td.drag, .change-list table tbody .has_original td.drag, .dashboard table tbody td.drag, .results table tbody td.drag, .tabular table tbody .has_original td.drag{
     cursor: move !important;
 }
+
+#changelist #changelist-search img {
+    max-width: 15px !important;
+    max-height: 15px !important;
+}

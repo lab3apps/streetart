@@ -14,7 +14,7 @@
 			<div class="form-group">
 			  <label for="comment">I want to...</label>
 			  <select class="form-control" id="form_select">
-			    <option value="newArtworkDiv" {% if url_name == "new_artwork" %}selected{% endif %}>Contribute to the map</option>
+			    <option value="newArtworkDiv" {% if url_name == "new_artwork" %}selected{% endif %}>Add to the map</option>
 			    <option value="newMuralDiv"  {% if url_name == "new_muralcommission" %}selected{% endif %}>Commission a mural</option>
 			    <option value="newWallSpace"  {% if url_name == "new_wallspace" %}selected{% endif %}>Provide legal wall space</option>
 			    <option value="newArtistEOIDiv"  {% if url_name == "new_artistexpressionofinterest" %}selected{% endif %}>Register my interest as an artist</option>
@@ -27,10 +27,10 @@
 	<div class="container">	
 
 		<div class="contribute-div" id="newArtworkDiv" {% if url_name != "new_artwork" %}style="display: none;"{% endif %}>
-			<h1>CONTRIBUTE TO THE MAP</h1>
+			<h1>ADD TO THE MAP</h1>
 			<p>In order to keep this the up-to-date map of Christchurch street art, we need your help.
 				<br><br>
-			If you discover a new art work or noticed one's no longer viewable, please share this information with us. Everyone else who comes to this website will benefit from it too!
+			We want this website to be the most up to date map of street art in Christchurch. The more eyes we have around town, the better chance we have of making this happen. We're looking for new artworks that come up, old ones that are getting torn down or blocked from view.
 <br><br>
 			How do we choose what art work to show on our website? We first ask ourselves, is this something the average person would stop and take a look at. If you're not sure whether to send in the image or not, send it in anyway.
 <br><br>
@@ -41,11 +41,11 @@
 				<li>May choose not to include this image as part of the website</li>
 			</ul>
 			<br>
-			The ideal image:<br>
+			We're looking for images that:<br>
 			<ul>
-				<li>Shows the full art work with no obstructions</li>
-				<li>Could include additional close ups</li>
-				<li>Is of good quality and high resolution</li>
+				<li>The artist would want to share</li>
+				<li>Overview and detailed shots welcome</li>
+				<li>Before, during and after shots of work coming up or being torn down</li>
 			</ul>
 			</p>
 		    <form method="POST" class="artwork-form" enctype="multipart/form-data">{% csrf_token %}
