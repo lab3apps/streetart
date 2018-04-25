@@ -75,7 +75,7 @@ class ArtworkSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
     image = ImageField(source='watermarked_image', read_only=True)
     artists = ArtistSerializer(many=True, read_only=True)
-    category = CategorySerializer(many=False, read_only=True)
+    #category = CategorySerializer(many=False, read_only=True)
     status = StatusSerializer(many=False, read_only=True)
     ##comments = CommentSerializer(many=True, read_only=True)
     likes = serializers.SerializerMethodField()
@@ -85,7 +85,7 @@ class ArtworkSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta class to map serializer's fields with the model fields."""
         model = Artwork
-        fields = ('id', 'image', 'thumbnail', 'photo_credit', 'artists', 'category', 'status', 'likes', 'checkins', 'title', 'commission_date', 'decommission_date', 'description', 'location', 'street', 'crews')
+        fields = ('id', 'image', 'thumbnail', 'photo_credit', 'artists', 'status', 'likes', 'checkins', 'title', 'commission_date', 'decommission_date', 'description', 'location', 'street', 'crews')
 
     def get_likes(self, obj):
         return obj.likes.count()
