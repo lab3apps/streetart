@@ -67,7 +67,7 @@ class Artist(models.Model):
     instagram = models.CharField(max_length=200, blank=True, null=True)
     twitter = models.CharField(max_length=200, blank=True, null=True)
     artist_from_location = models.ForeignKey(ArtistFrom, on_delete=models.SET_NULL, blank=True, null=True)
-    artist_from = models.CharField(max_length=200, null=True)
+    artist_from = models.CharField(max_length=200, null=True, blank=True)
     other_links = models.TextField(blank=True, null=True)
     biography = models.TextField(blank=True, null=True)
     def __str__(self):
@@ -108,6 +108,7 @@ class Artwork(models.Model):
     image_thumbnail.allow_tags = True
 
     photo_credit = models.CharField(max_length=200, blank=True, null=True)
+    photo_credit_email = models.EmailField(blank=True, null=True, verbose_name="Photo Credit's Email Address")
     city = models.CharField(max_length=200, blank=True, null=True)
     link = models.URLField(blank=True, null=True)
     location = models.PointField(srid=4326)
@@ -194,6 +195,7 @@ class Artwork(models.Model):
 class AlternativeImage(models.Model):
     image = models.ImageField(upload_to='artwork/alternate/', max_length=500)
     photo_credit = models.CharField(max_length=200, blank=True, null=True)
+    photo_credit_email = models.EmailField(blank=True, null=True, verbose_name="Photo Credit's Email Address")
     def image_thumbnail(self):
         thumbnailer = get_thumbnailer(self.image)
         thumbnail_options = {'size': (250, 250)}
