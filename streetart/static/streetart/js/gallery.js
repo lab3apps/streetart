@@ -55,7 +55,7 @@ function get_artist_bio(art) {
             <span class="artwork-artists">'+artists_text+'</span>\
         </p>';
     }
-    if (art.description && art.description != "") {
+    if (art.description && art.description != "" && art.description !== "None") {
         bio_html += '<p class="card-description">\
             <span class="artwork-description">'+art.description+'</span>\
         </p>';
@@ -261,7 +261,7 @@ function focusOnMarker(index) {
                 <span class="artwork-artists">'+artists_text+'</span>\
             </p>');
         }
-        if (art.description && art.description != "") {
+        if (art.description && art.description != "" && art.description !== "None") {
 
             $("#card-content").append('<p class="card-description">\
                 <span class="artwork-description">'+art.description+'</span>\
