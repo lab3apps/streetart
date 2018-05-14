@@ -45,7 +45,7 @@ function get_artist_bio(art) {
         }
     }
     var bio_html = '';
-    if (art.title && art.title != "") {
+    if (art.title && art.title != "" && art.title !== "None") {
         bio_html += '<p class="card-title">\
             <span class="artwork-title">'+art.title+'</span>\
         </p>';
@@ -251,7 +251,7 @@ function focusOnMarker(index) {
         if (artists_text !== "") {
             overlay_title = artists_text;
         }
-        if (art.title && art.title != "") {
+        if (art.title && art.title != "" && art.title !== "None") {
             $("#card-content").append('<p class="card-title">\
                 <span class="artwork-title">'+art.title+'</span>\
             </p>');
