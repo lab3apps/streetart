@@ -5,6 +5,7 @@ function markerClicked() {
     // Important for mobile
     $('.left-panel').removeClass('mobile-hide');
     $('.right-panel').addClass('mobile-hide');
+    $('.gallery-menu-items').hide();
     showLeftPanel();
 }
 
@@ -40,6 +41,7 @@ function full_card_view() {
 
     elem.classList.add('expanding-img');
 
+    $('.gallery-menu-items').hide();
     $('#marker-card-holder').show();
     $('.title-block').hide();
     $('.back-block').show();
@@ -235,6 +237,8 @@ function perform_right_toggle() {
             elem.removeEventListener('transitionend', this, false);
         });
     }); 
+
+    $('.gallery-menu-items').hide();
 }
 
 $('#right-panel-toggle').click(function(e) {

@@ -357,7 +357,7 @@ function filterMarkers() {
     var searchText = $('#search-input').val();
     var catArray = $("input[name='status']:checked").map(function(){
         return $(this).val();
-      }).get();
+    }).get();
     
     markerCluster.clearMarkers();
     for(var key in artworks) {
@@ -396,6 +396,7 @@ function filterMarkers() {
             }
         }
     }
+
     $('.thumbnail-image').scroll();
 }
 
@@ -472,6 +473,7 @@ function refreshCheckboxes() {
 $( document ).ready(function() {
     initialize();
     $('#search-input').keyup(function() {
+        $('.gallery-menu-items').hide();
         filterMarkers();
     });
     
@@ -480,10 +482,42 @@ $( document ).ready(function() {
         var isChecked = clickedLabel.prop("checked") ? 0 : 1;
         activateSnackbar("#viewableSnackbar" + this.value + isChecked);
 
+        $('.gallery-menu-items').hide();
         refreshCheckboxes();
         filterMarkers();
     });
 
+    var artworksArray = $.makeArray(artworks).filter(val => val);
+    var randIndex = Math.random()*(artworksArray.length-4);
+    randIndex = parseInt(randIndex);
+
+    $('.gallery-section').prepend("<div class='gallery-item col-xs-6 col-sm-6 gallery-menu-items'>\
+        <div class='dummy'></div>\
+        <a href='/blog' class='img-link artwork-gal'>\
+            <div class='highlight-overlay'>\
+                <p class='highlight-text'>BLOG</p>\
+            </div>\
+            <img class='thumbnail-image' src='"+artworksArray[randIndex].imageUrl+"'>\
+        </a>\
+    </div>");
+    $($('.gallery-section > div').filter(function(){return $(this).css('display') !== 'none'})[2]).after("<div class='gallery-item col-xs-6 col-sm-6 gallery-menu-items'>\
+        <div class='dummy'></div>\
+        <a href='/tours' class='img-link artwork-gal'>\
+            <div class='highlight-overlay'>\
+                <p class='highlight-text'>TOURS</p>\
+            </div>\
+            <img class='thumbnail-image' src='"+artworksArray[randIndex+1].imageUrl+"'>\
+        </a>\
+    </div>");
+    $($('.gallery-section > div').filter(function(){return $(this).css('display') !== 'none'})[3]).after("<div class='gallery-item col-xs-6 col-sm-6 gallery-menu-items'>\
+        <div class='dummy'></div>\
+        <a href='/artwork/new/' class='img-link artwork-gal'>\
+            <div class='highlight-overlay'>\
+                <p class='highlight-text'>ADD TO MAP</p>\
+            </div>\
+            <img class='thumbnail-image' src='"+artworksArray[randIndex+2].imageUrl+"'>\
+        </a>\
+    </div>");
 });
 
 

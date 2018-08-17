@@ -398,28 +398,28 @@
                 <div id="lazy-container" >
                     <div class="gallery-section">
                         {% for art in artworks|shuffle %}
-                                <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-6">
-                                    <div class="dummy"></div>
-                                    <a class="img-link artwork-gal" data-artid="{{ art.id }}">
-                                        {% if art.status.id == 3 %}
-                                        <div class="archived-overlay">
-                                            <p class="archived-text">Not Viewable</p>
-                                        </div>
-                                        {% endif %}
-                                        <div class="new-overlay none">
-                                            <div class="status-new"></div>
-                                            <p class="new-text">New</p>
-                                        </div>
-                                        {% if art.cropped_image %}
-                                            {% thumbnail art.cropped_image "420x250" as im %}
-                                              <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
-                                        {% else %}
-                                            {% thumbnail art.image "420x250" crop="center" as im %}
-                                                <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
+                            <div id="artbox-{{ art.id }}" class="gallery-item col-xs-6 col-sm-6">
+                                <div class="dummy"></div>
+                                <a class="img-link artwork-gal" data-artid="{{ art.id }}">
+                                    {% if art.status.id == 3 %}
+                                    <div class="archived-overlay">
+                                        <p class="archived-text">Not Viewable</p>
+                                    </div>
+                                    {% endif %}
+                                    <div class="new-overlay none">
+                                        <div class="status-new"></div>
+                                        <p class="new-text">New</p>
+                                    </div>
+                                    {% if art.cropped_image %}
+                                        {% thumbnail art.cropped_image "420x250" as im %}
+                                        <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
+                                    {% else %}
+                                        {% thumbnail art.image "420x250" crop="center" as im %}
+                                            <img class="lazy thumbnail-image" data-src="{{ im.url }}" >
 
-                                        {% endif %}
-                                    </a>
-                                </div>
+                                    {% endif %}
+                                </a>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>

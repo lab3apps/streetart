@@ -10,6 +10,7 @@ app_name = 'streetart'
 urlpatterns = [
 	url(r'^$', views.home, name='home'),
 	url(r'^about/$', RedirectView.as_view(url='/page/about', permanent=True), name='about'),
+	url(r'^blog/$', RedirectView.as_view(url='https://blog.watchthisspace.org.nz/', permanent=True), name='blog'),
 	url(r'^artwork/(?P<pk>[0-9]+)$', views.home, name='image_selected'),
 	url(r'^media-home/$', views.media, name='media'),
 	url(r'^artwork/new/$', views.add_new, name='new_artwork'),
