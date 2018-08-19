@@ -9,7 +9,7 @@ media/artwork/
 media/cache/
 media/logos/
 media/
-static/
+/static/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
