@@ -179,7 +179,7 @@ def add_new(request):
                 feedback.published_date = timezone.now()
                 feedback.save()
                 feedbackAdminURL = 'watchthisspace.org.nz/admin/streetart/feedback/'
-                send_mail('New Artist EOI', 'A new artist expression of interest has been subimitted by a user, find it here: '+feedbackAdminURL+str(feedback.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
+                send_mail('New Feedback', 'New feedback has been subimitted by a user, find it here: '+feedbackAdminURL+str(feedback.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
                 return redirect('/thanks')
 
     return render(request, "streetart/add_new_form.html", {'artworkForm': artworkForm, 'muralCommissionForm': muralCommissionForm, 'wallSpaceForm': wallSpaceForm, 'artistExpressionOfInterestForm': artistExpressionOfInterestForm, 'feedbackForm':feedbackForm, 'url_name': request.resolver_match.url_name})
