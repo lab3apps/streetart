@@ -25,6 +25,8 @@ from django.core.mail import send_mail
 from django.conf import settings as site_settings
 from django.db.models import Q
 
+import datetime
+
 
 try:
     from django.utils import simplejson as json
@@ -179,7 +181,8 @@ def add_new(request):
                 feedback.published_date = timezone.now()
                 feedback.save()
                 feedbackAdminURL = 'watchthisspace.org.nz/admin/streetart/feedback/'
-                send_mail('New Feedback', 'New feedback has been subimitted by a user, find it here: '+feedbackAdminURL+str(feedback.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
+                now = datetime.datetime.now()
+                send_mail('New Feedback', 'New feedback has been submitted on '+now.strftime("%Y-%m-%d %H:%M")+' by a user, find it here: '+feedbackAdminURL+str(feedback.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
                 return redirect('/thanks')
 
     return render(request, "streetart/add_new_form.html", {'artworkForm': artworkForm, 'muralCommissionForm': muralCommissionForm, 'wallSpaceForm': wallSpaceForm, 'artistExpressionOfInterestForm': artistExpressionOfInterestForm, 'feedbackForm':feedbackForm, 'url_name': request.resolver_match.url_name})
