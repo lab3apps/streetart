@@ -170,7 +170,8 @@ def add_new(request):
                 artistExpressionOfInterest.published_date = timezone.now()
                 artistExpressionOfInterest.save()
                 artistEOIAdminURL = 'watchthisspace.org.nz/admin/streetart/artistexpressionofinterest/'
-                send_mail('New Artist EOI', 'A new artist expression of interest has been subimitted by a user, find it here: '+artistEOIAdminURL+str(artistExpressionOfInterest.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
+                now = datetime.datetime.now()
+                send_mail('New Artist EOI', 'A new artist expression of interest has been submitted on '+now.strftime("%Y-%m-%d %H:%M")+' by a user, find it here: '+artistEOIAdminURL+str(artistExpressionOfInterest.id), site_settings.EMAIL_FROM, [site_settings.MODERATOR_EMAIL])
                 return redirect('/thanks')
         elif 'new_feedback' in request.POST:
             feedbackForm = FeedbackForm(request.POST)
