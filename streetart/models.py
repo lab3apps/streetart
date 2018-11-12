@@ -227,6 +227,7 @@ class MuralCommission(models.Model):
     budget = models.TextField(blank=True, null=True, verbose_name="Do you have a budget? Roughly how much have you put aside for the art work?")
     deadline = models.TextField(blank=True, null=True, verbose_name="Does this project have a deadline?")
     other = models.TextField(blank=True, null=True, verbose_name="Is there anything else we should know that will help us to connect you up with the right artist?")
+    created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.name
 
@@ -241,6 +242,7 @@ class WallSpace(models.Model):
     image = models.ImageField(upload_to='wallspace/', blank=True, null=True, verbose_name="If possible please attach a photo of the wall.", max_length=500)
     relation = models.TextField(blank=True, null=True, verbose_name="What is your relation to this wall space?")
     other = models.TextField(blank=True, null=True, verbose_name="Is there anything else we should know?")
+    created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.name
 
@@ -259,6 +261,7 @@ class ArtistExpressionOfInterest(models.Model):
     materials = models.TextField(blank=True, null=True, verbose_name="Would you be able to organize your own materials? What supplies do you require us to organize for you?")
     samples = models.TextField(blank=True, null=True, verbose_name="Please provide samples of past work or include a link to your website or portfolio.")
     other = models.TextField(blank=True, null=True, verbose_name="Is there anything you'd like us to know?")
+    created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.name
 
@@ -267,6 +270,7 @@ class Feedback(models.Model):
     email = models.EmailField(verbose_name="Email Address")
     phone = models.CharField(max_length=15)
     feedback = models.TextField(blank=True, null=False, verbose_name="Please send us your feedback.")
+    created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.name
 

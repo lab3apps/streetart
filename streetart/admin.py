@@ -28,6 +28,7 @@ class NewInfoForm(admin.ModelAdmin):
     formfield_overrides = {
         models.PointField: {"widget": GooglePointFieldWidget}
     }
+    readonly_fields = ('created',)
 
 class ArtistForm(admin.ModelAdmin):
     search_fields = ('name',)
