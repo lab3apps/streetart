@@ -334,6 +334,7 @@ function focusOnMarker(index) {
             $('#checkin-plural').hide();
         }
         
+        $("#video-lightbox-link").hide();
         if (art.video_url && art.video_url !== "None") {
           $("#video-lightbox-link").show();
           $("#video-lightbox-link > a").attr("href", art.video_url);
