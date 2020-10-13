@@ -13,33 +13,33 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        # migrations.AddField(
-        #     model_name='artistexpressionofinterest',
-        #     name='created',
-        #     field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
-        #     preserve_default=False,
-        # ),
+        migrations.AddField(
+            model_name='artistexpressionofinterest',
+            name='created',
+            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
+            preserve_default=False,
+        ),
         migrations.AddField(
             model_name='artwork',
             name='video_url',
             field=models.URLField(blank=True, null=True, verbose_name='Video URL'),
         ),
-        # migrations.AddField(
-        #     model_name='feedback',
-        #     name='created',
-        #     field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
-        #     preserve_default=False,
-        # ),
-        # migrations.AddField(
-        #     model_name='muralcommission',
-        #     name='created',
-        #     field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
-        #     preserve_default=False,
-        # ),
-        # migrations.AddField(
-        #     model_name='wallspace',
-        #     name='created',
-        #     field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
-        #     preserve_default=False,
-        # ),
+        migrations.AddField(
+            model_name='feedback',
+            name='created',
+            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
+            preserve_default=False,
+        ),
+        migrations.AddField(
+            model_name='muralcommission',
+            name='created',
+            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
+            preserve_default=False,
+        ),
+        migrations.AddField(
+            model_name='wallspace',
+            name='created',
+            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
+            preserve_default=False,
+        ),
     ]
