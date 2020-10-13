@@ -334,6 +334,14 @@ function focusOnMarker(index) {
             $('#checkin-plural').hide();
         }
         
+        if (art.video_url && art.video_url !== "None") {
+          $("#video-lightbox-link").show();
+          $("#video-lightbox-link > a").attr("href", art.video_url);
+        } else {
+          $("#video-lightbox-link").hide();
+          $("#video-lightbox-link > a").attr("href", "");
+        }
+        
 
         $('#show_on_map').data('index', index);
         toggleBounce(marker);
@@ -447,6 +455,7 @@ function loadCommentSection(index) {
 function loadAltImages(index) {
     if (arrayHasOwnIndex(artworks, index)) {
         var art = artworks[index];
+        console.log(art);
         if(art.altImages.length >= 1) {
             $('#images-card-holder').empty();
             $('#images-card-holder').append('<div id="alt-images-card" class="card"></div>');

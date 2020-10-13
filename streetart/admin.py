@@ -16,7 +16,7 @@ class ArtworkForm(ImageCroppingMixin, admin.ModelAdmin):
     formfield_overrides = {
         models.PointField: {"widget": GooglePointFieldWidget}
     }
-    fields = ('title', 'validated', 'map_enabled', 'smart_cities', 'status', 'artists', 'crews', 'category', 'description', 'commission_date', 'decommission_date', 'image', 'photo_credit', 'cropping', 'image_thumbnail', 'city', 'link', 'location', 'street', 'admin_notes', 'submitter_description', 'submitter_name', 'submitter_email')
+    fields = ('title', 'validated', 'map_enabled', 'smart_cities', 'status', 'artists', 'crews', 'category', 'description', 'commission_date', 'decommission_date', 'image', 'photo_credit', 'cropping', 'image_thumbnail', 'city', 'link', 'video_url', 'location', 'street', 'admin_notes', 'submitter_description', 'submitter_name', 'submitter_email')
     exclude = ('likes', 'checkins', 'cropped_image', 'watermarked_image')
     filter_horizontal = ('artists', 'crews')
     list_display = ('pk', 'image_thumbnail', 'title', 'get_artists', 'validated', 'status')

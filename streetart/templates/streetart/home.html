@@ -11,6 +11,7 @@
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'multiselect/bootstrap-multiselect.css' %}" type="text/css"/>
     <link href="{% static 'lightbox/css/lightbox.css' %}" rel="stylesheet">
+    <link href="{% static 'fancybox/css/jquery.fancybox.min.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block head-javascript %}
@@ -21,6 +22,8 @@
     <script type="text/javascript" src="{% static 'multiselect/bootstrap-multiselect.js' %}"></script>
     <script type="text/javascript" src="{% static 'lightbox/js/lightbox.js' %}"></script>
     <script type="text/javascript" src="{% static 'lazy/jquery.lazy.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'fancybox/js/jquery.fancybox.min.js' %}"></script>
 
     <script type="text/javascript">
 
@@ -143,7 +146,8 @@
                 {% for altimage in art.other_images.all %}
                 '{{ altimage.photo_credit }}',
                 {% endfor %}
-            ]
+            ],
+            video_url: '{{ art.video_url }}',
         };
     {% endfor %}
 
@@ -368,6 +372,11 @@
                             <div class="card-action-button">
                                 <a id="facebook_share" onclick="facebook_share()">
                                     <span><i class="icon fa fa-facebook-official"></i>SHARE</span>
+                                </a>
+                            </div>
+                            <div class="card-action-button" id="video-lightbox-link">
+                                <a data-fancybox href="">
+                                    <span><i class="icon fa fa-play"></i>PLAY VIDEO</span>
                                 </a>
                             </div>
                         </div>

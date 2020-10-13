@@ -124,6 +124,7 @@ class Artwork(models.Model):
     submitter_description = models.TextField(blank=True, null=True, verbose_name="Submitter's Description")
     submitter_name = models.CharField(blank=True, null=True, max_length=200, verbose_name="Submitter's Name")
     submitter_email = models.EmailField(blank=True, null=True, verbose_name="Submitter's Email Address")
+    video_url = models.URLField(blank=True, null=True, verbose_name="Video URL")
 
     def get_absolute_url(self):
         return "/artwork/%d" % self.id
