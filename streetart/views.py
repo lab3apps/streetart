@@ -19,7 +19,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .forms import SignUpForm, ArtworkForm, MuralCommissionForm, WallSpaceForm, ArtistExpressionOfInterestForm, UserSettingsForm, ProfileSettingsForm, FeedbackForm
 from .serializers import ArtworkSerializer, ArtistSerializer, RouteSerializer
-from .models import Artwork, Artist, Status, Route, GetInvolved, WhatsNew, Logo, Page, Media
+from .models import Artwork, Artist, Status, Route, GetInvolved, WhatsNew, Logo, Page, Media, FeaturedVideo
 from django.db import transaction
 from django.core.mail import send_mail
 from django.conf import settings as site_settings
@@ -36,6 +36,10 @@ from django.views.decorators.http import require_POST
 
 def home(request, **kwargs):
     artwork = Artwork.objects.filter(validated=True, map_enabled=True).order_by('pk')
+    try:
+        featured_video = FeaturedVideo.objects.get(active=True)
+    except FeaturedVideo.DoesNotExist:
+        featured_video = None
     getinvolved = GetInvolved.objects.order_by('order')
     whatsnew = WhatsNew.objects.order_by('order')
     if request.user.is_authenticated():
@@ -54,9 +58,9 @@ def home(request, **kwargs):
             ##return Response(status=status.HTTP_404_NOT_FOUND)
             messages.error(request, 'This artwork does not exist.')
             return redirect('/')
-        return render(request, 'streetart/home.html', {'artworks': artwork, 'getinvolved': getinvolved, 'whatsnew': whatsnew, 'loadedart': kwargs.get('pk')})
+        return render(request, 'streetart/home.html', {'artworks': artwork, 'getinvolved': getinvolved, 'whatsnew': whatsnew, 'loadedart': kwargs.get('pk'), 'featured_video': featured_video})
     else:
-        return render(request, 'streetart/home.html', {'artworks': artwork, 'getinvolved': getinvolved, 'whatsnew': whatsnew})
+        return render(request, 'streetart/home.html', {'artworks': artwork, 'getinvolved': getinvolved, 'whatsnew': whatsnew, 'featured_video': featured_video})
 
 
 def get_artworks_as_json(request):

@@ -402,6 +402,15 @@
             <div class="scroll-gallery" id="lazy-container-top">
             <!-- This is Set Of Artworkes neared to Selected Artwork -->
 
+                <!-- Featured Video -->
+                {% if featured_video %}
+                <div class="featured-video-container">
+                    <a class="featured-video-link" data-fancybox href="{{ featured_video.video_url }}">
+                        <div class="featured-video-thumbnail-overlay"><span class="fa fa-play"></span></div>
+                        <img class="featured-video-thumbnail" src="/media/{{ featured_video.thumbnail_image }}"/>
+                    </a>
+                </div>
+                {% endif %}
                 <!-- This is the main scrolling gallery which shows images relating to those on the map
                      Image div boxes added using django tempting. -->
                 <div id="lazy-container" >

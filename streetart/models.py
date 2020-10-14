@@ -409,3 +409,22 @@ class PostCommentModerator(SpamModerator):
 
 moderator.register(Artwork, PostCommentModerator)
 
+class FeaturedVideo(models.Model):
+    video_url = models.URLField(blank=False, null=False, verbose_name="Video URL")
+    thumbnail_image = models.ImageField(upload_to='video_tumbnails/', max_length=500, blank=False, null=False)
+    active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.video_url
+
+    def save(self, *args, **kwargs):
+        if self.active:
+            try:
+                video = FeaturedVideo.objects.get(active=True)
+                if self != video:
+                    video.active = False
+                    video.save()
+            except FeaturedVideo.DoesNotExist:
+                pass
+        super(FeaturedVideo, self).save(*args, **kwargs)
+

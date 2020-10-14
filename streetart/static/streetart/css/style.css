@@ -1797,3 +1797,39 @@ form{
 .media-thumbnail:hover::before {
         color: #eee;
 }
+
+/** Featured Video **/
+
+.featured-video-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.featured-video-link {
+    position: relative;
+}
+.featured-video-link:focus, .featured-video-link:hover {
+    color: #ffe000
+}
+
+.featured-video-thumbnail-overlay {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-color: rgba(1,1,1,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.featured-video-thumbnail-overlay > span {
+    font-size: 64pt;
+}
+.featured-video-thumbnail-overlay:hover {
+    background-color: rgba(1,1,1,0.6);
+}
+
+.featured-video-thumbnail {
+    width: 100%;
+    max-width: 1000px;
+}
